@@ -1,8 +1,8 @@
 """
-Empirical Benchmark: Standard Headless Chromium vs AeroBrowse Turbo vs AeroBrowse Fidelity (Native CDP).
+Benchmark comparing Obscura vs AeroBrowse Turbo vs AeroBrowse Fidelity (Native CDP).
 Measures:
 1. Latency (ms)
-2. Peak Process-Tree RSS Memory (MB)
+2. Peak Process Tree RSS Memory (MB)
 3. Token Count (BPE approximation)
 4. Dynamic JS execution capability
 5. Interactive Action Element mapping
@@ -21,7 +21,7 @@ URLS = [
     ("Books Catalog (E-Commerce)", "https://books.toscrape.com")
 ]
 
-BASELINE_BIN = os.environ.get("BASELINE_BROWSER_BIN", "headless_baseline.exe")
+OBSCURA_BIN = r"C:\Users\kartik\.gemini\antigravity\scratch\obscura\obscura.exe"
 AERO_EXE = r"C:\Users\kartik\.gemini\antigravity\scratch\aerobrowse\dist\aerobrowse-windows-x86_64.exe"
 
 def estimate_tokens(text: str) -> int:
@@ -75,8 +75,8 @@ def run_and_measure(cmd, cwd=None, env=None):
 
 def main():
     print("=" * 80)
-    print("DUAL-ENGINE CAPABILITY BENCHMARK")
-    print("Standard Headless Chromium (Raw DOM) vs AeroBrowse Turbo vs AeroBrowse Fidelity (CDP)")
+    print("COMPREHENSIVE TRIPLE-ENGINE EMPIRICAL BENCHMARK")
+    print("Obscura (Chromium) vs AeroBrowse Turbo (Reqwest) vs AeroBrowse Fidelity (CDP)")
     print("=" * 80)
 
     results = []
@@ -84,11 +84,11 @@ def main():
     for name, url in URLS:
         print(f"\nTarget: {name} ({url})")
 
-        # 1. Baseline Headless Browser
-        baseline_cmd = [BASELINE_BIN, "fetch", url]
-        print("  Running Standard Headless Browser...", end="", flush=True)
-        baseline_res = run_and_measure(baseline_cmd)
-        print(f" Done ({baseline_res['elapsed_ms']:.0f}ms, {baseline_res['peak_mb']:.1f}MB, {baseline_res['tokens']:,} tok)")
+        # 1. Obscura
+        obs_cmd = [OBSCURA_BIN, "fetch", url]
+        print("  Running Obscura...", end="", flush=True)
+        obs_res = run_and_measure(obs_cmd)
+        print(f" Done ({obs_res['elapsed_ms']:.0f}ms, {obs_res['peak_mb']:.1f}MB, {obs_res['tokens']:,} tok)")
 
         # 2. AeroBrowse Turbo
         aero_turbo_cmd = [AERO_EXE, "fetch", url]
@@ -105,7 +105,7 @@ def main():
         results.append({
             "name": name,
             "url": url,
-            "baseline": baseline_res,
+            "obscura": obs_res,
             "turbo": turbo_res,
             "fidelity": fid_res
         })
@@ -113,19 +113,19 @@ def main():
     print("\n" + "=" * 80)
     print("FINAL BENCHMARK COMPARISON TABLE")
     print("=" * 80)
-    print(f"{'Site':<25} | {'Metric':<10} | {'Standard Raw':<12} | {'Aero Turbo':<12} | {'Aero Fidelity':<12}")
+    print(f"{'Site':<25} | {'Metric':<10} | {'Obscura':<12} | {'Aero Turbo':<12} | {'Aero Fidelity':<12}")
     print("-" * 80)
 
     for r in results:
         name = r["name"]
-        b = r["baseline"]
+        o = r["obscura"]
         t = r["turbo"]
         f = r["fidelity"]
 
-        print(f"{name:<25} | Latency    | {b['elapsed_ms']:>8.0f} ms | {t['elapsed_ms']:>8.0f} ms | {f['elapsed_ms']:>8.0f} ms")
-        print(f"{'':<25} | Peak RAM   | {b['peak_mb']:>8.1f} MB | {t['peak_mb']:>8.1f} MB | {f['peak_mb']:>8.1f} MB")
-        print(f"{'':<25} | Tokens     | {b['tokens']:>8,d}     | {t['tokens']:>8,d}     | {f['tokens']:>8,d}    ")
-        savings = (1 - (f['tokens'] / max(1, b['tokens']))) * 100
+        print(f"{name:<25} | Latency    | {o['elapsed_ms']:>8.0f} ms | {t['elapsed_ms']:>8.0f} ms | {f['elapsed_ms']:>8.0f} ms")
+        print(f"{'':<25} | Peak RAM   | {o['peak_mb']:>8.1f} MB | {t['peak_mb']:>8.1f} MB | {f['peak_mb']:>8.1f} MB")
+        print(f"{'':<25} | Tokens     | {o['tokens']:>8,d}     | {t['tokens']:>8,d}     | {f['tokens']:>8,d}    ")
+        savings = (1 - (f['tokens'] / max(1, o['tokens']))) * 100
         print(f"{'':<25} | Fidelity Δ | Baseline     | Fast/No-JS   | {savings:>6.1f}% pruned")
         print("-" * 80)
 

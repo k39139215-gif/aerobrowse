@@ -1,12 +1,3 @@
-"""
-Empirical Benchmark: Standard Headless Browser (Raw Dump) vs AeroBrowse Native Rust
-Measures:
-1. Latency (ms)
-2. Peak Process-Tree RSS (MB) via psutil
-3. Tokens returned to LLM
-4. Interactive Action Map generation
-"""
-
 import os
 import sys
 import time
@@ -14,7 +5,7 @@ import subprocess
 import tempfile
 import psutil
 
-BASELINE_BIN = os.environ.get("BASELINE_BROWSER_BIN", "headless_baseline.exe")
+OBSCURA_BIN = r"C:\Users\kartik\.gemini\antigravity\scratch\obscura\obscura.exe"
 AERO_BIN = r"C:\Users\kartik\.gemini\antigravity\scratch\aerobrowse\dist\aerobrowse-windows-x86_64.exe"
 
 def count_tokens(text: str) -> int:
@@ -63,32 +54,33 @@ def run_and_measure(cmd_list):
 
 def benchmark(url):
     print(f"\n=======================================================", flush=True)
-    print(f"  HEAD-TO-HEAD BENCHMARK: {url}", flush=True)
+    print(f"  DIRECT HEAD-TO-HEAD BENCHMARK: {url}", flush=True)
     print(f"=======================================================", flush=True)
 
-    print(f"[*] Running Standard Headless Browser (Raw Dump)...", flush=True)
-    raw_res = run_and_measure([BASELINE_BIN, "fetch", url])
-    print(f"    Done: {raw_res['elapsed_ms']}ms | Peak RAM: {raw_res['peak_mem_mb']} MB | Output Tokens: {raw_res['tokens']:,}", flush=True)
+    print(f"[*] Running Obscura ({OBSCURA_BIN})...", flush=True)
+    obs_res = run_and_measure([OBSCURA_BIN, "fetch", url])
+    print(f"    Done: {obs_res['elapsed_ms']}ms | Peak RAM: {obs_res['peak_mem_mb']} MB | Output Tokens: {obs_res['tokens']:,}", flush=True)
 
     print(f"[*] Running AeroBrowse Native Rust ({AERO_BIN})...", flush=True)
     aero_res = run_and_measure([AERO_BIN, "fetch", url])
     print(f"    Done: {aero_res['elapsed_ms']}ms | Peak RAM: {aero_res['peak_mem_mb']} MB | Output Tokens: {aero_res['tokens']:,}", flush=True)
 
     print("\n--- MEASURED HEAD-TO-HEAD COMPARISON ---", flush=True)
-    header = f"{'Metric':<25} | {'Standard Raw Dump':<22} | {'AeroBrowse (Native Rust)':<25}"
+    header = f"{'Metric':<25} | {'Obscura (Rust+V8)':<22} | {'AeroBrowse (Native Rust)':<25}"
     print(header, flush=True)
     print("-" * len(header), flush=True)
-    print(f"{'Latency':<25} | {raw_res['elapsed_ms']} ms{'':<14} | {aero_res['elapsed_ms']} ms", flush=True)
-    print(f"{'Peak RAM Usage':<25} | {raw_res['peak_mem_mb']} MB{'':<14} | {aero_res['peak_mem_mb']} MB", flush=True)
-    print(f"{'Tokens Returned to LLM':<25} | {raw_res['tokens']:,} tokens{'':<8} | {aero_res['tokens']:,} tokens", flush=True)
+    print(f"{'Latency':<25} | {obs_res['elapsed_ms']} ms{'':<14} | {aero_res['elapsed_ms']} ms", flush=True)
+    print(f"{'Peak RAM Usage':<25} | {obs_res['peak_mem_mb']} MB{'':<14} | {aero_res['peak_mem_mb']} MB", flush=True)
+    print(f"{'Tokens Returned to LLM':<25} | {obs_res['tokens']:,} tokens{'':<8} | {aero_res['tokens']:,} tokens", flush=True)
     
-    if raw_res['tokens'] > 0:
-        saved = round((1 - aero_res['tokens'] / raw_res['tokens']) * 100, 1)
+    if obs_res['tokens'] > 0:
+        saved = round((1 - aero_res['tokens'] / obs_res['tokens']) * 100, 1)
         print(f"{'AeroBrowse Token Savings':<25} | {'0% (Baseline)':<22} | {saved}% fewer tokens", flush=True)
 
+    # Check for Action Map in output
     aero_has_actions = "[1]" in aero_res['stdout']
-    raw_has_actions = "[1]" in raw_res['stdout']
-    print(f"{'Interactive Action Map':<25} | {'YES' if raw_has_actions else 'NO (Raw Text/HTML)':<22} | {'YES (Numbered IDs)':<25}", flush=True)
+    obs_has_actions = "[1]" in obs_res['stdout']
+    print(f"{'Interactive Action Map':<25} | {'YES' if obs_has_actions else 'NO (Raw Text/HTML)':<22} | {'YES (Numbered IDs)':<25}", flush=True)
 
 if __name__ == "__main__":
     benchmark("https://example.com")
