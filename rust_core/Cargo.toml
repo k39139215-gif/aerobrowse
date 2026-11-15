@@ -3,7 +3,7 @@ name = "aerobrowse"
 version = "0.1.0"
 edition = "2021"
 authors = ["Kartik <k39139215@gmail.com>"]
-description = "The Featherweight AI Browser Engine in Rust — 100% Web Compatibility at 30MB Memory with 90% Fewer Tokens"
+description = "The Featherweight AI Browser Engine in Rust — 100% Web Compatibility with 90% Fewer Tokens"
 license = "MIT"
 
 [dependencies]
@@ -15,3 +15,6 @@ colored = "2.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 regex = "1.10"
+tokio-tungstenite = { version = "0.23", default-features = false, features = ["connect", "handshake"] }
+futures-util = { version = "0.3", default-features = false, features = ["sink"] }
+ego-tree = "0.6"
