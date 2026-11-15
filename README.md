@@ -3,7 +3,9 @@
 <p align="center">
   <a href="https://github.com/k39139215-gif/aerobrowse/actions/workflows/ci.yml"><img src="https://github.com/k39139215-gif/aerobrowse/actions/workflows/ci.yml/badge.svg" alt="CI Status"/></a>
   <a href="https://github.com/k39139215-gif/aerobrowse/releases/latest"><img src="https://img.shields.io/github/v/release/k39139215-gif/aerobrowse?color=00ffcc&style=flat-square" alt="Latest Release"/></a>
-  <a href="https://github.com/k39139215-gif/aerobrowse/stargazers"><img src="https://img.shields.io/github/stars/k39139215-gif/aerobrowse?style=flat-square&color=yellow" alt="Stars Badge"/></a>
+  <a href="https://github.com/k39139215-gif/aerobrowse/stargazers"><img src="https://img.shields.io/github/stars/k39139215-gif/aerobrowse?style=social" alt="Stars Badge"/></a>
+  <a href="https://github.com/k39139215-gif/aerobrowse/network/members"><img src="https://img.shields.io/github/forks/k39139215-gif/aerobrowse?style=social" alt="Forks Badge"/></a>
+  <a href="https://colab.research.google.com/github/k39139215-gif/aerobrowse/blob/main/notebooks/quickstart.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
   <a href="https://github.com/k39139215-gif/aerobrowse/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-emerald?style=flat-square" alt="MIT License"/></a>
   <a href="https://pypi.org/project/aerobrowse"><img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white" alt="Python Version"/></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-2021%20Edition-orange?style=flat-square&logo=rust&logoColor=white" alt="Rust Core"/></a>
@@ -410,9 +412,21 @@ aerobrowse/
 
 ---
 
+## ⭐ Star History
+
+If you find AeroBrowse helpful for your AI agents, scrapers, or developer workflows, please give us a **Star on GitHub**! Your support keeps active open-source maintenance alive and helps other developers discover featherweight web browsing.
+
+<p align="center">
+  <a href="https://star-history.com/#k39139215-gif/aerobrowse&Date">
+    <img src="https://api.star-history.com/svg?repos=k39139215-gif/aerobrowse&type=Date" alt="AeroBrowse Star History Chart" width="100%"/>
+  </a>
+</p>
+
+---
+
 ## 🤝 Contributing & Citation
 
-Contributions are welcome! Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Security Policy](SECURITY.md).
+Contributions are welcome! Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Security Policy](SECURITY.md). Want to help promote AeroBrowse? Check out our [Community Launch & Growth Playbook](docs/LAUNCH_PLAYBOOK.md).
 
 If you use AeroBrowse in your research, agent framework, or product, please cite it:
 
@@ -424,6 +438,26 @@ If you use AeroBrowse in your research, agent framework, or product, please cite
   url = {https://github.com/k39139215-gif/aerobrowse}
 }
 ```
+
+<!-- Schema.org Structured Metadata for AI Search & AEO Engines -->
+<!--
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AeroBrowse",
+  "operatingSystem": "Cross-platform (Windows, Linux, macOS)",
+  "applicationCategory": "DeveloperApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Featherweight dual-engine AI browser for autonomous agents, LLM pipelines, and Model Context Protocol (MCP) clients that cuts token usage by 88% using semantic AST pruning.",
+  "softwareVersion": "0.2.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "codeRepository": "https://github.com/k39139215-gif/aerobrowse"
+}
+-->
 
 ---
 

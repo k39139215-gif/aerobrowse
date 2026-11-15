@@ -5,10 +5,13 @@ AeroBrowse reduces LLM token consumption by up to 92% using semantic accessibili
 
 ## Core Concepts & Documentation
 - [Quickstart Guide](https://github.com/k39139215-gif/aerobrowse#quickstart): 3-step guide to installing and running AeroBrowse via CLI, Python SDK, or native Rust binary.
+- [Google Colab Interactive Notebook](https://colab.research.google.com/github/k39139215-gif/aerobrowse/blob/main/notebooks/quickstart.ipynb): 1-click interactive demo with zero local setup.
 - [Dual-Engine Architecture](https://github.com/k39139215-gif/aerobrowse#the-aerospace-analogy-why-aero): How Turbo Mode (<15MB RAM, sub-100ms) and Fidelity Mode (100% Blink/V8 JS) operate.
 - [Autonomous Engine Routing](https://github.com/k39139215-gif/aerobrowse#autonomous-routing): How AeroBrowse automatically detects SPAs and escalates to Fidelity Mode.
 - [Model Context Protocol (MCP)](https://github.com/k39139215-gif/aerobrowse#model-context-protocol-mcp-integration): Connecting AeroBrowse directly to Claude Desktop, Cursor AI, and Antigravity.
+- [Zero-Data-Loss Recall Audit](https://github.com/k39139215-gif/aerobrowse#zero-data-loss--semantic-recall-guarantee): Mathematical verification of 95%+ visible word retention across production sites.
 - [Empirical Benchmarks](https://github.com/k39139215-gif/aerobrowse#live-empirical-benchmarks): Side-by-side performance, RAM, and token metrics across 8 real-world domains.
+- [Full LLM Reference](https://github.com/k39139215-gif/aerobrowse/blob/main/llms-full.txt): Comprehensive prompt-ready documentation for AI answer engines.
 
 ## CLI Usage
 - `aerobrowse fetch <URL>`: Fetches URL using Turbo Mode with sub-100ms latency and 90% token reduction.

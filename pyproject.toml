@@ -20,6 +20,13 @@ keywords = [
     "headless-browser",
     "web-scraping",
     "llm-agents",
+    "ai-agents",
+    "langchain",
+    "crewai",
+    "llamaindex",
+    "set-of-marks",
+    "fastmcp",
+    "browser-automation",
     "rag"
 ]
 classifiers = [
