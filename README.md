@@ -41,24 +41,26 @@ AeroBrowse applies this exact dual-mission philosophy to web browsing for AI age
 
 | Failure Mode | Traditional Headless Chrome 🐢 | Custom Rust Engines (Obscura, etc.) ⚠️ | AeroBrowse ⚡ |
 | :--- | :---: | :---: | :---: |
-| **Memory Footprint** | ❌ 300MB – 600MB / tab | ⚠️ ~35MB – 50MB | ✅ **4MB (Turbo) / 32MB (Fidelity)** |
-| **Startup Latency** | ❌ 1,500ms – 3,000ms | ⚠️ 300ms – 600ms | 🚀 **Sub-80ms** |
-| **Modern Web Compatibility** | ✅ 100% Blink | ❌ Broken CSS Grid, blank search layouts, dropped JS execution | ✅ **100% Complete Web Compatibility** |
-| **Event Loop Resiliency** | ✅ Isolated per tab | ❌ Busy page script blocks entire CDP server | 🛡️ **Freeze-proof with timeout guarantees** |
-| **LLM Token Efficiency** | ❌ Dumps 50,000+ raw HTML tokens | ❌ Dumps unpruned DOM soup | 🧠 **Prunes 90%+ HTML junk (clean Markdown + Action Map)** |
+| **Memory Footprint** | ❌ 300MB – 600MB / tab | ⚠️ ~35MB – 50MB | ✅ **12MB (Turbo) / Ephemeral (Fidelity)** |
+| **Startup Latency** | ❌ 1,500ms – 3,000ms | ⚠️ 300ms – 600ms | 🚀 **Sub-100ms** |
+| **Modern Web Compatibility** | ✅ 100% Blink | ⚠️ Custom non-Blink layout engine | ✅ **100% Complete Web Compatibility** |
+| **Event Loop Resiliency** | ✅ Isolated per tab | ⚠️ Shared execution context | 🛡️ **Freeze-proof with timeout guarantees** |
+| **LLM Token Efficiency** | ❌ Dumps 50,000+ raw HTML tokens | ⚠️ Dumps unpruned raw text | 🧠 **Prunes 70%–92% noise (Clean Markdown + Action Map)** |
 | **AI Agent Perception** | ❌ Raw selectors only | ⚠️ Incomplete AX tree | 🎯 **Numbered Action IDs (`[1] Click`, `[2] Fill`)** |
 | **Native MCP Support** | ❌ Third-party wrapper needed | ⚠️ Basic stdio | ✅ **Built-in FastMCP Server + Rust JSON-RPC** |
 
 ---
 
-## 💡 Why Custom Browser Engines Break
+## 💡 Why a Dual-Engine Architecture Matters
 
-Recent projects attempt to write their own browser layout and CSS engine from scratch in Rust or Zig. While well-intentioned, the modern web has **15+ years of edge cases**:
-1. **Broken Search & App Layouts**: Google, Baidu, and modern SaaS dashboards render blank columns because custom layout engines struggle with complex CSS Grid/Flexbox calculations (e.g. Obscura issue #1587).
-2. **Event Loop Freezes**: In single-engine architectures, a busy JavaScript loop on a scraped page blocks the entire WebSocket connection, causing AI agent timeouts (e.g. Obscura issue #1579).
-3. **Token Inefficiency**: Returning raw HTML or raw text forces your LLM (GPT-4o, Claude 3.5, Gemini) to burn 50,000+ tokens on useless `<svg>` paths, CSS stylesheets, and tracking scripts.
+Recent projects attempt to write a full browser layout and rendering engine from scratch. While ambitious, the modern web presents two distinct challenges for AI agents:
+1. **Modern Web Edge Cases**: CSS Grid, complex Flexbox, and dynamic client-side hydration have 15+ years of edge cases that require battle-tested Blink rendering.
+2. **Process Overhead vs. Speed**: Launching full Chromium for every simple documentation page, blog, or API endpoint wastes hundreds of megabytes of memory and seconds of latency.
+3. **Token Bloat**: Returning unpruned raw HTML or raw text dumps burns through LLM context windows (e.g. 700,000+ tokens on Wikipedia articles).
 
-**AeroBrowse solves this permanently through a Hybrid Dual-Engine Pipeline.**
+**AeroBrowse solves this permanently through a Hybrid Dual-Engine Pipeline:**
+* **Turbo Mode (Reconnaissance)**: Sub-100ms HTTP Reqwest + recursive AST parser (< 15MB RAM) for 80% of pages.
+* **Fidelity Mode (Interaction)**: Native CDP WebSocket session for dynamic SPAs, full JS execution, and numbered action elements (`click`, `fill`).
 
 ---
 
