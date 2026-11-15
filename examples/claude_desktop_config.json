@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "aerobrowse": {
+      "command": "python",
+      "args": ["-m", "aerobrowse.mcp_server"]
+    },
+    "aerobrowse-rust": {
+      "command": "aerobrowse",
+      "args": ["mcp"]
+    }
+  }
+}
