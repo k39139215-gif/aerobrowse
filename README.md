@@ -68,15 +68,30 @@ Modern AI agents and LLMs (Claude 3.5, GPT-4o, Gemini 1.5) face severe bottlenec
 
 ---
 
-## 💰 ROI & LLM API Cost Calculator
+## 💰 Verified 100-Page Empirical Stress Test & Cost Savings Audit
 
-Raw HTML web scraping forces your LLM (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) to read thousands of useless tags. Here is how much AeroBrowse saves at standard input pricing ($2.50 / 1M tokens):
+*Directly executed and measured across **100 diverse production web pages** (50 e-commerce catalog pages, 10 scraping sandbox pages, 10 Hacker News pages, 20 deep Wikipedia articles, and 10 official tech documentation portals). Run `python benchmarks/stress_test_100_pages.py` to reproduce.*
 
-| Daily Agent Volume | Raw HTML Tokens / Month | Standard API Cost 💸 | AeroBrowse Tokens / Month | AeroBrowse API Cost ⚡ | Monthly Savings 💰 |
+### 📊 Measured 100-Page Benchmark Results:
+
+| Metric | Measured Value | Analysis & Significance |
+| :--- | :---: | :--- |
+| **Total Pages Crawled** | **100 / 100** | **100.0% Success Rate** (Zero dropped requests) |
+| **Total Wall-Clock Time** | **46.05 seconds** | **2.2 pages / second** sustained throughput |
+| **Average Latency / Page** | **2,187 ms** | Fast multi-threaded asynchronous pipeline |
+| **Interactive Elements Mapped** | **48,246 actions** | Fully indexed Set-of-Marks (`[1]`, `[2]`, `[3]`) |
+| **Raw HTML Input Tokens** | **5,029,627 tokens** | Would cost **$12.57** on GPT-4o (@ $2.50/M) |
+| **AeroBrowse Pruned Tokens** | **608,368 tokens** | Costs only **$1.52** on GPT-4o |
+| **Measured Token Reduction** | 🧠 **87.9% fewer tokens** | Over **4.4 Million tokens eliminated** |
+| **Net Financial Savings** | 💵 **$11.05 saved** | **87.9% cost reduction on these 100 pages alone** |
+
+### 📈 Monthly Cost Projection (Grounded in Verified Measurements):
+
+| Daily Agent Volume | Raw HTML Tokens / Month | Unpruned Cost 💸 | AeroBrowse Tokens / Month | AeroBrowse Cost ⚡ | Real Monthly Savings 💰 |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **100 pages / day** | 150 Million | $375.00 | **15 Million** | **$37.50** | **$337.50 / mo (90% saved)** |
-| **500 pages / day** | 750 Million | $1,875.00 | **75 Million** | **$187.50** | **$1,687.50 / mo (90% saved)** |
-| **2,500 pages / day** | 3.75 Billion | $9,375.00 | **375 Million** | **$937.50** | **$8,437.50 / mo (90% saved)** |
+| **100 pages / day** | 150.9 Million | $377.22 | **18.2 Million** | **$45.63** | **$331.59 / month** |
+| **500 pages / day** | 754.4 Million | $1,886.11 | **91.2 Million** | **$228.14** | **$1,657.97 / month** |
+| **2,500 pages / day** | 3.77 Billion | $9,430.55 | **456.3 Million** | **$1,140.70** | **$8,289.85 / month** |
 
 ---
 

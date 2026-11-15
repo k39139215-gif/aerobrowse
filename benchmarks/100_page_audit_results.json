@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-11-15T17:48:52Z",
+  "total_pages": 100,
+  "success_rate_pct": 100.0,
+  "wall_clock_sec": 46.05,
+  "pages_per_sec": 2.17,
+  "avg_latency_ms": 2187.1,
+  "peak_ram_mb": 1655.5,
+  "raw_tokens": 5029627,
+  "pruned_tokens": 608368,
+  "token_reduction_pct": 87.9,
+  "raw_cost_usd": 12.5741,
+  "pruned_cost_usd": 1.5209,
+  "dollars_saved_usd": 11.0531,
+  "actions_indexed": 48246
+}
