@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aerobrowse"
+version = "0.1.0"
+description = "The Featherweight AI Browser Engine — 100% Web Compatibility at 30MB Memory with 90% Fewer Tokens"
+readme = "README.md"
+authors = [{ name = "Kartik", email = "k39139215@gmail.com" }]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "curl_cffi>=0.7.0",
+    "beautifulsoup4>=4.12.0",
+    "playwright>=1.40.0",
+    "fastmcp>=0.1.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+aerobrowse = "aerobrowse.cli:main"
+aero = "aerobrowse.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["aerobrowse*"]
