@@ -12,6 +12,10 @@
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-Native%20FastMCP-purple?style=flat-square" alt="MCP Server"/></a>
 </p>
 
+<p align="center">
+  <img src="assets/banner.svg" alt="AeroBrowse Architecture & Performance Banner" width="100%"/>
+</p>
+
 > **The high-performance, dual-engine AI browser designed for autonomous agents, LLM pipelines, and web scraping.**  
 > Delivers **100% web compatibility** while reducing LLM token consumption by **up to 92%** via semantic accessibility AST pruning, with native **Model Context Protocol (MCP)** support for **Cursor AI** and **Claude Desktop**.
 
@@ -291,7 +295,13 @@ aero mcp
 
 AeroBrowse includes a native FastMCP server and a pure Rust JSON-RPC 2.0 stdio server, making it a drop-in web browser for **Cursor AI**, **Claude Desktop**, and **Antigravity**.
 
-### Cursor AI Configuration (`.cursor/mcp.json`)
+### ⚡ 1-Click Install via Smithery
+Install AeroBrowse directly into Cursor AI with a single terminal command:
+```bash
+npx -y @smithery/cli install aerobrowse --client cursor
+```
+
+### Cursor AI Manual Configuration (`.cursor/mcp.json`)
 ```json
 {
   "mcpServers": {

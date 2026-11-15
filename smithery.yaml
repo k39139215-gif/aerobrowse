@@ -1,0 +1,19 @@
+# Smithery configuration for AeroBrowse
+# https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  config:
+    command: python
+    args:
+      - -m
+      - aerobrowse.cli
+      - mcp
+
+metadata:
+  name: aerobrowse
+  description: Featherweight dual-engine AI browser engine that slashes LLM token bloat by 88% with Set-of-Marks numeric element indexing.
+  version: 0.2.0
+  author: Kartik
+  repository: https://github.com/k39139215-gif/aerobrowse
+  license: MIT
