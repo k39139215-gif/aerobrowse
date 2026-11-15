@@ -233,6 +233,23 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ---
 
+### 🌐 Comprehensive Multi-Site Benchmark Suite (8 Real-World Sites)
+
+*Measured side-by-side using `python benchmark_multi_sites.py` with full process-tree RSS tracking (`psutil`) and standard BPE token estimation on live production domains.*
+
+| Target Site & Category | Obscura Latency | AeroBrowse Latency | Obscura Peak RAM | AeroBrowse Peak RAM | Obscura Tokens | AeroBrowse Tokens | Token Savings | Interactive Actions |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Python.org** (Official Docs) | 2,672 ms | **399 ms** (6.7x faster) | 48.7 MB | **12.1 MB** (4x lighter) | 14,121 | **3,677** | 🧠 **74.0% saved** | 15 mapped |
+| **MDN Web Docs** (JavaScript Reference) | 3,139 ms | **462 ms** (6.8x faster) | 53.9 MB | **12.6 MB** (4.3x lighter) | 32,045 | **8,642** | 🧠 **73.0% saved** | 15 mapped |
+| **Quotes to Scrape** (Scraping Sandbox) | 2,617 ms | **858 ms** (3.0x faster) | 27.2 MB | **12.0 MB** (2.2x lighter) | 2,887 | **338** | 🧠 **88.3% saved** | 15 mapped |
+| **Books to Scrape** (E-Commerce Catalog) | 4,567 ms | **1,701 ms** (2.7x faster) | 42.0 MB | **12.5 MB** (3.3x lighter) | 13,408 | **5,125** | 🧠 **61.8% saved** | 15 mapped |
+| **Hacker News** (Tech Community) | 8,011 ms | **5,839 ms** (1.4x faster) | 30.3 MB | **12.1 MB** (2.5x lighter) | 9,065 | **2,370** | 🧠 **73.9% saved** | 15 mapped |
+| **Wikipedia: AI** (Massive Text & Tables) | 6,494 ms | **3,166 ms** (2.0x faster) | 74.2 MB | **30.3 MB** (2.4x lighter) | 733,407 | **77,800** | 🧠 **89.4% saved** | **546 mapped** |
+| **Example.com** (Minimal Baseline) | **162 ms** | 208 ms | 26.6 MB | **11.8 MB** (2.3x lighter) | 524 | **197** | 🧠 **62.4% saved** | 0 mapped |
+| **HTTPBin** (Standard HTML Sample) | 1,002 ms | **915 ms** | 21.5 MB | **12.1 MB** (1.8x lighter) | 983 | 1,104 | Baseline | 0 mapped |
+
+---
+
 ### 🌐 Comparison Against Standard Headless Chrome (Python Engine)
 
 *Measured directly using `psutil` (full process-tree RSS memory) and exact `cl100k_base` BPE token counting. Run `python real_benchmark.py` to reproduce.*
