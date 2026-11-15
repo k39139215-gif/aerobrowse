@@ -1,3 +1,13 @@
+"""
+Comprehensive Multi-Site Empirical Benchmark
+Compares: Standard Headless Browser (Raw Dump) vs AeroBrowse Native Rust
+Measures:
+1. Latency (ms)
+2. Peak Process-Tree Memory (MB)
+3. Total Tokens sent to LLM
+4. Interactive Action elements mapped
+"""
+
 import os
 import sys
 import time
@@ -6,7 +16,7 @@ import tempfile
 import json
 import psutil
 
-OBSCURA_BIN = r"C:\Users\kartik\.gemini\antigravity\scratch\obscura\obscura.exe"
+BASELINE_BIN = os.environ.get("BASELINE_BROWSER_BIN", "headless_baseline.exe")
 AERO_BIN = r"C:\Users\kartik\.gemini\antigravity\scratch\aerobrowse\dist\aerobrowse-windows-x86_64.exe"
 
 URLS = [
@@ -62,7 +72,6 @@ def run_command_measured(cmd_list, timeout_sec=25):
         stdout = out_f.read().decode("utf-8", errors="replace")
         stderr = err_f.read().decode("utf-8", errors="replace")
 
-        # Determine success
         if proc.returncode != 0 and len(stdout) < 50:
             return {
                 "status": "failed",
@@ -74,7 +83,6 @@ def run_command_measured(cmd_list, timeout_sec=25):
                 "stderr": stderr[:200]
             }
 
-        # Count action items like [1], [2]
         import re
         action_count = len(re.findall(r'\[\d+\]', stdout))
         tokens = count_tokens(stdout)
@@ -92,32 +100,32 @@ def run_suite():
     results = []
 
     print("==========================================================================================", flush=True)
-    print("  MULTI-SITE EMPIRICAL BENCHMARK: OBSCURA vs AEROBROWSE NATIVE RUST", flush=True)
+    print("  MULTI-SITE EMPIRICAL BENCHMARK: RAW HEADLESS BROWSER vs AEROBROWSE NATIVE RUST", flush=True)
     print("==========================================================================================\n", flush=True)
 
     for name, url in URLS:
         print(f"[*] Testing [{name}]: {url}", flush=True)
 
-        print("    -> Running Obscura...", end="", flush=True)
-        obs = run_command_measured([OBSCURA_BIN, "fetch", url])
-        print(f" {obs['status'].upper()} ({obs['elapsed_ms']}ms, {obs['peak_ram_mb']}MB, {obs['tokens']} tokens)", flush=True)
+        print("    -> Running Standard Raw Dump...", end="", flush=True)
+        raw_res = run_command_measured([BASELINE_BIN, "fetch", url])
+        print(f" {raw_res['status'].upper()} ({raw_res['elapsed_ms']}ms, {raw_res['peak_ram_mb']}MB, {raw_res['tokens']} tokens)", flush=True)
 
         print("    -> Running AeroBrowse Native...", end="", flush=True)
         aero = run_command_measured([AERO_BIN, "fetch", url])
         print(f" {aero['status'].upper()} ({aero['elapsed_ms']}ms, {aero['peak_ram_mb']}MB, {aero['tokens']} tokens, {aero['actions']} actions)", flush=True)
 
         token_savings = 0.0
-        if obs["tokens"] > 0 and aero["tokens"] > 0:
-            token_savings = round((1 - aero["tokens"] / obs["tokens"]) * 100, 1)
+        if raw_res["tokens"] > 0 and aero["tokens"] > 0:
+            token_savings = round((1 - aero["tokens"] / raw_res["tokens"]) * 100, 1)
 
         speedup = 0.0
-        if aero["elapsed_ms"] > 0 and obs["elapsed_ms"] > 0:
-            speedup = round(obs["elapsed_ms"] / aero["elapsed_ms"], 2)
+        if aero["elapsed_ms"] > 0 and raw_res["elapsed_ms"] > 0:
+            speedup = round(raw_res["elapsed_ms"] / aero["elapsed_ms"], 2)
 
         results.append({
             "name": name,
             "url": url,
-            "obscura": obs,
+            "standard_raw": raw_res,
             "aerobrowse": aero,
             "token_savings_pct": token_savings,
             "speedup_x": speedup
@@ -134,28 +142,28 @@ def run_suite():
     print("=" * 90, flush=True)
     
     headers = [
-        f"| {'Target Site':<32} | {'Obscura Latency':<16} | {'Aero Latency':<14} | {'Obscura RAM':<12} | {'Aero RAM':<10} | {'Tokens Obs':<11} | {'Tokens Aero':<12} | {'Token Savings':<14} | {'Actions':<8} |",
+        f"| {'Target Site':<32} | {'Raw Dump Latency':<16} | {'Aero Latency':<14} | {'Raw Dump RAM':<12} | {'Aero RAM':<10} | {'Tokens Raw':<11} | {'Tokens Aero':<12} | {'Token Savings':<14} | {'Actions':<8} |",
         f"|:{'-'*32}-|-{'-'*16}:|-{'-'*14}:|-{'-'*12}:|-{'-'*10}:|-{'-'*11}:|-{'-'*12}:|-{'-'*14}:|-{'-'*8}:|"
     ]
     for h in headers:
         print(h, flush=True)
 
     for r in results:
-        obs = r["obscura"]
+        raw_res = r["standard_raw"]
         aero = r["aerobrowse"]
         
-        obs_lat = f"{obs['elapsed_ms']:.0f}ms" if obs['status'] == 'success' else obs['status']
+        raw_lat = f"{raw_res['elapsed_ms']:.0f}ms" if raw_res['status'] == 'success' else raw_res['status']
         aero_lat = f"{aero['elapsed_ms']:.0f}ms" if aero['status'] == 'success' else aero['status']
-        obs_ram = f"{obs['peak_ram_mb']:.1f}MB"
+        raw_ram = f"{raw_res['peak_ram_mb']:.1f}MB"
         aero_ram = f"{aero['peak_ram_mb']:.1f}MB"
-        obs_tok = f"{obs['tokens']:,}" if obs['tokens'] > 0 else "-"
-        aero_tok = f"{aero['tokens']:,}" if aero['tokens'] > 0 else "-"
-        savings = f"{r['token_savings_pct']}% saved" if r['token_savings_pct'] > 0 else "0%"
+        raw_tok = f"{raw_res['tokens']:,}"
+        aero_tok = f"{aero['tokens']:,}"
+        savings = f"{r['token_savings_pct']}%"
         actions = str(aero['actions'])
 
-        print(f"| {r['name']:<32} | {obs_lat:>16} | {aero_lat:>14} | {obs_ram:>12} | {aero_ram:>10} | {obs_tok:>11} | {aero_tok:>12} | {savings:>14} | {actions:>8} |", flush=True)
+        print(f"| {r['name']:<32} | {raw_lat:>16} | {aero_lat:>14} | {raw_ram:>12} | {aero_ram:>10} | {raw_tok:>11} | {aero_tok:>12} | {savings:>14} | {actions:>8} |", flush=True)
 
-    print("=" * 90 + "\n", flush=True)
+    print("=" * 90, flush=True)
 
 if __name__ == "__main__":
     run_suite()
