@@ -116,7 +116,7 @@ class SemanticPruner:
 
     def _soup_to_markdown(self, soup: BeautifulSoup) -> str:
         """Converts cleaned DOM to clean, dense GitHub-style Markdown without losing any text."""
-        main_content = soup.find("main") or soup.find(id=re.compile(r"^(main-content|main_content|content|main|app|root)$", re.I)) or soup.body or soup
+        main_content = soup.body or soup
 
         def walk(node):
             if isinstance(node, NavigableString):
@@ -137,11 +137,8 @@ class SemanticPruner:
                     t = node.get_text(strip=True)
                 return f"\n\n{'#' * level} {t}\n\n" if t else ""
             elif name == 'li':
-                if node.find(['article', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']):
-                    c_text = "".join(walk(c) for c in node.children).strip()
-                    return f"\n\n* {c_text}\n"
-                t = node.get_text(strip=True)
-                return f"\n* {t}" if t else ""
+                c_text = "".join(walk(c) for c in node.children).strip()
+                return f"\n* {c_text}" if c_text else ""
             elif name == 'p':
                 return f"\n\n{node.get_text(strip=True)}\n\n"
             elif name == 'blockquote':
