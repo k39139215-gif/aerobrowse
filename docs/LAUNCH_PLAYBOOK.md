@@ -6,13 +6,14 @@ This playbook contains battle-tested, high-conversion copy and submission guides
 
 ## 1. 🟠 Hacker News (Show HN)
 
-> **Goal**: Reach the Hacker News Front Page (#1-#5).  
-> **Key Rule**: HN loves engineering honesty, raw performance numbers, and hatred of bloated software. Never use marketing buzzwords like "revolutionary" or "disruptive". Speak engineer-to-engineer.
+> **Strict Rule**: Hacker News has a hard maximum of **80 characters** for titles. Anything over 80 characters is rejected by HN!  
+> Keep titles punchy, factual, and strictly under 70 characters:
 
-### Title Options (Pick One):
-- `Show HN: AeroBrowse – Featherweight AI browser engine that cuts LLM token bills by 88%` *(Recommended)*
-- `Show HN: We benchmarked 100 web pages to see why AI agents waste 88% of tokens on HTML bloat`
-- `Show HN: AeroBrowse – Dual-engine headless browser for AI agents written in Rust and Python`
+### Title Options (Strictly Verified < 70 Characters):
+- `Show HN: AeroBrowse – 12MB AI browser that cuts LLM tokens by 88%` *(65 chars — Recommended)*
+- `Show HN: AeroBrowse – Featherweight browser engine for AI agents` *(64 chars)*
+- `Show HN: AeroBrowse – Dual-engine AI browser in Rust and Python` *(63 chars)*
+- `Show HN: We cut LLM web scraping token bills by 88%` *(52 chars)*
 
 ### Post Body:
 ```markdown
@@ -43,94 +44,116 @@ Would love your thoughts, benchmark critiques, and feedback on our AST traversal
 
 ---
 
-## 2. 🔴 Reddit Communities
+## 2. 🔴 Zero-Karma Reddit Communities (Instant Post Approval)
 
-### A. r/LocalLLaMA & r/MachineLearning
-**Title**: `[P] AeroBrowse: Open-source browser engine that drops 88% of HTML tokens for local agent contexts (12MB RAM, Rust+Python)`
+If you have a fresh account with **0 karma**, subreddits like `r/LocalLLaMA` will automatically remove posts. Instead, post in these high-traffic, karma-friendly communities:
 
-**Body**:
-```markdown
-When feeding live web data into local LLMs (Llama 3, Qwen 2.5, DeepSeek), 8K or 32K context windows fill up almost immediately with junk HTML (CSS classes, SVG paths, script tags).
+### Community 1: `r/SideProject` (185,000+ Members — Zero Karma Barrier)
+- **Title**: `I built a 12MB browser engine that cuts 88% of HTML tokens for AI agents (Open Source)`
+- **Flair**: `Showcase` or `Project`
+- **Body**:
+  ```markdown
+  Hey everyone!
 
-We open-sourced **AeroBrowse**: https://github.com/k39139215-gif/aerobrowse
+  Whenever I fed web pages to AI agents (using Playwright/Puppeteer), 85%+ of the tokens were completely useless CSS classes, SVG paths, and scripts. That burned money and choked context windows.
 
-**Key Highlights**:
-- **87.9% average token reduction** across 100 tested production pages.
-- **Zero data loss on text**: Tested on Wikipedia, Python.org, and Books to Scrape with 95%+ word retention.
-- **Dual Engine**: Turbo mode uses 12MB RAM and finishes in <100ms. If client-side rendering (React/Next) is detected, it falls back to CDP Fidelity mode.
-- **FastMCP Stdio Server**: Drop-in MCP for Cursor AI and Claude Desktop.
-- **Set-of-Marks**: Gives the LLM simple numeric IDs `[1]`, `[2]` for clicking and typing instead of hallucinating CSS paths.
+  So I built **AeroBrowse**: https://github.com/k39139215-gif/aerobrowse
 
-Check out the code and the reproduction benchmarks on GitHub. Contributions and feedback are welcome!
-```
+  What it does:
+  1. Slashes 88% of token bloat using semantic AST pruning (preserves 95%+ of actual human words).
+  2. Runs on only 12MB of RAM in Turbo mode (sub-100ms).
+  3. Uses Set-of-Marks (`[1] Click`, `[2] Fill`) so agents never hallucinate CSS selectors.
+  4. Native FastMCP support for Cursor AI and Claude Desktop.
 
-### B. r/Python
-**Title**: `AeroBrowse – A featherweight browser engine for AI agents (pip install aerobrowse)`
+  Check out the repo and the 1-click Google Colab demo. Would love your feedback!
+  ```
 
-**Body**: Focus on the Python SDK, clean API design, and 3-line LangChain/CrewAI integration.
+### Community 2: `r/OpenSource` (140,000+ Members — Zero Karma Barrier)
+- **Title**: `AeroBrowse – A featherweight, token-pruned browser engine for AI agents (MIT License)`
+- **Body**: Focus on open-source MIT license, Rust core, and community benchmarks.
+
+### Community 3: `r/WebScraping` (70,000+ Members — Very Low Barrier)
+- **Title**: `Tired of 500MB headless Chrome? We built a 12MB dual-engine scraper that outputs clean Markdown`
+
+### Community 4: `r/AI_Agents` (50,000+ Members)
+- **Title**: `Open-source browser tool for LangChain, CrewAI & Cursor AI that cuts token bills by 88%`
 
 ---
 
-## 3. 🐦 Twitter / X Launch Thread
+## 3. 💬 Developer Discord Communities (0 Karma Needed — Instant Reach)
 
-**Tweet 1**:  
-Raw HTML is silently killing your AI agent budget. A standard web page dumps 50k+ tokens of CSS class names and inline SVGs into your LLM.  
-We built AeroBrowse: a featherweight, dual-engine AI browser that slashes token bills by 88% while preserving 100% of human content. 🧵👇  
-https://github.com/k39139215-gif/aerobrowse
+Join these official Discord servers and post in their `#showcase` or `#projects` channels (usually hundreds of AI engineers see this within minutes):
 
-**Tweet 2**:  
-Why not just use headless Chrome?  
-- Chrome: 300MB–600MB RAM / tab, 2.5s startup, dumps 50k raw tokens.  
-- AeroBrowse Turbo: 12MB RAM, sub-100ms latency, dense clean Markdown.  
-- Plus: Auto-routes to CDP Fidelity when dynamic React/Vue SPAs are detected. ⚡
-
-**Tweet 3**:  
-Zero hallucination actions:  
-Instead of asking an LLM to guess complex CSS selectors like `div.product > ul > li:nth-child(2) > a`, AeroBrowse indexes every interactive element into a Set-of-Marks map:  
-`[1] CLICK: 'Add to Cart'`  
-`[2] FILL: 'Search products'`
-
-**Tweet 4**:  
-Native FastMCP support:  
-Works out-of-the-box with @cursor_exec, @AnthropicAI Claude Desktop, and Antigravity.  
-Run `aerobrowse mcp` and you have a web browser inside your IDE.
-
-**Tweet 5**:  
-Open source under MIT:  
-⭐ GitHub: https://github.com/k39139215-gif/aerobrowse  
-📦 PyPI: `pip install aerobrowse`  
-Read the verified 100-page empirical benchmark in the repo! 🚀
+1. **Cursor AI Discord** (`#mcp` or `#showcase`):
+   ```
+   🚀 Built a native MCP browser server for Cursor: AeroBrowse!
+   Cuts 88% of HTML token bloat so your Cursor composer never runs out of context.
+   Repo: https://github.com/k39139215-gif/aerobrowse
+   ```
+2. **LangChain Discord** (`#share-your-project`):
+   ```
+   Hey builders! Just open-sourced AeroBrowse, a drop-in tool for LangChain agents that browses the web at 12MB RAM and sub-100ms latency with 88% fewer tokens.
+   Repo: https://github.com/k39139215-gif/aerobrowse
+   ```
+3. **CrewAI Discord** (`#showcase`):
+   Share the CrewAI integration snippet from `examples/crewai_agent.py`.
+4. **FastMCP / Anthropic Discord** (`#community-showcase`):
+   Share the FastMCP integration.
 
 ---
 
-## 4. ⭐ Awesome-Lists Submission Guide
+## 4. 📝 Dev.to & Hashnode Article (Instant Google Ranking & 0 Karma)
 
-Submit pull requests to add AeroBrowse to these high-traffic curated lists (which drive thousands of GitHub stars):
+Publish a technical post on **Dev.to** (free, instant signup, indexed by Google in 2 hours):
+- **Title**: `Why We Built a 12MB Browser Engine for AI Agents (And Cut Token Bills by 88%)`
+- **Tags**: `#ai`, `#python`, `#opensource`, `#webdev`
+- **Link back**: Include GitHub repo link in the first 2 paragraphs.
 
-### 1. `punkpeye/awesome-mcp-servers`
-- **Category**: Browser Automation / Web Scraping
-- **Entry**:
-  ```markdown
-  - [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Featherweight dual-engine AI browser for Cursor & Claude Desktop that slashes LLM tokens by 88% with Set-of-Marks action indexing.
-  ```
+---
 
-### 2. `e2b-dev/awesome-ai-agents`
-- **Category**: Agent Tools / Web Browsing
-- **Entry**:
-  ```markdown
-  - [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - High-performance dual-engine AI browser engine with 88% token reduction and Set-of-Marks interaction.
-  ```
+## 5. ⭐ Awesome-Lists Submissions: Complete Step-by-Step Guide
 
-### 3. `kyrolabs/awesome-langchain`
-- **Category**: Tools & Integrations
-- **Entry**:
-  ```markdown
-  - [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Drop-in LangChain web browsing tool optimizing token usage and browser RAM.
-  ```
+### What is an "Awesome List"?
+An Awesome List is a curated, high-authority GitHub repository with **10,000 to 100,000+ stars**. When someone searches Google for *"best MCP servers"* or *"AI agent browser tools"*, these lists rank #1.
 
-### 4. `vinta/awesome-python`
-- **Category**: Web Scraping
-- **Entry**:
-  ```markdown
-  - [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Featherweight browser engine for LLMs with semantic AST pruning and CDP automation.
-  ```
+Being listed here guarantees **free, permanent daily traffic and GitHub stars** forever.
+
+### Exactly How to Submit (Step-by-Step Walkthrough):
+
+#### Example: Submitting to `punkpeye/awesome-mcp-servers`
+
+1. **Open the Repository**:
+   Go to: https://github.com/punkpeye/awesome-mcp-servers
+
+2. **Fork the Repo**:
+   Click the **Fork** button at the top-right of the page (this makes a copy in your personal GitHub account).
+
+3. **Open README.md & Click Edit**:
+   - In your forked repo, click on `README.md`.
+   - Click the **Pencil Icon (Edit this file)** on the top-right of the file viewer.
+
+4. **Find the Right Category**:
+   - Scroll down to the `Browser Automation` or `Web Scraping` category.
+   - Maintain alphabetical order and paste this line:
+   ```markdown
+   - [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Featherweight dual-engine AI browser for Cursor & Claude Desktop that slashes LLM tokens by 88% with Set-of-Marks action indexing.
+   ```
+
+5. **Commit the Changes**:
+   - Scroll to the bottom of the page.
+   - In the commit message box, write: `Add AeroBrowse to Browser Automation tools`.
+   - Click **Commit changes**.
+
+6. **Create the Pull Request**:
+   - Go back to the main page of your fork.
+   - GitHub will show a banner saying *"This branch is 1 commit ahead of punkpeye:main"*.
+   - Click the green **Contribute** button -> click **Open Pull Request**.
+   - Review your change and click **Create Pull Request**.
+
+7. **Repeat for Other Lists**:
+   - **`e2b-dev/awesome-ai-agents`**: Category: `Browser & Web Tools`  
+     `- [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - High-performance dual-engine AI browser engine with 88% token reduction and Set-of-Marks interaction.`
+   - **`kyrolabs/awesome-langchain`**: Category: `Tools & Scrapers`  
+     `- [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Drop-in LangChain web browsing tool optimizing token usage and browser RAM.`
+   - **`vinta/awesome-python`**: Category: `Web Scraping`  
+     `- [AeroBrowse](https://github.com/k39139215-gif/aerobrowse) - Featherweight browser engine for LLMs with semantic AST pruning and CDP automation.`
