@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Pytest
         run: |
-          pytest tests/ -v
+          python -m pytest tests/ -v
 
   build-rust:
     name: Rust Release Build (${{ matrix.target }})
