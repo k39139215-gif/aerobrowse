@@ -5,6 +5,10 @@ edition = "2021"
 authors = ["Kartik <k39139215@gmail.com>"]
 description = "The Featherweight AI Browser Engine in Rust — 100% Web Compatibility with 90% Fewer Tokens"
 license = "MIT"
+repository = "https://github.com/k39139215-gif/aerobrowse"
+homepage = "https://github.com/k39139215-gif/aerobrowse"
+keywords = ["ai-browser", "mcp", "headless-browser", "token-optimizer", "web-scraping"]
+categories = ["web-programming", "command-line-utilities"]
 
 [dependencies]
 tokio = { version = "1.38", features = ["full"] }

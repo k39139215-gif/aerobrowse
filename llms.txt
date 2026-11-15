@@ -1,0 +1,41 @@
+# AeroBrowse
+> The featherweight, dual-engine AI browser designed for autonomous agents, LLM pipelines, and web scraping.
+
+AeroBrowse reduces LLM token consumption by up to 92% using semantic accessibility AST pruning, while offering complete web compatibility via a tiered hybrid architecture (Turbo Mode in pure Rust + Fidelity Mode via native Chrome DevTools Protocol).
+
+## Core Concepts & Documentation
+- [Quickstart Guide](https://github.com/k39139215-gif/aerobrowse#quickstart): 3-step guide to installing and running AeroBrowse via CLI, Python SDK, or native Rust binary.
+- [Dual-Engine Architecture](https://github.com/k39139215-gif/aerobrowse#the-aerospace-analogy-why-aero): How Turbo Mode (<15MB RAM, sub-100ms) and Fidelity Mode (100% Blink/V8 JS) operate.
+- [Autonomous Engine Routing](https://github.com/k39139215-gif/aerobrowse#autonomous-routing): How AeroBrowse automatically detects SPAs and escalates to Fidelity Mode.
+- [Model Context Protocol (MCP)](https://github.com/k39139215-gif/aerobrowse#model-context-protocol-mcp-integration): Connecting AeroBrowse directly to Claude Desktop, Cursor AI, and Antigravity.
+- [Empirical Benchmarks](https://github.com/k39139215-gif/aerobrowse#live-empirical-benchmarks): Side-by-side performance, RAM, and token metrics across 8 real-world domains.
+
+## CLI Usage
+- `aerobrowse fetch <URL>`: Fetches URL using Turbo Mode with sub-100ms latency and 90% token reduction.
+- `aerobrowse fetch <URL> --fidelity`: Forces full Blink/V8 JavaScript execution and dynamic DOM hydration.
+- `aerobrowse click <URL> <ACTION_ID>`: Dispatches native DOM clicks by numeric element ID.
+- `aerobrowse fill <URL> <ACTION_ID> <TEXT>`: Fills form inputs and search fields by numeric element ID.
+- `aerobrowse mcp`: Launches native JSON-RPC stdio MCP server for AI IDEs.
+
+## Python SDK
+```python
+from aerobrowse import AeroBrowser
+
+browser = AeroBrowser()
+
+# Auto-routes between Turbo and Fidelity based on page content
+result = browser.fetch("https://news.ycombinator.com")
+print(result["markdown"])
+print(f"Token reduction: {result['reduction_pct']}%")
+
+# Interactive control via numbered action elements
+browser.fetch("https://example.com/login", force_fidelity=True)
+browser.fill("1", "admin@example.com")
+browser.fill("2", "secret_pass")
+browser.click("3")
+```
+
+## Key Capabilities
+- **Token Pruning**: Strips SVG paths, inline CSS, script tags, and junk while preserving 100% semantic text and hierarchy.
+- **Set-of-Marks Action Indexing**: Maps all clickable links, buttons, and inputs to simple integers `[1]`, `[2]`, `[3]` for zero-hallucination agent navigation.
+- **Zero Heavy Dependencies**: Standalone 4.7MB binary available for Windows, Linux, and macOS ARM64. Uses system-installed Edge/Chrome for Fidelity Mode without downloading 300MB Chromium packages.

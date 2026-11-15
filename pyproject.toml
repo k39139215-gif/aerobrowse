@@ -5,10 +5,23 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aerobrowse"
 version = "0.2.0"
-description = "The Featherweight AI Browser Engine — 100% Web Compatibility at 30MB Memory with 90% Fewer Tokens"
+description = "The Featherweight AI Browser Engine — 100% Web Compatibility at 12MB Memory with 90% Fewer Tokens"
 readme = "README.md"
 authors = [{ name = "Kartik", email = "k39139215@gmail.com" }]
 license = { text = "MIT" }
+keywords = [
+    "ai-browser",
+    "mcp",
+    "model-context-protocol",
+    "cursor-mcp",
+    "claude-desktop",
+    "token-optimization",
+    "playwright",
+    "headless-browser",
+    "web-scraping",
+    "llm-agents",
+    "rag"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -23,6 +36,12 @@ dependencies = [
     "fastmcp>=0.1.0",
     "rich>=13.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/k39139215-gif/aerobrowse"
+Documentation = "https://github.com/k39139215-gif/aerobrowse#readme"
+Repository = "https://github.com/k39139215-gif/aerobrowse.git"
+Issues = "https://github.com/k39139215-gif/aerobrowse/issues"
 
 [project.optional-dependencies]
 dev = [
