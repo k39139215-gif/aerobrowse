@@ -158,14 +158,19 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ---
 
-## 📊 Live Benchmarks
+## 📊 Live Empirical Benchmarks (Measured on Windows 11)
 
-| Test Target | Engine | Latency | RAM Footprint | Tokens Sent | Reduction |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Hacker News** | AeroBrowse Turbo | **68ms** | **5.2 MB** | 1,080 | **87.4%** |
-| **Wikipedia Article** | AeroBrowse Turbo | **94ms** | **6.1 MB** | 2,140 | **91.2%** |
-| **Linear Dashboard (SPA)** | AeroBrowse Fidelity | **410ms** | **34.8 MB** | 1,420 | **88.6%** |
-| **Traditional Chrome** | Headless Chrome | 2,400ms | 380.0 MB | 46,000 | 0.0% |
+*Measured using `psutil` (full process-tree RSS memory) and exact `cl100k_base` BPE token counting. Run `python real_benchmark.py` to reproduce.*
+
+| Target URL | Engine | Latency | Real Memory (RAM) | LLM Tokens | Token Savings | Action Map |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Hacker News** | Standard Headless Chrome | 3,587 ms | **389.3 MB** | 9,058 tokens | 0% (Baseline) | None (Raw HTML) |
+| **Hacker News** | **AeroBrowse (Turbo)** | **6,704 ms** | **52.1 MB** (7.4x lighter) | **1,138 tokens** | **87.4% saved** | **229 elements** |
+| **Hacker News** | **AeroBrowse (Fidelity)**| **6,023 ms** | 378.6 MB (Full Blink) | **1,138 tokens** | **87.4% saved** | **229 elements** |
+| | | | | | | |
+| **Example.com** | Standard Headless Chrome | 2,057 ms | **361.5 MB** | 523 tokens | 0% (Baseline) | None (Raw HTML) |
+| **Example.com** | **AeroBrowse (Turbo)** | **342.7 ms** (6x faster) | **52.5 MB** (6.9x lighter) | **41 tokens** | **92.2% saved** | 0 elements |
+| **Example.com** | **AeroBrowse (Fidelity)**| **1,845 ms** | 370.1 MB (Full Blink) | **238 tokens** | **54.5% saved** | 1 element |
 
 ---
 
