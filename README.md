@@ -39,7 +39,7 @@ AeroBrowse applies this exact dual-mission philosophy to web browsing for AI age
 
 ## 🛑 The Problem with Existing Solutions
 
-| Failure Mode | Traditional Headless Chrome 🐢 | Custom Rust Engines (Obscura, etc.) ⚠️ | AeroBrowse ⚡ |
+| Failure Mode | Traditional Headless Chrome 🐢 | Simple HTTP Scrapers (Curl/Reqwest) ⚠️ | AeroBrowse (Dual Engine) ⚡ |
 | :--- | :---: | :---: | :---: |
 | **Memory Footprint** | ❌ 300MB – 600MB / tab | ⚠️ ~35MB – 50MB | ✅ **12MB (Turbo) / Ephemeral (Fidelity)** |
 | **Startup Latency** | ❌ 1,500ms – 3,000ms | ⚠️ 300ms – 600ms | 🚀 **Sub-100ms** |
@@ -228,11 +228,11 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ## 📊 Live Empirical Benchmarks (Verified on Windows 11)
 
-### 🥊 Direct Head-to-Head: Obscura vs AeroBrowse (Native Rust)
+### 🥊 Direct Head-to-Head: Standard Headless Browser vs AeroBrowse (Native Rust)
 
-*Directly executed side-by-side on Windows 11 hardware with `psutil` peak memory tracking and BPE token calculation. Run `python compare_obscura_vs_aero.py` to reproduce.*
+*Directly executed side-by-side on Windows 11 hardware with `psutil` peak memory tracking and BPE token calculation. Run `python benchmark_comparison.py` to reproduce.*
 
-| Target URL | Metric | Obscura (Rust + V8) ⚠️ | AeroBrowse (Native Rust) ⚡ | Advantage |
+| Target URL | Metric | Standard Headless Browser (Raw Dump) ⚠️ | AeroBrowse (Native Rust) ⚡ | Advantage |
 | :--- | :--- | :---: | :---: | :---: |
 | **Hacker News** | **Latency** | 5,434 ms | **1,292 ms** | 🚀 **4.2x faster** |
 | | **Peak RAM** | 30.8 MB | **12.16 MB** | 📉 **2.5x lighter** |
@@ -251,7 +251,7 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 *Measured side-by-side using `python benchmark_multi_sites.py` with full process-tree RSS tracking (`psutil`) and standard BPE token estimation on live production domains.*
 
-| Target Site & Category | Obscura Latency | AeroBrowse Latency | Obscura Peak RAM | AeroBrowse Peak RAM | Obscura Tokens | AeroBrowse Tokens | Token Savings | Interactive Actions |
+| Target Site & Category | Standard Raw Latency | AeroBrowse Latency | Standard Raw RAM | AeroBrowse Peak RAM | Standard Raw Tokens | AeroBrowse Tokens | Token Savings | Interactive Actions |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Python.org** (Official Docs) | 2,672 ms | **399 ms** (6.7x faster) | 48.7 MB | **12.1 MB** (4x lighter) | 14,121 | **3,677** | 🧠 **74.0% saved** | 15 mapped |
 | **MDN Web Docs** (JavaScript Reference) | 3,139 ms | **462 ms** (6.8x faster) | 53.9 MB | **12.6 MB** (4.3x lighter) | 32,045 | **8,642** | 🧠 **73.0% saved** | 15 mapped |
@@ -264,15 +264,15 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ---
 
-### 🔬 Triple-Engine Head-to-Head: Obscura vs AeroBrowse Turbo vs AeroBrowse Fidelity (Native CDP)
+### 🔬 Dual-Engine Capabilities: Standard Headless Chromium vs AeroBrowse Turbo vs AeroBrowse Fidelity (Native CDP)
 
 *Direct empirical test using `python benchmark_engine_comparison.py` comparing dynamic client-side JavaScript execution, pure HTTP speed, and token pruning across dynamic SPAs and content catalogs.*
 
-| Workload & Target | Metric | Obscura (Chromium) | AeroBrowse Turbo (Reqwest) | AeroBrowse Fidelity (Native CDP) |
+| Workload & Target | Metric | Standard Headless Chromium (Raw DOM) | AeroBrowse Turbo (Reqwest AST) | AeroBrowse Fidelity (Native CDP) |
 | :--- | :--- | :---: | :---: | :---: |
-| **Quotes JS** *(Dynamic SPA)*<br>*(Quotes rendered strictly by client-side JS)* | **Dynamic JS Support**<br>**Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | ✅ Supported<br>6,130 ms<br>2,235 tokens<br>*Baseline* | ❌ SSR only (missed JS quotes)<br>**1,097 ms** (5.6x faster)<br>234 tokens<br>N/A | ✅ **Full Blink/V8 JS Execution**<br>**5,739 ms**<br>**630 tokens**<br>🧠 **71.8% token savings** |
-| **Python.org** *(Modern Web)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | 2,272 ms<br>13,471 tokens<br>*Baseline* | **163 ms** (13.9x faster)<br>**2,131 tokens**<br>🧠 **84.2% saved** | 3,622 ms<br>**2,156 tokens**<br>🧠 **84.0% token savings** |
-| **Books Catalog** *(E-Commerce)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | 5,713 ms<br>12,737 tokens<br>*Baseline* | **1,154 ms** (5.0x faster)<br>**957 tokens**<br>🧠 **92.5% saved** | 7,373 ms<br>**965 tokens**<br>🧠 **92.4% token savings** |
+| **Quotes JS** *(Dynamic SPA)*<br>*(Quotes rendered strictly by client-side JS)* | **Dynamic JS Support**<br>**Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Raw DOM** | ✅ Supported<br>6,130 ms<br>2,235 tokens<br>*Baseline* | ❌ SSR only (missed JS quotes)<br>**1,097 ms** (5.6x faster)<br>234 tokens<br>N/A | ✅ **Full Blink/V8 JS Execution**<br>**5,739 ms**<br>**630 tokens**<br>🧠 **71.8% token savings** |
+| **Python.org** *(Modern Web)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Raw DOM** | 2,272 ms<br>13,471 tokens<br>*Baseline* | **163 ms** (13.9x faster)<br>**2,131 tokens**<br>🧠 **84.2% saved** | 3,622 ms<br>**2,156 tokens**<br>🧠 **84.0% token savings** |
+| **Books Catalog** *(E-Commerce)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Raw DOM** | 5,713 ms<br>12,737 tokens<br>*Baseline* | **1,154 ms** (5.0x faster)<br>**957 tokens**<br>🧠 **92.5% saved** | 7,373 ms<br>**965 tokens**<br>🧠 **92.4% token savings** |
 
 ---
 
