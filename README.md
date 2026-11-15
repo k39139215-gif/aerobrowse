@@ -214,6 +214,27 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ## 📊 Live Empirical Benchmarks (Verified on Windows 11)
 
+### 🥊 Direct Head-to-Head: Obscura vs AeroBrowse (Native Rust)
+
+*Directly executed side-by-side on Windows 11 hardware with `psutil` peak memory tracking and BPE token calculation. Run `python compare_obscura_vs_aero.py` to reproduce.*
+
+| Target URL | Metric | Obscura (Rust + V8) ⚠️ | AeroBrowse (Native Rust) ⚡ | Advantage |
+| :--- | :--- | :---: | :---: | :---: |
+| **Hacker News** | **Latency** | 5,434 ms | **1,292 ms** | 🚀 **4.2x faster** |
+| | **Peak RAM** | 30.8 MB | **12.16 MB** | 📉 **2.5x lighter** |
+| | **Tokens sent to LLM**| 9,059 tokens | **2,365 tokens** | 🧠 **73.9% token savings** |
+| | **Interactive Action Map**| ❌ No (Raw Dump) | ✅ **Yes (`[1]`, `[2]`...)** | 🎯 Agent Actionable |
+| | **Binary Size on Disk**| 112+ MB (Multi-file) | **4.7 MB (Single Binary)** | 📦 **24x smaller footprint** |
+| | | | | |
+| **Example.com** | **Latency** | 261 ms | **290 ms** | ⚡ Sub-300ms |
+| | **Peak RAM** | 26.6 MB | **11.76 MB** | 📉 **2.3x lighter** |
+| | **Tokens sent to LLM**| 524 tokens | **197 tokens** | 🧠 **62.4% token savings** |
+| | **Interactive Action Map**| ❌ No (Raw Dump) | ✅ **Yes** | 🎯 Agent Actionable |
+
+---
+
+### 🌐 Comparison Against Standard Headless Chrome (Python Engine)
+
 *Measured directly using `psutil` (full process-tree RSS memory) and exact `cl100k_base` BPE token counting. Run `python real_benchmark.py` to reproduce.*
 
 | Target URL | Engine | Latency | Real Memory (RAM) | LLM Tokens | Token Savings | Action Map |
