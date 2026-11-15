@@ -19,6 +19,8 @@
 
 - [Why AeroBrowse?](#-why-aerobrowse)
 - [Comparison Matrix](#-comparison-matrix)
+- [ROI & Cost Calculator](#-roi--llm-api-cost-calculator)
+- [Drop-in Framework Integrations](#-drop-in-framework-integrations)
 - [Dual-Engine Aerospace Architecture](#-dual-engine-aerospace-architecture)
 - [Autonomous Engine Routing](#-autonomous-engine-routing)
 - [Quickstart (60 Seconds)](#-quickstart-60-seconds)
@@ -28,6 +30,7 @@
 - [Model Context Protocol (MCP) Integration](#-model-context-protocol-mcp-integration)
 - [Live Empirical Benchmarks](#-live-empirical-benchmarks)
 - [Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
+- [AI Crawler Reference (llms.txt)](llms.txt)
 - [Project Structure](#-project-structure)
 - [Contributing & Citation](#-contributing--citation)
 
@@ -62,6 +65,52 @@ Modern AI agents and LLMs (Claude 3.5, GPT-4o, Gemini 1.5) face severe bottlenec
 | **AI Action Precision** | ❌ Complex CSS/XPath selectors | ❌ No interactive actions | 🎯 **Numbered Action IDs (`[1] Click`, `[2] Fill`)** |
 | **Native MCP Server** | ❌ Third-party wrapper needed | ❌ None | ✅ **Built-in FastMCP + Rust JSON-RPC** |
 | **Runtime Dependency** | ❌ 300MB+ Chromium download | ⚠️ Python / Node.js runtime | ✅ **Zero-dependency 4.7MB native binary** |
+
+---
+
+## 💰 ROI & LLM API Cost Calculator
+
+Raw HTML web scraping forces your LLM (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) to read thousands of useless tags. Here is how much AeroBrowse saves at standard input pricing ($2.50 / 1M tokens):
+
+| Daily Agent Volume | Raw HTML Tokens / Month | Standard API Cost 💸 | AeroBrowse Tokens / Month | AeroBrowse API Cost ⚡ | Monthly Savings 💰 |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **100 pages / day** | 150 Million | $375.00 | **15 Million** | **$37.50** | **$337.50 / mo (90% saved)** |
+| **500 pages / day** | 750 Million | $1,875.00 | **75 Million** | **$187.50** | **$1,687.50 / mo (90% saved)** |
+| **2,500 pages / day** | 3.75 Billion | $9,375.00 | **375 Million** | **$937.50** | **$8,437.50 / mo (90% saved)** |
+
+---
+
+## 🧩 Drop-in Framework Integrations
+
+AeroBrowse works out-of-the-box with all major AI agent frameworks:
+
+```python
+# 🦜🔗 LangChain / LangGraph Tool
+from langchain.tools import tool
+from aerobrowse import AeroBrowser
+
+browser = AeroBrowser()
+
+@tool
+def browse_web(url: str) -> str:
+    """Browse web with 90% fewer tokens and numbered action IDs."""
+    return browser.fetch(url)["markdown"]
+```
+
+```python
+# 🤖 CrewAI Custom Tool
+from crewai.tools import tool
+from aerobrowse import AeroBrowser
+
+browser = AeroBrowser()
+
+@tool("AeroBrowse Web Reader")
+def read_web_page(url: str) -> str:
+    """Reads any URL and returns compact, token-optimized Markdown."""
+    return browser.fetch(url)["markdown"]
+```
+
+*See [`examples/`](https://github.com/k39139215-gif/aerobrowse/tree/main/examples) for complete LlamaIndex, OpenAI, Cursor AI, and Claude Desktop scripts.*
 
 ---
 
