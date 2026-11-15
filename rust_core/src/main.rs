@@ -79,8 +79,29 @@ async fn main() {
 
                 let engine = TurboEngine::new();
                 match engine.fetch(&url).await {
-                    Ok((res, elapsed_ms)) => {
-                        print_telemetry(&res, elapsed_ms, "Turbo (Reqwest/AST)");
+                    Ok(turbo_res) => {
+                        if turbo_res.needs_fidelity {
+                            println!("{}", "⚡ Client-side dynamic SPA detected! Automatically escalating to Fidelity Mode...".magenta().bold());
+                            let start = Instant::now();
+                            match FidelitySession::launch().await {
+                                Ok(session) => {
+                                    match session.navigate(&url).await {
+                                        Ok(res) => {
+                                            let elapsed_ms = start.elapsed().as_millis();
+                                            print_telemetry(&res, elapsed_ms, "Fidelity (Auto-Escalated Blink/V8)");
+                                        }
+                                        Err(_) => {
+                                            print_telemetry(&turbo_res.pruned, turbo_res.elapsed_ms, "Turbo (Reqwest/AST)");
+                                        }
+                                    }
+                                }
+                                Err(_) => {
+                                    print_telemetry(&turbo_res.pruned, turbo_res.elapsed_ms, "Turbo (Reqwest/AST)");
+                                }
+                            }
+                        } else {
+                            print_telemetry(&turbo_res.pruned, turbo_res.elapsed_ms, "Turbo (Reqwest/AST)");
+                        }
                     }
                     Err(e) => {
                         eprintln!("{}: {}", "Error".red().bold(), e);

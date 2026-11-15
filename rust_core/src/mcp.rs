@@ -124,18 +124,64 @@ pub async fn run_mcp_server() -> io::Result<()> {
                             }
                         } else {
                             match engine.fetch(url).await {
-                                Ok((res, ms)) => {
-                                    let text = format!(
-                                        "# {}\nURL: {}\nLatency: {}ms | Token Reduction: {}%\n\n{}\n\nActions Found: {}",
-                                        res.title, url, ms, res.reduction_pct, res.markdown, res.actions.len()
-                                    );
-                                    json!({
-                                        "jsonrpc": "2.0",
-                                        "id": id,
-                                        "result": {
-                                            "content": [{ "type": "text", "text": text }]
+                                Ok(turbo_res) => {
+                                    if turbo_res.needs_fidelity {
+                                        match FidelitySession::launch().await {
+                                            Ok(session) => match session.navigate(url).await {
+                                                Ok(res) => {
+                                                    let text = format!(
+                                                        "# {}\nURL: {}\nEngine: Fidelity (Auto-Escalated Blink/V8) | Token Reduction: {}%\n\n{}\n\nActions Found: {}",
+                                                        res.title, url, res.reduction_pct, res.markdown, res.actions.len()
+                                                    );
+                                                    json!({
+                                                        "jsonrpc": "2.0",
+                                                        "id": id,
+                                                        "result": {
+                                                            "content": [{ "type": "text", "text": text }]
+                                                        }
+                                                    })
+                                                }
+                                                Err(_) => {
+                                                    let text = format!(
+                                                        "# {}\nURL: {}\nLatency: {}ms | Token Reduction: {}%\n\n{}\n\nActions Found: {}",
+                                                        turbo_res.pruned.title, url, turbo_res.elapsed_ms, turbo_res.pruned.reduction_pct, turbo_res.pruned.markdown, turbo_res.pruned.actions.len()
+                                                    );
+                                                    json!({
+                                                        "jsonrpc": "2.0",
+                                                        "id": id,
+                                                        "result": {
+                                                            "content": [{ "type": "text", "text": text }]
+                                                        }
+                                                    })
+                                                }
+                                            },
+                                            Err(_) => {
+                                                let text = format!(
+                                                    "# {}\nURL: {}\nLatency: {}ms | Token Reduction: {}%\n\n{}\n\nActions Found: {}",
+                                                    turbo_res.pruned.title, url, turbo_res.elapsed_ms, turbo_res.pruned.reduction_pct, turbo_res.pruned.markdown, turbo_res.pruned.actions.len()
+                                                );
+                                                json!({
+                                                    "jsonrpc": "2.0",
+                                                    "id": id,
+                                                    "result": {
+                                                        "content": [{ "type": "text", "text": text }]
+                                                    }
+                                                })
+                                            }
                                         }
-                                    })
+                                    } else {
+                                        let text = format!(
+                                            "# {}\nURL: {}\nLatency: {}ms | Token Reduction: {}%\n\n{}\n\nActions Found: {}",
+                                            turbo_res.pruned.title, url, turbo_res.elapsed_ms, turbo_res.pruned.reduction_pct, turbo_res.pruned.markdown, turbo_res.pruned.actions.len()
+                                        );
+                                        json!({
+                                            "jsonrpc": "2.0",
+                                            "id": id,
+                                            "result": {
+                                                "content": [{ "type": "text", "text": text }]
+                                            }
+                                        })
+                                    }
                                 }
                                 Err(e) => json!({
                                     "jsonrpc": "2.0",
