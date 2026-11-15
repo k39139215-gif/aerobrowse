@@ -1,6 +1,6 @@
 [package]
 name = "aerobrowse"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Kartik <k39139215@gmail.com>"]
 description = "The Featherweight AI Browser Engine in Rust — 100% Web Compatibility with 90% Fewer Tokens"

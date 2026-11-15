@@ -129,13 +129,25 @@ aero mcp
 AeroBrowse includes a standalone, zero-dependency native Rust binary located in `rust_core/`:
 
 * **Sub-10ms** cold startup.
-* Zero Python runtime required.
-* Native JSON-RPC 2.0 stdio MCP server for Claude Desktop and Cursor.
+* **Zero Python / Node.js runtime required**: Ships as a single self-contained binary.
+* **Dual Engine inside Rust**:
+  * **Turbo Mode (`aerobrowse fetch <url>`)**: Ultra-fast Reqwest + DOM AST token pruner (< 15MB RAM, sub-300ms).
+  * **Fidelity Mode (`aerobrowse fetch <url> --fidelity`)**: Native Chrome DevTools Protocol (CDP) WebSocket driver that launches your pre-installed system browser (Chrome/Edge) with zero extra downloads, executing full client-side JavaScript / SPAs.
+* **Native Interactive Actions**:
+  * `aerobrowse click <url> <action_id>`: Dispatches real DOM click events via CDP.
+  * `aerobrowse fill <url> <action_id> <text>`: Focuses and inputs text into form fields via CDP.
+* **Native JSON-RPC 2.0 stdio MCP server** for Claude Desktop, Cursor, and Antigravity.
 
 ```bash
-cd rust_core
-cargo build --release
-./target/release/aerobrowse fetch https://news.ycombinator.com
+# Turbo Mode (Static / SSR pages)
+aerobrowse fetch https://news.ycombinator.com
+
+# Fidelity Mode (Dynamic SPAs & JavaScript-heavy sites)
+aerobrowse fetch https://quotes.toscrape.com/js/ --fidelity
+
+# Interactive Actions (No Playwright required)
+aerobrowse click https://quotes.toscrape.com 2
+aerobrowse fill https://quotes.toscrape.com/login 3 "my-username"
 ```
 
 ---
@@ -250,6 +262,18 @@ AeroBrowse ships with a built-in FastMCP server for seamless integration with **
 
 ---
 
+### 🔬 Triple-Engine Head-to-Head: Obscura vs AeroBrowse Turbo vs AeroBrowse Fidelity (Native CDP)
+
+*Direct empirical test using `python benchmark_engine_comparison.py` comparing dynamic client-side JavaScript execution, pure HTTP speed, and token pruning across dynamic SPAs and content catalogs.*
+
+| Workload & Target | Metric | Obscura (Chromium) | AeroBrowse Turbo (Reqwest) | AeroBrowse Fidelity (Native CDP) |
+| :--- | :--- | :---: | :---: | :---: |
+| **Quotes JS** *(Dynamic SPA)*<br>*(Quotes rendered strictly by client-side JS)* | **Dynamic JS Support**<br>**Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | ✅ Supported<br>6,130 ms<br>2,235 tokens<br>*Baseline* | ❌ SSR only (missed JS quotes)<br>**1,097 ms** (5.6x faster)<br>234 tokens<br>N/A | ✅ **Full Blink/V8 JS Execution**<br>**5,739 ms**<br>**630 tokens**<br>🧠 **71.8% token savings** |
+| **Python.org** *(Modern Web)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | 2,272 ms<br>13,471 tokens<br>*Baseline* | **163 ms** (13.9x faster)<br>**2,131 tokens**<br>🧠 **84.2% saved** | 3,622 ms<br>**2,156 tokens**<br>🧠 **84.0% token savings** |
+| **Books Catalog** *(E-Commerce)* | **Latency**<br>**Tokens Sent to LLM**<br>**Token Pruning vs Obscura** | 5,713 ms<br>12,737 tokens<br>*Baseline* | **1,154 ms** (5.0x faster)<br>**957 tokens**<br>🧠 **92.5% saved** | 7,373 ms<br>**965 tokens**<br>🧠 **92.4% token savings** |
+
+---
+
 ### 🌐 Comparison Against Standard Headless Chrome (Python Engine)
 
 *Measured directly using `psutil` (full process-tree RSS memory) and exact `cl100k_base` BPE token counting. Run `python real_benchmark.py` to reproduce.*
@@ -278,11 +302,12 @@ aerobrowse/
 │   ├── mcp_server.py        # FastMCP protocol implementation
 │   └── cli.py               # Rich terminal CLI
 ├── rust_core/               # High-Performance Native Rust Core
-│   ├── Cargo.toml           # Tokio, Reqwest, Scraper
+│   ├── Cargo.toml           # Tokio, Reqwest, Tungstenite, Scraper
 │   └── src/
-│       ├── main.rs          # CLI entrypoint
-│       ├── pruner.rs        # Rust semantic HTML pruner
+│       ├── main.rs          # CLI entrypoint (fetch, click, fill, mcp)
+│       ├── pruner.rs        # Rust semantic HTML pruner (AST walker)
 │       ├── turbo.rs         # Async HTTP client
+│       ├── fidelity.rs      # Native CDP WebSocket browser controller
 │       └── mcp.rs           # JSON-RPC stdio MCP server
 ├── examples/                # Plug-and-play integrations
 │   ├── cursor_mcp.json      # Cursor AI config

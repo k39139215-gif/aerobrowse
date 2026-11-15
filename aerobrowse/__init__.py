@@ -8,5 +8,5 @@ from aerobrowse.pruner import SemanticPruner
 from aerobrowse.turbo import TurboEngine
 from aerobrowse.fidelity import FidelityEngine
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["AeroBrowser", "SemanticPruner", "TurboEngine", "FidelityEngine"]
