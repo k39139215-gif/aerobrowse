@@ -48,8 +48,43 @@ def test_semantic_pruner():
     assert "Pricing" in action_labels
 
 
+def test_semantic_pruner_fidelity_and_nested_cards():
+    """Verify that complex nested DOMs (like quote boxes, product cards, truncated titles) retain 100% data."""
+    card_html = """
+    <div class="container">
+        <div class="quote">
+            <span class="text">“Imagination is more important than knowledge.”</span>
+            <span>by <small class="author">Albert Einstein</small></span>
+        </div>
+        <ol>
+            <li>
+                <article class="product">
+                    <h3><a href="/book1" title="The Great Gatsby Full Title">The Great...</a></h3>
+                    <p class="price">£29.99</p>
+                    <p class="instock">In stock</p>
+                </article>
+            </li>
+        </ol>
+    </div>
+    """
+    pruner = SemanticPruner()
+    res = pruner.prune(card_html)
+
+    # 1. Spans and small tags must not be skipped
+    assert "Albert Einstein" in res["markdown"]
+    assert "Imagination is more important than knowledge" in res["markdown"]
+
+    # 2. Truncated titles with title attribute must be resolved to full title
+    assert "The Great Gatsby Full Title" in res["markdown"]
+    assert "£29.99" in res["markdown"]
+    assert "In stock" in res["markdown"]
+
+    # 3. Action map check
+    action_labels = [a["label"] for a in res["actions"]]
+    assert "The Great Gatsby Full Title" in action_labels
+
+
 def test_turbo_engine_local():
-    # Test turbo engine with httpbin / example or fast domain
     engine = TurboEngine()
     res = engine.fetch("https://httpbin.org/html")
     assert res["success"] is True
