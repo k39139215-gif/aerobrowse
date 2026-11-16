@@ -1,0 +1,42 @@
+# Robots.txt for AeroBrowse
+# Full access granted to AI crawlers, answer engines, and LLM indexing bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://k39139215-gif.github.io/aerobrowse/sitemap.xml
+# LLM Ingestion Standards:
+# https://github.com/k39139215-gif/aerobrowse/blob/main/llms.txt
+# https://github.com/k39139215-gif/aerobrowse/blob/main/llms-full.txt
