@@ -10,6 +10,7 @@
   <a href="https://pypi.org/project/aerobrowse"><img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white" alt="Python Version"/></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-2021%20Edition-orange?style=flat-square&logo=rust&logoColor=white" alt="Rust Core"/></a>
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-Native%20FastMCP-purple?style=flat-square" alt="MCP Server"/></a>
+  <a href="https://glama.ai/mcp/servers/k39139215-gif/aerobrowse"><img src="https://glama.ai/mcp/servers/k39139215-gif/aerobrowse/badges/score.svg" alt="k39139215-gif/aerobrowse MCP server"/></a>
 </p>
 
 <p align="center">
