@@ -59,6 +59,7 @@ jobs:
           sudo mkdir /sys/fs/cgroup/aerobrowse-ci
           sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/cgroup.subtree_control'
           sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/aerobrowse-ci/cgroup.subtree_control'
+          sudo mkdir /sys/fs/cgroup/aerobrowse-ci/driver
           sudo chown -R "$(id -u):$(id -g)" /sys/fs/cgroup/aerobrowse-ci
           echo AEROBROWSE_CGROUP_ROOT=/sys/fs/cgroup/aerobrowse-ci >> "$GITHUB_ENV"
       - name: Build pinned real framework fixtures
@@ -72,11 +73,11 @@ jobs:
           DEBUG: pw:browser
         run: uv run --no-sync python -m pytest -m browser -v --junitxml=evidence/ci-browser.xml
       - name: Required delegated Linux kernel resource tests
-        run: uv run --no-sync python -m pytest tests/runtime -v --junitxml=evidence/phase2/ci-runtime-kernel.xml
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/runtime -v --junitxml=evidence/phase2/ci-runtime-kernel.xml
       - name: Controlled operation benchmarks
         run: uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
       - name: Thirty minute browser worker cleanup soak
-        run: uv run --no-sync python -m benchmarks.phase2.soak --seconds 1800 --output evidence/phase2/soak-linux.json
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.phase2.soak --seconds 1800 --output evidence/phase2/soak-linux.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
