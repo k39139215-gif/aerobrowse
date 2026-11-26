@@ -75,6 +75,14 @@ def install(page: Any, broker: Any, failed: Any) -> Any:
                 "Fetch.failRequest",
                 {"requestId": event["requestId"], "errorReason": "BlockedByClient"},
             )
+        except (ValueError, KeyError, TypeError):
+            failed(
+                AeroError("INVALID_REQUEST", "Browser request cannot be safely decoded")
+            )
+            session.send(
+                "Fetch.failRequest",
+                {"requestId": event["requestId"], "errorReason": "BlockedByClient"},
+            )
         except PlaywrightError:
             failed(
                 AeroError(

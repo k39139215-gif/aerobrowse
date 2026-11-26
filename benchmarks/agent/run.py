@@ -11,6 +11,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from fastmcp import Client
 from fastmcp.client.transports import StdioTransport
@@ -156,6 +157,17 @@ async def evaluate(
                             tool.name for tool in available
                         } or not isinstance(args, dict):
                             raise ValueError("Invalid tool call")
+                        if function["name"] in {"browser_navigate", "browser_new_tab"}:
+                            destination = urlsplit(args.get("url", ""))
+                            owned = urlsplit(fixture.url)
+                            if (
+                                destination.scheme,
+                                destination.hostname,
+                                destination.port,
+                            ) != (owned.scheme, owned.hostname, owned.port):
+                                raise ValueError(
+                                    "Evaluation destination must be owned fixture"
+                                )
                         result = await client.call_tool(
                             function["name"], args, raise_on_error=False
                         )
@@ -172,7 +184,9 @@ async def evaluate(
                             sessions.add(data["session_id"])
                         if function["name"] == "browser_close" and data.get("success"):
                             sessions.discard(args.get("session_id", ""))
-                        code = data.get("error", {}).get("code")
+                        code = data.get("error", {}).get("code") or (
+                            "MCP_TOOL_ERROR" if result.is_error else None
+                        )
                     except (ValueError, TypeError, KeyError):
                         envelope, code = (
                             {"error": {"code": "INVALID_MODEL_TOOL_CALL"}},
@@ -223,8 +237,17 @@ async def evaluate(
                 )
             cleanup = all(close_results)
     stale = sum(call["error_code"] == "STALE_ACTION_ID" for call in calls)
+    stale_index = next(
+        (
+            index
+            for index, call in enumerate(calls)
+            if call["error_code"] == "STALE_ACTION_ID"
+        ),
+        len(calls),
+    )
     recovered = stale > 0 and any(
-        call["tool"] == "browser_snapshot" and not call["error_code"] for call in calls
+        call["tool"] == "browser_snapshot" and not call["error_code"]
+        for call in calls[stale_index + 1 :]
     )
     return {
         "task": task,
@@ -240,6 +263,7 @@ async def evaluate(
         "outcome": "PASS"
         if fixture.verdict(task, answer)
         and not failure
+        and cleanup
         and (task != "stale_recovery" or recovered)
         and (
             task != "compare_tabs"

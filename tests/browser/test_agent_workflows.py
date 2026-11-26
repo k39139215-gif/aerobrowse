@@ -95,3 +95,20 @@ def test_enter_submits_search_and_native_required_validation():
         action(browser, snapshot, "Next")
         assert fixture.receipt_state()["submitted"] is False
         assert "Plan request" in good(browser.snapshot())["markdown"]
+
+
+def test_error_document_never_reports_success(site):
+    from aerobrowse.engine import AeroBrowser as InternalBrowser
+
+    with InternalBrowser(
+        default_mode="fidelity", policy=NetworkPolicy(allow_networks=("127.0.0.1/32",))
+    ) as browser:
+        assert browser.fetch(site + "/form")["success"]
+        page = browser._fidelity.current_page
+        for session in browser._fidelity._brokers.values():
+            session.detach()
+        try:
+            page.goto("http://127.0.0.1:1", timeout=1000)
+        except __import__("playwright.sync_api", fromlist=["Error"]).Error:
+            pass
+        assert not browser.snapshot()["success"]
