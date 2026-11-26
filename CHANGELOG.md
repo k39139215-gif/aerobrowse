@@ -48,6 +48,11 @@ keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
 These restrictions remove unsafe behavior and are not claims of full feature parity.
 Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
 
-- Added operator-only `AEROBROWSE_SESSION_TASKS` (1–256) for MCP session task
+- Added operator-only `AEROBROWSE_SESSION_TASKS` (1â€“256) for MCP session task
   budgets; invalid configuration fails startup, defaults and aggregate caps remain.
   Verified actual Linux stdio MCP navigation/fill/close under this explicit budget.
+
+- Bound JSON integer conversion independently of interpreter settings; malformed
+  frames return fixed errors and preserve subsequent MCP requests.
+- Await already-retiring worker termination during shutdown before pool closure.
+  Both defects were reproduced and covered by real-pipe/real-worker regressions.

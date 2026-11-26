@@ -28,7 +28,7 @@ Original audit and inventory remain in `AUDIT.md` and `evidence/baseline-invento
 ## Completed evidence
 
 Green full run `45833263200`, source `f1ce086`, PR merge checkout
-`1710acaf4f4f0e877a53653f525939b688143b51`: all 8 Python 3.11Ã¢â‚¬â€œ3.14 Linux/Windows
+`1710acaf4f4f0e877a53653f525939b688143b51`: all 8 Python 3.11ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“3.14 Linux/Windows
 jobs, Rust formatting/strict Clippy/tests/release/native contract, dependency audit,
 43 required Linux browser tests and 19 kernel/runtime passes with 2 Windows-only
 skips. The soak ran 1,800.735 seconds and completed 931 navigate/fill/click/close
@@ -68,7 +68,7 @@ has user approval. Green tests do not waive unimplemented original requirements 
 certify isolation. Both PRs remain draft; no merge or stable release is authorized.
 
 Operator configuration: source `929cc25` exposes `AEROBROWSE_SESSION_TASKS` only
-at packaged MCP startup. Canonical integers 1â€“256 configure a session budget;
+at packaged MCP startup. Canonical integers 1Ã¢â‚¬â€œ256 configure a session budget;
 omitting it retains 64, and aggregate limits remain unchanged. Linux focused run
 `45840796649` passed 37 tests with 2 Windows-only skips, including real stdio MCP
 initialize/navigate/Fidelity-fill/close with an explicit owned fixture allowance.
@@ -77,3 +77,13 @@ The setting does not grant private-network access and is absent from tool argume
 Final local implementation source `929cc25`: 157 passes, 3 platform skips and
 65 browser/native deselections in 199.07 seconds. Wheel and sdist build; the
 setuptools license-metadata deprecation is P2 packaging debt, not a failed build.
+
+Final read-only source review found and reproduced two P1 defects. A 5,000-digit
+integer below the wire byte cap escaped `json.loads` as `ValueError` and terminated
+the stdio server; bounded integer parsing (128 digits) now returns a fixed -32700
+error, and the real-pipe regression proves a subsequent ping succeeds. Concurrent
+`close_all` could miss an already-retiring worker and leave the aggregate pool
+open; shutdown now tracks/awaits shielded termination tasks before pool closure.
+A real-worker gated overlap test failed before the fix and passes after it,
+verifying process/temp cleanup and closed pool. Source fix `7f5c859`; focused
+4-test regression receipt `review-regressions.xml`. Broader reruns pending.

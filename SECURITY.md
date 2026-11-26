@@ -101,7 +101,8 @@ immunity, secret classifier or external security certification is claimed.
 
 The supported CLI transport is UTF-8 newline stdio, limited to 128 KiB per frame
 before SDK JSON decoding, depth 32, 8192 nodes, 2048 entries/container and 64 KiB
-characters/string. Partial frames have a 10-second total deadline, 64 requests
+characters/string; JSON integer literals are capped at 128 digits regardless of
+Python's interpreter-wide integer conversion setting. Partial frames have a 10-second total deadline, 64 requests
 may be active and duplicate active request IDs terminate the connection. Replies
 have an 8 MiB serialized cap and 10-second output-write deadline. SDKs still own
 negotiation, cancellation and request/tool schemas. Unsupported batches are rejected.
