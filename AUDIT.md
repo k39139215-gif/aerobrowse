@@ -160,3 +160,14 @@ parent cancellation. Refactored transport/parser/benchmark/action routines into
 bounded helpers without suppressions. Local tests: 67 passed, 4 Linux-only skips;
 Rust 5 tests and strict Clippy passed. Sonar reanalysis and current-source browser
 CI remain required. Earlier c09500a green engineering CI does not clear Sonar.
+
+## Final verified source checkpoint
+
+384ae9025c696bb4816681eb0b2adb7bca90056c: all 11 engineering jobs passed in
+run 45771375649 and SonarCloud quality gate passed. Eight Python matrices include
+lint/format/types, 66 non-browser tests and package builds. Five Linux browser
+tests passed; native 5 tests, fmt, strict Clippy, release build and cargo-audit
+passed. Local Windows Python: 67 passed, 4 Linux-only skips. Save receipts under
+evidence/ci-384ae90.json, evidence/ci-384ae90-browser/ and evidence/sonar-384ae90.json.
+Final evidence/documentation commit does not change tested source. Production
+acceptance gaps remain as listed in ENGINEERING_REPORT.md; no merge authorized.

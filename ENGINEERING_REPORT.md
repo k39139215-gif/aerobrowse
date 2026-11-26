@@ -68,26 +68,27 @@ restricted environment without host secrets while remaining gates are open.
 
 ## CI and publishing
 
-CI configuration adds Python matrices, lint/types/build, deterministic tests,
-Linux browser fixtures, strict Rust checks and dependency audits. All jobs passed on verified source c09500a; final evidence-only commits must
-be distinguished from that tested source. Local Python dependency advisory scan found no known
-vulnerabilities in the installed environment; evidence/pip-audit.json records the scan. Draft PR will remain unmerged; production
-acceptance cannot be inferred from its creation or a subset of green jobs.
+Source 384ae90 passes SonarCloud's external quality gate, all eight Python
+3.11-3.14 Linux/Windows jobs (lint/format/types/tests/package build), all five
+Linux browser fixtures, and the Python dependency audit. Rust fmt, strict Clippy,
+tests, release build and cargo-audit also pass. All 11 engineering jobs and the
+external SonarCloud quality gate passed. Receipt: evidence/ci-384ae90.json.
+Current run: https://github.com/k39139215-gif/aerobrowse/actions/runs/45771375649.
+Browser receipt: evidence/ci-384ae90-browser/ci-browser.xml.
+Sonar receipt: evidence/sonar-384ae90.json.
 
-Current source checkpoint c09500a: all eight Python matrix jobs and all five
-Linux browser fixtures passed in run 45769090597. Rust/advisory job also passed: all 11 jobs are green.
-Receipt: evidence/ci-c09500a.json; run URL:
-https://github.com/k39139215-gif/aerobrowse/actions/runs/45769090597. Earlier runs reproduced namespace provisioning and label
-extraction failures; these were corrected without skipping Linux tests. All jobs
-passed on the earlier caf543c source, including cargo audit. Final head evidence
-must be checked independently of that earlier success.
+Earlier all-green engineering source c09500a receipts remain historical; they do
+not establish the current external gate status. Subsequent static analysis
+exposed benchmark output overwrite risk, blocking async Rust process management,
+and dependency setup builds. These were corrected with regressions, meaningful
+refactors and wheel-only CI dependencies. No analyzer suppression was introduced.
 
-The local measurement receipt is bound to clean source c09500a; it supersedes an
-earlier dirty-tree receipt. It records tiny controlled fixtures and is not a
-speedup claim. No independent security certification or production readiness
-claim is made. Draft PR: https://github.com/k39139215-gif/aerobrowse/pull/1.
+Local Python: 67 passed, 4 Linux-only skips; Rust: 5 passed, strict Clippy/fmt
+passed. Python wheel/source builds succeed. No known Python dependency advisory
+was found at the recorded scan. Tests are evidence for their covered paths,
+not independent security certification or exhaustive browser egress proof.
 
-Separate SonarCloud gate failed on 4cbfb6d despite passing engineering CI.
-Benchmark path restrictions, asynchronous Rust MCP process management, cancellation
-cleanup and complexity refactors were implemented; final reanalysis is pending.
-Do not interpret the earlier 11-job receipt as a fully green PR status.
+Measurements are bound to clean source c09500a before maintainability refactors;
+no measured performance improvement is claimed for later revisions. See receipt
+limitations and BENCHMARKS.md. Draft PR remains open and unmerged:
+https://github.com/k39139215-gif/aerobrowse/pull/1.
