@@ -161,7 +161,7 @@ def test_keyboard_beforeinput_reentrancy_cannot_write_replacement(live):
 def test_keyboard_cancellation_prevents_edit(live):
     browser, page = live
     page.evaluate(
-        "document.body.innerHTML='<label>Editor<input value=abc></label>';document.querySelector('input').onbeforeinput=e=>e.preventDefault()"
+        "document.body.innerHTML='<label>Editor<input value=abc></label>';document.querySelector('input').onbeforeinput=e=>e.preventDefault();true"
     )
     snapshot = browser.snapshot()
     result = browser.perform(

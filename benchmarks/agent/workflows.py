@@ -15,11 +15,11 @@ class MCPBrowser:
         self.sid = None
         self.loop.run_until_complete(self.client.__aenter__())
 
-    def call(self, name: str, **arguments) -> dict[str, Any]:
-        if self.sid and name not in {"browser_capabilities"}:
+    def call(self, tool_name: str, **arguments) -> dict[str, Any]:
+        if self.sid and tool_name not in {"browser_capabilities"}:
             arguments["session_id"] = self.sid
         result = self.loop.run_until_complete(
-            self.client.call_tool(name, arguments, raise_on_error=False)
+            self.client.call_tool(tool_name, arguments, raise_on_error=False)
         )
         data = result.data
         if not isinstance(data, dict):

@@ -193,3 +193,12 @@ def test_document_language_direction_and_landmarks_are_preserved():
     assert result["language_regions"] == [
         {"language": "he", "direction": "rtl", "text": "שלום"}
     ]
+
+
+def test_scoped_rowgroups_do_not_leak_between_table_sections():
+    result = SemanticPruner().prune(
+        '<table><tbody><tr><th scope="rowgroup">North</th><td>1</td></tr><tr><td>Second</td><td>2</td></tr></tbody><tbody><tr><th scope="rowgroup">South</th><td>3</td></tr></tbody></table>'
+    )
+    rows = result["tables"][0]["rows"]
+    assert [h["text"] for h in rows[1][1]["inferred_headers"]] == ["North"]
+    assert [h["text"] for h in rows[2][1]["inferred_headers"]] == ["South"]

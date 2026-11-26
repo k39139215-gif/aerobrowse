@@ -75,16 +75,47 @@ state.perform = args => {
   if(el.checked!==value)nativeClick.call(el);return {success:true,input_mode:'synthetic_dom'};
  }
  if(op==='press'){
-  if(!['Enter','Escape','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(value))return fail('UNSUPPORTED_CAPABILITY');
+  const named=['Enter','Escape','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End','Control+A','Meta+A'];
+  const literal=typeof value==='string'&&Array.from(value).length===1&&!/[\u0000-\u001f\u007f]/u.test(value);
+  if((!named.includes(value)&&!literal)||value==='Tab')return fail('UNSUPPORTED_CAPABILITY');
   nativeFocus.call(el);const after=check(entry,args.generation);if(after)return fail(after);
-  const accepted=dispatch.call(el,new KeyboardEvent('keydown',{key:value,bubbles:true,cancelable:true}));
+  const selectAll=value==='Control+A'||value==='Meta+A',key=selectAll?'a':value;
+  const eventData={key,bubbles:true,cancelable:true,ctrlKey:value==='Control+A',metaKey:value==='Meta+A'};
+  const accepted=dispatch.call(el,new KeyboardEvent('keydown',eventData));
   if(!el.isConnected||state.document!==document||epoch()!==state.captured)return fail('STALE_ACTION_ID');
+  const editable=['INPUT','TEXTAREA'].includes(el.tagName)&&!el.readOnly&&
+    (el.tagName==='TEXTAREA'||['text','search','url','tel','password','email'].includes(el.type));
+  if(accepted&&editable){
+   const text=el.value,start=el.selectionStart,end=el.selectionEnd;
+   if(start===null||end===null){if(literal||['Backspace','Delete','Home','End','ArrowLeft','ArrowRight'].includes(value)||selectAll)return fail('UNSUPPORTED_CAPABILITY')}
+   else {
+    const setSelection=Object.getPrototypeOf(el)===HTMLTextAreaElement.prototype?HTMLTextAreaElement.prototype.setSelectionRange:HTMLInputElement.prototype.setSelectionRange;
+    if(selectAll)setSelection.call(el,0,text.length);
+    else if(['Home','End','ArrowLeft','ArrowRight'].includes(value)){
+     let position=start;
+     if(value==='Home')position=0;
+     if(value==='End')position=text.length;
+     if(value==='ArrowLeft')position=start!==end?start:start-(Array.from(text.slice(0,start)).pop()?.length||0);
+     if(value==='ArrowRight')position=start!==end?end:end+(Array.from(text.slice(end))[0]?.length||0);
+     setSelection.call(el,position,position);
+    } else if(literal||value==='Backspace'||value==='Delete'||(value==='Enter'&&el.tagName==='TEXTAREA')){
+     let from=start,to=end,data=literal?value:value==='Enter'?'\n':'';
+     const inputType=literal?'insertText':value==='Enter'?'insertLineBreak':value==='Backspace'?'deleteContentBackward':'deleteContentForward';
+     if(start===end&&value==='Backspace')from-=Array.from(text.slice(0,start)).pop()?.length||0;
+     if(start===end&&value==='Delete')to+=(Array.from(text.slice(end))[0]?.length||0);
+     const permitted=dispatch.call(el,new InputEvent('beforeinput',{inputType,data:data||null,bubbles:true,cancelable:true,composed:true}));
+     const changed=check(entry,args.generation);if(changed)return fail(changed);
+     if(el.value!==text||el.selectionStart!==start||el.selectionEnd!==end)return fail('STALE_ACTION_ID');
+     if(permitted){setValue(el,text.slice(0,from)+data+text.slice(to));setSelection.call(el,from+data.length,from+data.length);dispatch.call(el,new InputEvent('input',{inputType,data:data||null,bubbles:true,composed:true}))}
+    }
+   }
+  }
   if(accepted && value==='Enter' && el.tagName==='INPUT' && el.form && !['button','submit','reset','file','checkbox','radio'].includes(el.type)){
    const submitter=[...el.form.elements].find(n=>n.type==='submit'&&!n.disabled);
    if(submitter)nativeClick.call(submitter);else nativeSubmit.call(el.form);
    return {success:true,input_mode:'synthetic_dom'};
   }
-  dispatch.call(el,new KeyboardEvent('keyup',{key:value,bubbles:true}));
+  dispatch.call(el,new KeyboardEvent('keyup',eventData));
   return {success:true,input_mode:'synthetic_dom'};
  }
  return fail('UNSUPPORTED_OPERATION');

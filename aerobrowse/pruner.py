@@ -222,7 +222,7 @@ def _table_cell(
     }
 
 
-def _associate_headers(rows: list[list[dict[str, Any]]]) -> None:
+def _associate_headers(rows: list[list[dict[str, Any]]], groups: list[int]) -> None:
     """Infer common row/column relationships without allocating a span-sized grid.
 
     Explicit headers stay authoritative. These conservative relationships do not
@@ -232,6 +232,8 @@ def _associate_headers(rows: list[list[dict[str, Any]]]) -> None:
     headers: list[dict[str, Any]] = []
     associations = 0
     for row_index, cells in enumerate(rows):
+        if row_index and groups[row_index] != groups[row_index - 1]:
+            active = []
         active = [span for span in active if span[2] > row_index]
         column = 0
         for cell in cells:
@@ -269,6 +271,12 @@ def _associate_headers(rows: list[list[dict[str, Any]]]) -> None:
                         )
                         or (scope == "row" and vertical and header["column"] < column)
                         or (
+                            scope == "rowgroup"
+                            and header["group"] == groups[row_index]
+                            and header["row"] <= row_index
+                            and header["column"] < column
+                        )
+                        or (
                             not scope
                             and (
                                 (header["row"] < row_index and horizontal)
@@ -296,6 +304,7 @@ def _associate_headers(rows: list[list[dict[str, Any]]]) -> None:
                         "end_column": column + width,
                         "end_row": row_index + height,
                         "scope": cell["scope"],
+                        "group": groups[row_index],
                     }
                 )
             if height > 1:
@@ -310,15 +319,18 @@ def _table(table: Tag, indexes: dict[int, int]) -> dict[str, Any]:
         if header.find_parent("table") is table
     }
     rows = []
+    groups = []
     for row in table.find_all("tr"):
         if row.find_parent("table") is table:
+            group = row.find_parent(["thead", "tbody", "tfoot"])
+            groups.append(id(group) if group is not None else id(table))
             rows.append(
                 [
                     _table_cell(cell, table, indexes, own_headers)
                     for cell in row.find_all(["th", "td"], recursive=False)
                 ]
             )
-    _associate_headers(rows)
+    _associate_headers(rows, groups)
     parent = table.find_parent("table")
     parent_cell = table.find_parent(["td", "th"])
     location = None
