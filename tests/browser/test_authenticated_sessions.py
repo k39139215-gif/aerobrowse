@@ -138,11 +138,17 @@ def test_login_redirect_cookie_scopes_logout_and_secret_redaction(login_lab, cap
     # Both Set-Cookie fields must survive the 303; Chromium applies the path rule.
     result = browser.fetch(url + "/private/details")
     assert result["success"], result
-    assert "private=path-scoped" in received[-1][2]
-    assert f"session={COOKIE_SECRET}" in received[-1][2]
+    private_cookies = next(
+        cookies for _, path, cookies in reversed(received) if path == "/private/details"
+    )
+    assert "private=path-scoped" in private_cookies
+    assert f"session={COOKIE_SECRET}" in private_cookies
     result = browser.fetch(url + "/public")
     assert result["success"], result
-    assert "private=" not in received[-1][2]
+    public_cookies = next(
+        cookies for _, path, cookies in reversed(received) if path == "/public"
+    )
+    assert "private=" not in public_cookies
     result = browser.fetch(url + "/logout")
     assert result["success"], result
     result = browser.fetch(url + "/account")
