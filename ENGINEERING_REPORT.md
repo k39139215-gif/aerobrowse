@@ -209,7 +209,7 @@ normalizing checkout line endings. Focused delegated Linux run `45860943458`
 passed 14 workflow/auth/storage/error-document tests, followed by 38 runtime
 passes and 2 Windows-only skips. Full final-source CI, including the Python
 matrix, Rust, broader security/framework suite, concurrency measurements and
-30-minute soak, is running in final PR run `45864277407`. Earlier green runs do not certify changed code.
+30-minute soak, passed in final PR run `45864277407`. Earlier green runs do not certify changed code.
 Actual-model evaluation is `NOT_RUN`: `OPENAI_API_KEY` and
 `AEROBROWSE_EVAL_MODEL` are missing.
 
@@ -240,7 +240,7 @@ model harness separately counts complete serialized MCP tool envelopes.
 
 Fixed and verified in the declared controlled scope: authentication, forms, tabs,
 history, stale recovery, runtime quotas, output/recovery metadata and benchmark
-guards. The complete final-source cleanup soak remains in progress. Partial: general extraction recall and capacity/fairness. Not implemented: native
+guards. The complete final-source cleanup soak passed. Partial: general extraction recall and capacity/fairness. Not implemented: native
 Rust live browser parity, trusted physical input, file transfer, WebSockets, service
 workers, HTTP Authorization. Known limitations: Linux-only Fidelity; host operator
 must provision cgroup/namespaces; independent SDK instances need enclosing aggregate
@@ -270,3 +270,46 @@ Reported operation medians use the harness's documented nearest-rank50th
 percentile (lower middle sample for even counts),not the arithmetic mean of two
 middle samples. Raw counts,failure rates,p50/p90/p95/p99 values and concurrent-task
 throughput/unique-session/reaping assertions were recomputed and matched.
+
+## Final agent-continuation acceptance evidence
+
+Full run [45864277407](https://github.com/k39139215-gif/aerobrowse/actions/runs/45864277407)
+is **SUCCESS** at head0530488, tested PR merge1f59be05. All81 indexed
+implementation/test/workflow/benchmark Git blobs match the branch source.
+Later commits contain documentation and evidence only. Both draft PRs remain
+unmerged; no package release or production-readiness claim is made.
+
+| Metric | Before | Final observation | Evidence |
+|---|---|---|---|
+| Security findings | Original unsafe network/action/session paths in AUDIT.md | Declared regression-covered fixes pass; independent review, auxiliary-target assessment and2 analyzer findings remain open | AUDIT.md,PHASE2_AUDIT.md,ACCEPTANCE.md |
+| Python tests | Historical67 passes/4 skips | Each of8 Linux/Windows Python3.11-3.14 jobs:206 passes/21 skips; browser68 passes/0 skips; kernel38 passes/2 Windows-only skips | ci-0530488/full/ receipts |
+| Rust tests |5 native units |5 native units+18 actual compiled native/Python refusal contracts; fmt,strict Clippy,release,audit pass | ci-0530488/rust.log and final-run.json |
+| Warm Turbo latency | No comparable baseline | nearest-rank p50 4.324 ms,p95 4.755 ms,n100 | final browser/phase2/benchmark-linux.json |
+| Warm Fidelity latency | No comparable baseline | nearest-rank p50 34.545 ms,p95 38.625 ms,n99 | same final benchmark |
+| Peak RAM | No comparable baseline | sampled tree maximum1,472,843,776 bytes across complete operation/load run;20 ms sampling,not exact peak | same final benchmark |
+| Token reduction | Character estimates/Markdown-only | Long synthetic article1913 HTML/1504 Markdown/1820 complete JSON tokens;4.86% complete reduction;small fixtures expand | token-fixtures-source0530488.json |
+| Concurrent sessions | Complete tasks unmeasured |6 complete tasks/2 workers/10.982 seconds;0.546 tasks/s;all reaped | final browser/agent/concurrency.json |
+| Cleanup soak | No comparable baseline |739 sequential successful cycles over1801.544 seconds;zero observed orphans/permanent slots | final browser/phase2/soak-linux.json and.jsonl |
+
+Final operation p50: snapshot9.836 ms,click11.162 ms,fill11.111 ms,n100 each.
+One actual handoff859.873 ms is a single observation,not a latency distribution.
+Raw1,133 rows reproduce all16 p50/p90/p95/p99/sample/failure summaries. Complete
+load receipt reproduces task throughput,six unique sessions and all reaping flags.
+Every739 soak row reports success,zero active sessions and zero descendants after
+cleanup. Parent RSS first85,094,400,last/max86,003,712 bytes; this is controller
+RSS at cycle completion,not peak browser RAM or an indefinite leak proof.
+
+The21 non-browser skips are18 native contracts run separately by Rust CI,2
+Windows quota-denial scenarios covered by platform/runtime tests,and1 namespace
+launch scenario covered by required Linux browser CI. They are not unreported
+passes. The final Linux runtime suite separately skips2 Windows-only tests.
+
+Fixed and verified: declared public HTTP/network,action identity,hybrid handoff,
+owned process/session lifecycle,controlled authentication/tabs/history/forms,
+semantic edge regressions and deterministic measurements. Partial: broad site
+recall,resource fairness,complete observability and auxiliary browser compatibility.
+Not implemented: native Rust live-browser parity,trusted physical events,file
+transfer,WebSockets,service workers,HTTP Authorization. Not independently verified:
+external security assessment and production load. Actual-model evaluation remains
+NOT_RUN without explicit credentials/model. These open items prevent production
+acceptance; no scope exclusions are approved.

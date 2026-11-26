@@ -5,10 +5,12 @@ not satisfy the unimplemented or unverified scope in ACCEPTANCE.md.
 
 ## Current agent continuation
 
-Source: `dac1c1db4146f5b4053b3cc1d97e347ca1250578`. Production modules match
-`3e1d399994638a9d08269b642f5c306ce317a1c4` after CRLF normalization; later source
-changes affect the model harness and a storage-isolation test. Source Git-blob and
-checkout hashes: `evidence/agent/source-dac1c1d.json`.
+Current source: `05304886c5e4d871c5dbca0c61c496e996fe7ac9`.
+Tested PR merge: `1f59be05ab65a38c75a3b510785bd6904aef05c5`.
+All 81 indexed implementation/test/workflow/benchmark Git blobs match. Production
+modules also match `3e1d399` after CRLF normalization. Later commits contain
+only documentation and evidence. Bindings: `evidence/agent/source-0530488.json`
+and `evidence/agent/ci-0530488/verified-merge-source.json`.
 
 | Gate | Result | Receipt |
 |---|---|---|
@@ -20,7 +22,7 @@ checkout hashes: `evidence/agent/source-dac1c1d.json`.
 | Package | Wheel and sdist build;18 wheel modules match checkout | evidence/agent/build-match-source3e1d399.json |
 | Actual-model evaluation | NOT_RUN: missing explicit key/model | evidence/agent/model-evaluation-sourcedac1c1d.json |
 | Corrected measurements | Complete at0530488;6 tasks/2 workers, operation rows correctly identify engine | run45864267717; evidence/agent/ci-0530488/runtime/ |
-| Full final-source CI | Python matrix, Rust and dependencies green; browser cleanup soak running | run45864277407 |
+| Full final-source CI | SUCCESS:8 Python jobs,Rust,dependencies,browser68 passes,kernel38 passes/2 skips;739-cycle1801.544s soak | run45864277407 |
 
 Receipt SHA256 and byte lengths: `evidence/agent/receipt-manifest.json`.
 This is local provenance bookkeeping, not independent custody certification.
@@ -69,3 +71,10 @@ tasks use six unique sessions and all worker reaping flags are true. Token fixtu
 refresh:`evidence/agent/token-fixtures-source0530488.json` contains24 rows with
 both Markdown and complete canonical extraction-output costs under3 tokenizers.
 The small fixtures expand after metadata; no fixed token-savings claim applies.
+
+Final full CI run45864277407 is SUCCESS at head0530488/tested merge1f59be05.
+Browser68 passes/0 skips;kernel38 passes/2 Windows-only skips;all8 Python jobs
+206 passes/21 explained skips;strict Rust/dependency gates pass. Soak739 cycles
+in1801.544 seconds,zero observed orphan processes/permanent slots. All raw rows
+and81 tested implementation Git blobs verified. See ENGINEERING_REPORT.md for
+final before/after table,limits and remaining NOT_PRODUCTION_READY scope.

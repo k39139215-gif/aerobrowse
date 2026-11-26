@@ -1,0 +1,25 @@
+{
+  "duration_seconds": 1801.5436499210002,
+  "iterations": 739,
+  "raw_path": "evidence/phase2/soak-linux.jsonl",
+  "max_parent_rss_bytes": 86003712,
+  "first_parent_rss_bytes": 85094400,
+  "last_parent_rss_bytes": 86003712,
+  "orphan_processes": 0,
+  "permanently_occupied_slots": 0,
+  "configuration": {
+    "requested_seconds": 1800,
+    "max_sessions": 2,
+    "session_task_limit": 256,
+    "aggregate_task_limit": 256
+  },
+  "limitations": [
+    "single owned synthetic fixture and sequential lifecycle; not adversarial infinite allocation",
+    "parent RSS sampled at completed iterations; kernel cgroup enforces worker quota",
+    "boundedness measured over this duration only; not a proof for indefinite operation"
+  ],
+  "revision": "1f59be05ab65a38c75a3b510785bd6904aef05c5",
+  "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+  "python": "3.12.16",
+  "pid": 18144
+}

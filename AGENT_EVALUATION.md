@@ -26,7 +26,7 @@ submission. Concurrent complete tasks run via `python -m benchmarks.agent.concur
 They measure a tiny owned workload and do not establish production capacity,
 fairness, indefinite stability or general autonomous-agent success.
 
-The latest source, `dac1c1d`, passed the focused delegated Linux run
+An earlier source checkpoint, `dac1c1d`, passed the focused delegated Linux run
 `45860943458`: 14 workflow, authentication, storage and error-document tests;
 38 runtime passes and 2 Windows-only skips. The production Python source matches
 `3e1d399` after CRLF normalization. The latest changes affect the harness/tests.
@@ -36,7 +36,7 @@ Local verification: 206 Python tests passed, with 21 native/platform skips and
 mypy and wheel/sdist build passed; all 18 wheel modules match the checkout.
 Corrected measurement source `0530488` passed the focused workflow/kernel and
 benchmark run `45864267717`. Full final-source CI `45864277407` has passed its
-Python matrix, Rust and dependency gates; the mandatory cleanup soak is running. These are scripted
+Python matrix,Rust,dependency and browser gates,including the mandatory cleanup soak. These are scripted
 results, not model success. Historical phase2 evidence is kept separately.
 
 The harness records complete content+structuredContent+isError+_meta envelopes,
@@ -47,3 +47,10 @@ cleanup marked explicitly. No provider error bodies or API credentials are store
 Retry count means error-bearing tool attempts, not an inferred reasoning retry;
 incorrect-action count covers observable validation/type failures, not all possible
 semantic mistakes. Independent fixture verdicts determine task completion.
+
+Final full CI run45864277407 is SUCCESS at head0530488/tested merge1f59be05.
+Browser68 passes/0 skips;kernel38 passes/2 Windows-only skips;all8 Python jobs
+206 passes/21 explained skips;strict Rust/dependency gates pass. Soak739 cycles
+in1801.544 seconds,zero observed orphan processes/permanent slots. All raw rows
+and81 tested implementation Git blobs verified. See ENGINEERING_REPORT.md for
+final before/after table,limits and remaining NOT_PRODUCTION_READY scope.

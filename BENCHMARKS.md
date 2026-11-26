@@ -199,3 +199,12 @@ with tokenizer version,quality and missing-content indicators:
 are not a validated production recall score. Runtime output is measured after
 live actions and session metadata are added; the actual-model harness measures
 complete tool-result content+structuredContent envelopes when configured.
+
+Final full PR run45864277407 (head0530488,tested merge1f59be05) also passed.
+Its separate observations: warm Turbo p50/p95 4.324/4.755 ms,n100;warm Fidelity
+34.545/38.625 ms,n99;snapshot9.836,click11.162,fill11.111 ms,n100 each;
+sampled tree maximum1,472,843,776 bytes. Six complete tasks with2 workers took
+10.982 seconds,0.546 tasks/s,all reaped. Soak739 cycles/1801.544 seconds,all raw
+rows successful and cleaned. No comparable baseline,speedup,exact peak,indefinite
+leak or public-site capacity claim. Receipts:ci-0530488/full/browser/. Earlier
+focused measurements above are retained as a separate observation,not pooled.

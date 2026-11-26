@@ -129,6 +129,13 @@ retaining mandatory namespace isolation. Error documents fail explicitly.
 At dac1c1d,focused Linux run45860943458 passed14 workflow/auth/storage/error-page
 checks and38 runtime checks,with2 Windows-only skips. Corrected measurement
 source0530488 passed run45864267717. Final PR run45864277407 has passed all
-Python matrix,Rust and dependency jobs; only its mandatory cleanup soak is running. Actual LLM evaluation is NOT_RUN without explicit key/model.
+Python matrix,Rust and dependency jobs; all jobs,including the mandatory cleanup soak,passed. Actual LLM evaluation is NOT_RUN without explicit key/model.
 See VERIFICATION.md,AGENT_EVALUATION.md and ENGINEERING_REPORT.md. None of these
 changes closes native Rust browser parity or independent security assessment.
+
+Final full CI run45864277407 is SUCCESS at head0530488/tested merge1f59be05.
+Browser68 passes/0 skips;kernel38 passes/2 Windows-only skips;all8 Python jobs
+206 passes/21 explained skips;strict Rust/dependency gates pass. Soak739 cycles
+in1801.544 seconds,zero observed orphan processes/permanent slots. All raw rows
+and81 tested implementation Git blobs verified. See ENGINEERING_REPORT.md for
+final before/after table,limits and remaining NOT_PRODUCTION_READY scope.

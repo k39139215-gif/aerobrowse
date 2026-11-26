@@ -37,8 +37,8 @@ where safe completion is absent; a draft PR does not establish production readin
 
 ## Agent usability continuation acceptance
 
-Latest implementation/benchmark checkpoint: `0530488`. Full CI is running in
-`45864277407`; only its mandatory cleanup soak remains. Historical green
+Latest implementation/benchmark checkpoint: `0530488`. Full CI completed SUCCESS in
+`45864277407`; all jobs,including its mandatory cleanup soak,passed. Historical green
 receipts do not certify changed code. Focused delegated Linux run `45860943458`
 passed 14 workflow/auth/storage/error-document tests and 38 runtime tests, with
 2 Windows-only skips. Downloaded XML receipts are authoritative.
@@ -61,3 +61,10 @@ General public-site task completion, trusted physical events,file uploads,downlo
 WebSockets,service workers,HTTP Authorization,persistent host profiles,remote MCP,
 production saturation/fairness and independent security assessment remain unsupported
 or unverified. No merge/release authorized or performed.
+
+Final full CI run45864277407 is SUCCESS at head0530488/tested merge1f59be05.
+Browser68 passes/0 skips;kernel38 passes/2 Windows-only skips;all8 Python jobs
+206 passes/21 explained skips;strict Rust/dependency gates pass. Soak739 cycles
+in1801.544 seconds,zero observed orphan processes/permanent slots. All raw rows
+and81 tested implementation Git blobs verified. See ENGINEERING_REPORT.md for
+final before/after table,limits and remaining NOT_PRODUCTION_READY scope.
