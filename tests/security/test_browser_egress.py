@@ -53,6 +53,8 @@ def test_direct_egress_without_playwright_route_is_blocked(attack_lab):
     assert lab["browser"].fetch(lab["allowed"])["success"]
     context = lab["browser"]._fidelity.current_context
     context.unroute("**/*")
+    for session in lab["browser"]._fidelity._brokers.values():
+        session.detach()
     result = context.pages[0].evaluate(
         "u=>fetch(u).then(()=>false).catch(()=>true)", lab["forbidden"] + "/direct"
     )

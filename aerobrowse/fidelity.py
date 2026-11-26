@@ -11,6 +11,7 @@ from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 
 from aerobrowse.actions import ActionContext
+from aerobrowse.cdp_broker import install as install_broker
 from aerobrowse.errors import AeroError
 from aerobrowse.isolation import IsolatedLauncher
 from aerobrowse.pruner import SemanticPruner
@@ -41,6 +42,7 @@ class FidelityEngine:
         self._redirects = 0
         self._action_context: ActionContext | None = None
         self._tabs: dict[str, Any] = {}
+        self._brokers: dict[Any, Any] = {}
         self._creating_page = False
         self._pending_pages: list[Any] = []
         self.max_tabs = 8
@@ -80,7 +82,6 @@ class FidelityEngine:
                     viewport={"width": 1280, "height": 800},
                 )
                 self.current_context.set_default_timeout(5000)
-                self.current_context.route("**/*", self._broker)
                 self.current_context.route_web_socket("**/*", lambda ws: ws.close())
                 self.current_context.on("page", self._new_page)
                 self.current_page = self._open_page()
@@ -105,6 +106,9 @@ class FidelityEngine:
         self._creating_page = True
         try:
             page = self.current_context.new_page()
+            self._brokers[page] = install_broker(
+                page, self._broker, self._broker_failed
+            )
         except PlaywrightError:
             pending, self._pending_pages = self._pending_pages, []
             for candidate in pending:
@@ -127,6 +131,7 @@ class FidelityEngine:
         return page
 
     def _tab_closed(self, tab_id: str, page: Any) -> None:
+        self._brokers.pop(page, None)
         self._tabs.pop(tab_id, None)
         if page == self.current_page:
             self._invalidate()
@@ -261,6 +266,9 @@ class FidelityEngine:
                 "NAVIGATION_FAILED", "Reload failed; request a fresh snapshot"
             ).result()
 
+    def _broker_failed(self, error: AeroError) -> None:
+        self._network_error = error
+
     def _broker(self, route: Any) -> None:
         try:
             request = route.request
@@ -362,6 +370,12 @@ class FidelityEngine:
             if live.get("error"):
                 self._invalidate()
                 raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
+            if not live["url"].startswith(("http://", "https://")):
+                raise AeroError(
+                    "NAVIGATION_FAILED", "Browser has no supported live HTTP document"
+                )
+            if self._network_error:
+                raise self._network_error
             html = live["html"]
             if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
                 self._invalidate()
@@ -499,5 +513,6 @@ class FidelityEngine:
                     )
         self.current_page = None
         self._tabs.clear()
+        self._brokers.clear()
         self._pending_pages.clear()
         self.launcher.close()
