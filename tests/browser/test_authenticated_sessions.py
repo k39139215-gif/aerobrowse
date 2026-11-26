@@ -78,6 +78,23 @@ def login_lab():
         default_mode="fidelity",
         policy=NetworkPolicy(allow_networks=("127.0.0.1/32", "127.0.0.2/32")),
     )
+    trace = []
+    engine = browser._get_fidelity()
+    original_broker = engine._broker
+
+    def traced(route):
+        from urllib.parse import urlsplit
+
+        trace.append(
+            (
+                route.request.method,
+                urlsplit(route.request.url).path,
+                route.request.resource_type,
+            )
+        )
+        return original_broker(route)
+
+    engine._broker = traced
     try:
         yield (
             browser,
@@ -85,6 +102,7 @@ def login_lab():
             received,
         )
     finally:
+        print("OWNED_ROUTE_TRACE", trace)
         browser.close()
         for server in servers:
             server.shutdown()
@@ -103,6 +121,8 @@ def sign_in(browser, url):
     submit = next(a for a in filled["actions"] if a["tag"] == "button")
     clicked = browser.click(submit["id"], filled["generation"])
     page = browser._fidelity.current_page
+    assert clicked.get("success"), clicked
+    assert not page.url.startswith("chrome-error:"), (clicked.get("error"), page.url)
     page.wait_for_url(url + "/account")
     result = browser.snapshot()
     assert result["success"], (clicked, result)

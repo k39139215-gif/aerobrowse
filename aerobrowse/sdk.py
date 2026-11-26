@@ -67,8 +67,15 @@ class AeroBrowser:
                 result = exc.result()
                 if exc.code.startswith("WORKER_"):
                     self.close()
+            except (OSError, ValueError):
+                self.close()
+                result = AeroError(
+                    "WORKER_CRASHED",
+                    "Browser worker disconnected; create a new browser",
+                ).result()
             finally:
                 timer.cancel()
+                timer.join()
             if expired.is_set():
                 self.close()
                 result = AeroError(
