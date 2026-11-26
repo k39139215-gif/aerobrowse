@@ -48,3 +48,8 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
   3 platform skips, 65 browser/native deselections, Windows/Python 3.12.
 - build-source929.json: wheel/sdist succeeded and all 16 package modules present;
   artifact hashes and packaging deprecation recorded, no publication.
+
+- runtime-7f5c859/runtime-boundary.xml: corrected source `7f5c859`, 38 Linux passes,
+  2 Windows-only skips, including actual shutdown overlapping a retiring worker.
+- review-regressions.xml: four focused regressions after both defects were first
+  reproduced as failures; real stdio recovery and gated real process termination.

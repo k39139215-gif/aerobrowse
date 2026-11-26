@@ -60,7 +60,7 @@ failed before execution. Phase-two baseline at PR #1 head had 67 Python passes,
 | Gate | Verified result | Revision and evidence |
 |---|---|---|
 | Local Python suite | 146 passes, 2 platform skips, 64 browser/native deselections | source through `fe159f9`; `evidence/phase2/python-final-reviewed.xml` |
-| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
+| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
 | Rust | Formatting, strict Clippy, tests, release build, native contract and dependency audit pass | green run `45833263200`; final-source rerun tracked separately |
 | Linux browser boundary/actions/frameworks | 43 passes, zero skips | `evidence/phase2/ci-f1ce086/ci-browser.xml` |
 | Linux kernel/runtime suite | 19 passes, 2 Windows-only skips | `ci-f1ce086/phase2/ci-runtime-kernel.xml` |
@@ -151,7 +151,7 @@ for these requirements. `AUDIT.md` and Git history preserve earlier findings;
 ## Operator configuration verification
 
 Source `929cc25` adds operator-only `AEROBROWSE_SESSION_TASKS` configuration for
-the packaged MCP command. Canonical integers 1ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“256 are accepted; absence retains
+the packaged MCP command. Canonical integers 1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ256 are accepted; absence retains
 64. Aggregate task, memory and CPU ceilings stay unchanged. Eleven negative/default/
 ceiling configuration checks pass locally. Linux run `45840796649` passed 37 tests with 2 Windows-only skips, including real
 stdio MCP initialize/navigate/Fidelity-fill/close flow with an explicit owned fixture
@@ -181,3 +181,9 @@ the aggregate pool. A gated real-worker close/shutdown overlap test failed befor
 the fix, then passed with worker/temp cleanup and closed-pool assertions. Four
 focused regressions pass; this later source needs fresh broader CI/soak receipts.
 Earlier results remain explicitly bound to their tested revisions.
+
+Corrected-source Linux run `45842826008` passed **38 runtime tests with 2 Windows-only
+skips**, including the overlapping real-worker close/shutdown regression, actual
+MCP stdio browser flow, crash recovery and quota controls. Receipt:
+`runtime-7f5c859/runtime-boundary.xml`. The framing/integer recovery path separately
+passed the real-pipe focused regression; broader local MCP/runtime rerun is active.
