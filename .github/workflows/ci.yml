@@ -55,6 +55,8 @@ jobs:
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           unshare --user --map-root-user --net -- python -c "import socket; assert socket.if_nameindex() == [(1, 'lo')]"
       - name: Verify isolated browser fixtures
+        env:
+          DEBUG: pw:browser
         run: uv run --no-sync python -m pytest -m browser -v --junitxml=evidence/ci-browser.xml
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
