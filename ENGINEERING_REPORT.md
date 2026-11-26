@@ -60,7 +60,7 @@ failed before execution. Phase-two baseline at PR #1 head had 67 Python passes,
 | Gate | Verified result | Revision and evidence |
 |---|---|---|
 | Local Python suite | 146 passes, 2 platform skips, 64 browser/native deselections | source through `fe159f9`; `evidence/phase2/python-final-reviewed.xml` |
-| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11â€“3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
+| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11Ã¢â‚¬â€œ3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
 | Rust | Formatting, strict Clippy, tests, release build, native contract and dependency audit pass | green run `45833263200`; final-source rerun tracked separately |
 | Linux browser boundary/actions/frameworks | 43 passes, zero skips | `evidence/phase2/ci-f1ce086/ci-browser.xml` |
 | Linux kernel/runtime suite | 19 passes, 2 Windows-only skips | `ci-f1ce086/phase2/ci-runtime-kernel.xml` |
@@ -151,10 +151,16 @@ for these requirements. `AUDIT.md` and Git history preserve earlier findings;
 ## Operator configuration verification
 
 Source `929cc25` adds operator-only `AEROBROWSE_SESSION_TASKS` configuration for
-the packaged MCP command. Canonical integers 1–256 are accepted; absence retains
+the packaged MCP command. Canonical integers 1â€“256 are accepted; absence retains
 64. Aggregate task, memory and CPU ceilings stay unchanged. Eleven negative/default/
-ceiling configuration checks pass locally. Linux run `45840796649` passes the real
+ceiling configuration checks pass locally. Linux run `45840796649` passed 37 tests with 2 Windows-only skips, including real
 stdio MCP initialize/navigate/Fidelity-fill/close flow with an explicit owned fixture
 allowance and the operator budget, alongside the existing kernel/crash regressions.
 The network allowance is trusted fixture setup, never an MCP client argument.
 This source change does not assert that more concurrent browsers fit the pool.
+
+The final combined local MCP/runtime rerun passed 58 tests with 3 platform skips
+and 27 browser/native deselections (`mcp-runtime-operator.xml`). The full local
+source rerun remains active; these overlapping focused tests are not added to the
+full-suite count. Source/receipt hashes were verified against 49 committed Git
+blobs without mismatch; this establishes integrity, not independent assessment.
