@@ -2,10 +2,11 @@
 
 **Release recommendation: NOT_PRODUCTION_READY.**
 
-Source fixes, tests, CI and evidence are implemented on the draft follow-up branch
-`fix/phase2-adversarial-validation`, targeting `fix/production-hardening`. Original
-draft PR #1 remains at `943ca57e9ef8ef5c4993a0aff25a8b8539e42713`. Main is unchanged;
-neither PR is merged. No package publication or version change was made.
+Implementation source: `7f5c859fc72cf6473890751c7809f15c3889a50f`.
+Active full CI receipt head: `582b74c4d39976dfa16a37a6523ca99bb5a0109d`.
+All 72 tracked implementation/test/CI/benchmark files match that active head.
+Draft follow-up PR #2 targets `fix/production-hardening`; original draft PR #1
+against main remains unchanged. No PR merge, package publication or version change.
 
 ## Implemented behavior
 
@@ -50,60 +51,78 @@ neither PR is merged. No package publication or version change was made.
 See `SECURITY.md`, `COMPATIBILITY.md`, `docs/ENGINE_PARITY.md` and
 `SECURITY_REVIEW_PACKAGE.md` for exact contracts, assumptions and reproduction.
 
-## Verification and evidence
+## Current verification
 
-The original repository baseline was `44f3e73409d3f0c4e6e376f0c98198abd00ccc0f`:
-Python 5 passes, with live third-party dependencies; the original Rust toolchain
-failed before execution. Phase-two baseline at PR #1 head had 67 Python passes,
-4 platform skips and 5 Rust tests. These are different baselines and are not added.
+Original baseline `44f3e734`: 5 Python passes with live third-party dependencies;
+Rust could not execute because the installed toolchain was broken. Phase-two
+baseline at PR #1 head `943ca57e`: 67 Python passes, 4 platform skips, 5 Rust tests.
+These are different scopes and are not added.
 
-| Gate | Verified result | Revision and evidence |
+| Gate | Latest verified result | Source and evidence |
 |---|---|---|
-| Local Python suite | 146 passes, 2 platform skips, 64 browser/native deselections | source through `fe159f9`; `evidence/phase2/python-final-reviewed.xml` |
-| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
-| Rust | Formatting, strict Clippy, tests, release build, native contract and dependency audit pass | green run `45833263200`; final-source rerun tracked separately |
-| Linux browser boundary/actions/frameworks | 43 passes, zero skips | `evidence/phase2/ci-f1ce086/ci-browser.xml` |
-| Linux kernel/runtime suite | 19 passes, 2 Windows-only skips | `ci-f1ce086/phase2/ci-runtime-kernel.xml` |
-| Final focused Linux runtime | 25 passes, 2 Windows-only skips | source `c963127`, run `45837608925`; `runtime-c963127/runtime-boundary.xml` |
-| Final Windows runtime | 16 passes, 3 Linux-only skips, 8 browser deselections | `runtime-final-windows.xml` |
-| MCP framing/deadlines | 15 passes using real subprocess pipes | `protocol-final-reviewed.xml` |
-| MCP malformed/session concurrency | 16 focused passes | `mcp-session-recheck.xml`; these overlap the full suite |
-| Native/Python refusal contract | 18 passes against a real built native executable | `native-contract.xml`; narrower negative contract, not full parity |
-| Required supervised browser soak | 1,800.735 seconds, 931 successful lifecycle/action iterations | source `f1ce086`, run `45833263200`; raw and summary below |
-| External analyzer | Two private-tmpfs path findings remain open | Sonar quality gate is not green; no suppression applied |
+| Full local Python | 161 passed, 3 platform skips, 65 browser/native deselections; 210.94 seconds | implementation `7f5c859`; `python-source7f-final.xml` |
+| Python matrix | All 8 Linux/Windows Python 3.11 through 3.14 jobs pass | active full run `45843650844`, head `582b74c` |
+| Rust | fmt, strict Clippy, tests, release build, native refusal contract and audit pass | same active run, Rust job completed |
+| Dependency audit | Pass | same active run |
+| Linux runtime | 38 passed, 2 Windows-only skips | implementation `7f5c859`, run `45842826008`; `runtime-7f5c859/runtime-boundary.xml` |
+| Broader local MCP/runtime | 62 passed, 3 platform skips, 27 browser/native deselections | `review-suites.xml`; overlaps full suite |
+| Final review regressions | 4 passed after both defects were reproduced as failures | `review-regressions.xml`; real stdio and real worker |
+| Native refusal contract | 18 passed against actual compiled native executable | `native-contract.xml`; negative contract, not full browser parity |
+| Package | Wheel and sdist build; all 16 module bytes match implementation | `build-reviewed.json`; license metadata deprecation remains |
+| Current browser/soak job | Browser tests/benchmarks completed; mandatory 30-minute soak active from 15:00:33 UTC | run `45843650844`; completion not yet counted |
+| Sonar | Two private-tmpfs path findings remain open | Analyzer gate red; no suppression |
 
-Receipts live under `evidence/phase2/`. `VERIFICATION.md` indexes them;
-`receipt-manifest.json` records hashes. These are integrity aids, not independent
-custody or assessment. CI may use a synthetic PR merge checkout; the raw receipt
-records that checkout. Skipped/deselected tests are not passes. Repeated/focused
-suites must not be summed as unique tests. Failed intermediate receipts are retained.
+Receipts are under `evidence/phase2/`; `VERIFICATION.md` indexes them and
+`receipt-manifest.json` hashes them. All 95 manifest entries were checked for hash
+and byte-length equality. This is integrity evidence, not independent custody or
+assessment. CI may run a synthetic PR merge; raw receipts record that checkout.
+Skipped/deselected tests are not passes. Focused suites overlap and must not be
+summed. Failed intermediate runs are retained.
 
-The final runtime gate kills the actual main browser process and all owned
-renderers, verifies failure of the old action, cleanup and fresh-session navigation.
-Renderer recovery uses the request deadline (3 seconds in the test), not immediate
-crash notification. Linux parent death verifies worker termination plus cgroup and
-temporary-directory removal. Kernel tests observe actual OOM kill and denied forks.
+## Verified changes from final review
 
-## Thirty-minute soak
+A 5,000-digit JSON integer below the wire cap previously escaped the decoder and
+terminated MCP. Integer literals are now capped at 128 digits independently of
+Python's global setting; fixed parse errors are followed by a successful real-pipe
+ping. Concurrent shutdown previously missed workers already retiring. It now tracks
+and awaits shielded cleanup before closing the aggregate pool. A real-worker
+close/shutdown overlap test failed before the fix and passes with process/temp
+cleanup and closed-pool assertions. The read-only recheck found no additional
+issue in those paths; runtime regressions and CI supply the execution evidence.
 
-The green run used source `f1ce086`, synthetic merge checkout
-`1710acaf4f4f0e877a53653f525939b688143b51`, Linux x86_64 and Python 3.12.16.
-It completed 931 sequential navigate/fill/click/close cycles over 1,800.735 seconds.
-All 931 raw rows match the summary and record zero remaining descendants and zero
-active sessions after cleanup. No orphan processes or permanently occupied slots
-were observed. Parent controller RSS after cleanup rose from 44,367,872 bytes to
-45,510,656 bytes, which was also its observed maximum.
+Operator-only `AEROBROWSE_SESSION_TASKS` accepts canonical integers 1 through 256;
+absence retains 64, aggregate CPU/memory/task ceilings remain unchanged. Invalid
+values fail startup. The real Linux stdio MCP initialize/navigate/Fidelity-fill/
+close flow passes with the explicit budget and a trusted owned-fixture allowance.
+MCP clients cannot alter those permissions. More than one concurrent browser is
+not established by this configuration.
 
-This is one owned synthetic fixture, a 256-task session budget and unchanged
-256-task aggregate ceiling, with `max_sessions=2`. It is not concurrent browser
-load, a browser peak-memory measurement or indefinite leak freedom. The later source
-has an independently passing runtime gate; its full repeated soak is still active
-until a separate completion receipt is recorded.
+Crash tests kill the actual browser process and all owned renderers, then verify
+old action failure, cleanup and fresh-session navigation. Renderer recovery uses
+the operation deadline (3 seconds in its test), not immediate crash notification.
+Linux parent death verifies cgroup/temp removal. Kernel tests observe actual OOM
+kills and denied forks. The direct SDK has no equivalent supervised quotas.
 
-The first soak failed immediately. The default Linux 64-task session cap rejected
-Chromium thread creation: `pids.events.max=66`, `oom_kill=0`. Default and aggregate
-caps were retained. Browser acceptance/soak declares the larger session budget;
-low-budget exhaustion returns `WORKER_RESOURCE_LIMIT` and retires its session.
+## Completed historical full runs
+
+| Source / full run | Browser / runtime | Soak | Controller RSS after cleanup |
+|---|---|---|---|
+| `f1ce086` / `45833263200` | 43 browser passes; 19 runtime passes, 2 platform skips | 931 successful cycles / 1,800.735 seconds | 44,367,872 to 45,510,656 bytes; last equals max |
+| `c963127` / `45837621519` | 46 browser passes; 25 runtime passes, 2 platform skips | 1,068 successful cycles / 1,801.102 seconds | 44,494,848 to 45,756,416 bytes; last equals max |
+
+Both full runs are green, including eight Python jobs, Rust and dependency audits.
+Every raw soak row matches its summary and records zero descendants/active sessions
+after close. Zero orphan processes or permanently occupied slots were observed.
+These runs precede final operator/review fixes and do not certify later source.
+Current reviewed-source full run requires its own completion receipt; at report update, its mandatory soak is active and not counted.
+
+Scope: one owned sequential navigate/fill/click/close fixture, 256-task session and
+unchanged 256-task aggregate ceiling, `max_sessions=2`. This is not concurrent
+browser load, browser peak memory or indefinite leak freedom. Initial soak failed
+immediately under the default 64-task session cap: `pids.events.max=66`,
+`oom_kill=0`. Defaults/aggregate caps remain; browser acceptance explicitly chooses
+the larger session budget. Exhaustion returns `WORKER_RESOURCE_LIMIT` and retires
+its slot. Failed soak evidence is never counted as successful duration.
 
 ## Measurements
 
@@ -115,7 +134,7 @@ configuration are in `ci-f1ce086/phase2/benchmark-linux.json`.
 | Metric | Before | Observed after | Evidence and limit |
 |---|---|---|---|
 | Security findings | Original confirmed P0s in `AUDIT.md` | Implemented controls with remaining P0/P1 scope gaps | `PHASE2_AUDIT.md`; no invented closed-finding count |
-| Python tests | Original 5; phase-two 67 | Local 146 passes; full matrix passes at stated revisions | JUnit and CI above; different test scopes |
+| Python tests | Original 5; phase-two 67 | Local 161 passes; full matrix passes at stated revisions | JUnit and CI above; different test scopes |
 | Rust tests | Original not executable; phase-two 5 | 5 native tests plus 18 cross-language refusal checks | Rust CI; narrower native browser capability |
 | Turbo warm latency | No comparable controlled baseline | Median 2.63 ms, p95 2.96 ms, n=100 | Owned tiny fixture, direct SDK |
 | Fidelity warm latency | No comparable controlled baseline | Median 24.67 ms, p95 26.84 ms, n=99 | Direct SDK; not supervised MCP latency |
@@ -147,67 +166,3 @@ No scope exclusion is approved. Open requirements prevent a production release.
 Keep both PRs draft and unmerged. No fake implementation or passing test substitutes
 for these requirements. `AUDIT.md` and Git history preserve earlier findings;
 `PHASE2_AUDIT.md` is the current finding/status matrix.
-
-## Operator configuration verification
-
-Source `929cc25` adds operator-only `AEROBROWSE_SESSION_TASKS` configuration for
-the packaged MCP command. Canonical integers 1ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“256 are accepted; absence retains
-64. Aggregate task, memory and CPU ceilings stay unchanged. Eleven negative/default/
-ceiling configuration checks pass locally. Linux run `45840796649` passed 37 tests with 2 Windows-only skips, including real
-stdio MCP initialize/navigate/Fidelity-fill/close flow with an explicit owned fixture
-allowance and the operator budget, alongside the existing kernel/crash regressions.
-The network allowance is trusted fixture setup, never an MCP client argument.
-This source change does not assert that more concurrent browsers fit the pool.
-
-The final combined local MCP/runtime rerun passed 58 tests with 3 platform skips
-and 27 browser/native deselections (`mcp-runtime-operator.xml`). The full local source rerun subsequently passed 157 tests with 3 platform skips
-and 65 browser/native deselections; focused tests are not added to that count. Source/receipt hashes were verified against 49 committed Git
-blobs without mismatch; this establishes integrity, not independent assessment.
-
-Final implementation local suite: **157 passed, 3 platform skips, 65 browser/native
-deselections in 199.07 seconds**, source `929cc25` (`python-source929-final.xml`).
-Wheel and source distribution both build; all 16 package Python modules are present
-in the wheel (`build-source929.json`). Setuptools reports deprecated TOML license
-metadata/classifier warnings; builds pass and a future packaging update is needed.
-No artifacts were published. This does not convert CI browser deselections to passes.
-
-## Final source-review corrections
-
-Source `7f5c859` fixes two reproduced P1 defects. MCP JSON integers above 128
-digits return bounded parse errors rather than escaping Python's decoder and
-terminating the server; a real-pipe test then pings successfully. Session shutdown
-tracks outstanding shielded worker-cleanup tasks and awaits them before closing
-the aggregate pool. A gated real-worker close/shutdown overlap test failed before
-the fix, then passed with worker/temp cleanup and closed-pool assertions. Four
-focused regressions pass; this later source needs fresh broader CI/soak receipts.
-Earlier results remain explicitly bound to their tested revisions.
-
-Corrected-source Linux run `45842826008` passed **38 runtime tests with 2 Windows-only
-skips**, including the overlapping real-worker close/shutdown regression, actual
-MCP stdio browser flow, crash recovery and quota controls. Receipt:
-`runtime-7f5c859/runtime-boundary.xml`. The framing/integer recovery path separately
-passed the real-pipe focused regression; broader local MCP/runtime rerun is active.
-
-The corrected-source broader local MCP/runtime suite passed 62 tests, 3 platform
-skips and 27 browser/native deselections (`review-suites.xml`). These overlap the
-full suite. No failed intermediate run was relabelled or overwritten. Final-source
-full CI/soak is queued behind the ongoing earlier revision soak; pending is not pass.
-
-Final corrected implementation `7f5c859`: **161 passed, 3 platform skips and
-65 browser/native deselections in 210.94 seconds** on Windows/Python 3.12,
-`python-source7f-final.xml`. This supersedes the 157-test local result at `929cc25`.
-Current receipt head `582b74c` independently passes the Linux runtime gate; its
-full verification remains queued until the earlier required soak finishes.
-
-## Second completed full run
-
-Source `c963127`, run `45837621519`, is fully green. Required Linux browser tests:
-46 passes, zero skips. Kernel/runtime: 25 passes, 2 Windows-only skips. All eight
-Python matrix jobs, Rust and dependency audit pass. The repeated soak completed
-1,801.102 seconds / 1,068 successful sequential cycles, with zero observed orphans
-or permanently occupied slots. Every raw row matches the summary. Controller RSS
-44,494,848 bytes initially, 45,756,416 bytes last/max. Configuration and limitations
-match the earlier sequential 256-task session/aggregate fixture. Source includes
-final renderer recovery semantics but precedes the operator setting and the two
-review fixes. Reviewed-head run `45843650844` is now active; do not transfer the
-second run's complete acceptance status to later source. Receipts: `ci-c963127/`.

@@ -28,7 +28,7 @@ Original audit and inventory remain in `AUDIT.md` and `evidence/baseline-invento
 ## Completed evidence
 
 Green full run `45833263200`, source `f1ce086`, PR merge checkout
-`1710acaf4f4f0e877a53653f525939b688143b51`: all 8 Python 3.11ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ3.14 Linux/Windows
+`1710acaf4f4f0e877a53653f525939b688143b51`: all 8 Python 3.11 through 3.14 Linux/Windows
 jobs, Rust formatting/strict Clippy/tests/release/native contract, dependency audit,
 43 required Linux browser tests and 19 kernel/runtime passes with 2 Windows-only
 skips. The soak ran 1,800.735 seconds and completed 931 navigate/fill/click/close
@@ -68,7 +68,7 @@ has user approval. Green tests do not waive unimplemented original requirements 
 certify isolation. Both PRs remain draft; no merge or stable release is authorized.
 
 Operator configuration: source `929cc25` exposes `AEROBROWSE_SESSION_TASKS` only
-at packaged MCP startup. Canonical integers 1ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“256 configure a session budget;
+at packaged MCP startup. Canonical integers 1 through 256 configure a session budget;
 omitting it retains 64, and aggregate limits remain unchanged. Linux focused run
 `45840796649` passed 37 tests with 2 Windows-only skips, including real stdio MCP
 initialize/navigate/Fidelity-fill/close with an explicit owned fixture allowance.
@@ -92,3 +92,9 @@ Source `7f5c859` Linux runtime run `45842826008`: 38 passes, 2 Windows-only skip
 including real shutdown-overlap reproduction after the fix and configured MCP
 stdio Chromium flow. This verifies the narrow lifecycle fix on both Windows and
 Linux; the malicious integer also passes the real-pipe focused recovery test.
+
+Second full green source `c963127` run `45837621519`: 46 required browser passes,
+25 runtime passes/2 Windows-only skips; all Python matrix/Rust/dependency jobs pass.
+Soak: 1,801.102 seconds, 1,068 successful sequential cycles, zero orphan/slot
+observations. This precedes operator configuration and final review fixes. The
+reviewed-head full run is active and requires its own receipt.
