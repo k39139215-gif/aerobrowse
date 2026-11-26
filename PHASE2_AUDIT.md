@@ -62,3 +62,10 @@ it is not a pass until the exclusive raw/summary receipts establish >=1800second
 Default64/session remains unchanged; acceptance explicitly supplies256/session
 under the unchanged256 aggregate task cap. Latest local review also corrected
 partial writes on raw worker pipes with corruption/closed-pipe regressions.
+
+Final-source runtime gate sourcec963127: Linux run45837608925 passed25 with2
+Windows-only skips. It includes real browser/renderer crash+replacement recovery,
+Linux parentdeath cgroup/temp cleanup, fd cleanup attack rejection and quota/error
+semantics. Renderer failure is bounded request-timeout recovery (3seconds in test),
+not immediate crash detection. Direct SDK/per-renderer/cross-instance caps remain
+unimplemented, unapproved production exclusions. Full source matrix/soak pending.

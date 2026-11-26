@@ -210,3 +210,22 @@ Browser/renderer kill and Linux parentdeath regressions have been added; those
 remain unverified until required Linux CI runs. No fake worker/browser replaces
 these required browser checks. Quota/system/process fixtures run only on owned
 local data and explicit internal CIDRs.
+
+Final focused crash validation found an incorrect renderer trigger: Chromium may
+have a spare renderer. Killing all owned session renderers instead caused the
+in-flight CDP call to hit its request deadline, followed by hard worker termination.
+This is bounded timeout recovery, not immediate renderer-crash detection. The
+regression now verifies3second renderer timeout, no live descendants/capacity leak
+and fresh-session navigation. Required Linux parentdeath, main-browser-process
+crash recovery, fd-cleanup traversal, IPC partial-write and positional quota-denial
+checks passed source6d2e932 independently; renderer final rerun remains pending.
+Failed intermediate receipts are retained under evidence/phase2/runtime-*-failed.
+
+At sourcec963127, independent Linux run45837608925 passed25 runtime tests with2
+Windows-only skips (runtime-c963127/runtime-boundary.xml): actual browser main
+process and renderer-kill deadline recovery, fresh browser navigation, Linux
+controller-parent death/cgroup/temp cleanup, kernel memory/fork denial, fd-relative
+cleanup traversal/symlink, closed managers, IPC partial writes and positional
+Fidelity denial without quotas. This verifies the declared bounded runtime contract;
+it does not provide separate renderer quotas, direct SDK enforcement or indefinite
+leak-freedom. The renderer error was TIMEOUT after the configured3second deadline.
