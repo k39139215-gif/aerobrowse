@@ -1,7 +1,6 @@
-import pytest
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.pruner import SemanticPruner
 from aerobrowse.turbo import TurboEngine
-from aerobrowse.engine import AeroBrowser
 
 
 def test_semantic_pruner():
@@ -84,19 +83,23 @@ def test_semantic_pruner_fidelity_and_nested_cards():
     assert "The Great Gatsby Full Title" in action_labels
 
 
-def test_turbo_engine_local():
-    engine = TurboEngine()
-    res = engine.fetch("https://httpbin.org/html")
+def test_turbo_engine_local(site):
+    from aerobrowse.security import NetworkPolicy
+
+    engine = TurboEngine(policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)))
+    res = engine.fetch(site)
     assert res["success"] is True
     assert res["engine"] == "turbo"
     assert len(res["markdown"]) > 0
     assert res["reduction_pct"] > 0
 
 
-def test_aerobrowser_unified():
-    browser = AeroBrowser()
-    res = browser.fetch("https://example.com")
+def test_aerobrowser_unified(site):
+    from aerobrowse.security import NetworkPolicy
+
+    browser = AeroBrowser(policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)))
+    res = browser.fetch(site)
     assert res["success"] is True
-    assert "Example Domain" in res["title"]
+    assert "Private service secret" in res["markdown"]
     assert res["reduction_pct"] > 0
     browser.close()

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aerobrowse"
 version = "0.2.0"
-description = "The Featherweight AI Browser Engine â€” 100% Web Compatibility at 12MB Memory with 90% Fewer Tokens"
+description = "Hybrid HTTP and isolated Chromium browsing for AI agents"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Kartik", email = "k39139215@gmail.com" }]
@@ -43,7 +43,7 @@ dependencies = [
     "tiktoken>=0.12,<1",
     "playwright>=1.62,<2",
     "fastmcp>=3.4.4,<4",
-    "rich>=13.0.0",
+    "psutil>=7.2,<8",
 ]
 
 [project.urls]
@@ -70,3 +70,6 @@ aero = "aerobrowse.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["aerobrowse*"]
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+markers = ["browser: requires isolated Linux Chromium"]
