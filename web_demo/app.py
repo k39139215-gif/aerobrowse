@@ -46,14 +46,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown('<h1 class="main-title">⚡ AeroBrowse Playground</h1>', unsafe_allow_html=True)
-st.caption("The Featherweight AI Browser Engine — 100% Web Compatibility at 12MB Memory with 90% Fewer Tokens")
+st.caption("Hybrid retrieval with measured token counts; see README for supported platforms and limitations")
 
 # Sidebar Controls
 st.sidebar.header("⚙️ Engine Configuration")
 force_fidelity = st.sidebar.checkbox(
     "Force Fidelity Mode (CDP/Blink)",
     value=False,
-    help="Forces full Chromium headless engine execution instead of sub-100ms Turbo mode. Useful for dynamic SPAs."
+    help="Forces full Chromium headless engine execution instead of bounded HTTP Turbo mode. Useful for dynamic SPAs."
 )
 
 st.sidebar.markdown("---")
@@ -76,15 +76,18 @@ col_run, col_space = st.columns([1, 4])
 with col_run:
     run_btn = st.button("🚀 Run AeroBrowse", type="primary", use_container_width=True)
 
-if run_btn or url_input:
+if run_btn:
     with st.spinner(f"Browsing {url_input} via AeroBrowse..."):
         try:
-            browser = AeroBrowser()
-            result = browser.fetch(url_input, force_fidelity=force_fidelity)
+            with AeroBrowser() as browser:
+                result = browser.fetch(url_input, force_fidelity=force_fidelity)
+            if not result.get("success"):
+                st.error(result.get("error", {}).get("code", "REQUEST_FAILED"))
+                st.stop()
 
-            # Compute token and cost metrics (approximation: 4 chars = 1 token)
-            raw_tokens = max(1, result["original_chars"] // 4)
-            pruned_tokens = max(1, result["pruned_chars"] // 4)
+            # Actual tokenizer counts.
+            raw_tokens = max(1, result["original_tokens"])
+            pruned_tokens = max(1, result["extracted_tokens"])
             tokens_saved = max(0, raw_tokens - pruned_tokens)
             
             # GPT-4o input cost: $2.50 per 1M tokens ($0.0000025 per token)
@@ -95,11 +98,11 @@ if run_btn or url_input:
             # Metrics Row
             m1, m2, m3, m4 = st.columns(4)
             with m1:
-                st.metric("Raw HTML Characters", f"{result['original_chars']:,}", f"~{raw_tokens:,} tokens")
+                st.metric("Raw HTML Characters", f"{result['original_chars']:,}", f"{raw_tokens:,} measured tokens")
             with m2:
-                st.metric("Pruned Markdown Characters", f"{result['pruned_chars']:,}", f"~{pruned_tokens:,} tokens")
+                st.metric("Pruned Markdown Characters", f"{result['pruned_chars']:,}", f"{pruned_tokens:,} measured tokens")
             with m3:
-                st.metric("Token Bill Reduction", f"{result['reduction_pct']}%", f"-{tokens_saved:,} tokens", delta_color="normal")
+                st.metric("Markdown Token Reduction", f"{result['reduction_pct']}%", f"-{tokens_saved:,} tokens", delta_color="normal")
             with m4:
                 st.metric("GPT-4o Cost Saved / Fetch", f"${dollars_saved:.4f}", f"From ${cost_unpruned:.4f} down to ${cost_pruned:.4f}")
 
@@ -138,7 +141,7 @@ if run_btn or url_input:
                 st.code(result["markdown"], language="markdown")
 
         except Exception as e:
-            st.error(f"Error fetching URL: {str(e)}")
+            st.error("Browser request failed; see the structured error and server diagnostics")
 
 st.markdown("---")
 st.markdown("""

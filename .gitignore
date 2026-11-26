@@ -10,3 +10,16 @@ build/
 env/
 .DS_Store
 Thumbs.db
+.rustup/
+.cargo/
+rust_core/target/
+debug.log
+.ruff_cache/
+.mypy_cache/
+*.log
+.uv-cache/
+.uv-python/
+.tool-downloads/
+.toolchain/
+
+.pytest-*/

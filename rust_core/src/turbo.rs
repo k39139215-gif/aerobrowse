@@ -1,67 +1,115 @@
-use std::time::Instant;
+//! Bounded, DNS-pinned HTTP. No environment proxy, cookies or automatic redirects.
 use crate::pruner::{PrunedResult, SemanticPruner};
+use crate::security::{self, DEADLINE, MAX_BYTES};
+use reqwest::redirect::Policy;
+use serde::Serialize;
+use std::time::Instant;
 
+#[derive(Serialize)]
 pub struct TurboResponse {
     pub pruned: PrunedResult,
     pub elapsed_ms: u128,
     pub needs_fidelity: bool,
+    pub url: String,
+    pub status_code: u16,
 }
 
-pub struct TurboEngine {
-    client: reqwest::Client,
-}
-
+pub struct TurboEngine;
 impl TurboEngine {
     pub fn new() -> Self {
-        let client = reqwest::Client::builder()
-            .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
-            .timeout(std::time::Duration::from_secs(12))
-            .build()
-            .unwrap_or_default();
-
-        Self { client }
+        Self
     }
 
-    pub async fn fetch(&self, url: &str) -> Result<TurboResponse, String> {
+    pub async fn fetch(&self, input: &str) -> Result<TurboResponse, String> {
+        tokio::time::timeout(DEADLINE, self.fetch_inner(input))
+            .await
+            .map_err(|_| "TIMEOUT".to_string())?
+    }
+
+    async fn fetch_inner(&self, input: &str) -> Result<TurboResponse, String> {
         let start = Instant::now();
-        let resp = self
-            .client
-            .get(url)
-            .send()
-            .await
-            .map_err(|e| format!("Request failed: {}", e))?;
-
-        let html = resp
-            .text()
-            .await
-            .map_err(|e| format!("Failed to read body: {}", e))?;
-
-        let elapsed_ms = start.elapsed().as_millis();
-        let pruned = SemanticPruner::prune(&html, url);
-
-        let needs_fidelity = Self::detect_spa_fallback(&html, &pruned.markdown);
-
-        Ok(TurboResponse {
-            pruned,
-            elapsed_ms,
-            needs_fidelity,
-        })
-    }
-
-    fn detect_spa_fallback(html: &str, pruned_markdown: &str) -> bool {
-        let lower = html.to_lowercase();
-        if lower.contains("you need to enable javascript") || lower.contains("please enable js") {
-            return true;
+        let mut url = security::parse_url(input)?;
+        for hop in 0..=5 {
+            let addresses = security::resolve(&url).await?;
+            let host = url
+                .host_str()
+                .ok_or("INVALID_URL")?
+                .trim_matches(['[', ']']);
+            let client = reqwest::Client::builder()
+                .no_proxy()
+                .redirect(Policy::none())
+                .timeout(DEADLINE)
+                .connect_timeout(std::time::Duration::from_secs(5))
+                .resolve_to_addrs(host, &addresses)
+                .build()
+                .map_err(|_| "TRANSPORT_ERROR")?;
+            let mut response = client
+                .get(url.clone())
+                .header("Accept-Encoding", "identity")
+                .send()
+                .await
+                .map_err(|_| "NETWORK_ERROR")?;
+            if matches!(response.status().as_u16(), 301 | 302 | 303 | 307 | 308) {
+                if hop == 5 {
+                    return Err("TOO_MANY_REDIRECTS".into());
+                }
+                let location = response
+                    .headers()
+                    .get("location")
+                    .ok_or("INVALID_REDIRECT")?
+                    .to_str()
+                    .map_err(|_| "INVALID_REDIRECT")?;
+                let next = url.join(location).map_err(|_| "INVALID_REDIRECT")?;
+                url = security::parse_url(next.as_str())?;
+                continue;
+            }
+            let status_code = response.status().as_u16();
+            if !response.status().is_success() {
+                return Err("HTTP_ERROR".into());
+            }
+            if response
+                .headers()
+                .get("content-encoding")
+                .is_some_and(|v| v != "identity")
+            {
+                return Err("UNSUPPORTED_ENCODING".into());
+            }
+            if response
+                .content_length()
+                .is_some_and(|n| n > MAX_BYTES as u64)
+            {
+                return Err("RESPONSE_TOO_LARGE".into());
+            }
+            let mut bytes = Vec::new();
+            while let Some(chunk) = response.chunk().await.map_err(|_| "NETWORK_ERROR")? {
+                if bytes.len() + chunk.len() > MAX_BYTES {
+                    return Err("RESPONSE_TOO_LARGE".into());
+                }
+                bytes.extend_from_slice(&chunk);
+            }
+            let html = String::from_utf8_lossy(&bytes);
+            let pruned = SemanticPruner::prune(&html, url.as_str())?;
+            let lower = html.to_lowercase();
+            let needs_fidelity = lower.contains("you need to enable javascript")
+                || lower.contains("please enable js")
+                || (pruned.markdown.split_whitespace().count() < 30
+                    && [
+                        "id=\"root\"",
+                        "id=\"app\"",
+                        "id=\"__next\"",
+                        "ng-version",
+                        "data-v-app",
+                    ]
+                    .iter()
+                    .any(|s| lower.contains(s)));
+            return Ok(TurboResponse {
+                pruned,
+                elapsed_ms: start.elapsed().as_millis(),
+                needs_fidelity,
+                url: url.to_string(),
+                status_code,
+            });
         }
-        // If content is very sparse (< 250 chars) while page contains SPA app roots or JS render containers
-        if pruned_markdown.trim().len() < 250
-            && (lower.contains("id=\"root\"")
-                || lower.contains("id=\"app\"")
-                || lower.contains("__next")
-                || (lower.contains("<script") && lower.contains("class=\"quote")))
-        {
-            return true;
-        }
-        false
+        Err("TOO_MANY_REDIRECTS".into())
     }
 }

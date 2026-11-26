@@ -1,7 +1,7 @@
 """
 AeroBrowse + LangChain Integration Example
 ===========================================
-Drop-in tool for LangChain and LangGraph agents with 90% token reduction.
+Drop-in tool for LangChain and LangGraph agents with measured tokenizer counts.
 """
 
 from langchain.tools import tool
@@ -12,7 +12,7 @@ browser = AeroBrowser()
 @tool
 def browse_web(url: str, force_fidelity: bool = False) -> str:
     """
-    Fetches any web page, strips 90% HTML noise, and returns clean Markdown 
+    Fetches any web page, extracts bounded semantic content, and returns clean Markdown
     with numbered Action IDs ([1], [2]) for LLM reasoning.
     """
     res = browser.fetch(url, force_fidelity=force_fidelity)

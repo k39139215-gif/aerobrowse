@@ -1,7 +1,7 @@
 """
 AeroBrowse + OpenAI / Anthropic Tool Calling Example
 =====================================================
-Direct JSON tool schema for GPT-4o, Claude 3.5, and OpenAI Swarm.
+Provider-neutral tool schema example; consult your provider documentation.
 """
 
 from aerobrowse import AeroBrowser
@@ -14,12 +14,12 @@ tools = [
         "type": "function",
         "function": {
             "name": "browse_url",
-            "description": "Fetch a web page, strip 90% HTML noise, and return clean Markdown with numbered action IDs.",
+            "description": "Fetch a web page, extract bounded semantic content, and return clean Markdown with numbered action IDs.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "url": {"type": "string", "description": "The URL to visit"},
-                    "force_fidelity": {"type": "boolean", "description": "Set true for dynamic SPAs or logins"}
+                    "force_fidelity": {"type": "boolean", "description": "Set true for dynamic pages on a supported isolated Linux host"}
                 },
                 "required": ["url"]
             }
@@ -29,13 +29,14 @@ tools = [
         "type": "function",
         "function": {
             "name": "click_element",
-            "description": "Click an element by its numeric Action ID [1], [2], etc.",
+            "description": "Click a live element by its generation-scoped action ID.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "action_id": {"type": "string", "description": "Action ID of the button or link"}
+                    "action_id": {"type": "string", "description": "Live action ID"},
+                    "generation": {"type": "string", "description": "Active snapshot generation"}
                 },
-                "required": ["action_id"]
+                "required": ["action_id", "generation"]
             }
         }
     }
@@ -44,9 +45,9 @@ tools = [
 def execute_tool(name: str, args: dict) -> str:
     if name == "browse_url":
         res = browser.fetch(args["url"], force_fidelity=args.get("force_fidelity", False))
-        return res["markdown"]
+        return str(res)
     elif name == "click_element":
-        res = browser.click(args["action_id"])
+        res = browser.click(args["action_id"], args["generation"])
         return str(res)
     return "Unknown tool"
 
