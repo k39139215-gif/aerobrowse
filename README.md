@@ -107,6 +107,11 @@ session's operations and preserves Playwright thread affinity.
 | browser_scroll | optional x, y |
 | browser_wait | action_id, generation; optional timeout_ms |
 | browser_screenshot | none |
+| browser_capabilities | none; no session required |
+| browser_tabs | none |
+| browser_new_tab | url |
+| browser_switch_tab / browser_close_tab | tab_id |
+| browser_back / browser_forward / browser_reload | none |
 | browser_close | none |
 
 Tool responses use `success`, structured `error.code`/`error.message` on failure,
@@ -115,8 +120,9 @@ session IDs. Do not assume HTTP success from a returned dictionary: inspect
 `success`. Session defaults: 8 active sessions, 300-second idle lifetime,
 45-second request timeout. Idle cleanup runs every 10 seconds. Each session admits at most 16 outstanding calls. Cancellation
 retires the session and queues cleanup. Retiring resources still count against
-capacity; incomplete cleanup returns CLEANUP_PENDING. A stuck native worker cannot yet be
-forcibly terminated; see known limitations.
+capacity; incomplete cleanup returns CLEANUP_PENDING. Owned process workers are
+forcibly retired on timeout, cancellation or crash; a replacement session loses
+its ephemeral browser login. See AGENT_QUICKSTART.md for recovery.
 
 ## Configuration and network restrictions
 
@@ -137,8 +143,10 @@ Default limits: URL 8192 characters; request body 1 MiB; response/HTML 4 MiB;
 network deadline 20 seconds (standalone TurboEngine defaults to 12);
 5 redirects; parser 100,000 nodes/128 depth. All DNS answers must pass policy.
 Numeric sockets pin the actual connection destination; TLS SNI and certificate
-verification use the normalized hostname. Proxies from the environment, cookies,
-authorization headers and compressed responses are not used. Legitimate
+verification use the normalized hostname. Proxies from the environment,
+HTTP Authorization and compressed responses are not used. Ordinary HTTP strips
+credentials; the Chromium-only pinned broker preserves browser-selected scoped
+cookies for ephemeral form authentication. Legitimate
 non-UTF-8 content and servers requiring compression may need additional support.
 Resource blocking is opt-in: `FidelityEngine(block_heavy_resources=True)`.
 
@@ -153,8 +161,9 @@ The binary is no longer advertised as a standalone interactive browser.
 
 ## Known limitations and troubleshooting
 
-- Authenticated browser sessions, cookie persistence, WebSockets, service workers,
-  popups/downloads, multiple tabs and back/forward are not supported yet.
+- Ephemeral form/cookie sessions, explicit tabs and history are tested on owned
+  fixtures. Host profile import/export, HTTP Authorization, WebSockets, service
+  workers, popups/downloads and trusted physical input remain unsupported.
 - Linux CI verifies namespace operation and basic handoff/live actions/staleness.
   Exhaustive iframe egress and crash-recovery coverage remain open.
 - Native extraction is less complete than Python for tables and ARIA metadata.
