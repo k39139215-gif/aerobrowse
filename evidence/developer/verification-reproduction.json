@@ -1,6 +1,6 @@
 {
   "revision": "8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d",
-  "artifact_hashes": 41,
+  "artifact_hashes": 68,
   "source_blobs": 92,
   "raw_rows": 1133,
   "distributions": 16,
@@ -30,5 +30,6 @@
       "skipped": 2
     }
   },
-  "full_ci_receipt_present": false
+  "full_ci_receipt_present": true,
+  "soak_receipt_present": true
 }

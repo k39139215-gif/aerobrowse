@@ -49,10 +49,10 @@ a public metrics endpoint, external aggregation service or exact peak-memory gau
 
 ## Verification and measurements
 
-Final full engineering CI run: **PENDING — 45880822782**. All eight Python jobs,
-Rust and dependency auditing have passed; the mandatory 30-minute browser-worker
-cleanup soak is in progress. Full broad acceptance remains pending until the run
-completes. Earlier green runs do not verify changed source.
+Final full engineering CI run: **SUCCESS — 45880822782**. All eight Python jobs,
+Rust, dependency auditing and the mandatory 30-minute browser-worker cleanup soak
+passed. Source bindings cover all92 indexed implementation blobs. The separate
+SonarCloud gate and unsupported original requirements still prevent production acceptance.
 
 Focused Linux run [45880812905](https://github.com/k39139215-gif/aerobrowse/actions/runs/45880812905)
 is SUCCESS. All 92 tracked implementation/test/configuration Git blobs match
@@ -64,7 +64,7 @@ no independent evidence custody or external assessment is claimed.
 |---|---|---|---|
 | Security findings | Original confirmed network/action/session failures in AUDIT.md | Declared fixes have regression coverage; 46 analyzer findings remain open, including 2 private-tmpfs path findings; no independent assessment | AUDIT.md; sonar-8db91bf.json; failed and passing regressions |
 | Python tests | Original 5 passed; previous full checkpoint 206 | Each of 8 Linux/Windows Python 3.11–3.14 jobs: 236 passed / 21 explained skips; local same counts | full-8db91bf/python/; python-8db91bf.xml |
-| Browser/runtime tests | Previous full checkpoint: 68 browser; 38 runtime passes | Focused latest source: 33 workflow passes, 40 runtime passes / 2 Windows-only skips; full browser totals pending receipt | ci-8db91bf/agent/quick-workflows.xml; phase2/runtime-boundary.xml |
+| Browser/runtime tests | Previous full checkpoint: 68 browser; 38 runtime passes | Focused latest source: 33 workflow passes, 40 runtime passes / 2 Windows-only skips; full browser76 passes/0 skips | ci-8db91bf/agent/quick-workflows.xml; phase2/runtime-boundary.xml |
 | Rust tests | 5 native units at prior checkpoint | 8 native units; formatting, strict Clippy, release build and dependency audit pass; 18 compiled native/Python negative contracts pass | Full Rust CI; local rust-*8db91bf.txt; native-contract-8db91bf.xml |
 | Warm Turbo latency | No comparable baseline | p50 3.521 ms; p95 3.870 ms; n=100 | Focused phase2/benchmark-linux.json |
 | Warm Fidelity latency | No comparable baseline | p50 29.042 ms; p95 33.832 ms; n=99 | Same raw operation receipt |
@@ -72,7 +72,7 @@ no independent evidence custody or external assessment is claimed.
 | Token reduction | Character estimates; worker cache misses caused downloads | Long article: 1,713 HTML / 1,304 Markdown / 1,635 complete JSON tokens; 4.55% complete reduction; small fixtures expand | extraction-quality-8db91bf.json; offline wheel check |
 | Concurrent sessions | Repeated default 256-task/two-browser workload failed | Explicit 512-task pool: 12 measured snapshots in 2.618 s; 6 per session; 2 queue refusals; all workers reaped | ci-8db91bf/developer/shared-browser-load.json |
 | Complete task load | No comparable baseline | 6 complete tasks / 2 independent workers / 8.593 s; all reaped | ci-8db91bf/agent/concurrency.json |
-| Cleanup soak | Prior checkpoint: 739 successful cycles | Final-source mandatory soak pending | Full CI run 45880822782 |
+| Cleanup soak | Prior checkpoint: 739 successful cycles | 1,044 successful cycles/1,800.891 seconds; zero observed orphans/occupied slots | Full CI run 45880822782 |
 
 The latency and RAM rows above are the **focused run**, not the later full run.
 Snapshot/click/fill p50 values are 8.501/9.036/9.841 ms, n=100 each. One actual
@@ -119,8 +119,8 @@ owned supervised sessions, controlled authentication/tabs/history/forms, discove
 waits, synthetic input reentrancy, semantic edge cases, offline tokenizer packaging,
 safe evidence output, quota admission and bounded local operator telemetry.
 
-**Fixed but awaiting final broad verification:** latest-source full cleanup-soak
-completion. Passing focused checks do not close that gate.
+**Fixed but not independently verified:** the declared test-covered remediation
+has first-party verification; external security and production validation remain absent.
 
 **Partially implemented:** broad site compatibility, general extraction recall,
 production load fairness, complete telemetry aggregation and auxiliary-target
@@ -137,3 +137,31 @@ Original draft [PR #1](https://github.com/k39139215-gif/aerobrowse/pull/1) targe
 main. Stacked draft [PR #2](https://github.com/k39139215-gif/aerobrowse/pull/2)
 contains this continuation. Neither is merged. No package release, production
 approval or scope exclusion is authorized. `ACCEPTANCE.md` maps original scope.
+
+Analyzer gate detail:44 CODE_SMELL and2 VULNERABILITY items; new_security_rating
+actual4 versus required1. The2 private-tmpfs path items remain open and unsuppressed;
+see evidence/developer/ANALYZER_TRIAGE.md. Passing tests do not close this gate.
+
+
+## Final full-run observations
+
+The separate final full-run receipt is under
+`evidence/developer/full-8db91bf/browser/`. It tests merge13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d,
+whose92 indexed source/test/workflow blobs match implementation8db91bf. Later
+commits add documentation/evidence only.
+
+Full-run warm Turbo p50/p95=3.155/3.583 ms,n100;warm Fidelity=27.427/29.851 ms,n99.
+Snapshot/click/fill p50=7.422/8.304/8.966 ms,n100. Operation-run sampled tree maximum
+1,472,442,368 bytes,20 ms sampling; not exact peak. One handoff665.270 ms is a
+single observation. All1,133 raw rows reproduce16 summaries. Shared512-task pool
+completed12 measured snapshots in2.367 seconds; six per session,all workers reaped.
+Six complete tasks/two independent workers took8.355 seconds,all reaped.
+
+Soak raw1,044 rows all report success,zero active sessions and zero descendants
+after cleanup over1,800.891 seconds. Controller completion RSS first88,027,136,
+last/max88,944,640 bytes; not peak browser RAM or indefinite leak proof. Full XML
+reports76 browser passes/0 skips and40 runtime passes/2 Windows-only skips. Rust
+CI log reports8 unit passes and18 actual compiled native/Python contract passes;
+strict Clippy,formatting,release and audit succeed. Dependency audit:112 packages,
+zero known vulnerabilities. These checks do not close SonarCloud's2 open
+security-classified path findings or establish independent assessment.

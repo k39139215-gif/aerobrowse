@@ -243,5 +243,5 @@ Do not combine these different memory/load scopes or claim comparable speedups.
 The corpus grades44 predefined requirements over12 fixtures,all present. Long
 article1713 HTML/1304 Markdown/1635 complete extraction JSON tokens gives4.55%
 complete reduction; small fixtures expand. The scoped result is not100% general
-information preservation. Full-source engineering CI and mandatory soak remain
-pending. Final report must identify that gate until it completes.
+information preservation. Full-source engineering CI and mandatory soak are SUCCESS;
+SonarCloud and unsupported original capabilities remain acceptance blockers.

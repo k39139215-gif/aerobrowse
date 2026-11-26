@@ -7,7 +7,7 @@ Current recommendation:NOT_PRODUCTION_READY.
 - verification-8db91bf.json indexes exact-source test/benchmark scope and limits.
 - ci-8db91bf/ is focused Linux run45880812905:33 workflow passes,40 runtime
   passes/2 Windows-only skips; raw1133 operation rows,complete task and shared
-  pool load receipts. Full engineering CI/mandatory soak remains pending.
+  pool load receipts. Full engineering CI/mandatory soak is SUCCESS.
 - python-8db91bf.xml:local236 passes/21 explained native/platform skips.
 - native-contract-8db91bf.xml:actual compiled native/Python18 passes/0 skips.
 - rust-*8db91bf.txt:strict Clippy,8 native unit passes,release build.
@@ -34,3 +34,8 @@ quality totals,shared-pool counts/reaping and selected test XML. A full final ru
 receipt is validated when present; absence is printed explicitly and is not a pass.
 The raw failing XML can contain whitespace-only traceback lines; byte identity is
 preserved intentionally. Source/docs pass Git whitespace checks separately.
+
+Full run45880822782:76 browser passes,40 runtime passes/2 Windows-only skips;
+1,044 successful cycles/1,800.891 seconds;zero observed orphans/occupied slots.
+Use full-8db91bf/browser/phase2/ direct paths; bundled historical nested receipts
+are not current-run evidence. Only selected current files are committed/indexed.

@@ -1,0 +1,1682 @@
+rust	Set up job	﻿2026-11-26T19:34:33.9112958Z Current runner version: '2.338.2'
+rust	Set up job	2026-11-26T19:34:33.9144616Z ##[group]Runner Image Provisioner
+rust	Set up job	2026-11-26T19:34:33.9145897Z Hosted Compute Agent
+rust	Set up job	2026-11-26T19:34:33.9146930Z Version: 20261111.635
+rust	Set up job	2026-11-26T19:34:33.9148027Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+rust	Set up job	2026-11-26T19:34:33.9149258Z Build Date: 2026-11-11T01:49:01Z
+rust	Set up job	2026-11-26T19:34:33.9150798Z Worker ID: {0fe6358f-1fc5-4083-87ec-4dea0534cd30}
+rust	Set up job	2026-11-26T19:34:33.9152008Z Region: eastus
+rust	Set up job	2026-11-26T19:34:33.9152872Z Cloud: Azure
+rust	Set up job	2026-11-26T19:34:33.9153933Z ##[endgroup]
+rust	Set up job	2026-11-26T19:34:33.9156296Z ##[group]Operating System
+rust	Set up job	2026-11-26T19:34:33.9157626Z Ubuntu
+rust	Set up job	2026-11-26T19:34:33.9158645Z 24.04.5
+rust	Set up job	2026-11-26T19:34:33.9159596Z LTS
+rust	Set up job	2026-11-26T19:34:33.9160852Z ##[endgroup]
+rust	Set up job	2026-11-26T19:34:33.9161841Z ##[group]Runner Image
+rust	Set up job	2026-11-26T19:34:33.9163086Z Image: ubuntu-24.04
+rust	Set up job	2026-11-26T19:34:33.9164214Z Version: 20261122.23.1
+rust	Set up job	2026-11-26T19:34:33.9166173Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261122.23/images/ubuntu/Ubuntu2404-Readme.md
+rust	Set up job	2026-11-26T19:34:33.9169212Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261122.23
+rust	Set up job	2026-11-26T19:34:33.9171315Z ##[endgroup]
+rust	Set up job	2026-11-26T19:34:33.9173323Z ##[group]GITHUB_TOKEN Permissions
+rust	Set up job	2026-11-26T19:34:33.9176737Z Contents: read
+rust	Set up job	2026-11-26T19:34:33.9177820Z Metadata: read
+rust	Set up job	2026-11-26T19:34:33.9179009Z ##[endgroup]
+rust	Set up job	2026-11-26T19:34:33.9182293Z Secret source: Actions
+rust	Set up job	2026-11-26T19:34:33.9183831Z Cache mode: write
+rust	Set up job	2026-11-26T19:34:33.9185464Z Prepare workflow directory
+rust	Set up job	2026-11-26T19:34:33.9756642Z Prepare all required actions
+rust	Set up job	2026-11-26T19:34:33.9828948Z Getting action download info
+rust	Set up job	2026-11-26T19:34:34.1840597Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+rust	Set up job	2026-11-26T19:34:34.3225678Z Download action repository 'actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+rust	Set up job	2026-11-26T19:34:34.4156271Z Download action repository 'astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d' (SHA:1db35dd8eee11c5894872e0b383ae6c406cf738d)
+rust	Set up job	2026-11-26T19:34:34.7209853Z Complete job name: rust
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-26T19:34:34.8197135Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8198237Z with:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8198697Z   repository: k39139215-gif/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8202600Z   token: ***
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8203048Z   ssh-strict: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8203495Z   ssh-user: git
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8203945Z   persist-credentials: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8204443Z   clean: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8204889Z   sparse-checkout-cone-mode: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8205430Z   fetch-depth: 1
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8205882Z   fetch-tags: false
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8206337Z   show-progress: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8206791Z   lfs: false
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8207204Z   submodules: false
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8207660Z   set-safe-directory: true
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8208172Z   allow-unsafe-pr-checkout: false
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:34.8208958Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1494545Z Syncing repository: k39139215-gif/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1497052Z ##[group]Getting Git version info
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1497953Z Working directory is '/home/runner/work/aerobrowse/aerobrowse'
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1499129Z [command]/usr/bin/git version
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1592406Z git version 2.56.1
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1621816Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1630796Z Temporarily overriding HOME='/home/runner/work/_temp/61942241-6b1f-43f3-ba1f-b3975b0777b5' before making global git config changes
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1633063Z Adding repository directory to the temporary git global config as a safe directory
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1636745Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/aerobrowse/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1691322Z Deleting the contents of '/home/runner/work/aerobrowse/aerobrowse'
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1694826Z ##[group]Determining repository object format
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1696741Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1698109Z ##[group]Initializing the repository
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1701943Z [command]/usr/bin/git init /home/runner/work/aerobrowse/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1850544Z hint: Using 'master' as the name for the initial branch. This default branch name
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1852195Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1853565Z hint: to use in all of your new repositories, which will suppress this warning,
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1854765Z hint: call:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1855735Z hint:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1856643Z hint: 	git config --global init.defaultBranch <name>
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1857678Z hint:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1858641Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1859957Z hint: 'development'. The just-created branch can be renamed via this command:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1860967Z hint:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1861409Z hint: 	git branch -m <name>
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1861957Z hint:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1862678Z hint: Disable this message with "git config set advice.defaultBranchName false"
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1873715Z Initialized empty Git repository in /home/runner/work/aerobrowse/aerobrowse/.git/
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1888493Z [command]/usr/bin/git remote add origin https://github.com/k39139215-gif/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1956455Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1957928Z ##[group]Disabling automatic garbage collection
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1960388Z [command]/usr/bin/git config --local gc.auto 0
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.1998729Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2001134Z ##[group]Setting up auth
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2002109Z Removing SSH command configuration
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2005440Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2051893Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2491477Z Removing HTTP extra header
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2498879Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2562794Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2809383Z Removing includeIf entries pointing to credentials config files
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2814858Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.2858948Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3101735Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3150846Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git.path /home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3193666Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3236081Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3280851Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3320806Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3321630Z ##[group]Fetching the repository
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.3327256Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d:refs/remotes/pull/2/merge
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6974820Z From https://github.com/k39139215-gif/aerobrowse
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6976555Z  * [new ref]         13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d -> pull/2/merge
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6981325Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6982711Z ##[group]Determining the checkout info
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6983995Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.6986327Z [command]/usr/bin/git sparse-checkout disable
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7061422Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7104605Z ##[group]Checking out the ref
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7110016Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/2/merge
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7572341Z Note: switching to 'refs/remotes/pull/2/merge'.
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7573351Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7574071Z You are in 'detached HEAD' state. You can look around, make experimental
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7575868Z changes and commit them, and you can discard any commits you make in this
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7577559Z state without impacting any branches by switching back to a branch.
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7578617Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7579315Z If you want to create a new branch to retain commits you create, you may
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7581477Z do so (now or later) by using -c with the switch command. Example:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7583077Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7583788Z   git switch -c <new-branch-name>
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7584825Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7585502Z Or undo this operation with:
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7586500Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7587198Z   git switch -
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7588082Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7589513Z Turn off this advice by setting config variable advice.detachedHead to false
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7591815Z 
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7594251Z HEAD is now at 13cf4e0 Merge 8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d into 943ca57e9ef8ef5c4993a0aff25a8b8539e42713
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7601304Z ##[endgroup]
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7651932Z [command]/usr/bin/git log -1 --format=%H
+rust	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:34:35.7690879Z 13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d
+rust	Run rustup update stable --no-self-update	﻿2026-11-26T19:34:35.7973616Z ##[group]Run rustup update stable --no-self-update
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:35.7975362Z ^[[36;1mrustup update stable --no-self-update^[[0m
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:35.8022671Z shell: /usr/bin/bash -e {0}
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:35.8023844Z ##[endgroup]
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:36.0171711Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:36.0886934Z 
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:36.0969513Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.100.0 (0ef1bc386 2026-11-09)
+rust	Run rustup update stable --no-self-update	2026-11-26T19:34:36.0970646Z 
+rust	Run rustup component add rustfmt clippy	﻿2026-11-26T19:34:36.1047617Z ##[group]Run rustup component add rustfmt clippy
+rust	Run rustup component add rustfmt clippy	2026-11-26T19:34:36.1048370Z ^[[36;1mrustup component add rustfmt clippy^[[0m
+rust	Run rustup component add rustfmt clippy	2026-11-26T19:34:36.1091202Z shell: /usr/bin/bash -e {0}
+rust	Run rustup component add rustfmt clippy	2026-11-26T19:34:36.1091736Z ##[endgroup]
+rust	Run rustup component add rustfmt clippy	2026-11-26T19:34:36.2042878Z info: component rustfmt is up to date
+rust	Run rustup component add rustfmt clippy	2026-11-26T19:34:36.2075175Z info: component clippy is up to date
+rust	Run cargo fmt --check	﻿2026-11-26T19:34:36.2124206Z ##[group]Run cargo fmt --check
+rust	Run cargo fmt --check	2026-11-26T19:34:36.2124749Z ^[[36;1mcargo fmt --check^[[0m
+rust	Run cargo fmt --check	2026-11-26T19:34:36.2167728Z shell: /usr/bin/bash -e {0}
+rust	Run cargo fmt --check	2026-11-26T19:34:36.2168239Z ##[endgroup]
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	﻿2026-11-26T19:34:37.4596135Z ##[group]Run cargo clippy --locked --all-targets --all-features -- -D warnings
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:37.4596778Z ^[[36;1mcargo clippy --locked --all-targets --all-features -- -D warnings^[[0m
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:37.4641732Z shell: /usr/bin/bash -e {0}
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:37.4641999Z ##[endgroup]
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:37.8681780Z     Updating crates.io index
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2375060Z  Downloading crates ...
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2782321Z   Downloaded phf_generator v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2806966Z   Downloaded anstream v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2840402Z   Downloaded anstyle v1.0.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2872724Z   Downloaded anstyle-parse v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2876236Z   Downloaded cfg-if v1.0.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2904491Z   Downloaded phf_shared v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2912389Z   Downloaded rand_chacha v0.3.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2931324Z   Downloaded ahash v0.8.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.2974832Z   Downloaded http v1.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3025256Z   Downloaded aho-corasick v1.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3129804Z   Downloaded rand_pcg v0.10.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3155732Z   Downloaded rand_core v0.10.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3174686Z   Downloaded cpufeatures v0.3.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3195778Z   Downloaded icu_normalizer_data v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3228342Z   Downloaded parking_lot v0.12.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3263151Z   Downloaded phf v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3279750Z   Downloaded pin-project-lite v0.2.18
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3376701Z   Downloaded quinn v0.11.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3408026Z   Downloaded serde_derive v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3437222Z   Downloaded yoke v0.8.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3454235Z   Downloaded base64 v0.22.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3498944Z   Downloaded percent-encoding v2.3.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3509640Z   Downloaded phf_codegen v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3516289Z   Downloaded quinn-udp v0.5.16
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3536702Z   Downloaded quote v1.0.47
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3564184Z   Downloaded rand v0.10.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3602738Z   Downloaded rand_core v0.6.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3615554Z   Downloaded rustc-hash v2.1.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3627903Z   Downloaded scraper v0.19.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3651882Z   Downloaded sync_wrapper v1.0.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3659356Z   Downloaded mio v1.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3718538Z   Downloaded new_debug_unreachable v1.0.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3729075Z   Downloaded scopeguard v1.2.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3740499Z   Downloaded serde_urlencoded v0.7.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3756311Z   Downloaded slab v0.4.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3768783Z   Downloaded string_cache_codegen v0.5.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3776080Z   Downloaded tower-service v0.3.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3783385Z   Downloaded phf_codegen v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3791720Z   Downloaded precomputed-hash v0.1.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3797495Z   Downloaded rustls-webpki v0.103.17
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3832752Z   Downloaded siphasher v0.3.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3844864Z   Downloaded futures-core v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3857668Z   Downloaded fxhash v0.2.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3864501Z   Downloaded potential_utf v0.1.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3874820Z   Downloaded cfg_aliases v0.2.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.3884768Z   Downloaded futures-util v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4015603Z   Downloaded icu_properties v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4051982Z   Downloaded once_cell v1.21.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4076800Z   Downloaded parking_lot_core v0.9.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4097411Z   Downloaded quinn-proto v0.11.19
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4165432Z   Downloaded rand v0.8.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4198198Z   Downloaded strsim v0.11.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4211308Z   Downloaded clap v4.6.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4673113Z   Downloaded dtoa v1.0.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4690558Z   Downloaded selectors v0.25.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4707713Z   Downloaded try-lock v0.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4716429Z   Downloaded unicode-ident v1.0.27
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4742958Z   Downloaded anyhow v1.0.105
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4781909Z   Downloaded byteorder v1.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4797336Z   Downloaded servo_arc v0.3.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4803936Z   Downloaded signal-hook-registry v1.4.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4815228Z   Downloaded siphasher v1.0.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4829551Z   Downloaded clap_lex v1.1.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4840409Z   Downloaded errno v0.3.15
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4855480Z   Downloaded form_urlencoded v1.2.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4863288Z   Downloaded futf v0.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4872602Z   Downloaded regex v1.13.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4927099Z   Downloaded cssparser-macros v0.6.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4933693Z   Downloaded ego-tree v0.6.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4946904Z   Downloaded anstyle-query v1.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4957997Z   Downloaded stable_deref_trait v1.2.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4968595Z   Downloaded tokio-macros v2.7.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4978587Z   Downloaded tower-layer v0.3.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4987898Z   Downloaded utf-8 v0.7.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.4999172Z   Downloaded utf8_iter v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5012067Z   Downloaded utf8parse v0.2.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5025546Z   Downloaded serde_core v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5057268Z   Downloaded smallvec v1.16.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5071201Z   Downloaded socket2 v0.6.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5088877Z   Downloaded subtle v2.6.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5100578Z   Downloaded synstructure v0.14.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5110549Z   Downloaded tokio-rustls v0.26.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5126561Z   Downloaded untrusted v0.9.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5142995Z   Downloaded version_check v0.9.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5155234Z   Downloaded want v0.3.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5164334Z   Downloaded yoke-derive v0.8.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5175864Z   Downloaded zerofrom v0.1.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5185578Z   Downloaded zerofrom-derive v0.1.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5195847Z   Downloaded zeroize v1.9.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5213313Z   Downloaded zmij v1.0.23
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5230656Z   Downloaded shlex v2.0.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5243936Z   Downloaded string_cache v0.8.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5258838Z   Downloaded tendril v0.4.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5277232Z   Downloaded thiserror v2.0.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5339633Z   Downloaded thiserror-impl v2.0.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5354451Z   Downloaded tinystr v0.8.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5374731Z   Downloaded tracing-core v0.1.36
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5400913Z   Downloaded utf_types v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5413096Z   Downloaded writeable v0.6.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5433317Z   Downloaded zerovec-derive v0.11.7
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5450391Z   Downloaded colorchoice v1.0.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5460038Z   Downloaded dtoa-short v0.3.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5468055Z   Downloaded phf v0.10.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5476966Z   Downloaded rustls-pki-types v1.16.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5501938Z   Downloaded tinyvec v1.13.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5535515Z   Downloaded tower v0.5.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5636149Z   Downloaded atomic-waker v1.1.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5648216Z   Downloaded phf_shared v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5658555Z   Downloaded ryu v1.0.23
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5693323Z   Downloaded url v2.5.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5723416Z   Downloaded heck v0.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5736085Z   Downloaded http-body v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5746114Z   Downloaded idna_adapter v1.2.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5755718Z   Downloaded is_terminal_polyfill v1.70.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5765432Z   Downloaded itoa v1.0.19
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5779814Z   Downloaded lru-slab v0.1.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5788468Z   Downloaded mac v0.1.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5798224Z   Downloaded phf_generator v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5809250Z   Downloaded ppv-lite86 v0.2.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5824200Z   Downloaded serde v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5858259Z   Downloaded zerotrie v0.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5896292Z   Downloaded bit-set v0.8.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5908824Z   Downloaded bit-vec v0.8.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5923940Z   Downloaded displaydoc v0.2.7
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5943455Z   Downloaded find-msvc-tools v0.1.15
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5959634Z   Downloaded futures-task v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5970952Z   Downloaded getopts v0.2.24
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.5986045Z   Downloaded http-body-util v0.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6005005Z   Downloaded hyper-rustls v0.27.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6019915Z   Downloaded lock_api v0.4.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6032550Z   Downloaded markup5ever v0.12.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6047992Z   Downloaded phf_macros v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6057158Z   Downloaded chacha20 v0.10.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6079986Z   Downloaded derive_more v0.99.20
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6126304Z   Downloaded futures-channel v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6144675Z   Downloaded getrandom v0.2.17
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6172910Z   Downloaded html5ever v0.27.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6207230Z   Downloaded httparse v1.10.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6231178Z   Downloaded icu_provider v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6256470Z   Downloaded ipnet v2.12.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6272811Z   Downloaded litemap v0.8.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6294865Z   Downloaded log v0.4.35
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6319819Z   Downloaded proc-macro2 v1.0.107
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6348404Z   Downloaded reqwest v0.12.28
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6403431Z   Downloaded zerovec v0.11.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6462041Z   Downloaded bitflags v2.13.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6504879Z   Downloaded clap_derive v4.6.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6526107Z   Downloaded cssparser v0.31.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6549418Z   Downloaded getrandom v0.4.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6586094Z   Downloaded bytes v1.12.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6621075Z   Downloaded icu_locale_core v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6688506Z   Downloaded idna v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6722615Z   Downloaded memchr v2.8.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6776184Z   Downloaded serde_json v1.0.154
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6847474Z   Downloaded tower-http v0.6.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6938755Z   Downloaded base64 v0.23.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.6976717Z   Downloaded hyper-util v0.1.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7038493Z   Downloaded icu_collections v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7101327Z   Downloaded webpki-roots v1.0.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7130809Z   Downloaded cc v1.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7180467Z   Downloaded unicode-width v0.2.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7227281Z   Downloaded clap_builder v4.6.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7289421Z   Downloaded hyper v1.13.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7358315Z   Downloaded icu_properties_data v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7470873Z   Downloaded syn v3.0.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7575635Z   Downloaded syn v2.0.119
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7678312Z   Downloaded fancy-regex v0.19.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.7744071Z   Downloaded zerocopy v0.8.66
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8009618Z   Downloaded regex-syntax v0.8.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8075532Z   Downloaded rustls v0.23.46
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8192713Z   Downloaded bstr v1.14.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8270352Z   Downloaded tracing v0.1.44
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8425159Z   Downloaded regex-automata v0.4.19
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8561675Z   Downloaded icu_normalizer v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.8658896Z   Downloaded tokio v1.54.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.9122121Z   Downloaded libc v0.2.191
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:38.9581934Z   Downloaded ring v0.17.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.0001861Z   Downloaded tiktoken-rs v0.12.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.0954164Z    Compiling proc-macro2 v1.0.107
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.0955126Z    Compiling unicode-ident v1.0.27
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.0956163Z    Compiling quote v1.0.47
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.0956999Z    Compiling libc v0.2.191
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.4211714Z    Compiling zerocopy v0.8.66
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.8694318Z    Compiling cfg-if v1.0.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:39.9238522Z     Checking smallvec v1.16.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.1101139Z    Compiling syn v3.0.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.2116608Z     Checking stable_deref_trait v1.2.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.2552179Z    Compiling getrandom v0.2.17
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.2661068Z    Compiling parking_lot_core v0.9.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.3944529Z    Compiling rand_core v0.6.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.4140349Z     Checking scopeguard v1.2.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.4582006Z     Checking lock_api v0.4.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.6341315Z     Checking itoa v1.0.19
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.6921824Z    Compiling siphasher v1.0.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.7681611Z     Checking parking_lot v0.12.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.8339078Z    Compiling phf_shared v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.9150921Z    Compiling syn v2.0.119
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:41.9721002Z     Checking bytes v1.12.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:42.4481008Z     Checking pin-project-lite v0.2.18
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:42.5121041Z    Compiling serde_core v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:42.6990559Z     Checking futures-core v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:42.7721018Z    Compiling find-msvc-tools v0.1.15
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:43.0331219Z    Compiling shlex v2.0.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:43.1591343Z    Compiling cc v1.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:44.1851185Z    Compiling ppv-lite86 v0.2.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:44.7281080Z    Compiling synstructure v0.14.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:44.8941082Z    Compiling rand_chacha v0.3.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.2021161Z    Compiling rand v0.8.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.2941786Z     Checking errno v0.3.15
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.4212337Z     Checking once_cell v1.21.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.5296420Z     Checking utf_types v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.7691193Z     Checking writeable v0.6.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.9176811Z    Compiling phf_generator v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:45.9265292Z     Checking litemap v0.8.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.0511620Z     Checking utf8_iter v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.0691217Z     Checking signal-hook-registry v1.4.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.2285912Z    Compiling ring v0.17.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.2621187Z    Compiling zerofrom-derive v0.1.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.5722310Z    Compiling yoke-derive v0.8.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:46.9121252Z    Compiling zerovec-derive v0.11.7
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:47.5401631Z     Checking zerofrom v0.1.8
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:47.5990996Z    Compiling displaydoc v0.2.7
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:47.6235902Z     Checking yoke v0.8.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:47.8062358Z    Compiling tokio-macros v2.7.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:47.8631488Z     Checking zerovec v0.11.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.1514880Z     Checking zerotrie v0.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.2431153Z     Checking mio v1.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.3296209Z     Checking tinystr v0.8.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.3311184Z     Checking potential_utf v0.1.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.3781554Z     Checking socket2 v0.6.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.3991537Z    Compiling icu_normalizer_data v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.4661273Z     Checking icu_locale_core v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.5062381Z    Compiling icu_properties_data v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.6181087Z     Checking memchr v2.8.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.6251467Z    Compiling serde v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.7381191Z     Checking tokio v1.54.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:48.8500725Z     Checking icu_collections v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:49.1288249Z    Compiling serde_derive v1.0.229
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:49.2133985Z     Checking icu_provider v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:49.3968711Z     Checking http v1.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.0131281Z     Checking zeroize v1.9.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.2467277Z     Checking new_debug_unreachable v1.0.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.2771517Z    Compiling siphasher v0.3.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.4189348Z     Checking percent-encoding v2.3.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.4800637Z    Compiling phf_shared v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.5980979Z     Checking rustls-pki-types v1.16.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:50.8571092Z     Checking http-body v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.0734276Z    Compiling phf_macros v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.5853967Z     Checking untrusted v0.9.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.6407562Z    Compiling httparse v1.10.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.8356448Z     Checking futures-task v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.8947753Z     Checking slab v0.4.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:51.9811065Z     Checking futures-util v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:52.3065383Z     Checking phf v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:52.4068707Z     Checking icu_properties v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:52.8321119Z     Checking icu_normalizer v2.4.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.1070990Z    Compiling phf_generator v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.1698859Z     Checking aho-corasick v1.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.4581198Z    Compiling string_cache_codegen v0.5.4
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.5296468Z    Compiling phf_codegen v0.11.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.6061177Z     Checking log v0.4.35
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.6881321Z     Checking regex-syntax v0.8.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.6931133Z     Checking precomputed-hash v0.1.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.7311096Z    Compiling rustls v0.23.46
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.7961339Z     Checking tower-service v0.3.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.8331147Z     Checking mac v0.1.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.8370736Z     Checking try-lock v0.2.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.8592269Z     Checking futf v0.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.8739734Z     Checking want v0.3.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.9261731Z    Compiling markup5ever v0.12.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.9330005Z     Checking idna_adapter v1.2.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.9391165Z     Checking rustls-webpki v0.103.17
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:53.9881931Z    Compiling phf_codegen v0.10.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.2503280Z     Checking form_urlencoded v1.2.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.2651172Z     Checking tracing-core v0.1.36
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.3571135Z    Compiling zmij v1.0.23
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.4292875Z    Compiling version_check v0.9.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.5048774Z     Checking bitflags v2.13.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.5401211Z     Checking subtle v2.6.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6091023Z     Checking utf8parse v0.2.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6241073Z     Checking dtoa v1.0.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6561464Z     Checking atomic-waker v1.1.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6660852Z     Checking utf-8 v0.7.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6942437Z    Compiling getrandom v0.4.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.6990986Z     Checking hyper v1.13.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.7295914Z     Checking tendril v0.4.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.8471261Z     Checking dtoa-short v0.3.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.8981306Z    Compiling ahash v0.8.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:54.9098709Z     Checking anstyle-parse v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.0240756Z     Checking tracing v0.1.44
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.2041288Z     Checking regex-automata v0.4.19
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.3071733Z    Compiling selectors v0.25.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.5965883Z     Checking idna v1.1.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.6281127Z     Checking string_cache v0.8.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.7221225Z    Compiling cssparser-macros v0.6.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:55.8131279Z    Compiling html5ever v0.27.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.0061020Z     Checking futures-channel v0.3.34
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.1451223Z     Checking sync_wrapper v1.0.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.1901206Z     Checking tower-layer v0.3.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.2991014Z     Checking colorchoice v1.0.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.3411124Z    Compiling anyhow v1.0.105
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.5281233Z     Checking bit-vec v0.8.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.5811076Z     Checking anstyle-query v1.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.6281044Z     Checking ipnet v2.12.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.6751383Z     Checking anstyle v1.0.14
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.7931171Z     Checking byteorder v1.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.8081026Z    Compiling serde_json v1.0.154
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.9161191Z     Checking is_terminal_polyfill v1.70.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.9491197Z     Checking base64 v0.23.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:56.9550944Z     Checking anstream v1.0.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.0958338Z     Checking fxhash v0.2.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.1414809Z     Checking bit-set v0.8.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.2001267Z     Checking hyper-util v0.1.21
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.2734920Z     Checking tower v0.5.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.3951250Z     Checking cssparser v0.31.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.6452141Z     Checking url v2.5.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:57.6801100Z     Checking tokio-rustls v0.26.6
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.0166146Z     Checking phf v0.10.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.1662459Z     Checking webpki-roots v1.0.12
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.2292064Z    Compiling derive_more v0.99.20
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.2375991Z     Checking servo_arc v0.3.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.3481542Z    Compiling heck v0.5.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.4980733Z     Checking clap_lex v1.1.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.5561240Z     Checking ryu v1.0.23
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.5851158Z     Checking unicode-width v0.2.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.6431573Z     Checking base64 v0.22.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.6961260Z     Checking strsim v0.11.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.8211449Z     Checking getopts v0.2.24
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.8791212Z     Checking clap_builder v4.6.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:58.9541296Z     Checking serde_urlencoded v0.7.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:34:59.4831174Z    Compiling clap_derive v4.6.9
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:00.3531157Z     Checking hyper-rustls v0.27.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:00.3691002Z     Checking tower-http v0.6.11
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:00.6001174Z     Checking fancy-regex v0.19.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:00.6121381Z     Checking regex v1.13.2
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:00.8762102Z     Checking bstr v1.14.0
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.2002495Z     Checking http-body-util v0.1.5
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.2871336Z     Checking ego-tree v0.6.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.3421787Z     Checking rustc-hash v2.1.3
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.3980730Z     Checking tiktoken-rs v0.12.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.3981655Z     Checking reqwest v0.12.28
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:01.4161710Z     Checking clap v4.6.10
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:02.0303959Z     Checking scraper v0.19.1
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:02.1572489Z     Checking aerobrowse v0.2.0 (/home/runner/work/aerobrowse/aerobrowse/rust_core)
+rust	Run cargo clippy --locked --all-targets --all-features -- -D warnings	2026-11-26T19:35:03.3402248Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 25.80s
+rust	Run cargo test --locked	﻿2026-11-26T19:35:03.4116638Z ##[group]Run cargo test --locked
+rust	Run cargo test --locked	2026-11-26T19:35:03.4117145Z ^[[36;1mcargo test --locked^[[0m
+rust	Run cargo test --locked	2026-11-26T19:35:03.4159693Z shell: /usr/bin/bash -e {0}
+rust	Run cargo test --locked	2026-11-26T19:35:03.4159953Z ##[endgroup]
+rust	Run cargo test --locked	2026-11-26T19:35:03.5611993Z    Compiling cfg-if v1.0.5
+rust	Run cargo test --locked	2026-11-26T19:35:03.5613902Z    Compiling libc v0.2.191
+rust	Run cargo test --locked	2026-11-26T19:35:03.5651361Z    Compiling zerocopy v0.8.66
+rust	Run cargo test --locked	2026-11-26T19:35:03.5652198Z    Compiling smallvec v1.16.6
+rust	Run cargo test --locked	2026-11-26T19:35:03.6307043Z    Compiling getrandom v0.2.17
+rust	Run cargo test --locked	2026-11-26T19:35:03.7455782Z    Compiling rand_core v0.6.4
+rust	Run cargo test --locked	2026-11-26T19:35:03.7663985Z    Compiling stable_deref_trait v1.2.1
+rust	Run cargo test --locked	2026-11-26T19:35:03.8067193Z    Compiling zerofrom v0.1.8
+rust	Run cargo test --locked	2026-11-26T19:35:03.8841447Z    Compiling yoke v0.8.4
+rust	Run cargo test --locked	2026-11-26T19:35:03.9004413Z    Compiling siphasher v1.0.4
+rust	Run cargo test --locked	2026-11-26T19:35:04.0311709Z    Compiling scopeguard v1.2.0
+rust	Run cargo test --locked	2026-11-26T19:35:04.0963834Z    Compiling lock_api v0.4.14
+rust	Run cargo test --locked	2026-11-26T19:35:04.1011115Z    Compiling phf_shared v0.11.3
+rust	Run cargo test --locked	2026-11-26T19:35:04.2465202Z    Compiling itoa v1.0.19
+rust	Run cargo test --locked	2026-11-26T19:35:04.2937192Z    Compiling zerovec v0.11.9
+rust	Run cargo test --locked	2026-11-26T19:35:04.3901356Z    Compiling bytes v1.12.2
+rust	Run cargo test --locked	2026-11-26T19:35:04.7041596Z    Compiling parking_lot_core v0.9.12
+rust	Run cargo test --locked	2026-11-26T19:35:04.8821211Z    Compiling parking_lot v0.12.5
+rust	Run cargo test --locked	2026-11-26T19:35:04.9191163Z    Compiling pin-project-lite v0.2.18
+rust	Run cargo test --locked	2026-11-26T19:35:04.9591392Z    Compiling futures-core v0.3.34
+rust	Run cargo test --locked	2026-11-26T19:35:05.0481172Z    Compiling tinystr v0.8.5
+rust	Run cargo test --locked	2026-11-26T19:35:05.0530849Z    Compiling errno v0.3.15
+rust	Run cargo test --locked	2026-11-26T19:35:05.1371436Z    Compiling utf_types v1.0.0
+rust	Run cargo test --locked	2026-11-26T19:35:05.2036035Z    Compiling writeable v0.6.4
+rust	Run cargo test --locked	2026-11-26T19:35:05.2761073Z    Compiling siphasher v0.3.11
+rust	Run cargo test --locked	2026-11-26T19:35:05.3435129Z    Compiling litemap v0.8.3
+rust	Run cargo test --locked	2026-11-26T19:35:05.3986372Z    Compiling once_cell v1.21.4
+rust	Run cargo test --locked	2026-11-26T19:35:05.4600741Z    Compiling utf8_iter v1.1.0
+rust	Run cargo test --locked	2026-11-26T19:35:05.4921142Z    Compiling icu_locale_core v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:05.5908322Z    Compiling signal-hook-registry v1.4.8
+rust	Run cargo test --locked	2026-11-26T19:35:05.6091314Z    Compiling serde_core v1.0.229
+rust	Run cargo test --locked	2026-11-26T19:35:05.8465740Z    Compiling potential_utf v0.1.6
+rust	Run cargo test --locked	2026-11-26T19:35:05.9448000Z    Compiling socket2 v0.6.5
+rust	Run cargo test --locked	2026-11-26T19:35:06.4601663Z    Compiling mio v1.2.5
+rust	Run cargo test --locked	2026-11-26T19:35:06.7711084Z    Compiling zerotrie v0.2.5
+rust	Run cargo test --locked	2026-11-26T19:35:06.9501093Z    Compiling memchr v2.8.3
+rust	Run cargo test --locked	2026-11-26T19:35:07.0361232Z    Compiling icu_provider v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:07.3167641Z    Compiling tokio v1.54.1
+rust	Run cargo test --locked	2026-11-26T19:35:07.6361928Z    Compiling ppv-lite86 v0.2.21
+rust	Run cargo test --locked	2026-11-26T19:35:07.7482015Z    Compiling icu_collections v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:07.9451513Z    Compiling rand_chacha v0.3.1
+rust	Run cargo test --locked	2026-11-26T19:35:08.0521963Z    Compiling http v1.5.0
+rust	Run cargo test --locked	2026-11-26T19:35:08.2209923Z    Compiling rand v0.8.8
+rust	Run cargo test --locked	2026-11-26T19:35:08.3132985Z    Compiling new_debug_unreachable v1.0.6
+rust	Run cargo test --locked	2026-11-26T19:35:08.3399602Z    Compiling percent-encoding v2.3.2
+rust	Run cargo test --locked	2026-11-26T19:35:08.4686634Z    Compiling zeroize v1.9.2
+rust	Run cargo test --locked	2026-11-26T19:35:08.6487310Z    Compiling rustls-pki-types v1.16.0
+rust	Run cargo test --locked	2026-11-26T19:35:08.9191334Z    Compiling phf_generator v0.11.3
+rust	Run cargo test --locked	2026-11-26T19:35:09.0486609Z    Compiling phf_macros v0.11.3
+rust	Run cargo test --locked	2026-11-26T19:35:09.1111178Z    Compiling http-body v1.1.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.1691027Z    Compiling serde v1.0.229
+rust	Run cargo test --locked	2026-11-26T19:35:09.1916150Z    Compiling icu_normalizer_data v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.2309265Z    Compiling icu_properties_data v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.3719873Z    Compiling phf_shared v0.10.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.5241758Z    Compiling futures-task v0.3.34
+rust	Run cargo test --locked	2026-11-26T19:35:09.6092088Z    Compiling slab v0.4.12
+rust	Run cargo test --locked	2026-11-26T19:35:09.6571293Z    Compiling untrusted v0.9.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.7131646Z    Compiling futures-util v0.3.34
+rust	Run cargo test --locked	2026-11-26T19:35:09.7165463Z    Compiling ring v0.17.14
+rust	Run cargo test --locked	2026-11-26T19:35:09.7198798Z    Compiling phf v0.11.3
+rust	Run cargo test --locked	2026-11-26T19:35:09.8271200Z    Compiling phf_generator v0.10.0
+rust	Run cargo test --locked	2026-11-26T19:35:09.8841433Z    Compiling icu_properties v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:11.4918782Z    Compiling icu_normalizer v2.4.0
+rust	Run cargo test --locked	2026-11-26T19:35:11.5095462Z    Compiling string_cache_codegen v0.5.4
+rust	Run cargo test --locked	2026-11-26T19:35:11.8321273Z    Compiling phf_codegen v0.11.3
+rust	Run cargo test --locked	2026-11-26T19:35:11.8966174Z    Compiling aho-corasick v1.1.5
+rust	Run cargo test --locked	2026-11-26T19:35:12.0621237Z    Compiling mac v0.1.1
+rust	Run cargo test --locked	2026-11-26T19:35:12.0721094Z    Compiling precomputed-hash v0.1.1
+rust	Run cargo test --locked	2026-11-26T19:35:12.0935785Z    Compiling tower-service v0.3.3
+rust	Run cargo test --locked	2026-11-26T19:35:12.1061296Z    Compiling regex-syntax v0.8.12
+rust	Run cargo test --locked	2026-11-26T19:35:12.1288128Z    Compiling try-lock v0.2.5
+rust	Run cargo test --locked	2026-11-26T19:35:12.1908075Z    Compiling log v0.4.35
+rust	Run cargo test --locked	2026-11-26T19:35:12.3261160Z    Compiling want v0.3.2
+rust	Run cargo test --locked	2026-11-26T19:35:12.4241025Z    Compiling futf v0.1.5
+rust	Run cargo test --locked	2026-11-26T19:35:12.4931222Z    Compiling markup5ever v0.12.1
+rust	Run cargo test --locked	2026-11-26T19:35:12.8323308Z    Compiling idna_adapter v1.2.2
+rust	Run cargo test --locked	2026-11-26T19:35:12.9086999Z    Compiling rustls-webpki v0.103.17
+rust	Run cargo test --locked	2026-11-26T19:35:14.0991040Z    Compiling regex-automata v0.4.19
+rust	Run cargo test --locked	2026-11-26T19:35:14.1804634Z    Compiling phf_codegen v0.10.0
+rust	Run cargo test --locked	2026-11-26T19:35:14.2552070Z    Compiling httparse v1.10.1
+rust	Run cargo test --locked	2026-11-26T19:35:14.5031214Z    Compiling form_urlencoded v1.2.3
+rust	Run cargo test --locked	2026-11-26T19:35:14.6141131Z    Compiling tracing-core v0.1.36
+rust	Run cargo test --locked	2026-11-26T19:35:14.6997549Z    Compiling bitflags v2.13.2
+rust	Run cargo test --locked	2026-11-26T19:35:14.8760348Z    Compiling subtle v2.6.1
+rust	Run cargo test --locked	2026-11-26T19:35:14.9696579Z    Compiling dtoa v1.0.11
+rust	Run cargo test --locked	2026-11-26T19:35:15.0672387Z    Compiling utf-8 v0.7.6
+rust	Run cargo test --locked	2026-11-26T19:35:15.1665018Z    Compiling utf8parse v0.2.2
+rust	Run cargo test --locked	2026-11-26T19:35:15.1665999Z    Compiling atomic-waker v1.1.2
+rust	Run cargo test --locked	2026-11-26T19:35:15.2038470Z    Compiling hyper v1.13.0
+rust	Run cargo test --locked	2026-11-26T19:35:15.2116467Z    Compiling anstyle-parse v1.0.0
+rust	Run cargo test --locked	2026-11-26T19:35:15.2230970Z    Compiling tendril v0.4.3
+rust	Run cargo test --locked	2026-11-26T19:35:15.3328358Z    Compiling dtoa-short v0.3.5
+rust	Run cargo test --locked	2026-11-26T19:35:15.3989460Z    Compiling rustls v0.23.46
+rust	Run cargo test --locked	2026-11-26T19:35:15.4211403Z    Compiling tracing v0.1.44
+rust	Run cargo test --locked	2026-11-26T19:35:15.6028885Z    Compiling selectors v0.25.0
+rust	Run cargo test --locked	2026-11-26T19:35:15.8845644Z    Compiling idna v1.1.0
+rust	Run cargo test --locked	2026-11-26T19:35:16.6621162Z    Compiling string_cache v0.8.9
+rust	Run cargo test --locked	2026-11-26T19:35:16.8200900Z    Compiling sync_wrapper v1.0.2
+rust	Run cargo test --locked	2026-11-26T19:35:16.8357389Z    Compiling futures-channel v0.3.34
+rust	Run cargo test --locked	2026-11-26T19:35:16.8604149Z    Compiling is_terminal_polyfill v1.70.2
+rust	Run cargo test --locked	2026-11-26T19:35:16.9035712Z    Compiling anstyle-query v1.1.5
+rust	Run cargo test --locked	2026-11-26T19:35:16.9511070Z    Compiling ipnet v2.12.2
+rust	Run cargo test --locked	2026-11-26T19:35:17.0004402Z    Compiling bit-vec v0.8.0
+rust	Run cargo test --locked	2026-11-26T19:35:17.1806032Z    Compiling base64 v0.23.1
+rust	Run cargo test --locked	2026-11-26T19:35:17.4441261Z    Compiling byteorder v1.5.0
+rust	Run cargo test --locked	2026-11-26T19:35:17.5991518Z    Compiling tower-layer v0.3.3
+rust	Run cargo test --locked	2026-11-26T19:35:17.6294636Z    Compiling anstyle v1.0.14
+rust	Run cargo test --locked	2026-11-26T19:35:17.7171590Z    Compiling colorchoice v1.0.5
+rust	Run cargo test --locked	2026-11-26T19:35:17.7701292Z    Compiling anstream v1.0.0
+rust	Run cargo test --locked	2026-11-26T19:35:17.7834676Z    Compiling tower v0.5.3
+rust	Run cargo test --locked	2026-11-26T19:35:18.0221191Z    Compiling fxhash v0.2.1
+rust	Run cargo test --locked	2026-11-26T19:35:18.0841193Z    Compiling hyper-util v0.1.21
+rust	Run cargo test --locked	2026-11-26T19:35:18.2421139Z    Compiling bit-set v0.8.0
+rust	Run cargo test --locked	2026-11-26T19:35:18.3431145Z    Compiling cssparser v0.31.2
+rust	Run cargo test --locked	2026-11-26T19:35:18.9331157Z    Compiling tokio-rustls v0.26.6
+rust	Run cargo test --locked	2026-11-26T19:35:19.1418497Z    Compiling phf v0.10.1
+rust	Run cargo test --locked	2026-11-26T19:35:19.3911238Z    Compiling url v2.5.9
+rust	Run cargo test --locked	2026-11-26T19:35:19.5621310Z    Compiling getrandom v0.4.3
+rust	Run cargo test --locked	2026-11-26T19:35:19.6841392Z    Compiling zmij v1.0.23
+rust	Run cargo test --locked	2026-11-26T19:35:19.9759167Z    Compiling webpki-roots v1.0.12
+rust	Run cargo test --locked	2026-11-26T19:35:20.0469905Z    Compiling servo_arc v0.3.0
+rust	Run cargo test --locked	2026-11-26T19:35:20.1170995Z    Compiling strsim v0.11.1
+rust	Run cargo test --locked	2026-11-26T19:35:20.1681131Z    Compiling ryu v1.0.23
+rust	Run cargo test --locked	2026-11-26T19:35:20.2338094Z    Compiling base64 v0.22.1
+rust	Run cargo test --locked	2026-11-26T19:35:20.2891172Z    Compiling clap_lex v1.1.2
+rust	Run cargo test --locked	2026-11-26T19:35:20.4561399Z    Compiling unicode-width v0.2.3
+rust	Run cargo test --locked	2026-11-26T19:35:20.4641628Z    Compiling clap_builder v4.6.10
+rust	Run cargo test --locked	2026-11-26T19:35:20.5108347Z    Compiling serde_urlencoded v0.7.1
+rust	Run cargo test --locked	2026-11-26T19:35:20.5875315Z    Compiling getopts v0.2.24
+rust	Run cargo test --locked	2026-11-26T19:35:20.9896590Z    Compiling hyper-rustls v0.27.10
+rust	Run cargo test --locked	2026-11-26T19:35:21.2184316Z    Compiling html5ever v0.27.0
+rust	Run cargo test --locked	2026-11-26T19:35:21.7052309Z    Compiling serde_json v1.0.154
+rust	Run cargo test --locked	2026-11-26T19:35:22.0151208Z    Compiling tower-http v0.6.11
+rust	Run cargo test --locked	2026-11-26T19:35:22.2721089Z    Compiling ahash v0.8.14
+rust	Run cargo test --locked	2026-11-26T19:35:22.3621365Z    Compiling anyhow v1.0.105
+rust	Run cargo test --locked	2026-11-26T19:35:22.4441179Z    Compiling fancy-regex v0.19.2
+rust	Run cargo test --locked	2026-11-26T19:35:22.7181776Z    Compiling bstr v1.14.0
+rust	Run cargo test --locked	2026-11-26T19:35:22.9691493Z    Compiling regex v1.13.2
+rust	Run cargo test --locked	2026-11-26T19:35:23.4077599Z    Compiling http-body-util v0.1.5
+rust	Run cargo test --locked	2026-11-26T19:35:23.4321113Z    Compiling rustc-hash v2.1.3
+rust	Run cargo test --locked	2026-11-26T19:35:23.4931242Z    Compiling ego-tree v0.6.3
+rust	Run cargo test --locked	2026-11-26T19:35:23.6150645Z    Compiling reqwest v0.12.28
+rust	Run cargo test --locked	2026-11-26T19:35:23.6411206Z    Compiling scraper v0.19.1
+rust	Run cargo test --locked	2026-11-26T19:35:24.5921139Z    Compiling tiktoken-rs v0.12.1
+rust	Run cargo test --locked	2026-11-26T19:35:24.7092453Z    Compiling clap v4.6.10
+rust	Run cargo test --locked	2026-11-26T19:35:25.9415678Z    Compiling aerobrowse v0.2.0 (/home/runner/work/aerobrowse/aerobrowse/rust_core)
+rust	Run cargo test --locked	2026-11-26T19:35:26.7112100Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 23.28s
+rust	Run cargo test --locked	2026-11-26T19:35:26.7226855Z      Running unittests src/main.rs (target/debug/build/aerobrowse/8c0a0a21a3527dd9/out/aerobrowse-8c0a0a21a3527dd9)
+rust	Run cargo test --locked	2026-11-26T19:35:26.7244373Z 
+rust	Run cargo test --locked	2026-11-26T19:35:26.7244562Z running 8 tests
+rust	Run cargo test --locked	2026-11-26T19:35:26.7263129Z test fidelity::tests::cannot_start_unrestricted_browser_or_execute_values ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0265708Z test pruner::tests::accessible_name_priority_and_image_text_match_static_contract ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0267081Z test pruner::tests::does_not_expose_form_values_as_actions ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0268446Z test pruner::tests::hidden_descendant_text_does_not_escape_in_action_labels ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0270428Z test security::tests::blocked_networks_and_schemes ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0271426Z test security::tests::public_addresses ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.0272363Z test pruner::tests::hidden_ancestors_and_credential_urls_do_not_leak_into_actions ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.3413812Z test pruner::tests::measures_real_tokens_and_rejects_deep_documents ... ok
+rust	Run cargo test --locked	2026-11-26T19:35:27.3414379Z 
+rust	Run cargo test --locked	2026-11-26T19:35:27.3414762Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+rust	Run cargo test --locked	2026-11-26T19:35:27.3415356Z 
+rust	Run cargo build --locked --release	﻿2026-11-26T19:35:27.3557014Z ##[group]Run cargo build --locked --release
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.3557623Z ^[[36;1mcargo build --locked --release^[[0m
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.3619604Z shell: /usr/bin/bash -e {0}
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.3620056Z ##[endgroup]
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.4879813Z    Compiling proc-macro2 v1.0.107
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.4880730Z    Compiling quote v1.0.47
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.4881617Z    Compiling unicode-ident v1.0.27
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.4882160Z    Compiling libc v0.2.191
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.5541190Z    Compiling zerocopy v0.8.66
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.8083676Z    Compiling cfg-if v1.0.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:27.8443033Z    Compiling smallvec v1.16.6
+rust	Run cargo build --locked --release	2026-11-26T19:35:28.5540846Z    Compiling syn v3.0.10
+rust	Run cargo build --locked --release	2026-11-26T19:35:28.9451172Z    Compiling stable_deref_trait v1.2.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:28.9838251Z    Compiling parking_lot_core v0.9.12
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.0778519Z    Compiling getrandom v0.2.17
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.1110401Z    Compiling scopeguard v1.2.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.1581181Z    Compiling lock_api v0.4.14
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.2331169Z    Compiling rand_core v0.6.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.3826099Z    Compiling siphasher v1.0.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.5271129Z    Compiling itoa v1.0.19
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.6702471Z    Compiling parking_lot v0.12.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.7311529Z    Compiling phf_shared v0.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:29.8520937Z    Compiling syn v2.0.119
+rust	Run cargo build --locked --release	2026-11-26T19:35:30.6211135Z    Compiling bytes v1.12.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:31.5350567Z    Compiling pin-project-lite v0.2.18
+rust	Run cargo build --locked --release	2026-11-26T19:35:31.5831181Z    Compiling serde_core v1.0.229
+rust	Run cargo build --locked --release	2026-11-26T19:35:31.7441139Z    Compiling find-msvc-tools v0.1.15
+rust	Run cargo build --locked --release	2026-11-26T19:35:31.9021438Z    Compiling futures-core v0.3.34
+rust	Run cargo build --locked --release	2026-11-26T19:35:31.9858704Z    Compiling shlex v2.0.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:32.1041216Z    Compiling synstructure v0.14.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:32.2351155Z    Compiling ppv-lite86 v0.2.21
+rust	Run cargo build --locked --release	2026-11-26T19:35:32.5666180Z    Compiling rand_chacha v0.3.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:32.6247265Z    Compiling cc v1.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:32.8409958Z    Compiling rand v0.8.8
+rust	Run cargo build --locked --release	2026-11-26T19:35:33.5031606Z    Compiling phf_generator v0.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:33.6373925Z    Compiling errno v0.3.15
+rust	Run cargo build --locked --release	2026-11-26T19:35:33.7544979Z    Compiling litemap v0.8.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:33.7793013Z    Compiling zerofrom-derive v0.1.8
+rust	Run cargo build --locked --release	2026-11-26T19:35:33.9179811Z    Compiling yoke-derive v0.8.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.2581144Z    Compiling zerovec-derive v0.11.7
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.7145167Z    Compiling displaydoc v0.2.7
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.7936434Z    Compiling once_cell v1.21.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.8471376Z    Compiling zerofrom v0.1.8
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.9311130Z    Compiling yoke v0.8.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:34.9681120Z    Compiling writeable v0.6.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.0888247Z    Compiling utf_types v1.0.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.2280415Z    Compiling ring v0.17.14
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.2321252Z    Compiling zerovec v0.11.9
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.2540955Z    Compiling zerotrie v0.2.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.3127500Z    Compiling utf8_iter v1.1.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.4501603Z    Compiling tokio-macros v2.7.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.5401208Z    Compiling signal-hook-registry v1.4.8
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.9061325Z    Compiling tinystr v0.8.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.9190817Z    Compiling potential_utf v0.1.6
+rust	Run cargo build --locked --release	2026-11-26T19:35:35.9384277Z    Compiling mio v1.2.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:36.0351370Z    Compiling socket2 v0.6.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:36.0681738Z    Compiling icu_locale_core v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:36.6051199Z    Compiling icu_properties_data v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:36.8522075Z    Compiling icu_normalizer_data v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:36.9401122Z    Compiling memchr v2.8.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:37.0258598Z    Compiling serde v1.0.229
+rust	Run cargo build --locked --release	2026-11-26T19:35:37.2161018Z    Compiling icu_provider v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:37.9681045Z    Compiling tokio v1.54.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:38.1731399Z    Compiling icu_collections v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:38.8801148Z    Compiling serde_derive v1.0.229
+rust	Run cargo build --locked --release	2026-11-26T19:35:39.1881222Z    Compiling http v1.5.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.2541141Z    Compiling zeroize v1.9.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.3851292Z    Compiling new_debug_unreachable v1.0.6
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.4191141Z    Compiling percent-encoding v2.3.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.6182016Z    Compiling siphasher v0.3.11
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.7451287Z    Compiling phf_shared v0.10.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:41.8713541Z    Compiling rustls-pki-types v1.16.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:42.3951058Z    Compiling http-body v1.1.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:42.6478733Z    Compiling phf_macros v0.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:42.9151380Z    Compiling slab v0.4.12
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.0538664Z    Compiling untrusted v0.9.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.0701027Z    Compiling httparse v1.10.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.1221163Z    Compiling futures-task v0.3.34
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.2267377Z    Compiling futures-util v0.3.34
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.2681104Z    Compiling phf v0.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:43.3901169Z    Compiling icu_normalizer v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:44.7173740Z    Compiling icu_properties v2.4.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:45.1454142Z    Compiling phf_generator v0.10.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:45.2070955Z    Compiling aho-corasick v1.1.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:46.7281124Z    Compiling string_cache_codegen v0.5.4
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.0301246Z    Compiling phf_codegen v0.11.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.1041597Z    Compiling log v0.4.35
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.2691219Z    Compiling try-lock v0.2.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.3211161Z    Compiling mac v0.1.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.3566619Z    Compiling precomputed-hash v0.1.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.3986559Z    Compiling rustls v0.23.46
+rust	Run cargo build --locked --release	2026-11-26T19:35:47.4881238Z    Compiling regex-syntax v0.8.12
+rust	Run cargo build --locked --release	2026-11-26T19:35:51.5711228Z    Compiling tower-service v0.3.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:51.6181885Z    Compiling regex-automata v0.4.19
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.1252080Z    Compiling rustls-webpki v0.103.17
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.2371295Z    Compiling futf v0.1.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.3201198Z    Compiling want v0.3.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.4251214Z    Compiling markup5ever v0.12.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.7378558Z    Compiling idna_adapter v1.2.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:52.8331243Z    Compiling phf_codegen v0.10.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:53.3438340Z    Compiling form_urlencoded v1.2.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:53.5441306Z    Compiling tracing-core v0.1.36
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.5021029Z    Compiling utf8parse v0.2.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.5531699Z    Compiling atomic-waker v1.1.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.6191147Z    Compiling zmij v1.0.23
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.7531602Z    Compiling version_check v0.9.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.9632279Z    Compiling bitflags v2.13.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:54.9710966Z    Compiling subtle v2.6.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.0671104Z    Compiling utf-8 v0.7.6
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.2951234Z    Compiling getrandom v0.4.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.3628126Z    Compiling dtoa v1.0.11
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.4601000Z    Compiling dtoa-short v0.3.5
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.5601185Z    Compiling tendril v0.4.3
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.7966077Z    Compiling ahash v0.8.14
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.9261026Z    Compiling hyper v1.13.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:55.9491228Z    Compiling anstyle-parse v1.0.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:56.1041819Z    Compiling tracing v0.1.44
+rust	Run cargo build --locked --release	2026-11-26T19:35:56.4201208Z    Compiling selectors v0.25.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:56.6880943Z    Compiling idna v1.1.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.1671152Z    Compiling string_cache v0.8.9
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.3671044Z    Compiling html5ever v0.27.0
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.3781914Z    Compiling cssparser-macros v0.6.1
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.6171368Z    Compiling futures-channel v0.3.34
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.8107577Z    Compiling sync_wrapper v1.0.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.8831391Z    Compiling is_terminal_polyfill v1.70.2
+rust	Run cargo build --locked --release	2026-11-26T19:35:59.9291133Z    Compiling base64 v0.23.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.1111200Z    Compiling colorchoice v1.0.5
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.1721151Z    Compiling byteorder v1.5.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.4154434Z    Compiling anyhow v1.0.105
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.5665335Z    Compiling bit-vec v0.8.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.7361241Z    Compiling anstyle-query v1.1.5
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.7879544Z    Compiling serde_json v1.0.154
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.7985570Z    Compiling anstyle v1.0.14
+rust	Run cargo build --locked --release	2026-11-26T19:36:00.8751036Z    Compiling ipnet v2.12.2
+rust	Run cargo build --locked --release	2026-11-26T19:36:01.0201260Z    Compiling tower-layer v0.3.3
+rust	Run cargo build --locked --release	2026-11-26T19:36:01.2003653Z    Compiling tower v0.5.3
+rust	Run cargo build --locked --release	2026-11-26T19:36:01.7833326Z    Compiling hyper-util v0.1.21
+rust	Run cargo build --locked --release	2026-11-26T19:36:02.2271263Z    Compiling anstream v1.0.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:02.6851276Z    Compiling bit-set v0.8.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:02.8601686Z    Compiling fxhash v0.2.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:04.3581728Z    Compiling tokio-rustls v0.26.6
+rust	Run cargo build --locked --release	2026-11-26T19:36:04.6441140Z    Compiling cssparser v0.31.2
+rust	Run cargo build --locked --release	2026-11-26T19:36:06.7061100Z    Compiling url v2.5.9
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.2500974Z    Compiling phf v0.10.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.5081268Z    Compiling webpki-roots v1.0.12
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.5741165Z    Compiling derive_more v0.99.20
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.6081164Z    Compiling servo_arc v0.3.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.7581167Z    Compiling heck v0.5.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:07.8991287Z    Compiling unicode-width v0.2.3
+rust	Run cargo build --locked --release	2026-11-26T19:36:08.0521228Z    Compiling ryu v1.0.23
+rust	Run cargo build --locked --release	2026-11-26T19:36:08.0771343Z    Compiling strsim v0.11.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:08.3201917Z    Compiling base64 v0.22.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:08.7831224Z    Compiling clap_lex v1.1.2
+rust	Run cargo build --locked --release	2026-11-26T19:36:08.9171240Z    Compiling clap_builder v4.6.10
+rust	Run cargo build --locked --release	2026-11-26T19:36:09.0711343Z    Compiling serde_urlencoded v0.7.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:09.4581528Z    Compiling getopts v0.2.24
+rust	Run cargo build --locked --release	2026-11-26T19:36:10.6541149Z    Compiling clap_derive v4.6.9
+rust	Run cargo build --locked --release	2026-11-26T19:36:11.0581164Z    Compiling hyper-rustls v0.27.10
+rust	Run cargo build --locked --release	2026-11-26T19:36:11.7501439Z    Compiling tower-http v0.6.11
+rust	Run cargo build --locked --release	2026-11-26T19:36:14.1961168Z    Compiling fancy-regex v0.19.2
+rust	Run cargo build --locked --release	2026-11-26T19:36:15.1261447Z    Compiling bstr v1.14.0
+rust	Run cargo build --locked --release	2026-11-26T19:36:16.7491029Z    Compiling regex v1.13.2
+rust	Run cargo build --locked --release	2026-11-26T19:36:16.9301640Z    Compiling http-body-util v0.1.5
+rust	Run cargo build --locked --release	2026-11-26T19:36:17.2121264Z    Compiling rustc-hash v2.1.3
+rust	Run cargo build --locked --release	2026-11-26T19:36:17.2781217Z    Compiling ego-tree v0.6.3
+rust	Run cargo build --locked --release	2026-11-26T19:36:17.4481234Z    Compiling scraper v0.19.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:18.2231654Z    Compiling tiktoken-rs v0.12.1
+rust	Run cargo build --locked --release	2026-11-26T19:36:21.0211478Z    Compiling reqwest v0.12.28
+rust	Run cargo build --locked --release	2026-11-26T19:36:22.3901235Z    Compiling clap v4.6.10
+rust	Run cargo build --locked --release	2026-11-26T19:36:26.8620761Z    Compiling aerobrowse v0.2.0 (/home/runner/work/aerobrowse/aerobrowse/rust_core)
+rust	Run cargo build --locked --release	2026-11-26T19:36:28.9895652Z     Finished `release` profile [optimized] target(s) in 1m 01s
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	﻿2026-11-26T19:36:29.0174468Z ##[group]Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0174908Z with:
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0175103Z   python-version: 3.12
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0175325Z   check-latest: false
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0177737Z   token: ***
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0178063Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0178459Z   update-environment: true
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0178699Z   allow-prereleases: false
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0178921Z   freethreaded: false
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.0179125Z ##[endgroup]
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.1388851Z ##[group]Installed versions
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.1477690Z Successfully set up CPython (3.12.16)
+rust	Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	2026-11-26T19:36:29.1478474Z ##[endgroup]
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	﻿2026-11-26T19:36:29.1680576Z ##[group]Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1681044Z with:
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1681250Z   activate-environment: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1681505Z   no-project: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1681798Z   working-directory: /home/runner/work/aerobrowse/aerobrowse
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1682179Z   require-checksums: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1684551Z   github-token: ***
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1684767Z   enable-cache: auto
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1685337Z   cache-dependency-glob: **/*requirements*.txt
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/*requirements*.in
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/*constraints*.txt
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/*constraints*.in
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/pyproject.toml
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/uv.lock
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	**/*.py.lock
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1685955Z   restore-cache: true
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1686158Z   save-cache: auto
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1686352Z   prune-cache: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1686553Z   cache-python: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1686771Z   ignore-nothing-to-cache: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1687026Z   ignore-empty-workdir: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1687277Z   download-from-astral-mirror: true
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1687567Z   add-problem-matchers: true
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1687793Z   quiet: false
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1687988Z   resolution-strategy: highest
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1688212Z env:
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1688455Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1688900Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1689325Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1689702Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1690073Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1690654Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.1690971Z ##[endgroup]
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.3596853Z Trying to find version for uv in: /home/runner/work/aerobrowse/aerobrowse/uv.toml
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.3598133Z Could not find file: /home/runner/work/aerobrowse/aerobrowse/uv.toml
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.3599198Z Trying to find version for uv in: /home/runner/work/aerobrowse/aerobrowse/pyproject.toml
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.3604968Z Could not determine uv version from uv.toml or pyproject.toml. Falling back to latest.
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.3611017Z Fetching manifest data from https://releases.astral.sh/github/versions/main/v1/uv.ndjson ...
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.4380401Z Downloading uv from "https://releases.astral.sh/github/uv/releases/download/0.13.10/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.6101347Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/1bbf8456-37cd-4d33-8792-dccf92836fc2 -f /home/runner/work/_temp/bd3a3945-2b86-4f2e-8793-6a7809df77fa
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9156045Z Added /home/runner/.local/bin to the path
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9159448Z Added /opt/hostedtoolcache/uv/0.13.10/x86_64 to the path
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9161544Z Set UV_PYTHON_INSTALL_DIR to /home/runner/work/_temp/uv-python-dir
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9162269Z Added /home/runner/work/_temp/uv-python-dir to the path
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9172057Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:29.9172704Z Successfully installed uv version 0.13.10
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.0513681Z Searching files using cache dependency glob: /home/runner/work/aerobrowse/aerobrowse/**/*requirements*.txt,/home/runner/work/aerobrowse/aerobrowse/**/*requirements*.in,/home/runner/work/aerobrowse/aerobrowse/**/*constraints*.txt,/home/runner/work/aerobrowse/aerobrowse/**/*constraints*.in,/home/runner/work/aerobrowse/aerobrowse/**/pyproject.toml,/home/runner/work/aerobrowse/aerobrowse/**/uv.lock,/home/runner/work/aerobrowse/aerobrowse/**/*.py.lock
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.1289217Z /home/runner/work/aerobrowse/aerobrowse/pyproject.toml
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.8940807Z /home/runner/work/aerobrowse/aerobrowse/uv.lock
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.8965105Z /home/runner/work/aerobrowse/aerobrowse/web_demo/requirements.txt
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.8970614Z Found 3 files to hash.
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.9056623Z Trying to restore cache from GitHub Actions cache with key: setup-uv-2-x86_64-unknown-linux-gnu-ubuntu-24.04-3.12.16-99fae2e44834c0236cb9fd9e3a810a7e915fb19feb0ebb31123eb61d08aa0b3d
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:30.9605825Z Cache hit for: setup-uv-2-x86_64-unknown-linux-gnu-ubuntu-24.04-3.12.16-99fae2e44834c0236cb9fd9e3a810a7e915fb19feb0ebb31123eb61d08aa0b3d
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:31.4485003Z Received 98528079 of 98528079 (100.0%), 211.6 MBs/sec
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:31.4485767Z Cache Size: ~94 MB (98528079 B)
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:31.4607133Z [command]/usr/bin/tar -xf /home/runner/work/_temp/fdc81753-b230-4a8c-bf2c-ed7c60e25af0/cache.tzst -P -C /home/runner/work/aerobrowse/aerobrowse --use-compress-program unzstd
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:32.2979843Z Cache restored successfully
+rust	Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:36:32.3029274Z cache restored from GitHub Actions cache with key: setup-uv-2-x86_64-unknown-linux-gnu-ubuntu-24.04-3.12.16-99fae2e44834c0236cb9fd9e3a810a7e915fb19feb0ebb31123eb61d08aa0b3d
+rust	Verify native and Python rejection contract	﻿2026-11-26T19:36:32.4262646Z ##[group]Run uv sync --locked --extra dev --no-build --no-install-project
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4263228Z ^[[36;1muv sync --locked --extra dev --no-build --no-install-project^[[0m
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4263758Z ^[[36;1muv run --no-sync python -m pytest tests/mcp/test_engine_contract.py -v^[[0m
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4340018Z shell: /usr/bin/bash -e {0}
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4340591Z env:
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4340876Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4341336Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4341785Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4342196Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4342588Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4342985Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4343393Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4343833Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4344354Z   AEROBROWSE_NATIVE_BINARY: /home/runner/work/aerobrowse/aerobrowse/rust_core/target/release/aerobrowse
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4344836Z ##[endgroup]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4484574Z Using CPython 3.12.16 interpreter at: /opt/hostedtoolcache/Python/3.12.16/x64/bin/python3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4485331Z Creating virtual environment at: .venv
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.4534689Z Resolved 121 packages in 1ms
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5225380Z Installed 112 packages in 63ms
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5226263Z  + aiofile==3.12.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5226900Z  + annotated-types==0.8.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5227389Z  + anyio==4.16.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5227790Z  + ast-serialize==0.13.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5228208Z  + attrs==26.1.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5228567Z  + authlib==1.9.10
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5228962Z  + beartype==0.23.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5229443Z  + beautifulsoup4==4.15.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5229898Z  + boolean-py==5.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5230604Z  + build==1.6.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5231046Z  + cachecontrol==0.15.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5231519Z  + cachetools==8.0.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5232287Z  + caio==0.12.10
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5232668Z  + certifi==2026.11.20
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5233081Z  + cffi==2.1.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5233484Z  + charset-normalizer==3.5.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5233976Z  + click==8.5.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5234367Z  + cryptography==50.0.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5234816Z  + cyclonedx-python-lib==11.12.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5235335Z  + cyclopts==5.5.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5235751Z  + defusedxml==0.7.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5236192Z  + dnspython==2.9.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5236614Z  + docstring-parser==0.18.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5237133Z  + email-validator==2.4.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5237737Z  + exceptiongroup==1.3.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5238227Z  + fastmcp==3.4.11
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5238661Z  + fastmcp-slim==3.4.11
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5239138Z  + filelock==4.3.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5239551Z  + greenlet==3.5.6
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5239958Z  + griffelib==2.4.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5240459Z  + h11==0.16.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5240855Z  + httpcore==1.0.9
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5241283Z  + httpx==0.28.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5241691Z  + httpx-sse==0.4.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5242073Z  + idna==3.20
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5242480Z  + iniconfig==2.3.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5242910Z  + jaraco-classes==3.4.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5243371Z  + jaraco-context==6.1.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5243878Z  + jaraco-functools==4.6.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5244333Z  + jeepney==0.9.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5244744Z  + joserfc==1.8.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5245166Z  + jsonref==1.1.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5245574Z  + jsonschema==4.26.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5246031Z  + jsonschema-path==0.5.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5246575Z  + jsonschema-specifications==2025.9.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5247106Z  + keyring==25.7.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5247502Z  + librt==0.17.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5247922Z  + license-expression==30.4.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5248463Z  + markdown-it-py==4.3.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5248936Z  + mcp==1.30.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5249690Z  + mdurl==0.1.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5250538Z  + more-itertools==11.2.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5251063Z  + msgpack==1.2.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5251452Z  + mypy==2.4.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5251862Z  + mypy-extensions==1.2.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5252381Z  + openapi-pydantic==0.6.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5252881Z  + opentelemetry-api==1.45.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5253398Z  + packageurl-python==0.17.6
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5253883Z  + packaging==26.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5254277Z  + pathable==0.6.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5254701Z  + pathspec==1.1.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5255117Z  + pip==26.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5255501Z  + pip-api==0.0.35
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5255912Z  + pip-audit==2.10.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5256350Z  + pip-requirements-parser==32.0.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5256910Z  + platformdirs==4.14.8
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5257361Z  + playwright==1.65.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5257779Z  + pluggy==1.7.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5258206Z  + psutil==7.2.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5258646Z  + py-key-value-aio==0.4.6
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5259128Z  + py-serializable==2.2.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5259596Z  + pycparser==3.12
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5260013Z  + pydantic==2.14.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5260557Z  + pydantic-core==2.50.5
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5261033Z  + pydantic-settings==2.16.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5261506Z  + pygments==2.21.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5261917Z  + pyjwt==2.15.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5262337Z  + pyparsing==3.3.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5262739Z  + pyperclip==1.11.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5263188Z  + pyproject-hooks==1.3.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5263644Z  + pytest==9.2.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5264059Z  + pytest-asyncio==1.5.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5264515Z  + python-dotenv==1.2.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5264961Z  + python-multipart==0.0.34
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5265438Z  + pyyaml==6.0.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5265828Z  + referencing==0.37.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5266244Z  + regex==2026.11.25
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5266643Z  + requests==2.34.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5267033Z  + rich==15.0.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5267442Z  + rich-rst==2.2.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5267855Z  + rpds-py==2026.9.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5268262Z  + ruff==0.17.6
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5268660Z  + secretstorage==3.5.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5269361Z  + setuptools==84.2.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5269819Z  + sortedcontainers==2.4.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5270442Z  + soupsieve==4.1.3
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5270858Z  + sse-starlette==3.7.1
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5271310Z  + starlette==1.10.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5271703Z  + tiktoken==0.14.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5272099Z  + tomli==2.5.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5272466Z  + tomli-w==1.2.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5272861Z  + types-beautifulsoup4==4.12.0.20250516
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5273413Z  + types-html5lib==1.1.11.20260518
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5273975Z  + types-webencodings==0.6.0.20261104
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5274527Z  + typing-extensions==4.16.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5274951Z  + typing-inspection==0.4.5
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5275191Z  + uncalled-for==0.6.2
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5275398Z  + urllib3==2.8.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5275736Z  + uvicorn==0.54.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5275950Z  + watchfiles==1.3.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5276154Z  + websockets==17.4
+rust	Verify native and Python rejection contract	2026-11-26T19:36:32.5276353Z  + wheel==0.48.0
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6221485Z ============================= test session starts ==============================
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6222372Z platform linux -- Python 3.12.16, pytest-9.2.0, pluggy-1.7.0 -- /home/runner/work/aerobrowse/aerobrowse/.venv/bin/python
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6223060Z cachedir: .pytest_cache
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6223403Z rootdir: /home/runner/work/aerobrowse/aerobrowse
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6223801Z configfile: pyproject.toml
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6224192Z plugins: asyncio-1.5.0, anyio-4.16.0, platformdirs-4.14.8
+rust	Verify native and Python rejection contract	2026-11-26T19:36:33.6224970Z asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2147072Z collecting ... collected 18 items
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2147521Z 
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2186736Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://127.0.0.1] PASSED [  5%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2220434Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://10.1.1.1] PASSED [ 11%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2251060Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://172.16.1.1] PASSED [ 16%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2281359Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://192.168.1.1] PASSED [ 22%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2310450Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://169.254.169.254] PASSED [ 27%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2341776Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://[::1]] PASSED [ 33%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2372485Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://[fc00::1]] PASSED [ 38%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2402427Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://[fe80::1]] PASSED [ 44%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2432822Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://[::ffff:127.0.0.1]] PASSED [ 50%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2462512Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://0.0.0.0] PASSED [ 55%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2490886Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://224.0.0.1] PASSED [ 61%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2520835Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://localhost] PASSED [ 66%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2549860Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[http://svc.internal] PASSED [ 72%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2578888Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[file:///etc/passwd] PASSED [ 77%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2607448Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[javascript:alert(1)] PASSED [ 83%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2635870Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[data:text/html,x] PASSED [ 88%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2666165Z tests/mcp/test_engine_contract.py::test_both_native_and_python_reject_destination[***example.com] PASSED [ 94%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2928453Z tests/mcp/test_engine_contract.py::test_native_browser_cannot_silently_fall_back_to_unrestricted_runtime PASSED [100%]
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2929118Z 
+rust	Verify native and Python rejection contract	2026-11-26T19:36:34.2929294Z ============================== 18 passed in 0.65s ==============================
+rust	Run cargo install cargo-audit --locked	﻿2026-11-26T19:36:34.3467527Z ##[group]Run cargo install cargo-audit --locked
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3467931Z ^[[36;1mcargo install cargo-audit --locked^[[0m
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3511203Z shell: /usr/bin/bash -e {0}
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3511470Z env:
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3511744Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3512207Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3512669Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3513054Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3513513Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3513903Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3514308Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3514678Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3514994Z ##[endgroup]
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.3994871Z     Updating crates.io index
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.4290736Z  Downloading crates ...
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.4543098Z   Downloaded cargo-audit v0.23.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.4822339Z   Installing cargo-audit v0.23.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:34.4869756Z     Updating crates.io index
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.0770539Z     Updating crates.io index
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.1817826Z  Downloading crates ...
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.1993172Z   Downloaded adler2 v2.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2127798Z   Downloaded futures-io v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2138473Z   Downloaded crossbeam-queue v0.3.14
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2151975Z   Downloaded fnv v1.0.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2160493Z   Downloaded form_urlencoded v1.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2169087Z   Downloaded clap v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2265097Z   Downloaded gix-config v0.62.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2322154Z   Downloaded auditable-extract v0.3.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2324256Z   Downloaded gix-ignore v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2336171Z   Downloaded dashmap v6.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2364118Z   Downloaded faster-hex v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2382267Z   Downloaded borsh v1.8.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2457729Z   Downloaded crossbeam-deque v0.8.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2472140Z   Downloaded gix-refspec v0.47.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2490646Z   Downloaded defmt-macros v1.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2527292Z   Downloaded fs_extra v1.3.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2544565Z   Downloaded gix-shallow v0.15.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2555215Z   Downloaded uluru v3.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2564357Z   Downloaded gix-status v0.37.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2584853Z   Downloaded gix-submodule v0.36.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2596969Z   Downloaded gix-tempfile v26.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2611049Z   Downloaded itoa v1.0.18
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2625643Z   Downloaded gix-commitgraph v0.42.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2641827Z   Downloaded gix-ref v0.69.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2687057Z   Downloaded icu_properties_data v2.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2806283Z   Downloaded rayon v1.12.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2908433Z   Downloaded gix-bitmap v0.6.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2919811Z   Downloaded arc-swap v1.9.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.2967343Z   Downloaded rustsec v0.34.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3030371Z   Downloaded multiversion v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3059205Z   Downloaded find-msvc-tools v0.1.13
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3075956Z   Downloaded cvss v3.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3164713Z   Downloaded futures-sink v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3173630Z   Downloaded gix-actor v0.44.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3186436Z   Downloaded gix-quote v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3196593Z   Downloaded encoding_rs v0.8.41
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3292777Z   Downloaded gix-object v0.66.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3328184Z   Downloaded defmt v0.3.100
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3336588Z   Downloaded filetime v0.2.29
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3353246Z   Downloaded gix-credentials v0.42.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3370415Z   Downloaded gix-diff v0.70.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3398052Z   Downloaded gix-discover v0.57.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3413733Z   Downloaded gix-imara-diff v0.3.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3432855Z   Downloaded gix-odb v0.87.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3464813Z   Downloaded gix-path v0.14.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3482363Z   Downloaded hashbrown v0.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3531508Z   Downloaded jiff-core v0.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3565884Z   Downloaded time-macros v0.2.32
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3589177Z   Downloaded display-error-chain v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3599896Z   Downloaded gix-trace v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3619282Z   Downloaded defmt v1.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3665492Z   Downloaded cmake v0.1.58
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3678354Z   Downloaded gix-dir v0.32.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3693264Z   Downloaded rustls-pki-types v1.15.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3717701Z   Downloaded gix-validate v0.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3728969Z   Downloaded camino v1.2.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3744523Z   Downloaded equivalent v1.0.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3754209Z   Downloaded errno v0.3.14
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3768477Z   Downloaded matchers v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3778588Z   Downloaded nonempty v0.12.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3789606Z   Downloaded icu_provider v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3814020Z   Downloaded idna_adapter v1.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3822831Z   Downloaded unicode-bom v2.0.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3835398Z   Downloaded compression-core v0.4.33
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3845393Z   Downloaded crossbeam v0.8.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3856689Z   Downloaded compression-codecs v0.4.43
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3894552Z   Downloaded core_detect v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3909899Z   Downloaded crossbeam-utils v0.8.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3936594Z   Downloaded either v1.18.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3950828Z   Downloaded fastrand v2.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3963826Z   Downloaded foldhash v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3975243Z   Downloaded gix-config-value v0.21.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.3987769Z   Downloaded gix-revision v0.52.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4004843Z   Downloaded quitters v0.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4012494Z   Downloaded bstr v1.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4088058Z   Downloaded crossbeam-channel v0.5.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4126363Z   Downloaded crossbeam-epoch v0.9.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4150466Z   Downloaded deranged v0.5.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4164564Z   Downloaded dunce v1.0.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4173221Z   Downloaded flate2 v1.1.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4220451Z   Downloaded gix-protocol v0.68.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4248363Z   Downloaded gix-worktree v0.59.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4267373Z   Downloaded gix-worktree-state v0.37.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4280956Z   Downloaded rustc-stable-hash v0.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4296425Z   Downloaded gix-prompt v0.19.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4307930Z   Downloaded clap_derive v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4340968Z   Downloaded gix-chunk v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4345645Z   Downloaded gix-filter v0.36.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4374659Z   Downloaded foldhash v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4386407Z   Downloaded fs-err v3.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4405417Z   Downloaded hash32 v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4418906Z   Downloaded io-close v0.3.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4428589Z   Downloaded lazy_static v1.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4445244Z   Downloaded num-conv v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4453047Z   Downloaded tinystr v0.8.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4472350Z   Downloaded zerovec v0.11.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4529834Z   Downloaded async-compression v0.4.48
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4598478Z   Downloaded auditable-info v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4606451Z   Downloaded autocfg v1.5.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4623711Z   Downloaded clap_lex v1.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4634230Z   Downloaded gix-fs v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4650975Z   Downloaded gix-glob v0.29.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4663820Z   Downloaded gix-note v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4673997Z   Downloaded gix-parallel v0.50.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4686996Z   Downloaded toml_datetime v1.1.3+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4700969Z   Downloaded allocator-api2 v0.2.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4725206Z   Downloaded bytes v1.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4759502Z   Downloaded gix-lock v26.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4770772Z   Downloaded gix-pack v0.77.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4834335Z   Downloaded gix-transport v0.62.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4870683Z   Downloaded h2 v0.4.19
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4932514Z   Downloaded icu_collections v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.4991763Z   Downloaded icu_normalizer v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5025255Z   Downloaded time-core v0.1.9
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5035664Z   Downloaded synstructure v0.13.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5045087Z   Downloaded gix-macros v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5054915Z   Downloaded cc v1.4.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5084329Z   Downloaded binfarce v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5100466Z   Downloaded utf8_iter v1.0.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5109583Z   Downloaded wasmparser v0.255.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5189125Z   Downloaded rustls-webpki v0.103.16
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5223200Z   Downloaded simd-adler32 v0.3.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5240474Z   Downloaded rustc-demangle v0.1.28
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5256120Z   Downloaded smol_str v0.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5270432Z   Downloaded termcolor v1.4.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5281896Z   Downloaded zerovec-derive v0.11.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5297811Z   Downloaded gix-traverse v0.64.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5314791Z   Downloaded log v0.4.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5338352Z   Downloaded rand_pcg v0.10.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5351977Z   Downloaded rustversion v1.0.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5378475Z   Downloaded gix-utils v0.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5395138Z   Downloaded sharded-slab v0.1.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5426766Z   Downloaded zeroize v1.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5441077Z   Downloaded heapless v0.8.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5477203Z   Downloaded object v0.40.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5603598Z   Downloaded indexmap v2.14.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5644511Z   Downloaded miniz_oxide v0.9.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5668230Z   Downloaded tracing-subscriber v0.3.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5748628Z   Downloaded icu_normalizer_data v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5768570Z   Downloaded rand v0.10.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5804562Z   Downloaded mio v1.2.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5863321Z   Downloaded multiversion-macros v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5875337Z   Downloaded prodash v31.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5913098Z   Downloaded reqwest v0.13.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5964795Z   Downloaded serde_spanned v1.1.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.5975836Z   Downloaded hyper-util v0.1.20
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6036228Z   Downloaded serde_json v1.0.151
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6106493Z   Downloaded thread_local v1.1.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6118727Z   Downloaded home v0.5.12
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6127890Z   Downloaded hyper v1.11.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6194679Z   Downloaded gix-worktree-stream v0.39.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6207356Z   Downloaded hashbrown v0.14.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6253049Z   Downloaded nu-ansi-term v0.50.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6275754Z   Downloaded hashbrown v0.17.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6326761Z   Downloaded jiff-static v0.2.38
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6335134Z   Downloaded yoke-derive v0.8.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6345884Z   Downloaded rustls-native-certs v0.8.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6358149Z   Downloaded pin-project-lite v0.2.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6414103Z   Downloaded pkg-config v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6428163Z   Downloaded platforms v4.3.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6447308Z   Downloaded toml v1.1.8+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6486127Z   Downloaded memmap2 v0.9.11
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6502550Z   Downloaded jobserver v0.1.35
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6520347Z   Downloaded mime v0.3.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6532408Z   Downloaded defmt-parser v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6541029Z   Downloaded gix-attributes v0.37.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6556656Z   Downloaded gix-hashtable v0.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6565728Z   Downloaded gix-negotiate v0.38.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6576636Z   Downloaded gix-sec v0.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6588093Z   Downloaded crc32fast v1.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6607613Z   Downloaded gix-command v0.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6618687Z   Downloaded gix-date v0.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6634441Z   Downloaded gix-packetline v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6652074Z   Downloaded gix-pathspec v0.22.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6665994Z   Downloaded quinn-udp v0.5.15
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6682492Z   Downloaded dua-core v4.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6697459Z   Downloaded fixedbitset v0.5.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6715117Z   Downloaded gix-index v0.58.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6751512Z   Downloaded tokio-rustls v0.26.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6766844Z   Downloaded toml_writer v1.2.0+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6779836Z   Downloaded tracing-log v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6792671Z   Downloaded arrayvec v0.7.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6812187Z   Downloaded bitflags v1.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6842890Z   Downloaded cargo-lock v11.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6873848Z   Downloaded smallvec v1.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6886183Z   Downloaded gix-error v0.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6906879Z   Downloaded gix-hash v0.28.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6921481Z   Downloaded unicode-normalization v0.1.25
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.6954289Z   Downloaded clap_builder v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7015416Z   Downloaded gix-zlib v0.4.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7027595Z   Downloaded powerfmt v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7038039Z   Downloaded wasmparser v0.207.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7097722Z   Downloaded zlib-rs v0.6.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7149991Z   Downloaded clru v0.6.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7161943Z   Downloaded gix-revwalk v0.38.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7173568Z   Downloaded openssl-probe v0.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7185897Z   Downloaded regex-syntax v0.8.11
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7254424Z   Downloaded sha1dc v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7289772Z   Downloaded unicode-ident v1.0.26
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7316451Z   Downloaded same-file v1.0.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7329487Z   Downloaded simdutf8 v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7351982Z   Downloaded gix-url v0.40.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7365902Z   Downloaded icu_locale_core v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7430451Z   Downloaded multiversion_no_op v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7438763Z   Downloaded semver v1.0.28
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7468719Z   Downloaded gix v0.90.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7636672Z   Downloaded rustls-platform-verifier v0.7.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7673074Z   Downloaded topological-sort v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7683346Z   Downloaded walkdir v2.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7700280Z   Downloaded auditable-serde v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7708016Z   Downloaded icu_properties v2.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7728504Z   Downloaded tame-index v0.26.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7769579Z   Downloaded twox-hash v2.1.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7791533Z   Downloaded url v2.5.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7815828Z   Downloaded winnow v1.0.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.7909098Z   Downloaded aws-lc-rs v1.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8013098Z   Downloaded tempfile v3.27.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8036847Z   Downloaded yoke v0.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8053960Z   Downloaded rayon-core v1.13.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8088955Z   Downloaded toml-span v0.7.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8104166Z   Downloaded toml_parser v1.1.5+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8126070Z   Downloaded hashbrown v0.15.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8172886Z   Downloaded tokio-util v0.7.19
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8249389Z   Downloaded regex v1.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8300560Z   Downloaded regex-automata v0.4.18
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8436895Z   Downloaded quinn-proto v0.11.18
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8501778Z   Downloaded time v0.3.55
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8641670Z   Downloaded syn v3.0.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8744684Z   Downloaded jiff v0.2.38
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.8890997Z   Downloaded rustix v1.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.9152633Z   Downloaded libc v0.2.189
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.9569900Z   Downloaded want v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.9578425Z   Downloaded petgraph v0.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:35.9785949Z   Downloaded linux-raw-sys v0.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.0406014Z   Downloaded aws-lc-sys v0.45.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.3803681Z    Compiling libc v0.2.189
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.3804759Z    Compiling memchr v2.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.3805557Z    Compiling cfg-if v1.0.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.3806018Z    Compiling smallvec v1.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.4215655Z    Compiling regex-syntax v0.8.11
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:36.6094570Z    Compiling bytes v1.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.4761291Z    Compiling aho-corasick v1.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.6502324Z    Compiling proc-macro2 v1.0.107
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.7171282Z    Compiling quote v1.0.47
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.8473914Z    Compiling unicode-ident v1.0.26
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.9468352Z    Compiling scopeguard v1.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:37.9956733Z    Compiling parking_lot_core v0.9.12
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:38.1251269Z    Compiling once_cell v1.21.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:38.4919913Z    Compiling stable_deref_trait v1.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:38.5381179Z    Compiling lock_api v0.4.14
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:38.7533079Z    Compiling regex-automata v0.4.18
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:38.8011343Z    Compiling syn v3.0.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:43.4771199Z    Compiling bstr v1.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:43.8401378Z    Compiling getrandom v0.4.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:43.9731294Z    Compiling parking_lot v0.12.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:44.2111215Z    Compiling gix-error v0.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:44.8741641Z    Compiling bitflags v2.13.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:45.2291147Z    Compiling fastrand v2.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:45.2539752Z    Compiling tinyvec v1.13.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:45.4901054Z    Compiling crossbeam-utils v0.8.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:45.6561189Z    Compiling prodash v31.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:45.7371331Z    Compiling unicode-normalization v0.1.25
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:46.3651470Z    Compiling gix-utils v0.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:47.1168376Z    Compiling gix-trace v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:47.1831292Z    Compiling itoa v1.0.18
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:47.3921627Z    Compiling gix-validate v0.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:47.7851058Z    Compiling gix-path v0.14.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:47.9251218Z    Compiling allocator-api2 v0.2.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.3181131Z    Compiling equivalent v1.0.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.3591257Z    Compiling foldhash v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.4841420Z    Compiling autocfg v1.5.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.5461431Z    Compiling crossbeam-channel v0.5.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.8517445Z    Compiling hashbrown v0.17.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:48.9071696Z    Compiling byteorder v1.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.0711214Z    Compiling heapless v0.8.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.2511155Z    Compiling hash32 v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.3279436Z    Compiling faster-hex v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.4201350Z    Compiling rustix v1.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.4591255Z    Compiling same-file v1.0.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:49.5665903Z    Compiling walkdir v2.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:50.0140365Z    Compiling gix-parallel v0.50.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:50.1640997Z    Compiling linux-raw-sys v0.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:50.2184934Z    Compiling gix-fs v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:50.6281692Z    Compiling gix-quote v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:50.9911585Z    Compiling jiff-core v0.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:51.2242837Z    Compiling sha1dc v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:53.1161954Z    Compiling jiff v0.2.38
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:53.1351527Z    Compiling gix-hash v0.28.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:53.7271038Z    Compiling serde_core v1.0.229
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:53.8931207Z    Compiling hashbrown v0.14.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:54.5321606Z    Compiling tempfile v3.27.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:54.5951270Z    Compiling dashmap v6.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:55.1381259Z    Compiling gix-command v0.12.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:55.4061351Z    Compiling syn v2.0.119
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:56.1404361Z    Compiling gix-tempfile v26.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:56.8594588Z    Compiling gix-date v0.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:59.3981579Z    Compiling synstructure v0.14.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:59.6271293Z    Compiling synstructure v0.13.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:36:59.9261278Z    Compiling zerofrom-derive v0.1.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:00.1501196Z    Compiling gix-actor v0.44.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:00.4681148Z    Compiling yoke-derive v0.8.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:00.7621109Z    Compiling gix-hashtable v0.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:00.9821250Z    Compiling zerofrom v0.1.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.0622404Z    Compiling gix-object v0.66.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.3591780Z    Compiling yoke v0.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.5231267Z    Compiling memmap2 v0.9.11
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.7920849Z    Compiling pin-project-lite v0.2.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.8421308Z    Compiling zerovec-derive v0.11.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:01.9091187Z    Compiling jobserver v0.1.35
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:02.1890992Z    Compiling shlex v2.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:02.3051219Z    Compiling rustversion v1.0.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:02.4921952Z    Compiling find-msvc-tools v0.1.13
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:02.6641636Z    Compiling cc v1.4.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:02.7811361Z    Compiling zerovec v0.11.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:03.4788818Z    Compiling displaydoc v0.2.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.2271321Z    Compiling cmake v0.1.58
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.4181608Z    Compiling pkg-config v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.4533370Z    Compiling dunce v1.0.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.5062578Z    Compiling futures-core v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.5331221Z    Compiling fs_extra v1.3.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.6011742Z    Compiling crossbeam-epoch v0.9.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.7807132Z    Compiling gix-chunk v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.8042667Z    Compiling mio v1.2.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:04.8711706Z    Compiling aws-lc-sys v0.45.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:05.0961233Z    Compiling socket2 v0.6.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:05.4406160Z    Compiling serde v1.0.229
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:05.6081232Z    Compiling fnv v1.0.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:05.6571204Z    Compiling crossbeam-deque v0.8.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:05.8191493Z    Compiling tokio v1.54.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.3391082Z    Compiling tinystr v0.8.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.3751363Z    Compiling serde_derive v1.0.229
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.4808184Z    Compiling litemap v0.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.6412164Z    Compiling futures-sink v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.7006658Z    Compiling writeable v0.6.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:06.9381586Z    Compiling percent-encoding v2.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:07.1431914Z    Compiling nonempty v0.12.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:07.2632109Z    Compiling icu_locale_core v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:09.6205622Z    Compiling zerotrie v0.2.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:09.6761885Z    Compiling potential_utf v0.1.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:09.7748357Z    Compiling gix-lock v26.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:09.9455158Z    Compiling aws-lc-rs v1.18.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.0924215Z    Compiling icu_properties_data v2.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.1131327Z    Compiling icu_normalizer_data v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.1720719Z    Compiling crc32fast v1.5.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.1831144Z    Compiling zeroize v1.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.2983661Z    Compiling icu_provider v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.3161994Z    Compiling icu_collections v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.5970534Z    Compiling gix-commitgraph v0.42.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:10.9445862Z    Compiling gix-glob v0.29.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:11.4675025Z    Compiling http v1.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:11.6593906Z    Compiling tracing-core v0.1.36
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:12.5384254Z    Compiling slab v0.4.12
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:12.6492186Z    Compiling unicode-bom v2.0.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:12.7690757Z    Compiling gix-revwalk v0.38.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:13.2031536Z    Compiling rustls-pki-types v1.15.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:13.7931694Z    Compiling encoding_rs v0.8.41
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:13.8806693Z    Compiling multiversion-macros v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:13.9281623Z    Compiling indexmap v2.14.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:14.6966857Z    Compiling gix-config-value v0.21.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:14.7291549Z    Compiling adler2 v2.0.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:14.8401454Z    Compiling simd-adler32 v0.3.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:15.3811223Z    Compiling miniz_oxide v0.9.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:15.6958701Z    Compiling multiversion v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:15.7452611Z    Compiling icu_normalizer v2.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:15.9611231Z    Compiling icu_properties v2.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:16.9691319Z    Compiling http-body v1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.0081641Z    Compiling tracing v0.1.44
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.0593796Z    Compiling tokio-util v0.7.19
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.2556437Z    Compiling futures-io v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.3751263Z    Compiling simdutf8 v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.5520938Z    Compiling multiversion_no_op v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.5750957Z    Compiling core_detect v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.6448667Z    Compiling untrusted v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.6737441Z    Compiling futures-task v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.7150534Z    Compiling rustls v0.23.46
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.7661125Z    Compiling httparse v1.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:17.8201350Z    Compiling futures-util v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:18.1374692Z    Compiling idna_adapter v1.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:18.2253543Z    Compiling gix-attributes v0.37.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.5209918Z    Compiling gix-sec v0.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.7791362Z    Compiling atomic-waker v1.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.7927601Z    Compiling utf8_iter v1.0.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.8343823Z    Compiling try-lock v0.2.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.8735674Z    Compiling tower-service v0.3.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.8932223Z    Compiling subtle v2.6.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.9134471Z    Compiling idna v1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:20.9991709Z    Compiling want v0.3.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:21.1091742Z    Compiling h2 v0.4.19
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.4007293Z    Compiling flate2 v1.1.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.4057300Z    Compiling form_urlencoded v1.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.6025476Z    Compiling futures-channel v0.3.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.7679896Z    Compiling crossbeam-queue v0.3.14
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.8921704Z    Compiling compression-core v0.4.33
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.9081644Z    Compiling log v0.4.34
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:23.9833762Z    Compiling compression-codecs v0.4.43
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:24.0792605Z    Compiling crossbeam v0.8.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:24.1164794Z    Compiling hyper v1.11.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:24.2261446Z    Compiling url v2.5.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:26.7521251Z    Compiling gix-traverse v0.64.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:27.5574102Z    Compiling gix-ref v0.69.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:27.8061267Z    Compiling sync_wrapper v1.0.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:27.8681640Z    Compiling gix-packetline v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.0615334Z    Compiling gix-bitmap v0.6.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.1591349Z    Compiling filetime v0.2.29
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.3025108Z    Compiling foldhash v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.3031127Z    Compiling base64 v0.22.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.4731091Z    Compiling tower-layer v0.3.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.6066690Z    Compiling openssl-probe v0.2.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.7561070Z    Compiling ipnet v2.12.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:28.7711333Z    Compiling rustls-native-certs v0.8.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:29.4901061Z    Compiling hyper-util v0.1.20
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:29.9591257Z    Compiling tower v0.5.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:30.5211062Z    Compiling hashbrown v0.15.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:31.1867336Z    Compiling gix-index v0.58.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:32.0855589Z    Compiling dua-core v4.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:33.0759592Z    Compiling async-compression v0.4.48
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:33.4891022Z    Compiling http-body-util v0.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:33.7555537Z    Compiling gix-ignore v0.24.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:34.1331131Z    Compiling zmij v1.0.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:34.2942272Z    Compiling gix-worktree v0.59.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:34.3927185Z    Compiling tower-http v0.6.11
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:35.0584529Z    Compiling gix-pathspec v0.22.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:36.4271815Z    Compiling gix-url v0.40.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:36.6497357Z    Compiling semver v1.0.28
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:37.2671621Z    Compiling serde_json v1.0.151
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:37.3008046Z    Compiling mime v0.3.17
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:37.3651029Z    Compiling base64 v0.23.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:38.0104333Z    Compiling gix-filter v0.36.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:38.0175796Z    Compiling gix-prompt v0.19.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:38.3751410Z    Compiling hashbrown v0.16.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:38.5169702Z    Compiling zlib-rs v0.6.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:39.1180370Z    Compiling rayon-core v1.13.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:39.2022071Z    Compiling arrayvec v0.7.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:39.3851175Z    Compiling uluru v3.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:39.4663612Z    Compiling clru v0.6.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:39.6851350Z    Compiling gix-credentials v0.42.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:42.0121194Z    Compiling gix-zlib v0.4.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:42.3076546Z    Compiling gix-imara-diff v0.3.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:43.4691283Z    Compiling gix-discover v0.57.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:43.7701248Z    Compiling gix-refspec v0.47.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:43.9472013Z    Compiling utf8parse v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:44.0002428Z    Compiling camino v1.2.6
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:44.1579592Z    Compiling winnow v1.0.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:44.5221834Z    Compiling thiserror v2.0.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:44.7451476Z    Compiling toml_parser v1.1.5+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:44.9571285Z    Compiling anstyle-parse v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:45.1929040Z    Compiling gix-dir v0.32.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:45.2975621Z    Compiling gix-diff v0.70.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:46.0820983Z    Compiling gix-pack v0.77.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:48.3471151Z    Compiling gix-config v0.62.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:49.3011278Z    Compiling gix-negotiate v0.38.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:50.3801185Z    Compiling gix-shallow v0.15.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:50.9201436Z    Compiling arc-swap v1.9.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.1221180Z    Compiling gix-macros v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.1711261Z    Compiling serde_spanned v1.1.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.2561357Z    Compiling toml_datetime v1.1.3+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.4761196Z    Compiling fs-err v3.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.5761182Z    Compiling wasmparser v0.207.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:51.6241108Z    Compiling thiserror-impl v2.0.21
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:52.7171219Z    Compiling io-close v0.3.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:52.8281254Z    Compiling toml_writer v1.2.0+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:53.0661250Z    Compiling is_terminal_polyfill v1.70.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:53.1192353Z    Compiling anstyle v1.0.14
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:53.4161239Z    Compiling anstyle-query v1.1.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:53.6181287Z    Compiling binfarce v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.2671266Z    Compiling colorchoice v1.0.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.3302049Z    Compiling fixedbitset v0.5.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.7401894Z    Compiling topological-sort v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.7941282Z    Compiling either v1.18.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.8361197Z    Compiling auditable-serde v0.9.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:55.9671157Z    Compiling rayon v1.12.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:57.2001222Z    Compiling petgraph v0.8.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:57.5751243Z    Compiling anstream v1.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:58.0301219Z    Compiling auditable-extract v0.3.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:37:58.7131064Z    Compiling toml v1.1.8+spec-1.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:00.1471274Z    Compiling gix-worktree-state v0.37.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:00.6424768Z    Compiling gix-odb v0.87.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:00.9831218Z    Compiling gix-submodule v0.36.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:02.8691257Z    Compiling gix-status v0.37.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:04.0621054Z    Compiling gix-revision v0.52.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:04.7900968Z    Compiling smol_str v0.3.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:05.1421268Z    Compiling deranged v0.5.8
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:06.5361264Z    Compiling regex v1.13.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:06.7702916Z    Compiling toml-span v0.7.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:06.9542561Z    Compiling powerfmt v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:07.1592015Z    Compiling heck v0.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:07.3081086Z    Compiling twox-hash v2.1.4
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:07.4024447Z    Compiling clap_lex v1.1.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:07.6861514Z    Compiling lazy_static v1.5.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:07.7391195Z    Compiling strsim v0.11.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:08.0111293Z    Compiling rustc-stable-hash v0.1.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:08.1567048Z    Compiling time-core v0.1.9
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:08.3421551Z    Compiling num-conv v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:08.4681074Z    Compiling time v0.3.55
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:08.5823761Z    Compiling clap_builder v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:10.1728730Z    Compiling sharded-slab v0.1.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:10.7525268Z    Compiling clap_derive v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:11.9813566Z    Compiling quitters v0.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:12.6551637Z    Compiling cargo-lock v11.1.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:13.2591862Z    Compiling auditable-info v0.10.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:14.2761633Z    Compiling tracing-log v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:14.5421515Z    Compiling platforms v4.3.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:15.0011701Z    Compiling cvss v3.0.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:17.9131204Z    Compiling wasmparser v0.255.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:18.1551073Z    Compiling matchers v0.2.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:18.2451175Z    Compiling thread_local v1.1.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:18.4437439Z    Compiling home v0.5.12
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:18.5578371Z    Compiling nu-ansi-term v0.50.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:19.0409329Z    Compiling tracing-subscriber v0.3.23
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:20.1604940Z    Compiling object v0.40.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:24.8591353Z    Compiling clap v4.6.7
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:24.9031165Z    Compiling termcolor v1.4.1
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:25.3181536Z    Compiling rustc-demangle v0.1.28
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:26.3341318Z    Compiling display-error-chain v0.2.2
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:39.6387739Z    Compiling rustls-webpki v0.103.16
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:43.1613112Z    Compiling tokio-rustls v0.26.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:43.1613714Z    Compiling rustls-platform-verifier v0.7.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:43.3971433Z    Compiling hyper-rustls v0.27.10
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:43.6081176Z    Compiling reqwest v0.13.5
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:49.3112652Z    Compiling gix-transport v0.62.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:49.7081077Z    Compiling tame-index v0.26.3
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:50.8731663Z    Compiling gix-protocol v0.68.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:38:54.9251213Z    Compiling gix v0.90.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:39:00.2560813Z    Compiling rustsec v0.34.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:39:04.0060975Z    Compiling cargo-audit v0.23.0
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:39:26.0000764Z     Finished `release` profile [optimized] target(s) in 2m 51s
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:39:26.0257012Z   Installing /home/runner/.cargo/bin/cargo-audit
+rust	Run cargo install cargo-audit --locked	2026-11-26T19:39:26.0564300Z    Installed package `cargo-audit v0.23.0` (executable `cargo-audit`)
+rust	Run cargo audit	﻿2026-11-26T19:39:26.4252528Z ##[group]Run cargo audit
+rust	Run cargo audit	2026-11-26T19:39:26.4252835Z ^[[36;1mcargo audit^[[0m
+rust	Run cargo audit	2026-11-26T19:39:26.4294976Z shell: /usr/bin/bash -e {0}
+rust	Run cargo audit	2026-11-26T19:39:26.4295235Z env:
+rust	Run cargo audit	2026-11-26T19:39:26.4295512Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo audit	2026-11-26T19:39:26.4295985Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+rust	Run cargo audit	2026-11-26T19:39:26.4296419Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo audit	2026-11-26T19:39:26.4296834Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo audit	2026-11-26T19:39:26.4297235Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+rust	Run cargo audit	2026-11-26T19:39:26.4297632Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+rust	Run cargo audit	2026-11-26T19:39:26.4298045Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+rust	Run cargo audit	2026-11-26T19:39:26.4298420Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+rust	Run cargo audit	2026-11-26T19:39:26.4298746Z ##[endgroup]
+rust	Run cargo audit	2026-11-26T19:39:26.4524298Z     Fetching advisory database from `https://github.com/RustSec/advisory-db.git`
+rust	Run cargo audit	2026-11-26T19:39:27.9833464Z       Loaded 1568 security advisories (from /home/runner/.cargo/advisory-db)
+rust	Run cargo audit	2026-11-26T19:39:27.9833991Z     Updating crates.io index
+rust	Run cargo audit	2026-11-26T19:39:27.9986208Z     Scanning Cargo.lock for vulnerabilities (207 crate dependencies)
+rust	Run cargo audit	2026-11-26T19:39:28.3246451Z warning: 1 allowed warning found
+rust	Run cargo audit	2026-11-26T19:39:28.3247085Z Crate:     fxhash
+rust	Run cargo audit	2026-11-26T19:39:28.3247591Z Version:   0.2.1
+rust	Run cargo audit	2026-11-26T19:39:28.3248057Z Warning:   unmaintained
+rust	Run cargo audit	2026-11-26T19:39:28.3248584Z Title:     fxhash - no longer maintained
+rust	Run cargo audit	2026-11-26T19:39:28.3248899Z Date:      2025-09-05
+rust	Run cargo audit	2026-11-26T19:39:28.3249166Z ID:        RUSTSEC-2025-0057
+rust	Run cargo audit	2026-11-26T19:39:28.3249577Z URL:       https://rustsec.org/advisories/RUSTSEC-2025-0057
+rust	Run cargo audit	2026-11-26T19:39:28.3250502Z Solution:  No fixed upgrade is available!
+rust	Run cargo audit	2026-11-26T19:39:28.3251088Z 
+rust	Post Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	﻿2026-11-26T19:39:28.3493507Z Post job cleanup.
+rust	Post Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:39:28.4703368Z UV_CACHE_DIR is already set to /home/runner/work/_temp/setup-uv-cache
+rust	Post Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:39:28.4709134Z UV_PYTHON_INSTALL_DIR is already set to /home/runner/work/_temp/uv-python-dir
+rust	Post Run astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d	2026-11-26T19:39:28.4711987Z Cache hit occurred on key setup-uv-2-x86_64-unknown-linux-gnu-ubuntu-24.04-3.12.16-99fae2e44834c0236cb9fd9e3a810a7e915fb19feb0ebb31123eb61d08aa0b3d, not saving cache.
+rust	Post Run actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0	﻿2026-11-26T19:39:28.5924193Z Post job cleanup.
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-26T19:39:28.7212247Z Post job cleanup.
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8158791Z [command]/usr/bin/git version
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8207859Z git version 2.56.1
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8246527Z Temporarily overriding HOME='/home/runner/work/_temp/90d9974b-3f00-4f04-ad51-febaea608a7d' before making global git config changes
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8247973Z Adding repository directory to the temporary git global config as a safe directory
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8252016Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/aerobrowse/aerobrowse
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8289463Z Removing SSH command configuration
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8296532Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8337111Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8614696Z Removing HTTP extra header
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8616802Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8660549Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8962955Z Removing includeIf entries pointing to credentials config files
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.8964296Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9011067Z includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9028807Z includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git/worktrees/*.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9050785Z includeif.gitdir:/github/workspace/.git.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9070829Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9092123Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9093406Z /home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9096040Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-31a4f7b2\-748c\-425d\-8c9f\-820e6bd981b1\.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9200694Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git/worktrees/*.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9282099Z /home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9313051Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/aerobrowse/aerobrowse/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-31a4f7b2\-748c\-425d\-8c9f\-820e6bd981b1\.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9411184Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9463222Z /github/runner_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9472992Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-31a4f7b2\-748c\-425d\-8c9f\-820e6bd981b1\.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9524541Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9564978Z /github/runner_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9576421Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-31a4f7b2\-748c\-425d\-8c9f\-820e6bd981b1\.config
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9633771Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+rust	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T19:39:28.9898807Z Removing credentials config '/home/runner/work/_temp/git-credentials-31a4f7b2-748c-425d-8c9f-820e6bd981b1.config'
+rust	Complete job	﻿2026-11-26T19:39:29.0090624Z Cleaning up orphan processes

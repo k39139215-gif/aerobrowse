@@ -130,7 +130,17 @@
     "missing_requirements": 0,
     "recall": 1.0
   },
-  "full_ci": "PENDING - must replace after final full run including mandatory soak",
+  "full_ci": {
+    "run": 45880822782,
+    "conclusion": "success",
+    "head": "8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d",
+    "tested_merge": "13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d",
+    "browser_passed": 76,
+    "runtime_passed": 40,
+    "runtime_skipped": 2,
+    "soak_cycles": 1044,
+    "soak_seconds": 1800.8905927179999
+  },
   "local_python": {
     "passed": 236,
     "skipped": 21,

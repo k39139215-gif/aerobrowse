@@ -44,8 +44,9 @@ running compatibility tests. No CI test depends on a third-party website.
   offline with socket creation denied. Corrupt vocabulary data fails explicitly.
 - Extraction corpus: 44 predefined requirements / 0 missing across 12 fixtures.
   General page recall is not measured.
-- Full engineering run 45880822782 is still in progress at the mandatory 30-minute
-  cleanup soak. Earlier green runs do not close this exact-source gate.
+- Full engineering run45880822782 is SUCCESS:76 browser passes,40 runtime
+  passes/2 Windows-only skips;1,044 successful cycles over1,800.891 seconds,
+  zero observed orphan processes/occupied slots. Earlier results remain historical.
 - SonarCloud remains red: 46 open findings, including 2 private-tmpfs path findings.
   No security finding is suppressed or waived. Actual-model evaluation is NOT_RUN.
 
@@ -68,3 +69,7 @@ original whitespace. Source/document whitespace checks exclude preserved receipt
 Original capacity, keyboard and native disclosure failures remain indexed under
 evidence/developer/. No benchmark before/after speedup or production capacity is
 claimed. See BENCHMARKS.md for the exact measurement and sampling scopes.
+
+Analyzer gate detail:44 CODE_SMELL and2 VULNERABILITY items; new_security_rating
+actual4 versus required1. The2 private-tmpfs path items remain open and unsuppressed;
+see evidence/developer/ANALYZER_TRIAGE.md. Passing tests do not close this gate.

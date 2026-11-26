@@ -1,0 +1,56 @@
+{
+  "revision": "13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d",
+  "concurrency": 2,
+  "completed_tasks": 6,
+  "duration_seconds": 8.35537554999999,
+  "successful_tasks_per_second": 0.7181005765803078,
+  "rows": [
+    {
+      "index": 0,
+      "session_id": "2ea7db1a71a0447baf58f7dd0b9eb5c6",
+      "elapsed_seconds": 2.931187082000008,
+      "success": true,
+      "worker_reaped": true
+    },
+    {
+      "index": 1,
+      "session_id": "7365618c1a4444c7b1accdca63765697",
+      "elapsed_seconds": 2.9353016799999807,
+      "success": true,
+      "worker_reaped": true
+    },
+    {
+      "index": 2,
+      "session_id": "1254628dfd8c4bf1bec38e8c8bed60c8",
+      "elapsed_seconds": 2.722812705999985,
+      "success": true,
+      "worker_reaped": true
+    },
+    {
+      "index": 3,
+      "session_id": "2318300d8ffd4e638a9d118c0cff0739",
+      "elapsed_seconds": 2.7441584190000015,
+      "success": true,
+      "worker_reaped": true
+    },
+    {
+      "index": 4,
+      "session_id": "c989d1cc06ef424ea1bf2a748bab104a",
+      "elapsed_seconds": 2.646079737000008,
+      "success": true,
+      "worker_reaped": true
+    },
+    {
+      "index": 5,
+      "session_id": "a60719a9348245dbbd1c842ec721caa0",
+      "elapsed_seconds": 2.6750776479999843,
+      "success": true,
+      "worker_reaped": true
+    }
+  ],
+  "limitations": [
+    "Owned tiny fixture; public supervised SDK, not browser/MCP saturation or fairness proof",
+    "Per-browser independent resource pools; operator process manager must bound aggregate independent SDK instances",
+    "Failure aborts without emitting a success receipt"
+  ]
+}

@@ -3,7 +3,7 @@
   "limitations": [
     "Self-collected evidence,not independent custody",
     "Historical failing receipts remain explicitly historical",
-    "Full final engineering CI and mandatory soak pending"
+    "Full engineering CI/soak passed; SonarCloud and original capability gaps remain open"
   ],
   "files": {
     "source-8db91bf.json": {
@@ -11,8 +11,8 @@
       "sha256": "98c4c9a7059c8e0aab81731f06fdb22669f9abdcd80fc10b17dd1d4b6432ed9d"
     },
     "verification-8db91bf.json": {
-      "bytes": 3761,
-      "sha256": "4e47861adc7826ac44a79e664734703b20a37b9811dbb1cd6ce31c99c4ed48a7"
+      "bytes": 4021,
+      "sha256": "4b28e2376bde30e5209400ea7f73e77db2f1f02b1075200b1eb070b3778eae72"
     },
     "extraction-quality-8db91bf.json": {
       "bytes": 9650,
@@ -123,8 +123,8 @@
       "sha256": "8a311e8e83b485970bc316817c93134af44baf1d7247633ee220761dc3fdcbf5"
     },
     "verify.py": {
-      "bytes": 4525,
-      "sha256": "b05b9b0042ae6bcaadadac951a8d89667e51c84873820eea7a35496b1c3d6489"
+      "bytes": 5784,
+      "sha256": "236fb347db241ab3f6e52b16feaa39c90e5cd70efd726d5c9d6378ef3708edcf"
     },
     "full-8db91bf/python-summary.json": {
       "bytes": 1027,
@@ -169,6 +169,114 @@
     "full-8db91bf/dependencies/pip-audit.json": {
       "bytes": 6587,
       "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b"
+    },
+    "ANALYZER_TRIAGE.md": {
+      "bytes": 1474,
+      "sha256": "71c5ca64d11a1932661cbf119e3341983e7345fda60f78232d0bcf6148fcb8de"
+    },
+    "sonar-quality-gate-8db91bf.json": {
+      "bytes": 1201,
+      "sha256": "f2699b5cd987dfc5bd46389f09a637aa01acf756d668bb6e5d9d29d0bb078ea9"
+    },
+    "full-8db91bf/final-run.json": {
+      "bytes": 36877,
+      "sha256": "3b9f575a9aa4633f7d7d6756317c7abbe58d9e32dcf0a6b3b6bdcb20b40dd5c3"
+    },
+    "full-8db91bf/rust-ci-log.txt": {
+      "bytes": 196304,
+      "sha256": "f850e90af580d2562dfade7480b99505b40ed0406661f32d0a4732fea5c17222"
+    },
+    "full-8db91bf/browser/ci-browser.xml": {
+      "bytes": 10332,
+      "sha256": "de23fc469e8e8ba33783e40264ec22ddec4d35d51a22c52c5f57cba9f7899e60"
+    },
+    "full-8db91bf/browser/phase2/ci-runtime-kernel.xml": {
+      "bytes": 6277,
+      "sha256": "a9db7b7e6116d8bfe50483d63be3dde291d04aa0b0d6855074f672ad70b6f810"
+    },
+    "full-8db91bf/browser/phase2/benchmark-linux.json": {
+      "bytes": 792498,
+      "sha256": "d91c9c11f68ecb29225434bacced2b855092c498b2d865b11793e43ff0424ec6"
+    },
+    "full-8db91bf/browser/phase2/soak-linux.json": {
+      "bytes": 889,
+      "sha256": "55a722ac983da88b74e3bda77216ff899379a4dc1799f0247691a61d39b9794c"
+    },
+    "full-8db91bf/browser/phase2/soak-linux.jsonl": {
+      "bytes": 163115,
+      "sha256": "e94c5561bee94be0e713962f7e0a2cf951c6d3fa6cc4b161b69f722ccc62a8b7"
+    },
+    "full-8db91bf/browser/agent/concurrency.json": {
+      "bytes": 1602,
+      "sha256": "65307807bd785967cf1c01ecf42f4afc998e73978bf6893870d6883e2530122c"
+    },
+    "full-8db91bf/browser/agent/model-evaluation.json": {
+      "bytes": 404,
+      "sha256": "e8c80ec53d244b2753d5cc66c042637972001590d1fcbf2b7a263e4ebd9ee6f3"
+    },
+    "full-8db91bf/browser/developer/shared-browser-load.json": {
+      "bytes": 5724,
+      "sha256": "e06f4b113e47dcd951ecabe1c87e15afef8c4d7341c9baa0b06564d8b73ea2ac"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-css.json": {
+      "bytes": 78,
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-download.json": {
+      "bytes": 83,
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-fetch.json": {
+      "bytes": 80,
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-iframe.json": {
+      "bytes": 81,
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-image.json": {
+      "bytes": 80,
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-popup.json": {
+      "bytes": 80,
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-serviceworker.json": {
+      "bytes": 88,
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-webrtc.json": {
+      "bytes": 81,
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-websocket.json": {
+      "bytes": 84,
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-worker.json": {
+      "bytes": 81,
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-xhr.json": {
+      "bytes": 78,
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8"
+    },
+    "full-8db91bf/browser/phase2/runtime/namespace-processes.json": {
+      "bytes": 10678,
+      "sha256": "e0f99175c7323fd7dd9a74b01bab48b694591c81f18f947766400a978f257147"
+    },
+    "full-8db91bf/browser/phase2/runtime/private-tmpfs.json": {
+      "bytes": 174,
+      "sha256": "d9bd4289b4246444ce1ba6fc3a6ac66e19ee12647d21c342799422726b4a3db7"
+    },
+    "full-8db91bf/browser/phase2/runtime/route-bypass.json": {
+      "bytes": 52,
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1"
+    },
+    "full-8db91bf/browser/phase2/runtime/webrtc-udp.json": {
+      "bytes": 81,
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53"
     }
   }
 }

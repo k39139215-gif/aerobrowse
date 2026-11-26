@@ -1,0 +1,17 @@
+{
+  "status": "NOT_RUN",
+  "revision": "13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d",
+  "missing_configuration": [
+    "OPENAI_API_KEY",
+    "AEROBROWSE_EVAL_MODEL"
+  ],
+  "tasks": [
+    "documentation",
+    "search",
+    "authenticated_update",
+    "multistep_form",
+    "compare_tabs",
+    "stale_recovery"
+  ],
+  "reason": "Actual model credentials/configuration unavailable; no model success measured"
+}

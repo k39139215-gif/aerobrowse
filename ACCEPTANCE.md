@@ -13,7 +13,7 @@ See ENGINEERING_REPORT.md for measurements, exact scope and evidence.
 | Chromium network boundary | Required Linux namespace plus host broker; real TCP/UDP canary tests with interception detached | Full auxiliary-target compatibility and Chromium/kernel exploit assessment incomplete; Windows/macOS fail closed |
 | Input/output limits and redaction | Bounded URL/body/response/depth/JSON/deadlines, credential filters and safe error regressions | Comprehensive fuzzing and arbitrary page-prose DLP absent |
 | Hybrid state and engine selection | Explicit active page/engine; Turbo/live synchronization and fresh IDs; heuristic fallback | General website classification accuracy unmeasured |
-| Browser lifecycle | Supervised process workers, deadlines, crash/parent-death/cleanup and required kernel controls | Latest full cleanup soak pending; cross-instance enclosing quotas remain operator responsibility |
+| Browser lifecycle | Supervised process workers, deadlines, crash/parent-death/cleanup and required kernel controls | Full1,044-cycle cleanup soak passed; cross-instance enclosing quotas remain operator responsibility |
 | Action mapping and staleness | Exact retained live node, generation/document/mutation validation; stale IDs fail without ordinal fallback | Strict invalidation can require repeated extraction on dynamic pages |
 | Click/fill/select/check/scroll/wait | Implemented and controlled browser/SDK/MCP tested | Discovery uses exact accessible name/optional role; no arbitrary selector execution |
 | Keyboard input | Synthetic text/caret/select-all/textarea newline/Enter with cancellable input and exact-node revalidation | Trusted physical events, clipboard, Tab default focus and full contenteditable unsupported |
@@ -25,7 +25,7 @@ See ENGINEERING_REPORT.md for measurements, exact scope and evidence.
 | Rust hardening | Native bounded HTTP/static extraction; 8 unit tests, strict formatting/Clippy/build/audit; 18 native/Python negative contracts | Native live browser/action parity NOT IMPLEMENTED; Python MCP delegation is not native parity |
 | Security regressions | Covered declared URL/network/session/action/input/resource attack families; original failures retained | Independent exploit-chain assessment and broad fuzzing absent |
 | Functional/framework compatibility | Real pinned plain HTML/React/Vue/Next/Angular fixtures; controlled login/logout, tabs/history/forms/stale recovery | General websites, trusted-input/file-transfer/WebSocket/service-worker/Authorization flows unsupported |
-| CI, dependencies and builds | Python 3.11–3.14 on Linux/Windows, Rust, lint/types/audits/builds/browser tests | Latest engineering soak pending; SonarCloud red with 46 open findings, including 2 private-tmpfs findings |
+| CI, dependencies and builds | Python 3.11–3.14 on Linux/Windows, Rust, lint/types/audits/builds/browser tests | Full engineering CI/soak passed; SonarCloud red with 46 open findings, including 2 private-tmpfs findings |
 | Observability | Structured request/session/operation logs, bounded local JSON/Prometheus metrics and sampled memory | External aggregation, public endpoint and exact peak-memory telemetry absent |
 | Documentation and report | README, SECURITY, AUDIT, CHANGELOG, BENCHMARKS, acceptance, quickstart and source-bound evidence updated | Documented limits remain release blockers, not approved exclusions |
 | Independent verification | Reproducible first-party receipt checks and source/hash bindings | No external security assessment or independent evidence custody |
@@ -40,6 +40,10 @@ checks and native negative contracts pass. The built wheel matches 24 checkout
 files and initializes all 3 supported tokenizers with socket creation denied.
 
 Full engineering run [45880822782](https://github.com/k39139215-gif/aerobrowse/actions/runs/45880822782)
-is still in progress at the mandatory 30-minute cleanup soak. Historical full run
+completed SUCCESS,including1,044-cycle/1,800.891-second cleanup soak. Historical full run
 45880010831 passed at d4c2996; it does not verify the later refactor.
 Actual-model evaluation remains NOT_RUN without explicit credentials/model.
+
+Analyzer gate detail:44 CODE_SMELL and2 VULNERABILITY items; new_security_rating
+actual4 versus required1. The2 private-tmpfs path items remain open and unsuppressed;
+see evidence/developer/ANALYZER_TRIAGE.md. Passing tests do not close this gate.

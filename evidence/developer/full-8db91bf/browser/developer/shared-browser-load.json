@@ -1,0 +1,197 @@
+{
+  "revision": "13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d",
+  "mode": "fidelity",
+  "duration_seconds": 2.3666871959999867,
+  "completed_operations": 12,
+  "successful_operations": 12,
+  "overload_rejections": 2,
+  "capacity_rejected": true,
+  "foreign_session_rejected": true,
+  "active_sessions_after_cleanup": 0,
+  "sessions": [
+    {
+      "index": 0,
+      "completed": 6,
+      "worker_reaped": true
+    },
+    {
+      "index": 1,
+      "completed": 6,
+      "worker_reaped": true
+    }
+  ],
+  "operations": [
+    {
+      "session_index": 0,
+      "operation": "navigate",
+      "elapsed_seconds_including_queue": 1.7774405229999957,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "5747ab33bfcc43f6a67626c69329267f"
+    },
+    {
+      "session_index": 1,
+      "operation": "navigate",
+      "elapsed_seconds_including_queue": 1.8019911760000014,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "6105f36aa2e74853b5c7d533077a3213"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.022402739000000338,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "61b865f60afb434090923d4556ae6f2e"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.0339636370000278,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "0d0a738c311d48208eb22666d4cbad87"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.048160133999999744,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "beb3ceb58c3c4fb989040f99c465c211"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.05654735999999616,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "2a849a31b4ab4ea7b473cae0f430652c"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.020268037999983335,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "6d784c04643a476382862e57d6b30ea0"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.028622901999995065,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "a896434894064190814a31e13382a8e3"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.04906827099998168,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "fa8dcd8464324aa5ad06644b0217de7d"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.057231040000004896,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "8a27df3190c3470dbc404f7e12fdc7af"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.02231422299999508,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "765f85169b0b45ce9bb52283a439bd16"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.03257330299999239,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "f5f5633c1f8e4b5bb7b328cd8fa6d81b"
+    },
+    {
+      "session_index": 0,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.04647111099998824,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "2d59aae49e904e8e88e8a329eda915ba"
+    },
+    {
+      "session_index": 1,
+      "operation": "snapshot",
+      "elapsed_seconds_including_queue": 0.055295008000001644,
+      "success": true,
+      "engine": "fidelity",
+      "request_id": "5b74b848391440f2b33d42706f42ec20"
+    }
+  ],
+  "telemetry": {
+    "requests": 33,
+    "failures": 3,
+    "navigation_requests": 2,
+    "navigation_successes": 2,
+    "action_requests": 0,
+    "action_successes": 0,
+    "fallbacks": 0,
+    "extraction_failures": 0,
+    "browser_crashes": 0,
+    "timeouts": 0,
+    "wait_timeouts": 0,
+    "cancelled": 0,
+    "active_sessions": 2,
+    "average_latency_ms": 196.10685160606064,
+    "navigation_success_rate": 1.0,
+    "action_success_rate": null,
+    "fallback_rate": 0.0,
+    "operations": {
+      "navigate": 2,
+      "snapshot": 31
+    },
+    "latency_ms": {
+      "count": 33,
+      "sum": 6471.526103000001,
+      "max": 1793.4626059999914,
+      "average": 196.10685160606064,
+      "cumulative_buckets": {
+        "1": 2,
+        "5": 2,
+        "10": 2,
+        "25": 8,
+        "50": 16,
+        "100": 19,
+        "250": 29,
+        "500": 31,
+        "1000": 31,
+        "5000": 33,
+        "30000": 33,
+        "120000": 33
+      }
+    },
+    "sampled_peak_tree_rss_bytes": 2476998656,
+    "memory_samples": 34,
+    "incomplete_memory_samples": 0,
+    "memory_scope": "Owned worker trees sampled at request completion/export; includes shared mappings; excludes exited processes; not exact peak"
+  },
+  "limits": {
+    "max_sessions": 2,
+    "pending_per_session": 16,
+    "per_session_processes": 256,
+    "aggregate_processes": 512
+  },
+  "limitations": [
+    "Owned tiny fixture; bounded progress/admission observations,not a production fairness or saturation proof",
+    "Duration includes initialization and deliberate queue-admission phase; cleanup duration excluded",
+    "Navigation rows and 16 queue-test snapshots excluded from completed_operations; retained separately in telemetry",
+    "RSS sampled at request completion; not exact peak",
+    "Explicit aggregate task budget recorded; results must not be attributed to default capacity"
+  ]
+}

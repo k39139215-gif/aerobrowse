@@ -95,6 +95,35 @@ def verify(root, checkout):
         assert run["headSha"] == source["revision"]
         assert run["conclusion"] == "success"
         assert all(job["conclusion"] == "success" for job in run["jobs"])
+    soak_file = root / "full-8db91bf/browser/phase2/soak-linux.json"
+    if soak_file.exists():
+        soak = read(soak_file)
+        rows = [
+            json.loads(line)
+            for line in soak_file.with_suffix(".jsonl")
+            .read_text(encoding="utf-8-sig")
+            .splitlines()
+            if line
+        ]
+        assert soak["revision"] in {
+            source["revision"],
+            "13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d",
+        }
+        assert soak["duration_seconds"] >= 1800
+        assert len(rows) == soak["iterations"]
+        assert all(
+            row["success"]
+            and row["active_sessions"] == 0
+            and row["descendants_after_cleanup"] == 0
+            for row in rows
+        )
+        assert [row["iteration"] for row in rows] == list(range(1, len(rows) + 1))
+        assert soak["orphan_processes"] == soak["permanently_occupied_slots"] == 0
+        assert soak["max_parent_rss_bytes"] == max(
+            row["parent_rss_bytes"] for row in rows
+        )
+        assert soak["first_parent_rss_bytes"] == rows[0]["parent_rss_bytes"]
+        assert soak["last_parent_rss_bytes"] == rows[-1]["parent_rss_bytes"]
     return {
         "revision": source["revision"],
         "artifact_hashes": len(index["files"]),
@@ -103,6 +132,7 @@ def verify(root, checkout):
         "distributions": len(groups),
         "tests": counts,
         "full_ci_receipt_present": full.exists(),
+        "soak_receipt_present": soak_file.exists(),
     }
 
 

@@ -107,7 +107,11 @@ beforeinput identity revalidation,bounded semantic metadata,static Rust disclosu
 regressions,offline checked vocabularies and safe benchmark receipt output. Review
 exact admission reservation and aggregate PID/OOM error semantics,partial browser
 support,and local metric scope. Latest focused Linux run45880812905 is SUCCESS;
-full current-source CI/soak remains pending. The latest analyzer report has46 open
+full current-source CI/soak is SUCCESS. The latest analyzer report has46 open
 findings,including2 private-tmpfs path findings,not only two total findings.
 Evidence: evidence/developer/source-8db91bf.json,verification-8db91bf.json and
 ci-8db91bf/. No independent assessment or release authorization is implied.
+
+Analyzer gate detail:44 CODE_SMELL and2 VULNERABILITY items; new_security_rating
+actual4 versus required1. The2 private-tmpfs path items remain open and unsuppressed;
+see evidence/developer/ANALYZER_TRIAGE.md. Passing tests do not close this gate.
