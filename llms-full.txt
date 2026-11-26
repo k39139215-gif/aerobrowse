@@ -1,150 +1,179 @@
-# AeroBrowse: Full LLM & Agent Knowledge Base
-=====================================================
-Title: AeroBrowse — The Featherweight AI Browser Engine
-Repository: https://github.com/k39139215-gif/aerobrowse
-Author: Kartik
-License: MIT
-Current Version: 0.2.0
+# AeroBrowse
 
-## 1. Executive Summary
-AeroBrowse is an open-source, dual-engine AI browser engine designed specifically for LLM pipelines, autonomous agents, and RAG ingestion. It solves the two primary problems of web automation in the AI era:
-1. **Token Inefficiency**: Traditional headless browsers dump 50,000+ tokens of raw HTML per page (SVG paths, CSS stylesheets, tracking tags, boilerplate markup), which exhausts LLM context windows and results in excessive API bills. AeroBrowse uses a recursive Abstract Syntax Tree (AST) semantic pruner to eliminate 70% to 92% of markup noise, returning clean, dense Markdown.
-2. **Process Overhead & Memory Bloat**: Traditional automation tools (Playwright, Puppeteer, Selenium) spawn heavy Chromium instances using 300MB to 600MB of RAM per tab with 1,500ms to 3,500ms startup latency. AeroBrowse features a dual-engine architecture:
-   - **Turbo Mode**: Written in pure Rust, uses lightweight HTTP Reqwest client with Chrome 124 TLS/JA3 impersonation. Consumes ~12MB RAM with sub-100ms latency.
-   - **Fidelity Mode**: Connects directly via WebSocket Chrome DevTools Protocol (CDP) to pre-installed system browsers (Edge or Chrome) for 100% Blink/V8 JavaScript execution, dynamic Single Page Application (SPA) hydration, and interactive actions (`click`, `fill`).
+AeroBrowse combines bounded HTTP retrieval (Turbo) with an isolated Chromium
+engine (Fidelity). This hardening branch is **not production-ready**: read
+[AUDIT.md](AUDIT.md) and [ENGINEERING_REPORT.md](ENGINEERING_REPORT.md) for verified
+results and open acceptance gates.
 
-## 2. Architecture & Decision Flow
-AeroBrowse operates on a tiered hybrid model:
-- **FastPath (Turbo Mode)**: 80% of web content (documentation, Wikipedia, blogs, news articles, search result APIs) is server-side rendered (SSR) or static. Turbo Mode processes these pages in sub-100ms without spawning any browser processes.
-- **DeepPath (Fidelity Mode)**: 20% of web pages are client-rendered SPAs (React 19, Vue, Next.js) or require interaction (button clicks, form inputs). Fidelity Mode executes client-side scripts, extracts the rendered DOM, and closes the browser session to prevent memory leaks.
-- **Autonomous Routing**: AeroBrowse's heuristic router inspects the Turbo response. If an empty SPA shell is detected (e.g. `<div id="root"></div>` with <250 characters of text, or a "Please enable JavaScript" alert), AeroBrowse automatically escalates to Fidelity Mode without requiring user intervention.
+## Installation
 
-## 3. Python SDK Reference (`aerobrowse`)
+Python 3.11 or newer is required. From this checkout:
 
-### Installation
-```bash
-pip install aerobrowse
+```sh
+python -m pip install -e ".[dev]"
+python -m playwright install --with-deps chromium
 ```
 
-### Main Class: `AeroBrowser`
-Located at `aerobrowse.engine.AeroBrowser`.
+For reproducible development, install uv and run `uv sync --locked --extra dev`.
+`uv.lock` records exact Python dependency resolutions. Native Rust:
 
-#### Methods:
-- `AeroBrowser(default_mode: str = "auto")`: Initializes browser controller. `default_mode` can be `"auto"`, `"turbo"`, or `"fidelity"`.
-- `fetch(url: str, force_fidelity: bool = False) -> Dict[str, Any]`:
-  Fetches target URL, applies semantic pruning, and returns a structured dictionary:
-  - `title` (str): Page title.
-  - `markdown` (str): Token-optimized GitHub Flavored Markdown.
-  - `actions` (List[Dict]): List of actionable interactive elements mapped to numeric IDs.
-  - `reduction_pct` (float): Percentage of tokens pruned (typically 70%–92%).
-  - `original_chars` (int): Raw byte/character length before pruning.
-  - `pruned_chars` (int): Clean markdown character length.
-  - `elapsed_ms` (float): Execution latency in milliseconds.
-  - `engine` (str): `"turbo"` or `"fidelity"`.
-- `click(action_id: str) -> Dict[str, Any]`: Dispatches a native click event to the element identified by its numeric Action ID.
-- `fill(action_id: str, text: str) -> Dict[str, Any]`: Types text into an input or textarea identified by its numeric Action ID.
-- `screenshot() -> bytes`: Captures an optimized PNG screenshot.
-- `close()`: Cleans up any active browser processes and releases memory.
-
-## 4. Standalone Native Rust Core CLI (`rust_core`)
-
-Single self-contained 4.7MB binary with zero Python or Node.js runtime requirements.
-
-### Commands:
-```bash
-# Fetch clean markdown in Turbo Mode (Sub-100ms, ~12MB RAM)
-aerobrowse fetch https://news.ycombinator.com
-
-# Force full Blink/V8 JavaScript execution via native CDP session
-aerobrowse fetch https://quotes.toscrape.com/js/ --fidelity
-
-# Interactive DOM Actions via numbered Action IDs
-aerobrowse click https://quotes.toscrape.com 2
-aerobrowse fill https://quotes.toscrape.com/login 3 "admin_user"
-
-# Launch Model Context Protocol (MCP) server over stdio
-aerobrowse mcp
+```sh
+cargo build --locked --release --manifest-path rust_core/Cargo.toml
 ```
 
-## 5. Model Context Protocol (MCP) Tools Schema
-AeroBrowse exposes standard MCP JSON-RPC 2.0 tools for Cursor AI, Claude Desktop, and Antigravity:
+Turbo works on supported Python platforms. Fidelity requires Linux with `unshare`
+and permission to create user/network namespaces. Windows/macOS Fidelity returns
+`NETWORK_ISOLATION_UNAVAILABLE`. Do not bypass this restriction. Chromium is
+launched with no network interfaces and host-brokered, validated HTTP requests.
+This process boundary has not yet been verified in this branch's Linux CI.
 
-1. `browser_navigate`:
-   - Arguments: `url` (string, required), `force_fidelity` (boolean, optional)
-   - Returns: Token-dense Markdown document with numbered Set-of-Marks action indexing.
-2. `browser_click`:
-   - Arguments: `url` (string, required), `action_id` (integer, required)
-   - Dispatches native DOM click via Chrome DevTools Protocol.
-3. `browser_fill`:
-   - Arguments: `url` (string, required), `action_id` (integer, required), `value` (string, required)
-   - Focuses and inputs text into target element via Chrome DevTools Protocol.
+## Python API
 
-## 6. Integration Snippets
-
-### LangChain Integration
 ```python
-from langchain.tools import tool
 from aerobrowse import AeroBrowser
 
-browser = AeroBrowser()
-
-@tool
-def browse_web(url: str, force_fidelity: bool = False) -> str:
-    """Fetches a web page and returns token-pruned markdown with numbered action IDs."""
-    res = browser.fetch(url, force_fidelity=force_fidelity)
-    return res["markdown"]
+with AeroBrowser(default_mode="auto") as browser:
+    page = browser.fetch("https://example.com")
+    if not page["success"]:
+        print(page["error"]["code"])
+    else:
+        print(page["markdown"])
+        print(page["original_tokens"], page["extracted_tokens"], page["tokenizer"])
 ```
 
-### CrewAI Custom Tool
+Modes: `turbo` never escalates; `fidelity` requires Chromium; `auto` escalates
+sparse application roots and explicit JavaScript requirements. A network-policy
+error never triggers fallback. These are heuristics, not framework compatibility
+guarantees. Static action candidates have `executable: false`.
+
+`fetch(url, force_fidelity=False)`, `snapshot()`, `click(action_id, generation)`,
+`fill(action_id, text, generation)`, `select(action_id, value, generation)`,
+`perform("check", action_id, bool, generation)`,
+`perform("press", action_id, key, generation)`, `scroll(x=0, y=600)`,
+`wait(action_id, generation, timeout_ms=5000)`, `screenshot()`, and `close()`
+are implemented in Python. Screenshots return bounded PNG bytes and can contain
+sensitive page content. Numeric IDs and arbitrary CSS selectors are not executable.
+
+When an action follows a Turbo fetch, AeroBrowse navigates Fidelity to the tracked
+URL, re-extracts the live DOM, and returns `STALE_ACTION_ID` with `synchronized:
+true` and a new action map. Select the intended action from that response and
+retry using its `id` and `generation`. No action is performed during that handoff.
+Every new snapshot invalidates earlier IDs. DOM changes also invalidate IDs.
+
+Snapshots contain title, markdown, actions, table cell/header metadata, extraction
+quality indicators and token/character measurements. `reduction_pct` now aliases
+**token** reduction, not the old character metric. `character_reduction_pct` is
+separate. Default tokenizer: `tiktoken/cl100k_base`; alternative encodings:
+`SemanticPruner(tokenizer="o200k_base")` or `p50k_base`. Metrics record library
+version. Tokenizer failure is an explicit `TOKENIZER_ERROR`, never an estimate.
+No fixed token saving, RAM footprint or latency is promised.
+
+## MCP setup and sessions
+
+```json
+{
+  "mcpServers": {
+    "aerobrowse": {"command": "python", "args": ["-m", "aerobrowse.mcp_server"]}
+  }
+}
+```
+
+Use the Python interpreter from the installed environment. Stdio stdout contains
+protocol messages only. The official FastMCP implementation handles protocol
+initialization, JSON-RPC, validation and cancellation.
+
+`browser_navigate(url, force_js=false, session_id=null)` creates an owned session
+when no ID is supplied. Reuse its returned session ID in subsequent calls. IDs
+are bound to the MCP transport session, not just possession of a string. Browser
+state is never shared between owners. A dedicated worker serializes each
+session's operations and preserves Playwright thread affinity.
+
+| Tool | Required arguments beyond session_id |
+|---|---|
+| browser_navigate | url; optional force_js |
+| browser_snapshot | none |
+| browser_click | action_id, generation |
+| browser_fill | action_id, generation, value |
+| browser_select | action_id, generation, value |
+| browser_check | action_id, generation, checked |
+| browser_press | action_id, generation, key |
+| browser_scroll | optional x, y |
+| browser_wait | action_id, generation; optional timeout_ms |
+| browser_screenshot | none |
+| browser_close | none |
+
+Tool responses use `success`, structured `error.code`/`error.message` on failure,
+and page snapshots on successful actions. Request operations include request and
+session IDs. Do not assume HTTP success from a returned dictionary: inspect
+`success`. Session defaults: 8 active sessions, 300-second idle lifetime,
+45-second request timeout. Idle cleanup runs every 10 seconds. Cancellation
+retires the session and queues cleanup. A stuck native worker cannot yet be
+forcibly terminated; see known limitations.
+
+## Configuration and network restrictions
+
+Configuration is explicit Python code; no environment flag silently permits
+private networks:
+
 ```python
-from crewai.tools import tool
+from aerobrowse.security import NetworkPolicy, Limits
 from aerobrowse import AeroBrowser
 
-browser = AeroBrowser()
-
-@tool("AeroBrowse Web Reader")
-def read_web_page(url: str) -> str:
-    """Reads any URL and returns compact, token-optimized Markdown."""
-    res = browser.fetch(url)
-    return res["markdown"]
+# Local development only; scope to the smallest required address range.
+policy = NetworkPolicy(allow_networks=("127.0.0.1/32",),
+                       limits=Limits(timeout=10, response_bytes=2 * 1024 * 1024))
+browser = AeroBrowser(policy=policy)
 ```
 
-### LlamaIndex Web Reader
-```python
-from llama_index.core.readers.base import BaseReader
-from llama_index.core.schema import Document
-from aerobrowse import AeroBrowser
+Default limits: URL 8192 characters; request body 1 MiB; response/HTML 4 MiB;
+network deadline 20 seconds (standalone TurboEngine defaults to 12);
+5 redirects; parser 100,000 nodes/128 depth. All DNS answers must pass policy.
+Numeric sockets pin the actual connection destination; TLS SNI and certificate
+verification use the normalized hostname. Proxies from the environment, cookies,
+authorization headers and compressed responses are not used. Legitimate
+non-UTF-8 content and servers requiring compression may need additional support.
+Resource blocking is opt-in: `FidelityEngine(block_heavy_resources=True)`.
 
-class AeroBrowseWebReader(BaseReader):
-    def __init__(self):
-        self.browser = AeroBrowser()
+## Native Rust scope
 
-    def load_data(self, urls):
-        return [
-            Document(text=self.browser.fetch(u)["markdown"], metadata={"url": u})
-            for u in urls
-        ]
+Native Turbo validates resolved IPs and pins reqwest destinations. It provides
+real `tiktoken-rs/0.12.1:cl100k_base` measurements and static, non-executable
+action candidates. Native Chromium and click/fill fail explicitly until an
+OS-level boundary and equivalent live-action semantics exist. `aerobrowse mcp`
+requires the installed Python SDK and launches its maintained MCP server.
+The binary is no longer advertised as a standalone interactive browser.
+
+## Known limitations and troubleshooting
+
+- Authenticated browser sessions, cookie persistence, WebSockets, service workers,
+  popups/downloads, multiple tabs and back/forward are not supported yet.
+- Browser namespace operation, iframe request isolation and crash recovery require
+  Linux integration evidence. Local Windows refusal does not prove Linux safety.
+- Native extraction is less complete than Python for tables and ARIA metadata.
+- Static extraction cannot establish computed CSS visibility or information recall.
+- Active pages and screenshots may themselves contain confidential information.
+  Form values are omitted, but arbitrary page prose is not a DLP boundary.
+- `BLOCKED_DESTINATION`: check the URL/policy; use narrow explicit allowlists only
+  for trusted development services.
+- `STALE_ACTION_ID`: request a new snapshot and choose the action again.
+- `NETWORK_ISOLATION_UNAVAILABLE`: use a Linux host that permits user/network
+  namespaces. No unsafe launch switch is provided.
+- `TOKENIZER_ERROR`: encoding initialization may need its initial data download;
+  configure the tokenizer cache for offline deployments before serving traffic.
+
+## Verification
+
+```sh
+python -m pytest
+python -m ruff check aerobrowse tests
+python -m ruff format --check aerobrowse tests
+python -m mypy aerobrowse --ignore-missing-imports --check-untyped-defs
+cargo fmt --manifest-path rust_core/Cargo.toml --check
+cargo clippy --manifest-path rust_core/Cargo.toml --all-targets --all-features -- -D warnings
+cargo test --locked --manifest-path rust_core/Cargo.toml
+cargo build --locked --release --manifest-path rust_core/Cargo.toml
 ```
 
-## 7. Cost Reduction Formula
-```
-Token Savings = (1 - (Pruned_Tokens / Raw_HTML_Tokens)) * 100
-Cost Savings = (Raw_HTML_Tokens - Pruned_Tokens) * Price_Per_Token
-```
-Example on Wikipedia (733,407 raw tokens reduced to 77,800 pruned tokens):
-- Token Savings: **89.4%**
-- At GPT-4o input pricing ($2.50 / 1M tokens), a single page fetch costs **$0.19** instead of **$1.83**.
-- For 1,000 pages, total cost drops from **$1,833.00** to **$194.50** (over $1,600 saved).
-
-## 8. Semantic Recall & Zero-Data-Loss Verification Audit
-AeroBrowse preserves visible semantic content while stripping non-content markup.
-Across live production benchmarks (`benchmarks/verify_zero_loss.py`):
-- Quotes to Scrape: 99.35% word recall (84.7% token reduction)
-- Books to Scrape: 98.75% word recall (95.3% token reduction; 100% of product titles, prices, ratings preserved)
-- Python.org: 95.19% word recall (85.5% token reduction; all code samples, docs, links preserved)
-- Hacker News: 88.89% word recall (5.8% token reduction; only base64 tracking strings omitted)
-- Wikipedia (AI): 84.34% word recall (85.0% token reduction; 6,552 unique encyclopedia terms preserved)
-
-### What Is Pruned vs Retained
-- Pruned (0% knowledge): CSS classes, inline SVG paths, `<script>`, `<style>`, telemetry tracking pixels, comment tags, empty wrapper `<div>`s.
-- Retained (100% knowledge): Paragraphs, headings, table grids, Set-of-Marks interactive IDs, full anchor titles (recovered from `title` or `aria-label`).
+Linux browser tests are marked `browser`; deterministic fixtures are used rather
+than third-party sites. See [BENCHMARKS.md](BENCHMARKS.md), [SECURITY.md](SECURITY.md)
+and [CHANGELOG.md](CHANGELOG.md). MIT license.

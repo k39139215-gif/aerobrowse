@@ -1,14 +1,5 @@
-"""
-AeroBrowse Quickstart - 5 Lines of Python
-"""
-import asyncio
-from aerobrowse import AeroEngine
+from aerobrowse import AeroBrowser
 
-async def run():
-    async with AeroEngine() as browser:
-        page = await browser.navigate("https://github.com/trending")
-        print(f"Tokens: {page.token_count} | Mode: {page.mode}")
-        print(page.markdown[:300])
-
-if __name__ == "__main__":
-    asyncio.run(run())
+with AeroBrowser() as browser:
+    result = browser.fetch("https://example.com")
+    print(result)

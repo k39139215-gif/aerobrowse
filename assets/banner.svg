@@ -81,20 +81,20 @@
   <g transform="translate(60, 275)" filter="url(#card-shadow)">
     <rect width="335" height="150" rx="12" fill="url(#card-grad)" stroke="#1e293b" stroke-width="1.5" />
     <rect width="335" height="4" rx="2" fill="url(#brand-cyan)" />
-    <text x="24" y="44" fill="#00f5a0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800">88% Fewer Tokens</text>
+    <text x="24" y="44" fill="#00f5a0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800">Measured Token Counts</text>
     <text x="24" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">Recursive Semantic AST Pruning</text>
     <text x="24" y="102" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Eliminates CSS/SVG markup bloat while</text>
-    <text x="24" y="122" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">preserving 95%+ visible vocabulary.</text>
+    <text x="24" y="122" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">with extraction quality indicators.</text>
   </g>
 
   <!-- Card 2: Memory & Speed -->
   <g transform="translate(432, 275)" filter="url(#card-shadow)">
     <rect width="335" height="150" rx="12" fill="url(#card-grad)" stroke="#1e293b" stroke-width="1.5" />
     <rect width="335" height="4" rx="2" fill="#38bdf8" />
-    <text x="24" y="44" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800">12MB RAM &amp; &lt;100ms</text>
+    <text x="24" y="44" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800">Bounded HTTP Retrieval</text>
     <text x="24" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">Turbo Mode (Rust + Python)</text>
-    <text x="24" y="102" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">15x lighter than headless Chrome.</text>
-    <text x="24" y="122" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Auto-routes to CDP on dynamic SPAs.</text>
+    <text x="24" y="102" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Explicit network and parser limits.</text>
+    <text x="24" y="122" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Isolated Chromium for supported Linux.</text>
   </g>
 
   <!-- Card 3: Set of Marks & MCP -->
@@ -102,8 +102,8 @@
     <rect width="335" height="150" rx="12" fill="url(#card-grad)" stroke="#1e293b" stroke-width="1.5" />
     <rect width="335" height="4" rx="2" fill="#a855f7" />
     <text x="24" y="44" fill="#c084fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800">Set-of-Marks &amp; MCP</text>
-    <text x="24" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">Zero Selector Hallucinations</text>
-    <text x="24" y="102" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Numbered IDs ([1] Click, [2] Fill).</text>
+    <text x="24" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">Generation-Scoped Actions</text>
+    <text x="24" y="102" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Live node handles with stale-ID checks.</text>
     <text x="24" y="122" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">Native FastMCP for Cursor &amp; Claude.</text>
   </g>
 </svg>

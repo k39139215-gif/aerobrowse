@@ -1,121 +1,85 @@
-name: CI & Cross-Platform Release Build
-
+name: Engineering verification
 on:
   push:
-    branches: [ main ]
-    tags: [ 'v*' ]
+    branches: [main, fix/production-hardening]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
-
 permissions:
-  contents: write
-
+  contents: read
+concurrency:
+  group: verification-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  test-python:
-    name: Python Test Suite (${{ matrix.os }})
+  python:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.11', '3.12']
-
+        os: [ubuntu-24.04, windows-latest]
+        python: ['3.11', '3.12', '3.13', '3.14']
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-          python -m playwright install --with-deps chromium
-
-      - name: Run Pytest
-        run: |
-          python -m pytest tests/ -v
-
-  build-rust:
-    name: Rust Release Build (${{ matrix.target }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            bin_name: aerobrowse.exe
-            asset_name: aerobrowse-windows-x86_64.exe
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            bin_name: aerobrowse
-            asset_name: aerobrowse-linux-x86_64
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            bin_name: aerobrowse
-            asset_name: aerobrowse-macos-arm64
-
+          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
+      - run: uv sync --locked --extra dev
+      - run: uv run --no-sync ruff check aerobrowse tests
+      - run: uv run --no-sync ruff format --check aerobrowse tests
+      - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
+      - run: uv run --no-sync pytest -m "not browser" --junitxml=evidence/ci-python.xml
+      - run: uv run --no-sync python -m build
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: python-${{ matrix.os }}-${{ matrix.python }}
+          path: evidence/*.xml
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
-          targets: ${{ matrix.target }}
-
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
+      - run: uv sync --locked --extra dev
+      - run: uv run --no-sync playwright install --with-deps chromium
+      - name: Verify isolated browser fixtures
+        run: uv run --no-sync pytest -m browser -v --junitxml=evidence/ci-browser.xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
         with:
-          workspaces: "rust_core -> target"
-
-      - name: Run Cargo Test
-        run: cargo test --manifest-path rust_core/Cargo.toml --target ${{ matrix.target }}
-
-      - name: Build Release Binary
-        run: cargo build --manifest-path rust_core/Cargo.toml --release --target ${{ matrix.target }}
-
-      - name: Stage Artifact
-        shell: bash
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            cp rust_core/target/${{ matrix.target }}/release/${{ matrix.bin_name }} ${{ matrix.asset_name }}
-          else
-            cp rust_core/target/${{ matrix.target }}/release/${{ matrix.bin_name }} ${{ matrix.asset_name }}
-            chmod +x ${{ matrix.asset_name }}
-          fi
-
-      - name: Upload Binary Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.asset_name }}
-          path: ${{ matrix.asset_name }}
-
-  release:
-    name: Publish GitHub Release
-    needs: [test-python, build-rust]
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
+          name: browser-evidence
+          path: evidence/*.xml
+  rust:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: rust_core
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: rustup update stable --no-self-update
+      - run: rustup component add rustfmt clippy
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets --all-features -- -D warnings
+      - run: cargo test --locked
+      - run: cargo build --locked --release
+      - run: cargo install cargo-audit --locked
+      - run: cargo audit
+  dependencies:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
+      - run: uv sync --locked --extra dev
+      - run: uv run --no-sync pip-audit --format json --output evidence/ci-pip-audit.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
         with:
-          path: release_assets
-          merge-multiple: true
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release_assets/*
-          generate_release_notes: true
-          draft: false
-          prerelease: false
+          name: dependency-evidence
+          path: evidence/*audit.json

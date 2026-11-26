@@ -2,7 +2,7 @@
   "$schema": "https://modelcontextprotocol.io/schema/mcp-server.json",
   "name": "aerobrowse",
   "title": "AeroBrowse: The Featherweight AI Browser Engine",
-  "description": "Dual-engine AI browser for autonomous agents, LLM pipelines, and Model Context Protocol (MCP) clients that cuts token usage by 88% using semantic AST pruning.",
+  "description": "Hybrid HTTP retrieval and isolated Chromium browsing; see README for supported operations and limitations.",
   "version": "0.2.0",
   "homepage": "https://github.com/k39139215-gif/aerobrowse",
   "repository": {
@@ -28,22 +28,9 @@
   "transport": {
     "type": "stdio",
     "command": "python",
-    "args": ["-m", "aerobrowse.cli", "mcp"]
-  },
-  "capabilities": {
-    "tools": [
-      {
-        "name": "browse",
-        "description": "Navigates to a URL, performs semantic AST pruning, and returns clean Markdown with numbered Set-of-Marks Action IDs."
-      },
-      {
-        "name": "click",
-        "description": "Dispatches a deterministic DOM click event using a numeric Action ID."
-      },
-      {
-        "name": "fill",
-        "description": "Fills text into an input field using a numeric Action ID."
-      }
+    "args": [
+      "-m",
+      "aerobrowse.mcp_server"
     ]
   }
 }

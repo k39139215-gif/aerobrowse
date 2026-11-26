@@ -109,3 +109,14 @@ requirement for MCP. These are deliberate breaking restrictions, not full native
 feature parity. Five Rust tests passed; strict Clippy all-targets/all-features
 passed on workspace-local Rust 1.100.0 LLVM Windows target. Native HTML tables
 remain less complete than Python. Rust HTTP integration tests still need expansion.
+## Phases 8 and 9 checkpoint
+
+No performance optimization was attempted while browser acceptance gates remain
+open. A reproducible harness and eight controlled tokenizer cases now record
+measurements/failures and explicit limitations. Historical benchmark entrypoints
+are retired to prevent character-estimate claims. README/security/changelog and
+public metadata were rewritten to match implemented restrictions. CI has locked
+Python dependencies, pinned action revisions, deterministic tests, lint/types/build,
+Linux browser tests, strict Rust checks and dependency audits. Five native tests,
+Clippy all-targets/all-features, fmt and release build passed locally. Remote CI
+and browser acceptance are still pending. See ENGINEERING_REPORT.md for open work.
