@@ -29,7 +29,8 @@ WebSockets and service workers are disabled, and bypass traffic has no network.
 Popups are closed, downloads are not accepted, and browser contexts have no
 persistent profile. Host networking is never an automatic fallback. Windows and
 macOS fail closed. Native Rust Chromium is unavailable pending equivalent
-isolation. Linux browser isolation has not yet been verified in CI for this branch.
+isolation. Linux CI verifies basic namespace launch and live action fixtures; exhaustive
+network-bypass testing is still required.
 
 Network namespaces do not isolate the host filesystem or defend against a
 Chromium sandbox escape. Deploy under an unprivileged account/container with a
@@ -40,7 +41,9 @@ CPU/RAM/PIDs and application-specific egress policy. Do not run with host secret
 
 MCP sessions use random IDs and transport-owner checks. One worker serializes each
 browser's state. Request timeouts and idle/capacity limits bound normal use.
-Cancelled/timed-out sessions are retired and cleanup is queued; hard worker
+Cancelled/timed-out sessions are retired and remain capacity-accounted through
+cleanup. Per-session outstanding calls are capped at 16; incomplete cleanup returns
+CLEANUP_PENDING. Hard worker
 termination and independently verified process cleanup remain open requirements.
 
 Action IDs encode snapshot generation and refer to retained live node handles.

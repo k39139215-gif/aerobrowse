@@ -139,3 +139,13 @@ regressions. Conservative Python special-use ranges now match Rust exclusions.
 Focused transport/session suite: 47 passed. Linux CI on caf543c passed all three
 existing browser tests; new browser regressions require rerun. Rust Linux build,
 fmt, tests and strict Clippy also passed; cargo-audit compilation still pending.
+
+## Remote verification checkpoint
+
+Source c09500a: all 11 CI jobs passed in run 45769090597, including 8 Python
+matrices, 5 Linux browser fixture tests, pip-audit, Rust fmt/strict Clippy/tests/
+release build/cargo-audit. Local suite: 62 passed, 4 Linux-only skips. Evidence:
+evidence/ci-c09500a.json and evidence/ci-c09500a-browser/ci-browser.xml.
+This closes basic browser fixture verification, not exhaustive network-bypass,
+framework compatibility, native parity, leak profiling or production acceptance.
+Draft PR #1 remains open and unmerged. Final report records remaining work.

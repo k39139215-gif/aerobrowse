@@ -107,8 +107,9 @@ Tool responses use `success`, structured `error.code`/`error.message` on failure
 and page snapshots on successful actions. Request operations include request and
 session IDs. Do not assume HTTP success from a returned dictionary: inspect
 `success`. Session defaults: 8 active sessions, 300-second idle lifetime,
-45-second request timeout. Idle cleanup runs every 10 seconds. Cancellation
-retires the session and queues cleanup. A stuck native worker cannot yet be
+45-second request timeout. Idle cleanup runs every 10 seconds. Each session admits at most 16 outstanding calls. Cancellation
+retires the session and queues cleanup. Retiring resources still count against
+capacity; incomplete cleanup returns CLEANUP_PENDING. A stuck native worker cannot yet be
 forcibly terminated; see known limitations.
 
 ## Configuration and network restrictions
@@ -148,8 +149,8 @@ The binary is no longer advertised as a standalone interactive browser.
 
 - Authenticated browser sessions, cookie persistence, WebSockets, service workers,
   popups/downloads, multiple tabs and back/forward are not supported yet.
-- Browser namespace operation, iframe request isolation and crash recovery require
-  Linux integration evidence. Local Windows refusal does not prove Linux safety.
+- Linux CI verifies namespace operation and basic handoff/live actions/staleness.
+  Exhaustive iframe egress and crash-recovery coverage remain open.
 - Native extraction is less complete than Python for tables and ARIA metadata.
 - Static extraction cannot establish computed CSS visibility or information recall.
 - Active pages and screenshots may themselves contain confidential information.
