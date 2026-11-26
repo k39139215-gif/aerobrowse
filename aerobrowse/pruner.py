@@ -222,6 +222,23 @@ def _table_cell(
     }
 
 
+def _header_applies(
+    header: dict[str, Any], row: int, column: int, width: int, group: int
+) -> bool:
+    horizontal = header["column"] < column + width and header["end_column"] > column
+    left = header["column"] < column
+    scope = header["scope"]
+    if scope in {"col", "colgroup"}:
+        return header["row"] < row and horizontal
+    if scope == "row":
+        return header["row"] <= row < header["end_row"] and left
+    if scope == "rowgroup":
+        return header["group"] == group and header["row"] <= row and left
+    if not scope:
+        return (header["row"] < row and horizontal) or (header["row"] == row and left)
+    return False
+
+
 def _associate_headers(rows: list[list[dict[str, Any]]], groups: list[int]) -> None:
     """Infer common row/column relationships without allocating a span-sized grid.
 
@@ -257,35 +274,9 @@ def _associate_headers(rows: list[list[dict[str, Any]]], groups: list[int]) -> N
                     if associations > 100000:
                         cell["header_inference_limited"] = True
                         break
-                    horizontal = (
-                        header["column"] < column + width
-                        and header["end_column"] > column
-                    )
-                    vertical = header["row"] <= row_index < header["end_row"]
                     scope = header["scope"]
-                    if (
-                        (
-                            scope in {"col", "colgroup"}
-                            and header["row"] < row_index
-                            and horizontal
-                        )
-                        or (scope == "row" and vertical and header["column"] < column)
-                        or (
-                            scope == "rowgroup"
-                            and header["group"] == groups[row_index]
-                            and header["row"] <= row_index
-                            and header["column"] < column
-                        )
-                        or (
-                            not scope
-                            and (
-                                (header["row"] < row_index and horizontal)
-                                or (
-                                    header["row"] == row_index
-                                    and header["column"] < column
-                                )
-                            )
-                        )
+                    if _header_applies(
+                        header, row_index, column, width, groups[row_index]
                     ):
                         cell["inferred_headers"].append(
                             {
@@ -450,6 +441,61 @@ def _render_list(node: Tag, base_url: str, depth: int) -> str:
     return "\n" + "\n".join(rendered) + "\n"
 
 
+def _landmarks(soup: BeautifulSoup) -> list[dict[str, str]]:
+    landmark_roles = {
+        "main": "main",
+        "nav": "navigation",
+        "aside": "complementary",
+        "dialog": "dialog",
+        "search": "search",
+    }
+    landmarks = [
+        {
+            "role": str(node.get("role") or landmark_roles.get(node.name, "")),
+            "label": str(node.get("aria-label") or _referenced_label(node, soup)),
+        }
+        for node in soup.find_all(True)
+        if node.name in landmark_roles
+        or node.get("role")
+        in {
+            "main",
+            "navigation",
+            "complementary",
+            "dialog",
+            "search",
+            "banner",
+            "contentinfo",
+        }
+    ]
+    return landmarks
+
+
+def _language_regions(soup: BeautifulSoup) -> tuple[list[dict[str, str]], int]:
+    language_regions: list[dict[str, str]] = []
+    language_region_count = 0
+    for node in soup.find_all(["p", "span", "section", "article", "div"]):
+        if not node.has_attr("lang") and not node.has_attr("dir"):
+            continue
+        language_region_count += 1
+        if len(language_regions) >= 256:
+            continue
+        parts = []
+        length = 0
+        for text in node.stripped_strings:
+            parts.append(text[: 4096 - length])
+            length += min(len(text), 4096 - length) + 1
+            if length >= 4096:
+                break
+        language_regions.append(
+            {
+                "language": str(node.get("lang", ""))[:128],
+                "direction": str(node.get("dir", ""))[:8],
+                "text": " ".join(parts)[:4096],
+            }
+        )
+    return language_regions, language_region_count
+
+
 class SemanticPruner:
     UNWANTED_TAGS: ClassVar[set[str]] = {
         "script",
@@ -479,53 +525,8 @@ class SemanticPruner:
             r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", _render(soup, base_url)
         ).strip()
         root = soup.html or soup
-        landmark_roles = {
-            "main": "main",
-            "nav": "navigation",
-            "aside": "complementary",
-            "dialog": "dialog",
-            "search": "search",
-        }
-        landmarks = [
-            {
-                "role": str(node.get("role") or landmark_roles.get(node.name, "")),
-                "label": str(node.get("aria-label") or _referenced_label(node, soup)),
-            }
-            for node in soup.find_all(True)
-            if node.name in landmark_roles
-            or node.get("role")
-            in {
-                "main",
-                "navigation",
-                "complementary",
-                "dialog",
-                "search",
-                "banner",
-                "contentinfo",
-            }
-        ]
-        language_regions: list[dict[str, str]] = []
-        language_region_count = 0
-        for node in soup.find_all(["p", "span", "section", "article", "div"]):
-            if not node.has_attr("lang") and not node.has_attr("dir"):
-                continue
-            language_region_count += 1
-            if len(language_regions) >= 256:
-                continue
-            parts = []
-            length = 0
-            for text in node.stripped_strings:
-                parts.append(text[: 4096 - length])
-                length += min(len(text), 4096 - length) + 1
-                if length >= 4096:
-                    break
-            language_regions.append(
-                {
-                    "language": str(node.get("lang", ""))[:128],
-                    "direction": str(node.get("dir", ""))[:8],
-                    "text": " ".join(parts)[:4096],
-                }
-            )
+        landmarks = _landmarks(soup)
+        language_regions, language_region_count = _language_regions(soup)
         structured_tables = [_table(table, indexes) for table in tables]
         inference_limited = any(
             cell["header_inference_limited"]

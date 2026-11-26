@@ -120,7 +120,7 @@ def decode_frame(frame: bytes, limits: TransportLimits) -> dict[str, Any]:
         )
     except FrameError:
         raise
-    except (UnicodeError, ValueError, RecursionError) as exc:
+    except (ValueError, RecursionError) as exc:
         raise FrameError(-32700, "Invalid UTF-8 JSON") from exc
     _check_shape(value, limits)
     if not isinstance(value, dict):

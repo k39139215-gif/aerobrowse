@@ -228,7 +228,7 @@ class SessionManager:
         return {"success": True, "session_id": sid}
 
     async def expire(self) -> None:
-        for sid, session in list(self._sessions.items()):
+        for sid, session in tuple(self._sessions.items()):
             if not session.lock.locked() and self._expired(session):
                 await self.close(session.owner, sid)
 
@@ -247,14 +247,14 @@ class SessionManager:
         await asyncio.gather(
             *(
                 self.close(session.owner, sid)
-                for sid, session in list(self._sessions.items())
+                for sid, session in tuple(self._sessions.items())
             )
         )
         # A concurrent close may already have moved a worker out of _sessions.
         # Await its shielded kernel cleanup before releasing the aggregate pool.
         if self._cleanup_tasks:
             await asyncio.gather(
-                *(asyncio.shield(task) for task in list(self._cleanup_tasks))
+                *(asyncio.shield(task) for task in tuple(self._cleanup_tasks))
             )
         if self._retiring:
             raise AeroError(

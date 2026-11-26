@@ -7,6 +7,8 @@ from playwright.sync_api import Error as PlaywrightError
 
 from aerobrowse.errors import AeroError
 
+FAIL_REQUEST = "Fetch.failRequest"
+
 
 class Request:
     def __init__(self, session: Any, event: dict[str, Any]):
@@ -41,9 +43,9 @@ class Route:
         self.session, self.request_id = session, event["requestId"]
         self.request = Request(session, event)
 
-    def abort(self, reason: str) -> None:
+    def abort(self, _reason: str) -> None:
         self.session.send(
-            "Fetch.failRequest",
+            FAIL_REQUEST,
             {"requestId": self.request_id, "errorReason": "BlockedByClient"},
         )
 
@@ -72,7 +74,7 @@ def install(page: Any, broker: Any, failed: Any) -> Any:
         except AeroError as exc:
             failed(exc)
             session.send(
-                "Fetch.failRequest",
+                FAIL_REQUEST,
                 {"requestId": event["requestId"], "errorReason": "BlockedByClient"},
             )
         except (ValueError, KeyError, TypeError):
@@ -80,7 +82,7 @@ def install(page: Any, broker: Any, failed: Any) -> Any:
                 AeroError("INVALID_REQUEST", "Browser request cannot be safely decoded")
             )
             session.send(
-                "Fetch.failRequest",
+                FAIL_REQUEST,
                 {"requestId": event["requestId"], "errorReason": "BlockedByClient"},
             )
         except PlaywrightError:

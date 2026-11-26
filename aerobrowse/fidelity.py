@@ -479,6 +479,93 @@ class FidelityEngine:
         except PlaywrightError:
             return AeroError("ACTION_FAILED", "Scroll failed").result()
 
+    @staticmethod
+    def _validate_wait(
+        action_id: str | None,
+        generation: str | None,
+        timeout_ms: int,
+        name: str | None,
+        role: str | None,
+    ) -> None:
+        if type(timeout_ms) is not int or not 1 <= timeout_ms <= 30000:
+            raise AeroError("INVALID_ARGUMENT", "Invalid wait timeout")
+        if name is None:
+            if action_id is None or role is not None:
+                raise AeroError(
+                    "INVALID_ARGUMENT", "Provide an action ID or exact accessible name"
+                )
+        elif (
+            not isinstance(name, str)
+            or not name.strip()
+            or len(name) > 512
+            or action_id is not None
+            or generation is not None
+        ):
+            raise AeroError(
+                "INVALID_ARGUMENT",
+                "Provide an action ID or bounded exact accessible name",
+            )
+        if role is not None and (
+            not isinstance(role, str)
+            or role
+            not in {
+                "button",
+                "link",
+                "textbox",
+                "checkbox",
+                "radio",
+                "combobox",
+                "switch",
+                "menuitem",
+            }
+        ):
+            raise AeroError("INVALID_ARGUMENT", "Unsupported discovery role")
+
+    @staticmethod
+    def _document_identity(session: Any) -> tuple[str, str | None]:
+        frame = session.send("Page.getFrameTree")["frameTree"]["frame"]
+        return frame["id"], frame.get("loaderId")
+
+    def _check_document_identity(
+        self, session: Any, identity: tuple[str, str | None]
+    ) -> None:
+        if self._document_identity(session) != identity:
+            self._invalidate()
+            raise AeroError(
+                "PAGE_NAVIGATED",
+                "Document changed during wait; request a fresh snapshot",
+            )
+
+    def _discover_control(
+        self, page: Any, session: Any, name: str, role: str | None, timeout_ms: int
+    ) -> dict[str, Any]:
+        identity = self._document_identity(session)
+        deadline = time.monotonic() + timeout_ms / 1000
+        while True:
+            self._check_document_identity(session, identity)
+            snapshot = self.snapshot()
+            if not snapshot.get("success"):
+                return snapshot
+            self._check_document_identity(session, identity)
+            matches = [
+                a["id"]
+                for a in snapshot["actions"]
+                if a["accessible_name"] == name
+                and a["executable"]
+                and (role is None or a["role"] == role)
+            ]
+            if matches:
+                snapshot["wait"] = {"matched_action_ids": matches}
+                snapshot.update(measure_output(snapshot))
+                return snapshot
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise AeroError(
+                    "WAIT_TIMEOUT",
+                    "No matching enabled control appeared before the deadline",
+                )
+            page.wait_for_timeout(min(50, remaining * 1000))
+
     def wait(
         self,
         action_id: str | None = None,
@@ -490,39 +577,7 @@ class FidelityEngine:
     ) -> dict[str, Any]:
         """Validate an existing ID, or discover an enabled control by exact name."""
         try:
-            roles = {
-                "button",
-                "link",
-                "textbox",
-                "checkbox",
-                "radio",
-                "combobox",
-                "switch",
-                "menuitem",
-            }
-            if (
-                type(timeout_ms) is not int
-                or not 1 <= timeout_ms <= 30000
-                or (name is None and (action_id is None or role is not None))
-                or (
-                    name is not None
-                    and (
-                        not isinstance(name, str)
-                        or not name.strip()
-                        or len(name) > 512
-                        or action_id is not None
-                        or generation is not None
-                    )
-                )
-                or (
-                    role is not None
-                    and (not isinstance(role, str) or role not in roles)
-                )
-            ):
-                raise AeroError(
-                    "INVALID_ARGUMENT",
-                    "Provide an action ID or bounded exact accessible name",
-                )
+            self._validate_wait(action_id, generation, timeout_ms, name, role)
             if name is None:
                 return self.perform("wait", str(action_id), generation=generation)
             if not self.current_page or self.current_page.is_closed():
@@ -530,45 +585,7 @@ class FidelityEngine:
             page = self._ensure_page()
             session = page.context.new_cdp_session(page)
             try:
-                document = session.send("Page.getFrameTree")["frameTree"]["frame"]
-                identity = (document["id"], document.get("loaderId"))
-                deadline = time.monotonic() + timeout_ms / 1000
-                while True:
-                    frame = session.send("Page.getFrameTree")["frameTree"]["frame"]
-                    if (frame["id"], frame.get("loaderId")) != identity:
-                        self._invalidate()
-                        raise AeroError(
-                            "PAGE_NAVIGATED",
-                            "Document changed during wait; request a fresh snapshot",
-                        )
-                    snapshot = self.snapshot()
-                    if not snapshot.get("success"):
-                        return snapshot
-                    frame = session.send("Page.getFrameTree")["frameTree"]["frame"]
-                    if (frame["id"], frame.get("loaderId")) != identity:
-                        self._invalidate()
-                        raise AeroError(
-                            "PAGE_NAVIGATED",
-                            "Document changed during wait; request a fresh snapshot",
-                        )
-                    matches = [
-                        a["id"]
-                        for a in snapshot["actions"]
-                        if a["accessible_name"] == name
-                        and a["executable"]
-                        and (role is None or a["role"] == role)
-                    ]
-                    if matches:
-                        snapshot["wait"] = {"matched_action_ids": matches}
-                        snapshot.update(measure_output(snapshot))
-                        return snapshot
-                    remaining = deadline - time.monotonic()
-                    if remaining <= 0:
-                        raise AeroError(
-                            "WAIT_TIMEOUT",
-                            "No matching enabled control appeared before the deadline",
-                        )
-                    page.wait_for_timeout(min(50, remaining * 1000))
+                return self._discover_control(page, session, name, role, timeout_ms)
             finally:
                 try:
                     session.detach()
