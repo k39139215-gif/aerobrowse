@@ -56,3 +56,11 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
 
 - review-suites.xml: source `7f5c859`, 62 broader MCP/runtime passes, 3 platform
   skips and 27 browser/native deselections; overlaps the complete suite.
+
+- python-source7f-final.xml: corrected implementation `7f5c859`, 161 passes,
+  3 platform skips, 65 browser/native deselections, 210.94 seconds.
+
+- ci-c963127/: fully green run `45837621519`; 46 required browser passes/zero
+  skips, 25 runtime passes/2 Windows-only skips; repeated soak 1,801.102 seconds,
+  1,068 successful raw cycles, zero observed orphans/permanently occupied slots.
+  Later operator/review fixes require separately recorded verification.

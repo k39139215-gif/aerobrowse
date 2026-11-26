@@ -1,0 +1,11 @@
+{
+  "implementation_source": "7f5c859fc72cf6473890751c7809f15c3889a50f",
+  "result": "wheel and sdist build succeeded; all 16 module bytes equal working implementation",
+  "warnings": [
+    "deprecated TOML license metadata and classifier"
+  ],
+  "artifacts": {
+    "aerobrowse-0.2.0-py3-none-any.whl": "371da3bc41fbc778a3c85dadaa2fdd506ed80f326eca63d4f0b935e7c194e227",
+    "aerobrowse-0.2.0.tar.gz": "de36dd34add2d352e87d589ba0f8b68f5def7f66d0e0bc6d7f00f4f23e375572"
+  }
+}
