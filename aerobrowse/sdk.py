@@ -132,9 +132,17 @@ class AeroBrowser:
         return self._call("scroll", x, y)
 
     def wait(
-        self, action_id: str, generation: str | None = None, timeout_ms: int = 5000
+        self,
+        action_id: str | None = None,
+        generation: str | None = None,
+        timeout_ms: int = 5000,
+        *,
+        name: str | None = None,
+        role: str | None = None,
     ) -> dict[str, Any]:
-        return self._call("wait", action_id, generation, timeout_ms)
+        return self._call(
+            "wait", action_id, generation, timeout_ms, name=name, role=role
+        )
 
     def screenshot(self) -> bytes:
         result = self._call("screenshot")

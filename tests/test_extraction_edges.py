@@ -157,3 +157,39 @@ def test_tokenizer_special_text_is_counted_as_content():
     result = SemanticPruner().prune("<p>&lt;|endoftext|&gt;你好</p>")
     assert "<|endoftext|>你好" == result["markdown"]
     assert result["serialized_output"]["tokens"] > 0
+
+
+def test_scoped_table_headers_follow_spans_without_nested_leaks():
+    result = SemanticPruner().prune(
+        '<table><thead><tr><th rowspan="2">Account</th><th colspan="2" scope="colgroup">Balance</th></tr>'
+        '<tr><th scope="col">Debit</th><th scope="col">Credit</th></tr></thead>'
+        '<tbody><tr><th scope="row">Cash</th><td>42</td><td>0</td></tr>'
+        '<tr><th scope="row">Bank</th><td>7<table><tr><th>Nested</th><td>9</td></tr></table></td><td>1</td></tr></tbody></table>'
+    )
+    outer, inner = result["tables"]
+    assert [h["text"] for h in outer["rows"][2][1]["inferred_headers"]] == [
+        "Balance",
+        "Debit",
+        "Cash",
+    ]
+    assert [h["text"] for h in outer["rows"][3][2]["inferred_headers"]] == [
+        "Balance",
+        "Credit",
+        "Bank",
+    ]
+    assert "Nested" not in str(outer["rows"][3][1]["inferred_headers"])
+    assert [h["text"] for h in inner["rows"][0][1]["inferred_headers"]] == ["Nested"]
+
+
+def test_document_language_direction_and_landmarks_are_preserved():
+    result = SemanticPruner().prune(
+        '<html lang="ar" dir="rtl"><body><nav aria-label="القائمة">Menu</nav><main><h1>مرحبا</h1><p lang="he" dir="rtl">שלום</p></main></body></html>'
+    )
+    assert result["document"] == {"language": "ar", "direction": "rtl"}
+    assert result["landmarks"] == [
+        {"role": "navigation", "label": "القائمة"},
+        {"role": "main", "label": ""},
+    ]
+    assert result["language_regions"] == [
+        {"language": "he", "direction": "rtl", "text": "שלום"}
+    ]

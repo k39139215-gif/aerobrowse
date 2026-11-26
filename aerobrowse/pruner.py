@@ -222,6 +222,87 @@ def _table_cell(
     }
 
 
+def _associate_headers(rows: list[list[dict[str, Any]]]) -> None:
+    """Infer common row/column relationships without allocating a span-sized grid.
+
+    Explicit headers stay authoritative. These conservative relationships do not
+    claim the full HTML header-assignment algorithm for arbitrary malformed tables.
+    """
+    active: list[tuple[int, int, int]] = []
+    headers: list[dict[str, Any]] = []
+    associations = 0
+    for row_index, cells in enumerate(rows):
+        active = [span for span in active if span[2] > row_index]
+        column = 0
+        for cell in cells:
+            width = max(1, min(1000, _list_number(cell["colspan"], 1)))
+            height = max(1, min(65534, _list_number(cell["rowspan"], 1)))
+            while True:
+                occupied = [
+                    end
+                    for start, end, _ in active
+                    if start < column + width and end > column
+                ]
+                if not occupied:
+                    break
+                column = max(occupied)
+            cell["position"] = {"row": row_index, "column": column}
+            cell["inferred_headers"] = []
+            cell["header_inference_limited"] = False
+            if not cell["headers"]:
+                for header in headers:
+                    associations += 1
+                    if associations > 100000:
+                        cell["header_inference_limited"] = True
+                        break
+                    horizontal = (
+                        header["column"] < column + width
+                        and header["end_column"] > column
+                    )
+                    vertical = header["row"] <= row_index < header["end_row"]
+                    scope = header["scope"]
+                    if (
+                        (
+                            scope in {"col", "colgroup"}
+                            and header["row"] < row_index
+                            and horizontal
+                        )
+                        or (scope == "row" and vertical and header["column"] < column)
+                        or (
+                            not scope
+                            and (
+                                (header["row"] < row_index and horizontal)
+                                or (
+                                    header["row"] == row_index
+                                    and header["column"] < column
+                                )
+                            )
+                        )
+                    ):
+                        cell["inferred_headers"].append(
+                            {
+                                "text": header["text"],
+                                "row": header["row"],
+                                "column": header["column"],
+                                "scope": scope or "auto",
+                            }
+                        )
+            if cell["header"]:
+                headers.append(
+                    {
+                        "text": cell["text"],
+                        "row": row_index,
+                        "column": column,
+                        "end_column": column + width,
+                        "end_row": row_index + height,
+                        "scope": cell["scope"],
+                    }
+                )
+            if height > 1:
+                active.append((column, column + width, row_index + height))
+            column += width
+
+
 def _table(table: Tag, indexes: dict[int, int]) -> dict[str, Any]:
     own_headers = {
         str(header["id"]): _table_text(header, table)
@@ -237,6 +318,7 @@ def _table(table: Tag, indexes: dict[int, int]) -> dict[str, Any]:
                     for cell in row.find_all(["th", "td"], recursive=False)
                 ]
             )
+    _associate_headers(rows)
     parent = table.find_parent("table")
     parent_cell = table.find_parent(["td", "th"])
     location = None
@@ -384,11 +466,59 @@ class SemanticPruner:
         markdown = re.sub(
             r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", _render(soup, base_url)
         ).strip()
+        root = soup.html or soup
+        landmark_roles = {
+            "main": "main",
+            "nav": "navigation",
+            "aside": "complementary",
+            "dialog": "dialog",
+            "search": "search",
+        }
+        landmarks = [
+            {
+                "role": str(node.get("role") or landmark_roles.get(node.name, "")),
+                "label": str(node.get("aria-label") or _referenced_label(node, soup)),
+            }
+            for node in soup.find_all(True)
+            if node.name in landmark_roles
+            or node.get("role")
+            in {
+                "main",
+                "navigation",
+                "complementary",
+                "dialog",
+                "search",
+                "banner",
+                "contentinfo",
+            }
+        ]
+        language_regions = [
+            {
+                "language": str(node.get("lang", ""))[:128],
+                "direction": str(node.get("dir", ""))[:8],
+                "text": node.get_text(" ", strip=True)[:4096],
+            }
+            for node in soup.find_all(["p", "span", "section", "article", "div"])
+            if node.has_attr("lang") or node.has_attr("dir")
+        ]
+        structured_tables = [_table(table, indexes) for table in tables]
+        inference_limited = any(
+            cell["header_inference_limited"]
+            for table in structured_tables
+            for row in table["rows"]
+            for cell in row
+        )
         result = {
             "title": title,
+            "document": {
+                "language": str(root.get("lang", ""))[:128],
+                "direction": str(root.get("dir", ""))[:8],
+            },
+            "landmarks": landmarks[:256],
+            "language_regions": language_regions[:256],
             "markdown": markdown,
             "actions": _actions(soup, base_url),
-            "tables": [_table(table, indexes) for table in tables],
+            "tables": structured_tables,
             "original_chars": len(html),
             "pruned_chars": len(markdown),
             "character_reduction_pct": round((1 - len(markdown) / len(html)) * 100, 2)
@@ -399,7 +529,13 @@ class SemanticPruner:
                 "empty_content": not bool(markdown),
                 "embedded_content_inaccessible": len(embedded),
                 "visibility_verified": False,
-                "missing_content_indicators": ["embedded_content"] if embedded else [],
+                "missing_content_indicators": (["embedded_content"] if embedded else [])
+                + (["table_header_inference_limited"] if inference_limited else [])
+                + (
+                    ["semantic_metadata_truncated"]
+                    if len(landmarks) > 256 or len(language_regions) > 256
+                    else []
+                ),
             },
         }
         result.update(measure(html, markdown, self.tokenizer))

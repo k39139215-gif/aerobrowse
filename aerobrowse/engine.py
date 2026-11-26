@@ -140,7 +140,13 @@ class AeroBrowser:
             )
 
     def wait(
-        self, action_id: str, generation: str | None = None, timeout_ms: int = 5000
+        self,
+        action_id: str | None = None,
+        generation: str | None = None,
+        timeout_ms: int = 5000,
+        *,
+        name: str | None = None,
+        role: str | None = None,
     ) -> dict[str, Any]:
         with self._lock:
             sync = self._interactive()
@@ -148,7 +154,9 @@ class AeroBrowser:
                 sync
                 if sync is not None
                 else self._remember(
-                    self._get_fidelity().wait(action_id, generation, timeout_ms)
+                    self._get_fidelity().wait(
+                        action_id, generation, timeout_ms, name=name, role=role
+                    )
                 )
             )
 
@@ -254,6 +262,7 @@ class AeroBrowser:
             ],
             "max_tabs": 8,
             "input_mode": "synthetic_dom",
+            "wait_semantics": "Existing ID validates identity immediately; name/role waits for an enabled control and returns fresh IDs without execution",
             "keyboard_semantics": "Synthetic keydown/keyup; Enter on text input submits owning form if not prevented; no physical default navigation",
             "keys": [
                 "Enter",

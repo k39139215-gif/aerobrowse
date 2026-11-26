@@ -167,14 +167,26 @@ async def browser_scroll(
 @mcp.tool()
 async def browser_wait(
     session_id: SessionID,
-    action_id: ActionID,
-    generation: Generation,
     ctx: Context,
+    action_id: ActionID | None = None,
+    generation: Generation | None = None,
     timeout_ms: Annotated[int, Field(ge=1, le=30000)] = 5000,
+    name: Annotated[str, Field(min_length=1, max_length=512)] | None = None,
+    role: Annotated[str, Field(max_length=32)] | None = None,
 ) -> dict[str, Any]:
-    """Wait for an existing live element; arbitrary CSS selectors are not accepted."""
+    """Validate an ID, or wait for an enabled control by exact accessible name/role.
+
+    Discovery returns fresh action IDs without executing them. Never remaps old IDs.
+    """
     return await sessions.call(
-        ctx.session_id, session_id, "wait", action_id, generation, timeout_ms
+        ctx.session_id,
+        session_id,
+        "wait",
+        action_id,
+        generation,
+        timeout_ms,
+        name=name,
+        role=role,
     )
 
 

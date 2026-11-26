@@ -22,6 +22,8 @@ def test_protocol_tools_and_cross_client_isolation():
                 "browser_forward",
             } <= tools.keys()
             assert "generation" in tools["browser_click"].inputSchema["required"]
+            assert tools["browser_wait"].inputSchema["required"] == ["session_id"]
+            assert "name" in tools["browser_wait"].inputSchema["properties"]
             assert "tab_id" in tools["browser_switch_tab"].inputSchema["required"]
             assert (
                 tools["browser_new_tab"].inputSchema["properties"]["url"]["maxLength"]
