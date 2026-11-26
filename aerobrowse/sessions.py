@@ -215,10 +215,7 @@ class SessionManager:
         self.closed = True
         if self._reaper and self._reaper is not asyncio.current_task():
             self._reaper.cancel()
-            try:
-                await self._reaper
-            except asyncio.CancelledError:
-                log.debug("session_reaper_stopped")
+            await asyncio.gather(self._reaper, return_exceptions=True)
         await asyncio.gather(
             *(
                 self.close(session.owner, sid)
