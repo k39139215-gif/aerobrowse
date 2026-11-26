@@ -28,7 +28,12 @@ def test_browser_descendants_have_private_network_and_mounts(attack_lab):
             assert network != host_net, (process.pid, process.cmdline())
             assert mount != host_mnt
             assert (root / "root/home/browser").is_dir()
-            assert not (root / "root" / str(Path.home()).lstrip("/")).exists()
+            # Bubblewrap creates empty ancestors for the exact browser distribution mount.
+            # Their existence does not expose the host home; test real host-only entries.
+            for host_only in (".ssh", ".aws", ".config", "work"):
+                assert not (
+                    root / "root" / str(Path.home()).lstrip("/") / host_only
+                ).exists()
             assert not (root / "root/etc/shadow").exists()
             processes.append(
                 {

@@ -11,7 +11,8 @@ from aerobrowse.security import NetworkPolicy
 
 
 @pytest.fixture
-def attack_lab():
+def attack_lab(monkeypatch):
+    monkeypatch.setenv("AEROBROWSE_TEST_HOST_SECRET", "CONTROLLED_ENV_SECRET")
     received = []
 
     class Canary(BaseHTTPRequestHandler):
