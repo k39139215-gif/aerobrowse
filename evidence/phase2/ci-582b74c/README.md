@@ -9,4 +9,6 @@ Do not aggregate both or count those18native skips as failures/passes here.
 `rust-job.log` is the actual completed strict Rust job log; its contract step
 executes the18native checks. `dependencies/` holds the completed advisory scan.
 `completed-jobs.json` is a snapshot while the mandatory browser soak is active,
-not a completion assertion. Final metadata/browser artifacts will follow.
+not a completion assertion. Final metadata is in final-run.json/final-jobs.json and browser/ contains the
+successful47browser/38runtime+2skip/1,801.468second688cycle soak receipts. All
+eleven engineering jobs passed; Sonar is a separate unsuppressed failing gate.

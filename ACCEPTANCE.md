@@ -1,6 +1,6 @@
 # Original acceptance map
 
-Status applies to implementation `7f5c859`; active full CI head `582b74c` has the
+Status applies to implementation `7f5c859`; verified full CI head `582b74c` has the
 same implementation. NOT_PRODUCTION_READY. Earlier green receipts do not certify
 later source. Evidence and limitations are in ENGINEERING_REPORT.md.
 
@@ -25,7 +25,7 @@ later source. Evidence and limitations are in ENGINEERING_REPORT.md.
 | Security regression tests | Implemented declared attack families | real network canaries, DNS/redirect/input/session/injection/quotas | External exploit-chain assessment not performed |
 | Functional compatibility tests | Partial | real pinned plain HTML/React/Vue/Next/Angular flows | Authenticated browsing, tabs/history, infinite/lazy content and broader form/error states incomplete |
 | Concurrency/resource tests | Partial | owned concurrent sessions, locks, actual kernel denial/crash/cleanup | Broad browser throughput, fairness/starvation and production exhaustion not measured |
-| CI/dependencies/builds | Implemented engineering pipeline | Python 3.11 through 3.14 matrix; Rust strict checks; audits, locks, browser job, builds | Sonar two private-tmpfs findings open; final current-source soak active |
+| CI/dependencies/builds | Implemented engineering pipeline | Python 3.11 through 3.14 matrix; Rust strict checks; audits, locks, browser job, builds | Sonar two private-tmpfs findings open; final current-source full CI/soak green |
 | Observability | Partial | request/session/engine/operation/duration/outcome/error JSON logs and bounded counters | Full requested metrics export/aggregation and peak-memory service telemetry incomplete |
 | Documentation | Implemented current-scope documentation | README, SECURITY, CHANGELOG, AUDIT, BENCHMARKS, report and review package | Remaining limitations are release blockers, not approved exclusions |
 | Independent verification | Not performed | Reproduction package prepared, revision/hash-bound receipts | No external assessment or independent custody claim |

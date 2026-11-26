@@ -99,4 +99,21 @@ Second full green source `c963127` run `45837621519`: 46 required browser passes
 25 runtime passes/2 Windows-only skips; all Python matrix/Rust/dependency jobs pass.
 Soak: 1,801.102 seconds, 1,068 successful sequential cycles, zero orphan/slot
 observations. This precedes operator configuration and final review fixes. The
-reviewed-head full run is active and requires its own receipt.
+reviewed-head full run completed green; final receipt is recorded below.
+
+## Final corrected-source full verification
+
+Run `45843650844` at reviewed head `582b74c` (implementation `7f5c859`) is fully
+green. All eleven jobs passed. Required Linux browser suite: 47 passes, zero skips.
+Kernel/runtime: 38 passes, 2 Windows-only skips. Python matrix: all eight jobs
+pass on Linux/Windows 3.11 through 3.14. Rust: fmt/strict Clippy/5 unit tests/
+release/18 actual native contracts/audit pass. Dependency audit: zero findings
+across 112 resolved Python dependencies. Sonar remains red and unsuppressed.
+
+Soak: 1,801.468 seconds, 688 successful sequential cycles, all raw rows match the
+summary with zero observed descendants/active slots after close. Zero observed
+orphan processes/permanent slots. Controller RSS first44,396,544; last/max45,670,400
+bytes. Same explicit256session/aggregate task fixture; no browser concurrency,
+production load, indefinite leak or exact peak-memory claim. CI merge source
+`0b594a7f5b8156866b6195b0d89ea55458a47da5`; receipts `ci-582b74c/`.
+`ACCEPTANCE.md` still identifies unimplemented and partial original requirements.

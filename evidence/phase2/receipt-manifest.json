@@ -2,139 +2,14 @@
   "note": "Raw run receipts; failures kept, no custody or independent assessment claim",
   "files": [
     {
-      "path": "evidence/phase2/runtime-c963127/runtime-boundary.xml",
-      "sha256": "ba1fa49fd07960cc49ea9f0193b82e121ce07e727de466c0a6f097178b725f16",
-      "bytes": 4137
-    },
-    {
-      "path": "evidence/phase2/runtime-6d2e932-failed/runtime-boundary.xml",
-      "sha256": "e6189a757dd7252ec0866948170fb0cc2b56b24e7d50cfe54becfc97553259bc",
-      "bytes": 11018
-    },
-    {
-      "path": "evidence/phase2/runtime-64369e1-failed/runtime-boundary.xml",
-      "sha256": "1cd7e5cf2decde54692e24f098abc369bcb362d09df725d3143ee162648dcd58",
-      "bytes": 11406
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/ci-browser.xml",
-      "sha256": "70ff27bd6ebdb6c756a87b5e195723191a66e72fff1d943c9f6b1811dfa3dc4a",
-      "bytes": 5718
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/python-tests.xml",
-      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
-      "bytes": 9347
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/baseline-python.xml",
-      "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
-      "bytes": 9348
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/baseline.json",
-      "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
-      "bytes": 415
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/benchmark-linux.json",
-      "sha256": "a4e0693dc1152ee2c28c64570e6984e2d79311ebce2e11c52ee908fa354acf09",
-      "bytes": 794427
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/ci-runtime-kernel.xml",
-      "sha256": "2873deb7556173f32ae21542e723eed5534bc17aa124e2058c7b67786bcf6dc8",
-      "bytes": 3077
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/soak-linux.jsonl",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-css.json",
-      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
-      "bytes": 78
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-download.json",
-      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
-      "bytes": 83
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-fetch.json",
-      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
-      "bytes": 80
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-iframe.json",
-      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
-      "bytes": 81
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-image.json",
-      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
-      "bytes": 80
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-popup.json",
-      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
-      "bytes": 80
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-serviceworker.json",
-      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
-      "bytes": 88
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-webrtc.json",
-      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
-      "bytes": 81
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-websocket.json",
-      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
-      "bytes": 84
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-worker.json",
-      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
-      "bytes": 81
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-xhr.json",
-      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
-      "bytes": 78
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/namespace-processes.json",
-      "sha256": "c336b8c055ce17b1a021c70139f8eedb4af0c4abca4f13caa4da58f6e425808d",
-      "bytes": 10666
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/private-tmpfs.json",
-      "sha256": "b354e8ded6094de7b4786b7cd61b7914cade1f8eb85b25cc86a1988243fb66e9",
-      "bytes": 163
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/route-bypass.json",
-      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
-      "bytes": 52
-    },
-    {
-      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/webrtc-udp.json",
-      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
-      "bytes": 81
+      "path": "evidence/phase2/build-reviewed.json",
+      "sha256": "80738e024b96d7214425d7c7c7e6a8f8c0d3ec8046f6ed3c443b3e62b79a1ce4",
+      "bytes": 475
     },
     {
       "path": "evidence/phase2/ci-0b689a9/ci-browser.xml",
       "sha256": "f6660462b7b798edf851a3fdffed3aa45bf19b63e0e95a5107f70a3018b7cafa",
       "bytes": 2911
-    },
-    {
-      "path": "evidence/phase2/ci-0b689a9/python-tests.xml",
-      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
-      "bytes": 9347
     },
     {
       "path": "evidence/phase2/ci-0b689a9/phase2/baseline-python.xml",
@@ -217,134 +92,604 @@
       "bytes": 81
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/ci-browser.xml",
-      "sha256": "806be2f90ce449f1521891ba52a11232ed332bc61e1e78f16af7b3b09d69de80",
-      "bytes": 5983
-    },
-    {
-      "path": "evidence/phase2/ci-f1ce086/python-tests.xml",
+      "path": "evidence/phase2/ci-0b689a9/python-tests.xml",
       "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
       "bytes": 9347
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/baseline-python.xml",
+      "path": "evidence/phase2/ci-0caf7e7/ci-browser.xml",
+      "sha256": "70ff27bd6ebdb6c756a87b5e195723191a66e72fff1d943c9f6b1811dfa3dc4a",
+      "bytes": 5718
+    },
+    {
+      "path": "evidence/phase2/ci-0caf7e7/phase2/baseline-python.xml",
       "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
       "bytes": 9348
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/baseline.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/baseline.json",
       "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
       "bytes": 415
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/benchmark-linux.json",
-      "sha256": "98ec38f3c54d7e80cff3cb79a620eab86566c79ea237bcf5b820564e9ef2e679",
-      "bytes": 794465
+      "path": "evidence/phase2/ci-0caf7e7/phase2/benchmark-linux.json",
+      "sha256": "a4e0693dc1152ee2c28c64570e6984e2d79311ebce2e11c52ee908fa354acf09",
+      "bytes": 794427
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/ci-runtime-kernel.xml",
-      "sha256": "a80a8e011d4a5b5869bea821a7c9603ca9169ad0ed3430e2c59d1a4c71eff29f",
-      "bytes": 3342
+      "path": "evidence/phase2/ci-0caf7e7/phase2/ci-runtime-kernel.xml",
+      "sha256": "2873deb7556173f32ae21542e723eed5534bc17aa124e2058c7b67786bcf6dc8",
+      "bytes": 3077
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/soak-linux.json",
-      "sha256": "3d2230c862bddd80de4720fc4e4b64f80acf516d188adcec8658fe3a664da845",
-      "bytes": 884
-    },
-    {
-      "path": "evidence/phase2/ci-f1ce086/phase2/soak-linux.jsonl",
-      "sha256": "327998bd5fd0b0a9d397964927a2af5ec948c2af3f9bf5246815a95ea2d84ddc",
-      "bytes": 145127
-    },
-    {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-css.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-css.json",
       "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
       "bytes": 78
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-download.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-download.json",
       "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
       "bytes": 83
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-fetch.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-fetch.json",
       "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
       "bytes": 80
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-iframe.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-iframe.json",
       "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
       "bytes": 81
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-image.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-image.json",
       "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
       "bytes": 80
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-popup.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-popup.json",
       "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
       "bytes": 80
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-serviceworker.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-serviceworker.json",
       "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
       "bytes": 88
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-webrtc.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-webrtc.json",
       "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
       "bytes": 81
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-websocket.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-websocket.json",
       "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
       "bytes": 84
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-worker.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-worker.json",
       "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
       "bytes": 81
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-xhr.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/egress-xhr.json",
       "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
       "bytes": 78
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/namespace-processes.json",
-      "sha256": "2b384d80acc52449b6788069237fd393265d12d7770de91e0fa57fe74588a79f",
-      "bytes": 10668
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/namespace-processes.json",
+      "sha256": "c336b8c055ce17b1a021c70139f8eedb4af0c4abca4f13caa4da58f6e425808d",
+      "bytes": 10666
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/private-tmpfs.json",
-      "sha256": "196c2a14915c002d17ad2deb7273961954206dc1e483cc19a2f11f1abe8e139a",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/private-tmpfs.json",
+      "sha256": "b354e8ded6094de7b4786b7cd61b7914cade1f8eb85b25cc86a1988243fb66e9",
       "bytes": 163
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/route-bypass.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/route-bypass.json",
       "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
       "bytes": 52
     },
     {
-      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/webrtc-udp.json",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/runtime/webrtc-udp.json",
       "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
       "bytes": 81
     },
     {
-      "path": "evidence/phase2/runtime-929cc25/runtime-boundary.xml",
+      "path": "evidence/phase2/ci-0caf7e7/phase2/soak-linux.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/phase2/ci-0caf7e7/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/ci-browser.xml",
+      "sha256": "1d783033911d613d1d8bf5e034d63f2619eaa21bd0cfde840949d31923cfb881",
+      "bytes": 6503
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/baseline-python.xml",
+      "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
+      "bytes": 9348
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/baseline.json",
+      "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
+      "bytes": 415
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/benchmark-linux.json",
+      "sha256": "3b707966cb3aece41a3c46468513106f831865c9ceb623eabe2136a61132e4e2",
+      "bytes": 794586
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/build-source929.json",
+      "sha256": "fdcbcbf3a6cbd2bfea478b4385d86e405a6b39387a624c9e49ec6305c0795e51",
+      "bytes": 423
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/ci-browser.xml",
+      "sha256": "70ff27bd6ebdb6c756a87b5e195723191a66e72fff1d943c9f6b1811dfa3dc4a",
+      "bytes": 5718
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/baseline-python.xml",
+      "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
+      "bytes": 9348
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/baseline.json",
+      "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
+      "bytes": 415
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/benchmark-linux.json",
+      "sha256": "a4e0693dc1152ee2c28c64570e6984e2d79311ebce2e11c52ee908fa354acf09",
+      "bytes": 794427
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/ci-runtime-kernel.xml",
+      "sha256": "2873deb7556173f32ae21542e723eed5534bc17aa124e2058c7b67786bcf6dc8",
+      "bytes": 3077
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-css.json",
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-download.json",
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
+      "bytes": 83
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-fetch.json",
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-iframe.json",
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-image.json",
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-popup.json",
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-serviceworker.json",
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
+      "bytes": 88
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-webrtc.json",
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-websocket.json",
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
+      "bytes": 84
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-worker.json",
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/egress-xhr.json",
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/namespace-processes.json",
+      "sha256": "c336b8c055ce17b1a021c70139f8eedb4af0c4abca4f13caa4da58f6e425808d",
+      "bytes": 10666
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/private-tmpfs.json",
+      "sha256": "b354e8ded6094de7b4786b7cd61b7914cade1f8eb85b25cc86a1988243fb66e9",
+      "bytes": 163
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/route-bypass.json",
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
+      "bytes": 52
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/runtime/webrtc-udp.json",
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/phase2/soak-linux.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-0caf7e7/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086-run.json",
+      "sha256": "77fa802b19797fd862e20afabbb8ac113611bf43fbd38ecd90a627f2c19e823b",
+      "bytes": 250
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/ci-browser.xml",
+      "sha256": "806be2f90ce449f1521891ba52a11232ed332bc61e1e78f16af7b3b09d69de80",
+      "bytes": 5983
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/baseline-python.xml",
+      "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
+      "bytes": 9348
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/baseline.json",
+      "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
+      "bytes": 415
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/benchmark-linux.json",
+      "sha256": "98ec38f3c54d7e80cff3cb79a620eab86566c79ea237bcf5b820564e9ef2e679",
+      "bytes": 794465
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/ci-runtime-kernel.xml",
+      "sha256": "a80a8e011d4a5b5869bea821a7c9603ca9169ad0ed3430e2c59d1a4c71eff29f",
+      "bytes": 3342
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-css.json",
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-download.json",
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
+      "bytes": 83
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-fetch.json",
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-iframe.json",
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-image.json",
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-popup.json",
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-serviceworker.json",
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
+      "bytes": 88
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-webrtc.json",
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-websocket.json",
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
+      "bytes": 84
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-worker.json",
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/egress-xhr.json",
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/namespace-processes.json",
+      "sha256": "2b384d80acc52449b6788069237fd393265d12d7770de91e0fa57fe74588a79f",
+      "bytes": 10668
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/private-tmpfs.json",
+      "sha256": "196c2a14915c002d17ad2deb7273961954206dc1e483cc19a2f11f1abe8e139a",
+      "bytes": 163
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/route-bypass.json",
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
+      "bytes": 52
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/runtime/webrtc-udp.json",
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/soak-linux.json",
+      "sha256": "3d2230c862bddd80de4720fc4e4b64f80acf516d188adcec8658fe3a664da845",
+      "bytes": 884
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/phase2/soak-linux.jsonl",
+      "sha256": "327998bd5fd0b0a9d397964927a2af5ec948c2af3f9bf5246815a95ea2d84ddc",
+      "bytes": 145127
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-f1ce086/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/ci-runtime-kernel.xml",
+      "sha256": "b0f23daeda0f0201c4ef5e5f47ee9615fd4af812d99418844e959ea95164e6e3",
+      "bytes": 6001
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/mcp-runtime-operator.xml",
+      "sha256": "0a6a7b5a1098ee6c9f90da32ecd5e434061a1340f40f714fb4232934a400fd4e",
+      "bytes": 10284
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/mcp-session-recheck.xml",
+      "sha256": "96d0900b9482dafa497cd3a1ec1f345cfef96fc5bd07f6561e3241d702c73158",
+      "bytes": 3545
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/native-contract.xml",
+      "sha256": "cc25ad36f5112d560af8ae83350c6c2f2a565346c470bf9505611d060be953f5",
+      "bytes": 2810
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/operator-quota.xml",
+      "sha256": "813040018fcfd33af7b87d1cff47a3ab5235c3fc1e795348649c0f2845128f89",
+      "bytes": 1869
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/protocol-final-reviewed.xml",
+      "sha256": "7274c9aa1295aa5df9496b7e1ba31d86617b30012c6c6f5bcda45ee7f0faf1e2",
+      "bytes": 2187
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/python-final-reviewed.xml",
+      "sha256": "b63e8f58a8f9fc9689deed8a5118c757a6e8967aa600f6fa67a01a040fe189b6",
+      "bytes": 20718
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/python-source929-final.xml",
+      "sha256": "0dfc4ce1e187a3278523bd6deb753216f1e63eedefba29c3b4845fa6ca04e993",
+      "bytes": 22729
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/receipt-manifest.json",
+      "sha256": "f8968d6cfa7286691c63f8ce534c1bbb24b5548e298c546c215a38885bf239bc",
+      "bytes": 12874
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/review-regressions.xml",
+      "sha256": "7961b01a4e92d4c0843c771370bd3650f0d2dc120bbfcecf250a97d46450db81",
+      "bytes": 786
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/review-suites.xml",
+      "sha256": "e7a4439f5bbef3d325df7d9e1c95ec5ced2432dcac255b68bf67406f5110d2c3",
+      "bytes": 10818
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-64369e1-failed/runtime-boundary.xml",
+      "sha256": "1cd7e5cf2decde54692e24f098abc369bcb362d09df725d3143ee162648dcd58",
+      "bytes": 11406
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-6d2e932-failed/runtime-boundary.xml",
+      "sha256": "e6189a757dd7252ec0866948170fb0cc2b56b24e7d50cfe54becfc97553259bc",
+      "bytes": 11018
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-7f5c859/runtime-boundary.xml",
+      "sha256": "3793564cc9cdd38bc36438ce35e878a35d9d50d85b8f0139383e9227a25b064c",
+      "bytes": 6002
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-929cc25/runtime-boundary.xml",
       "sha256": "912f94215aff4a77a1ba156218d7bc781e6467f40661d3d1b4ca930fbf43b904",
       "bytes": 5871
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-c963127/runtime-boundary.xml",
+      "sha256": "ba1fa49fd07960cc49ea9f0193b82e121ce07e727de466c0a6f097178b725f16",
+      "bytes": 4137
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime-final-windows.xml",
+      "sha256": "b07be388be0a91746ad16a102960f39fd74a2a5e511931f783de4129d0874cc6",
+      "bytes": 3441
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-css.json",
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-download.json",
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
+      "bytes": 83
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-fetch.json",
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-iframe.json",
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-image.json",
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-popup.json",
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-serviceworker.json",
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
+      "bytes": 88
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-webrtc.json",
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-websocket.json",
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
+      "bytes": 84
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-worker.json",
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/egress-xhr.json",
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/namespace-processes.json",
+      "sha256": "fcf121cb0c733c5b86c9aa2dbfd9ee7759e93da4f058dbeb975d7613659eb423",
+      "bytes": 10668
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/private-tmpfs.json",
+      "sha256": "d33623e44245ea10a9f502e2b60915ecb21a5463f02bda2430088bb833f491ec",
+      "bytes": 163
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/route-bypass.json",
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
+      "bytes": 52
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/runtime/webrtc-udp.json",
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/soak-linux.json",
+      "sha256": "3faebec74c5610b5e1837f954f225e94db6d3d6fbd5de9a44452ad88baddd797",
+      "bytes": 884
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/soak-linux.jsonl",
+      "sha256": "6e96abe18d397cf57df38a60084b4b141c700fd72aa81cb75a6d9a0dc106d074",
+      "bytes": 107395
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/source-6d2e932.json",
+      "sha256": "e89fdcc773d19d3650a60793ce4f41d4901aa5e0dd1701f25e7ad8f27a65ad5b",
+      "bytes": 8259
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/phase2/source-c963127.json",
+      "sha256": "0fff1abc8416dedbf2e8ed04db8751c63f56f9bb3d0070a1d0fc6c6350e53388",
+      "bytes": 8021
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/browser/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/completed-jobs.json",
+      "sha256": "44810464d745169e733a45e7801a47d967f021feaf0c3a99434adfd1b7ba03dd",
+      "bytes": 15538
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/dependencies/ci-pip-audit.json",
+      "sha256": "53924096502852b5650390c4b10a8a22411ed138ece9777a0b5fe1d33441c3e6",
+      "bytes": 6528
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/dependencies/pip-audit.json",
+      "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b",
+      "bytes": 6587
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/final-jobs.json",
+      "sha256": "a911746b169bd9756ca800c121c2f377c4fd234fd438d53d16741acc692c35b4",
+      "bytes": 15615
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/final-run.json",
+      "sha256": "6e9f60ae885749591d33e81ff49e9ccf0ab50a9471fbbaaa7fc51bddd827931a",
+      "bytes": 250
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/python-linux312/ci-python.xml",
+      "sha256": "1e380f16b16a56f165cd63464817f5cd5c1b1f5b5087f5399bcb93f8de1cfe6d",
+      "bytes": 30643
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/python-linux312/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/rust-job.log",
+      "sha256": "38d7620834649d159f744c4730c24c757cee0dd3f6d09a3cdd1e5f43c3c39035",
+      "bytes": 109878
     },
     {
       "path": "evidence/phase2/ci-c963127/ci-browser.xml",
       "sha256": "4f8014f5febb634f78bbf8ea28cc23ea6dcb1a04eb676b2eb2689bc6eec340ab",
       "bytes": 6386
-    },
-    {
-      "path": "evidence/phase2/ci-c963127/python-tests.xml",
-      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
-      "bytes": 9347
     },
     {
       "path": "evidence/phase2/ci-c963127/phase2/baseline-python.xml",
@@ -365,16 +710,6 @@
       "path": "evidence/phase2/ci-c963127/phase2/ci-runtime-kernel.xml",
       "sha256": "2dea5a2969692254a81acd6057a756dd28afd359431f355d00ef28e31a796ead",
       "bytes": 4137
-    },
-    {
-      "path": "evidence/phase2/ci-c963127/phase2/soak-linux.json",
-      "sha256": "886c368668f05ab10e4ebc64980144195462380ac60771ef812d787f41b1f13a",
-      "bytes": 889
-    },
-    {
-      "path": "evidence/phase2/ci-c963127/phase2/soak-linux.jsonl",
-      "sha256": "34760049f73991977b0ade63685ab517c5a5e1edcc973605b52e128e2695041a",
-      "bytes": 166653
     },
     {
       "path": "evidence/phase2/ci-c963127/phase2/runtime/egress-css.json",
@@ -452,6 +787,141 @@
       "bytes": 81
     },
     {
+      "path": "evidence/phase2/ci-c963127/phase2/soak-linux.json",
+      "sha256": "886c368668f05ab10e4ebc64980144195462380ac60771ef812d787f41b1f13a",
+      "bytes": 889
+    },
+    {
+      "path": "evidence/phase2/ci-c963127/phase2/soak-linux.jsonl",
+      "sha256": "34760049f73991977b0ade63685ab517c5a5e1edcc973605b52e128e2695041a",
+      "bytes": 166653
+    },
+    {
+      "path": "evidence/phase2/ci-c963127/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/ci-browser.xml",
+      "sha256": "806be2f90ce449f1521891ba52a11232ed332bc61e1e78f16af7b3b09d69de80",
+      "bytes": 5983
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/baseline-python.xml",
+      "sha256": "8855f6a3555055613d9d5e86a664b965f72aea5077d393cb559c86e2cdfd59b2",
+      "bytes": 9348
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/baseline.json",
+      "sha256": "b414688aa5a7d4dbaa667f9d68e2534e66970035567e22927225b931e8c29347",
+      "bytes": 415
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/benchmark-linux.json",
+      "sha256": "98ec38f3c54d7e80cff3cb79a620eab86566c79ea237bcf5b820564e9ef2e679",
+      "bytes": 794465
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/ci-runtime-kernel.xml",
+      "sha256": "a80a8e011d4a5b5869bea821a7c9603ca9169ad0ed3430e2c59d1a4c71eff29f",
+      "bytes": 3342
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-css.json",
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-download.json",
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3",
+      "bytes": 83
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-fetch.json",
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-iframe.json",
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-image.json",
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-popup.json",
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-serviceworker.json",
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf",
+      "bytes": 88
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-webrtc.json",
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-websocket.json",
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c",
+      "bytes": 84
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-worker.json",
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/egress-xhr.json",
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8",
+      "bytes": 78
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/namespace-processes.json",
+      "sha256": "2b384d80acc52449b6788069237fd393265d12d7770de91e0fa57fe74588a79f",
+      "bytes": 10668
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/private-tmpfs.json",
+      "sha256": "196c2a14915c002d17ad2deb7273961954206dc1e483cc19a2f11f1abe8e139a",
+      "bytes": 163
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/route-bypass.json",
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1",
+      "bytes": 52
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/runtime/webrtc-udp.json",
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53",
+      "bytes": 81
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/soak-linux.json",
+      "sha256": "3d2230c862bddd80de4720fc4e4b64f80acf516d188adcec8658fe3a664da845",
+      "bytes": 884
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/phase2/soak-linux.jsonl",
+      "sha256": "327998bd5fd0b0a9d397964927a2af5ec948c2af3f9bf5246815a95ea2d84ddc",
+      "bytes": 145127
+    },
+    {
+      "path": "evidence/phase2/ci-f1ce086/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
+    },
+    {
+      "path": "evidence/phase2/python-source7f-final.xml",
+      "sha256": "96f4139e8f467d2b246c7210acc3f2fb1fbe412eb5ccdcf388f796d463c01036",
+      "bytes": 23264
+    },
+    {
       "path": "evidence/phase2/review-regressions.xml",
       "sha256": "7961b01a4e92d4c0843c771370bd3650f0d2dc120bbfcecf250a97d46450db81",
       "bytes": 786
@@ -462,9 +932,14 @@
       "bytes": 10818
     },
     {
-      "path": "evidence/phase2/python-source7f-final.xml",
-      "sha256": "96f4139e8f467d2b246c7210acc3f2fb1fbe412eb5ccdcf388f796d463c01036",
-      "bytes": 23264
+      "path": "evidence/phase2/runtime-64369e1-failed/runtime-boundary.xml",
+      "sha256": "1cd7e5cf2decde54692e24f098abc369bcb362d09df725d3143ee162648dcd58",
+      "bytes": 11406
+    },
+    {
+      "path": "evidence/phase2/runtime-6d2e932-failed/runtime-boundary.xml",
+      "sha256": "e6189a757dd7252ec0866948170fb0cc2b56b24e7d50cfe54becfc97553259bc",
+      "bytes": 11018
     },
     {
       "path": "evidence/phase2/runtime-7f5c859/runtime-boundary.xml",
@@ -472,39 +947,17 @@
       "bytes": 6002
     },
     {
-      "path": "evidence/phase2/build-reviewed.json",
-      "sha256": "80738e024b96d7214425d7c7c7e6a8f8c0d3ec8046f6ed3c443b3e62b79a1ce4",
-      "bytes": 475
+      "path": "evidence/phase2/runtime-929cc25/runtime-boundary.xml",
+      "sha256": "912f94215aff4a77a1ba156218d7bc781e6467f40661d3d1b4ca930fbf43b904",
+      "bytes": 5871
     },
     {
-      "path": "evidence/phase2/ci-582b74c/completed-jobs.json",
-      "sha256": "44810464d745169e733a45e7801a47d967f021feaf0c3a99434adfd1b7ba03dd",
-      "bytes": 15538
-    },
-    {
-      "path": "evidence/phase2/ci-582b74c/rust-job.log",
-      "sha256": "38d7620834649d159f744c4730c24c757cee0dd3f6d09a3cdd1e5f43c3c39035",
-      "bytes": 109878
-    },
-    {
-      "path": "evidence/phase2/ci-582b74c/dependencies/ci-pip-audit.json",
-      "sha256": "53924096502852b5650390c4b10a8a22411ed138ece9777a0b5fe1d33441c3e6",
-      "bytes": 6528
-    },
-    {
-      "path": "evidence/phase2/ci-582b74c/dependencies/pip-audit.json",
-      "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b",
-      "bytes": 6587
-    },
-    {
-      "path": "evidence/phase2/ci-582b74c/python-linux312/ci-python.xml",
-      "sha256": "1e380f16b16a56f165cd63464817f5cd5c1b1f5b5087f5399bcb93f8de1cfe6d",
-      "bytes": 30643
-    },
-    {
-      "path": "evidence/phase2/ci-582b74c/python-linux312/python-tests.xml",
-      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
-      "bytes": 9347
+      "path": "evidence/phase2/runtime-c963127/runtime-boundary.xml",
+      "sha256": "ba1fa49fd07960cc49ea9f0193b82e121ce07e727de466c0a6f097178b725f16",
+      "bytes": 4137
     }
-  ]
+  ],
+  "final_verified_source": "7f5c859fc72cf6473890751c7809f15c3889a50f",
+  "final_ci_head": "582b74c4d39976dfa16a37a6523ca99bb5a0109d",
+  "final_run": "45843650844"
 }

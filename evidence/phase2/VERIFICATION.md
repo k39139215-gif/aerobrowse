@@ -64,3 +64,11 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
   skips, 25 runtime passes/2 Windows-only skips; repeated soak 1,801.102 seconds,
   1,068 successful raw cycles, zero observed orphans/permanently occupied slots.
   Later operator/review fixes require separately recorded verification.
+
+- ci-582b74c/: final reviewed-source fully green run45843650844;47required browser
+  passes/zero skips;38runtimepasses/2Windows-onlyskips; all eight Python jobs,
+  strict Rust checks/5unit/18native contract/release/audit and dependency audit pass.
+  Mandatory soak1,801.468seconds/688successful sequential cycles; all raw rows match,
+  zero observed orphan/permanent slots. Controller RSS44,396,544first/45,670,400last=max.
+  CI merge source0b594a7f5b8156866b6195b0d89ea55458a47da5. Current artifacts named
+  ci-python.xml/ci-pip-audit.json; bundled unprefixed baseline files are historical.

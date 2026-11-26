@@ -1,0 +1,11 @@
+{
+  "source": "929cc254ad9174c00b05af611f1f5856f50e9a37",
+  "build_result": "wheel and sdist succeeded",
+  "warnings": [
+    "TOML project.license table and license classifier deprecated"
+  ],
+  "artifacts": {
+    "aerobrowse-0.2.0-py3-none-any.whl": "8b3b2e279a599e04fd2548c4c0649a14dfa43247e5a9b23486a99befc1ecf4a6",
+    "aerobrowse-0.2.0.tar.gz": "4e2edb2538695243b8bccfa46c560518e508c7562c4086acb4f9aba69eec1e21"
+  }
+}

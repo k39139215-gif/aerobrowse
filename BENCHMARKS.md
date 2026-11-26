@@ -125,3 +125,16 @@ The same run's benchmark on a different CI host observed Turbo warm median
 sampled aggregate tree RSS 1,453,219,840 bytes. No before/after speedup claim.
 Receipts: `evidence/phase2/ci-f1ce086/phase2/soak-linux.{json,jsonl}` and
 `benchmark-linux.json`.
+
+Final reviewed-source run `45843650844`, head `582b74c`, merge checkout
+`0b594a7f5b8156866b6195b0d89ea55458a47da5`, is fully green. Owned fixture warm
+Turbo median3.71ms/p953.98ms(n100), Fidelity32.86ms/p9536.16ms(n99). Sampled
+aggregate process-tree RSS1,437,868,032bytes(20msinterval). Real tokenizer result
+remains118HTMLtokens to45Markdowntokens,61.86%,tiktoken0.14.0/cl100k_base; excludes
+action metadata. All14operation percentile summaries were recomputed from raw rows.
+Required soak completed1,801.468seconds/688successful sequential cycles, zero observed
+orphans/permanent slots. ControllerRSS44,396,544initial/45,670,400last=maxbytes.
+Explicit256task session and aggregate quota; this is not concurrent browser load,
+indefinite stability or paired speedup evidence. Final raw receipts are under
+`evidence/phase2/ci-582b74c/browser/phase2/`. See ENGINEERING_REPORT.md for remaining
+requirements; successful engineering verification does not establish production readiness.

@@ -1,8 +1,8 @@
 # Review package index
 
-Implementation source7f5c859; active full CI head582b74c matches all72tracked
-implementation/test/workflow/benchmark files. Final full run45843650844 is active;
-its completion and browser/soak raw receipt must be recorded before final status.
+Implementation source7f5c859; verified full CI head582b74c matches all72tracked
+implementation/test/workflow/benchmark files. Final full run45843650844 is green; browser/soak raw receipts are preserved
+under ci-582b74c/browser/. Open original requirements remain release blockers.
 
 | Deliverable | Location | Review limit |
 |---|---|---|
@@ -24,7 +24,7 @@ its completion and browser/soak raw receipt must be recorded before final status
 | Linux kernel/runtime | runtime-7f5c859/runtime-boundary.xml |38pass/2Windows-onlyskip |
 | Final package build | build-reviewed.json | Wheel/sdist succeeded;16module bytes match |
 | Full-run historical raw receipts | ci-f1ce086/; ci-c963127/ | Earlier source, cannot certify later fixes |
-| Current completed short jobs | ci-582b74c/ | Soak completion still required |
+| Current completed short jobs | ci-582b74c/ | Final full-run/soak successful |
 | Receipt integrity | receipt-manifest.json; source-final.json | Integrity is not independent custody |
 
 Draft PR#1 targets main; draft PR#2 targets the original hardening branch.
