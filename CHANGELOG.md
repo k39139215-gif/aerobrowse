@@ -40,15 +40,16 @@ keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
 - Executable action IDs are generation-scoped strings; numeric IDs and arbitrary
   CSS selectors are rejected. Turbo candidates require live synchronization.
 - MCP actions require session_id and generation; outputs are structured dictionaries.
-- Cookies/authorization forwarding, WebSockets, service workers, popups and downloads
-  are unavailable. Authenticated browsing is not supported by this candidate.
+- HTTP Authorization forwarding, WebSockets, service workers, popups and downloads
+  remain unavailable. Ephemeral form/cookie authentication is implemented in the
+  agent continuation below; host profile import/export is unsupported.
 - Python requires >=3.11. CLI fetch outputs JSON; legacy display switches are accepted.
 - reduction_pct now means measured token reduction; character_reduction_pct is separate.
 
 These restrictions remove unsafe behavior and are not claims of full feature parity.
 Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
 
-- Added operator-only `AEROBROWSE_SESSION_TASKS` (1Ã¢â‚¬â€œ256) for MCP session task
+- Added operator-only `AEROBROWSE_SESSION_TASKS` (1ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“256) for MCP session task
   budgets; invalid configuration fails startup, defaults and aggregate caps remain.
   Verified actual Linux stdio MCP navigation/fill/close under this explicit budget.
 
@@ -67,3 +68,27 @@ Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
 - Improve nested tables/lists/labels and complete snapshot JSON token accounting.
 - Add independently judged owned SDK/MCP workflows and runnable actual-model harness.
 - Actual model evaluation NOT_RUN without OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL.
+
+## Agent usability continuation
+
+- Public AeroBrowser SDK and CLI now use killable process workers, request/session
+  deadlines and kernel resource pools; internal engine classes remain trusted APIs.
+- Add ephemeral Chromium-scoped form/cookie authentication and logout. No host
+  cookie jar or profile import/export. Validate and pin every redirected request
+  through direct CDP Fetch interception; keep mandatory Linux network isolation.
+- Add explicit opaque tabs (maximum eight), back/forward/reload, capability discovery
+  and current-document recovery information. Live generations are invalidated.
+- Reject Chromium error documents as failed snapshots. Synthetic Enter on a text
+  input submits its validated form unless the key handler prevents default.
+- Preserve nested lists/tables, wrapped form labels and multilingual extraction;
+  distinguish Markdown-only token cost from complete canonical output cost.
+- Add complete owned SDK/MCP tasks, concurrent task measurements, session storage
+  isolation, runnable actual-model MCP evaluation and reproducible examples.
+- Correct benchmark engine labels after handoff: subsequent navigation retains
+  Fidelity and must not be reported as Turbo or repeated escalation.
+
+Compatibility: normal `from aerobrowse import AeroBrowser` now owns a subprocess.
+Unsupported kernel/browser hosts fail closed. Independent SDK instances need an
+operator-provided enclosing resource budget. Browser fields are ephemeral and
+crash recovery requires a new session and login. Actual-model evaluation is
+NOT_RUN without explicit key/model; no general AI task success is claimed.
