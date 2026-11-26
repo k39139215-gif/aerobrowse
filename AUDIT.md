@@ -120,3 +120,10 @@ Python dependencies, pinned action revisions, deterministic tests, lint/types/bu
 Linux browser tests, strict Rust checks and dependency audits. Five native tests,
 Clippy all-targets/all-features, fmt and release build passed locally. Remote CI
 and browser acceptance are still pending. See ENGINEERING_REPORT.md for open work.
+## Local final checkpoint
+
+Python 3.12 locked environment: 54 passed, 2 skipped in 11.37s. Ruff and
+mypy passed. Python sdist/wheel built successfully after adding locked packaging
+tools. Pip-audit: no known vulnerabilities found (receipt included). Rust 1.100.0
+LLVM Windows: 5 tests passed; fmt, strict Clippy and release build passed.
+Two skipped tests require Linux browser namespaces. Remote CI remains pending.
