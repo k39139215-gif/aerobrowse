@@ -18,6 +18,22 @@ from aerobrowse.engine import AeroBrowser
 from aerobrowse.security import NetworkPolicy
 
 
+def _sample_memory(
+    process: psutil.Process, stop: Event, samples: list[int], sampling_errors: list[str]
+) -> None:
+    while not stop.wait(0.01):
+        try:
+            total = process.memory_info().rss
+            for child in process.children(recursive=True):
+                try:
+                    total += child.memory_info().rss
+                except psutil.NoSuchProcess:
+                    continue
+            samples.append(total)
+        except (psutil.NoSuchProcess, psutil.AccessDenied) as exc:
+            sampling_errors.append(type(exc).__name__)
+
+
 def run(
     url: str,
     *,
@@ -33,20 +49,11 @@ def run(
     samples: list[int] = []
     sampling_errors: list[str] = []
 
-    def sample():
-        while not stop.wait(0.01):
-            try:
-                total = process.memory_info().rss
-                for child in process.children(recursive=True):
-                    try:
-                        total += child.memory_info().rss
-                    except psutil.NoSuchProcess:
-                        continue
-                samples.append(total)
-            except (psutil.NoSuchProcess, psutil.AccessDenied) as exc:
-                sampling_errors.append(type(exc).__name__)
-
-    sampler = Thread(target=sample, daemon=True)
+    sampler = Thread(
+        target=_sample_memory,
+        args=(process, stop, samples, sampling_errors),
+        daemon=True,
+    )
     sampler.start()
     operations = []
     cpu_start = time.process_time()

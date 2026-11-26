@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
-      - run: uv sync --locked --extra dev
+      - run: uv sync --locked --extra dev --no-build --no-install-project
       - run: uv run --no-sync ruff check aerobrowse tests
       - run: uv run --no-sync ruff format --check aerobrowse tests
       - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
@@ -45,7 +45,7 @@ jobs:
         with:
           python-version: '3.12'
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
-      - run: uv sync --locked --extra dev
+      - run: uv sync --locked --extra dev --no-build --no-install-project
       - run: uv run --no-sync playwright install --with-deps chromium
       - name: Provision namespace permission on disposable test runner
         run: |
@@ -82,7 +82,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
-      - run: uv sync --locked --extra dev
+      - run: uv sync --locked --extra dev --no-build --no-install-project
       - run: uv run --no-sync pip-audit --format json --output evidence/ci-pip-audit.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
