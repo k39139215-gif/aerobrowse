@@ -11,6 +11,7 @@ import ctypes
 import json
 import logging
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -444,7 +445,16 @@ class ProcessWorker:
             self.group.attach(self.process.pid)
         if sys.platform == "linux":
             read_fd, self.guardian_pipe = os.pipe()
-            cgroup_path = str(self.group.path) if isinstance(self.group, Cgroup) else ""
+            temp_path = Path(self.directory.name)
+            cleanup_fd = os.open(temp_path.parent, os.O_RDONLY | os.O_DIRECTORY)
+            group_parent_fd = (
+                os.open(self.group.path.parent, os.O_RDONLY | os.O_DIRECTORY)
+                if isinstance(self.group, Cgroup)
+                else -1
+            )
+            guardian_fds = (read_fd, cleanup_fd) + (
+                (group_parent_fd,) if group_parent_fd >= 0 else ()
+            )
             try:
                 self.guardian = subprocess.Popen(
                     [
@@ -454,10 +464,12 @@ class ProcessWorker:
                         "--guardian",
                         str(read_fd),
                         str(self.process.pid),
-                        self.directory.name,
-                        cgroup_path,
+                        str(cleanup_fd),
+                        temp_path.name,
+                        str(group_parent_fd),
+                        self.group.path.name if isinstance(self.group, Cgroup) else "",
                     ],
-                    pass_fds=(read_fd,),
+                    pass_fds=guardian_fds,
                     start_new_session=True,
                     stdin=subprocess.DEVNULL,
                     stdout=subprocess.DEVNULL,
@@ -644,6 +656,49 @@ def _worker_main() -> None:
         browser.close()
 
 
+def _guardian_cleanup(
+    parent_fd: int, name: str, group_parent_fd: int, group_name: str
+) -> None:
+    # Never accept a filesystem path from argv. Only generated basenames relative
+    # to inherited directory descriptors are permitted; rmtree's fd API rejects symlinks.
+    if not re.fullmatch(r"aero-worker-[a-z0-9_]{8}", name):
+        raise ValueError("Invalid guardian directory identifier")
+    if group_parent_fd >= 0:
+        if not re.fullmatch(r"[0-9a-f]{32}", group_name):
+            raise ValueError("Invalid guardian cgroup identifier")
+        try:
+            descriptor = os.open(
+                group_name,
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=group_parent_fd,
+            )
+            try:
+                kill_fd = os.open(
+                    "cgroup.kill", os.O_WRONLY | os.O_NOFOLLOW, dir_fd=descriptor
+                )
+                try:
+                    os.write(kill_fd, b"1")
+                finally:
+                    os.close(kill_fd)
+            finally:
+                os.close(descriptor)
+            deadline = time.monotonic() + 5
+            while True:
+                try:
+                    os.rmdir(group_name, dir_fd=group_parent_fd)
+                    break
+                except OSError:
+                    if time.monotonic() >= deadline:
+                        raise
+                    time.sleep(0.01)
+        except FileNotFoundError:
+            pass
+    try:
+        shutil.rmtree(name, dir_fd=parent_fd)
+    except FileNotFoundError:
+        pass
+
+
 def _guardian_main() -> None:
     read_fd, group_pid = int(sys.argv[2]), int(sys.argv[3])
     try:
@@ -655,23 +710,13 @@ def _guardian_main() -> None:
         cast(Any, os).killpg(group_pid, 9)
     except ProcessLookupError:
         pass
-    if sys.argv[5]:
-        group = Path(sys.argv[5])
-        try:
-            (group / "cgroup.kill").write_text("1", encoding="ascii")
-            deadline = time.monotonic() + 5
-            while (
-                "populated 1" in (group / "cgroup.events").read_text()
-                and time.monotonic() < deadline
-            ):
-                time.sleep(0.01)
-            group.rmdir()
-        except FileNotFoundError:
-            pass
+    parent_fd, group_parent_fd = int(sys.argv[4]), int(sys.argv[6])
     try:
-        shutil.rmtree(sys.argv[4])
-    except FileNotFoundError:
-        pass
+        _guardian_cleanup(parent_fd, sys.argv[5], group_parent_fd, sys.argv[7])
+    finally:
+        os.close(parent_fd)
+        if group_parent_fd >= 0:
+            os.close(group_parent_fd)
 
 
 if __name__ == "__main__":

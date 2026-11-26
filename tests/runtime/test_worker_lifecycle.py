@@ -99,3 +99,37 @@ def test_pool_cannot_create_workers_after_shutdown():
     with pytest.raises(AeroError) as error:
         pool.session()
     assert error.value.code == "RUNTIME_CLOSED"
+
+
+@__import__("pytest").mark.skipif(
+    __import__("sys").platform != "linux",
+    reason="fd-relative cleanup is Linux guardian boundary",
+)
+def test_guardian_cleanup_rejects_traversal_and_symlink(tmp_path):
+    import pytest
+
+    from aerobrowse.runtime import _guardian_cleanup
+
+    parent = tmp_path / "parent"
+    parent.mkdir()
+    protected = tmp_path / "protected"
+    protected.mkdir()
+    (protected / "secret").write_text("canary")
+    descriptor = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        for name in ("../protected", str(protected), "aero-worker-../../protected"):
+            with pytest.raises(ValueError):
+                _guardian_cleanup(descriptor, name, -1, "")
+        (parent / "aero-worker-12345678").symlink_to(
+            protected, target_is_directory=True
+        )
+        with pytest.raises(OSError):
+            _guardian_cleanup(descriptor, "aero-worker-12345678", -1, "")
+        assert (protected / "secret").read_text() == "canary"
+        (parent / "aero-worker-12345678").unlink()
+        (parent / "aero-worker-12345678").mkdir()
+        (parent / "aero-worker-12345678/data").write_text("disposable")
+        _guardian_cleanup(descriptor, "aero-worker-12345678", -1, "")
+        assert not (parent / "aero-worker-12345678").exists()
+    finally:
+        os.close(descriptor)
