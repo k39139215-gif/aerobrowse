@@ -74,5 +74,6 @@
     "tests/test_mcp.py": "e6a4a392fcd137315b301cf9b66d3a3ace299d489a4b5a8821282f8d32754443",
     "tests/test_security.py": "451c4564fcc97d5087e32b7d163b7ccd61b568b6a19b2a6393634aefc343c342",
     "tests/test_sessions.py": "24c390b35a7ce8aa382e030497e67b8f65450187812756f9da82ec0d0210c2f1"
-  }
+  },
+  "source_file_scope": "tracked Python/Rust implementation, tests, workflow and benchmark files; current bytes match active CI head after newline normalization"
 }

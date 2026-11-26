@@ -165,4 +165,5 @@ measurement. Cold/operation timing distributions and all raw rows remain availab
 No scope exclusion is approved. Open requirements prevent a production release.
 Keep both PRs draft and unmerged. No fake implementation or passing test substitutes
 for these requirements. `AUDIT.md` and Git history preserve earlier findings;
-`PHASE2_AUDIT.md` is the current finding/status matrix.
+`PHASE2_AUDIT.md` is the current finding/status matrix. `ACCEPTANCE.md` maps every
+original requirement group to verified, partial or unimplemented scope.
