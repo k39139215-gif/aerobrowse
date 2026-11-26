@@ -48,6 +48,7 @@ class SessionManager:
         self.pool = ResourcePool(resource_limits, allow_networks=allow_networks)
         self._sessions: dict[str, Session] = {}
         self._retiring: dict[str, Session] = {}
+        self._cleanup_tasks: set[asyncio.Task[None]] = set()
         self._reaper: asyncio.Task | None = None
         self.closed = False
         self.metrics = {"requests": 0, "failures": 0, "cancelled": 0, "timeouts": 0}
@@ -174,8 +175,10 @@ class SessionManager:
         self._sessions.pop(sid)
         self._retiring[sid] = session
         cleanup = asyncio.create_task(asyncio.to_thread(session.worker.terminate))
+        self._cleanup_tasks.add(cleanup)
 
-        def completed(task: asyncio.Task) -> None:
+        def completed(task: asyncio.Task[None]) -> None:
+            self._cleanup_tasks.discard(task)
             if not task.cancelled() and task.exception() is None:
                 self._retiring.pop(sid, None)
 
@@ -222,5 +225,14 @@ class SessionManager:
                 for sid, session in list(self._sessions.items())
             )
         )
-        if not self._retiring:
-            self.pool.close()
+        # A concurrent close may already have moved a worker out of _sessions.
+        # Await its shielded kernel cleanup before releasing the aggregate pool.
+        if self._cleanup_tasks:
+            await asyncio.gather(
+                *(asyncio.shield(task) for task in list(self._cleanup_tasks))
+            )
+        if self._retiring:
+            raise AeroError(
+                "CLEANUP_FAILED", "Worker termination could not be verified"
+            )
+        self.pool.close()

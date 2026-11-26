@@ -133,3 +133,49 @@ def test_guardian_cleanup_rejects_traversal_and_symlink(tmp_path):
         assert not (parent / "aero-worker-12345678").exists()
     finally:
         os.close(descriptor)
+
+
+def test_shutdown_awaits_already_retiring_real_worker(monkeypatch):
+    import threading
+
+    async def run():
+        manager = SessionManager(max_sessions=1)
+        sid = await manager.create("owner")
+        assert (await manager.call("owner", sid, "snapshot"))["error"][
+            "code"
+        ] == "NO_ACTIVE_PAGE"
+        worker = manager._sessions[sid].worker
+        pid = worker.pid
+        directory = worker.directory.name
+        started = threading.Event()
+        release = threading.Event()
+        original = worker.terminate
+
+        def gated_termination():
+            started.set()
+            assert release.wait(timeout=10)
+            original()
+
+        monkeypatch.setattr(worker, "terminate", gated_termination)
+        close = asyncio.create_task(manager.close("owner", sid))
+        try:
+            assert await asyncio.to_thread(started.wait, 5)
+            assert sid in manager._retiring
+            shutdown = asyncio.create_task(manager.close_all())
+            await asyncio.sleep(0.05)
+            assert not shutdown.done(), (
+                "Shutdown returned while worker termination was outstanding"
+            )
+            release.set()
+            assert (await close)["success"]
+            await shutdown
+            assert manager.pool.closed
+            assert not manager._retiring
+            assert not psutil.pid_exists(pid)
+            assert not os.path.exists(directory)
+        finally:
+            release.set()
+            await close
+            await manager.close_all()
+
+    asyncio.run(run())

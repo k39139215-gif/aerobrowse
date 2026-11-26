@@ -127,3 +127,19 @@ def test_unread_output_pipe_closes_server_with_bounded_deadline():
             process.wait(timeout=10)
         process.stdin.close()
         process.stdout.close()
+
+
+def test_oversized_integer_is_bounded_error_and_pipe_recovers(peer):
+    peer.initialize()
+    peer.raw(b'{"jsonrpc":"2.0","id":' + b"9" * 5000 + b',"method":"ping"}\n')
+    response = peer.receive()
+    assert response["error"]["code"] == -32700, response
+    peer.send({"jsonrpc": "2.0", "id": 901, "method": "ping"})
+    assert peer.receive() == {"jsonrpc": "2.0", "id": 901, "result": {}}
+
+
+@pytest.mark.parametrize("digits", [129, 5000])
+def test_integer_limit_independent_of_interpreter_settings(digits):
+    with pytest.raises(FrameError) as error:
+        decode_frame(b'{"number":' + b"9" * digits + b"}", TransportLimits())
+    assert error.value.code == -32700

@@ -99,6 +99,13 @@ def _check_shape(value: Any, limits: TransportLimits) -> None:
                 remaining.extend(current.values())
 
 
+def _bounded_integer(value: str) -> int:
+    # Apply the same bound even when the operator disables Python's global digit cap.
+    if len(value.lstrip("-")) > 128:
+        raise FrameError(-32700, "JSON integer limit exceeded")
+    return int(value)
+
+
 def decode_frame(frame: bytes, limits: TransportLimits) -> dict[str, Any]:
     if len(frame) > limits.frame_bytes:
         raise FrameError(-32600, "MCP frame limit exceeded")
@@ -106,9 +113,14 @@ def decode_frame(frame: bytes, limits: TransportLimits) -> dict[str, Any]:
         text = frame.decode("utf-8", errors="strict")
         _check_nesting(text, limits.depth)
         value = json.loads(
-            text, object_pairs_hook=_pairs, parse_constant=lambda _: _reject_constant()
+            text,
+            object_pairs_hook=_pairs,
+            parse_constant=lambda _: _reject_constant(),
+            parse_int=_bounded_integer,
         )
-    except (UnicodeError, json.JSONDecodeError, RecursionError) as exc:
+    except FrameError:
+        raise
+    except (UnicodeError, ValueError, RecursionError) as exc:
         raise FrameError(-32700, "Invalid UTF-8 JSON") from exc
     _check_shape(value, limits)
     if not isinstance(value, dict):
