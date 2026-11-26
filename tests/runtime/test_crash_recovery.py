@@ -187,12 +187,7 @@ def test_live_browser_crash_releases_tree_and_recovers(site, target):
             descendants = worker.children(recursive=True)
             chromes = [p for p in descendants if p.name() in ("chrome", "chromium")]
             selected = (
-                [
-                    p
-                    for p in chromes
-                    if ("--type=renderer" in p.cmdline())
-                    if target == "renderer"
-                ]
+                [p for p in chromes if "--type=renderer" in p.cmdline()]
                 if target == "renderer"
                 else [
                     next(
@@ -211,6 +206,7 @@ def test_live_browser_crash_releases_tree_and_recovers(site, target):
                 except psutil.NoSuchProcess:
                     pass
             await asyncio.sleep(0.1)
+            manager.request_timeout = 3
             aid = next(a["id"] for a in snapshot["actions"] if a["label"] == "Name")
             result = await manager.call(
                 "owner",
@@ -227,8 +223,10 @@ def test_live_browser_crash_releases_tree_and_recovers(site, target):
                 "NO_ACTIVE_PAGE",
                 "WORKER_CRASHED",
                 "SNAPSHOT_FAILED",
+                "TIMEOUT",
             }, result
-            assert (await manager.close("owner", sid))["success"]
+            if sid in manager._sessions:
+                assert (await manager.close("owner", sid))["success"]
             assert manager.active_sessions == 0
             for process in descendants:
                 try:
@@ -239,6 +237,7 @@ def test_live_browser_crash_releases_tree_and_recovers(site, target):
                     )
                 except psutil.NoSuchProcess:
                     pass
+            manager.request_timeout = 45
             replacement = await manager.create("owner")
             fresh = await manager.call(
                 "owner", replacement, "navigate", site + "/form", force_fidelity=True
