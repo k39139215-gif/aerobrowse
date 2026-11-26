@@ -158,3 +158,51 @@ def test_redirect_count_and_request_deadline(site):
     with pytest.raises(AeroError) as error:
         SafeTransport(policy).request(site + "/slow")
     assert error.value.code == "TIMEOUT"
+
+
+@pytest.mark.parametrize(
+    "address", ["192.88.99.1", "192.0.0.9", "2001:20::1", "2001:db8::1", "3fff::1"]
+)
+def test_conservative_special_use_policy(address):
+    with pytest.raises(AeroError) as error:
+        NetworkPolicy().check_address(address)
+    assert error.value.code == "BLOCKED_DESTINATION"
+
+
+def test_slow_drip_headers_obey_absolute_deadline():
+    import socket
+    import threading
+    import time
+
+    listener = socket.socket()
+    listener.bind(("127.0.0.1", 0))
+    listener.listen()
+
+    def serve():
+        connection, _ = listener.accept()
+        try:
+            connection.recv(8192)
+            for byte in b"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n":
+                connection.sendall(bytes([byte]))
+                time.sleep(0.015)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            return
+        finally:
+            connection.close()
+
+    thread = threading.Thread(target=serve, daemon=True)
+    thread.start()
+    policy = NetworkPolicy(
+        allow_networks=("127.0.0.1/32",), limits=Limits(timeout=0.08)
+    )
+    start = time.monotonic()
+    try:
+        with pytest.raises(AeroError) as error:
+            SafeTransport(policy).request(
+                f"http://127.0.0.1:{listener.getsockname()[1]}"
+            )
+        assert error.value.code == "TIMEOUT"
+        assert time.monotonic() - start < 0.3
+    finally:
+        listener.close()
+        thread.join(timeout=1)

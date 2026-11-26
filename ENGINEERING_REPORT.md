@@ -78,3 +78,9 @@ Clippy, tests and release build on ca233b9. Initial browser job failed closed
 because namespace creation was denied. CI provisioning was added; rerun pending.
 Local benchmark receipt was captured from a dirty working tree; its recorded Git
 revision is a base revision, not an exact source binding. No speedup claim.
+Remote browser checkpoint: caf543c passed all three Linux browser fixtures after
+namespace provisioning and accessible-label correction. This establishes tested
+handoff/actions/staleness/normal cleanup, not exhaustive Chromium egress coverage.
+Independent review then led to absolute header/TLS deadlines, retiring-capacity
+accounting, queue limits, DOM mutation epochs and live URL redaction regressions.
+Latest remote verification must include those changes before completion claims.

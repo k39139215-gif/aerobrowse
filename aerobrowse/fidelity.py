@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 
 from aerobrowse.errors import AeroError
 from aerobrowse.isolation import IsolatedLauncher
-from aerobrowse.pruner import SemanticPruner
+from aerobrowse.pruner import SemanticPruner, safe_link
 from aerobrowse.security import NetworkPolicy, SafeTransport
 
 log = logging.getLogger(__name__)
@@ -64,6 +64,8 @@ class FidelityEngine:
         self._url = ""
         self._network_error: AeroError | None = None
         self._redirects = 0
+        self._observer: Any = None
+        self._epoch = 0
 
     def _ensure_page(self) -> Any:
         if self.browser and not self.browser.is_connected():
@@ -185,6 +187,13 @@ class FidelityEngine:
             return {**error.result(), "engine": "fidelity"}
 
     def _invalidate(self) -> None:
+        if self._observer is not None:
+            try:
+                self._observer.evaluate("state => state.dispose()")
+                self._observer.dispose()
+            except PlaywrightError:
+                log.debug("observer_disposal_after_navigation")
+            self._observer = None
         for handle, _ in self._actions.values():
             try:
                 handle.dispose()
@@ -202,6 +211,13 @@ class FidelityEngine:
                 )
             page = self._ensure_page()
             self._invalidate()
+            self._observer = page.evaluate_handle("""() => {
+                let epoch=0;
+                const observer=new MutationObserver(records=>{epoch+=records.length});
+                observer.observe(document,{subtree:true,childList:true,attributes:true,characterData:true});
+                return {epoch:()=>{epoch+=observer.takeRecords().length;return epoch},dispose:()=>observer.disconnect()};
+            }""")
+            epoch = self._observer.evaluate("state => state.epoch()")
             html = page.content()
             if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
                 raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
@@ -217,6 +233,7 @@ class FidelityEngine:
                         handle.dispose()
                         continue
                     metadata = element.evaluate(METADATA)
+                    metadata["href"] = safe_link(metadata["href"], page.url)
                     aid = f"{self.generation}:{len(actions) + 1}"
                     metadata.update(
                         id=aid,
@@ -228,7 +245,14 @@ class FidelityEngine:
             finally:
                 array.dispose()
             self._url = page.url
-            self._digest = hashlib.sha256(page.content().encode()).hexdigest()
+            if self._observer.evaluate("state => state.epoch()") != epoch:
+                self._invalidate()
+                raise AeroError(
+                    "STALE_ACTION_ID",
+                    "DOM changed during extraction; request a new snapshot",
+                )
+            self._epoch = epoch
+            self._digest = hashlib.sha256(html.encode()).hexdigest()
             parsed.update(
                 success=True,
                 url=page.url,
@@ -262,11 +286,21 @@ class FidelityEngine:
         page = self._ensure_page()
         handle, metadata = self._actions[action_id]
         changed = (
-            page.url != self._url
+            self._observer is None
+            or self._observer.evaluate("state => state.epoch()") != self._epoch
+            or page.url != self._url
             or hashlib.sha256(page.content().encode()).hexdigest() != self._digest
+        )
+        current_metadata = handle.evaluate(METADATA)
+        current_metadata["href"] = safe_link(current_metadata["href"], page.url)
+        metadata_changed = any(
+            current_metadata.get(k) != v
+            for k, v in metadata.items()
+            if k not in {"id", "generation", "executable"}
         )
         if (
             changed
+            or metadata_changed
             or not handle.evaluate("el => el.isConnected")
             or not handle.is_visible()
         ):

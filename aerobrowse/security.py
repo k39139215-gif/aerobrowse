@@ -75,6 +75,19 @@ class NetworkPolicy:
             or address.teredo is not None
             or address in ipaddress.ip_network("64:ff9b::/96")
         )
+        if isinstance(address, ipaddress.IPv4Address):
+            special = (
+                special
+                or address in ipaddress.ip_network("192.88.99.0/24")
+                or address in ipaddress.ip_network("192.0.0.0/24")
+            )
+        else:
+            special = (
+                special
+                or address in ipaddress.ip_network("2001::/23")
+                or address in ipaddress.ip_network("2001:db8::/32")
+                or address in ipaddress.ip_network("3fff::/20")
+            )
         allowed = any(
             address in n for n in self.allow_networks if n.version == address.version
         )
@@ -159,20 +172,38 @@ class _PinnedConnection(http.client.HTTPConnection):
     def __init__(self, target: Destination, timeout: float):
         super().__init__(target.host, target.port, timeout=timeout)
         self.target = target
+        self.active_socket: socket.socket | None = None
+        self.expired = False
+
+    def abort(self) -> None:
+        self.expired = True
+        sock = self.active_socket
+        if sock is not None:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                # Socket already closed by normal completion/connection failure.
+                return
 
     def connect(self) -> None:
         address = self.target.addresses[0]
         sock = socket.socket(
             socket.AF_INET6 if ":" in address else socket.AF_INET, socket.SOCK_STREAM
         )
+        self.active_socket = sock
         try:
             sock.settimeout(self.timeout)
             sock.connect((address, self.target.port))
             if self.target.scheme == "https":
                 sock = ssl.create_default_context().wrap_socket(
-                    sock, server_hostname=self.target.host
+                    sock,
+                    server_hostname=self.target.host,
+                    do_handshake_on_connect=False,
                 )
+                self.active_socket = sock
+                sock.do_handshake()
             self.sock = sock
+            self.active_socket = sock
         except BaseException:
             sock.close()
             raise
@@ -228,6 +259,11 @@ class SafeTransport:
                 conn = _PinnedConnection(
                     target, max(0.001, deadline - time.monotonic())
                 )
+                watchdog = threading.Timer(
+                    max(0.001, deadline - time.monotonic()), conn.abort
+                )
+                watchdog.daemon = True
+                watchdog.start()
                 try:
                     parts = urlsplit(target.url)
                     conn.request(
@@ -237,6 +273,8 @@ class SafeTransport:
                         headers=safe,
                     )
                     response = conn.getresponse()
+                    if conn.expired:
+                        raise AeroError("TIMEOUT", "Request deadline exceeded")
                     response_headers = {
                         k.lower(): v
                         for k, v in response.getheaders()
@@ -299,7 +337,12 @@ class SafeTransport:
                     return Response(
                         target.url, response.status, response_headers, bytes(chunks)
                     )
+                except (OSError, http.client.HTTPException) as exc:
+                    if conn.expired or time.monotonic() >= deadline:
+                        raise AeroError("TIMEOUT", "Request deadline exceeded") from exc
+                    raise
                 finally:
+                    watchdog.cancel()
                     conn.close()
         except TimeoutError as exc:
             raise AeroError("TIMEOUT", "Network operation timed out") from exc

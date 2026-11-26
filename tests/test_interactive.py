@@ -67,3 +67,25 @@ def test_host_private_network_is_blocked_without_allowlist(site):
         assert result["error"]["code"] == "BLOCKED_DESTINATION"
     finally:
         browser.close()
+
+
+def test_live_links_redact_sensitive_components(browser, site):
+    snap = browser.fetch(site + "/form", force_fidelity=True)
+    assert snap["success"]
+    browser._fidelity.current_page.evaluate(
+        "document.body.insertAdjacentHTML('beforeend','<a href=\"https://user:secret@example.com/path?token=SECRET#SECRET\">Safe label</a>')"
+    )
+    snap = browser.snapshot()
+    link = next(a for a in snap["actions"] if a["label"] == "Safe label")
+    assert link["href"] == "https://example.com/path"
+    assert "SECRET" not in str(snap) and "user:secret" not in str(snap)
+
+
+def test_mutate_then_restore_invalidates_action(browser, site):
+    snap = browser.fetch(site + "/form", force_fidelity=True)
+    assert snap["success"]
+    browser._fidelity.current_page.evaluate(
+        "const b=document.querySelector('button');const old=b.textContent;b.textContent='Temporary';b.textContent=old"
+    )
+    result = browser.click(action(snap, "Update"), snap["generation"])
+    assert result["error"]["code"] == "STALE_ACTION_ID"

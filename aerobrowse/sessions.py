@@ -24,6 +24,7 @@ class Session:
     lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     last_used: float = field(default_factory=time.monotonic)
     closed: bool = False
+    pending: int = 0
 
 
 class SessionManager:
@@ -45,6 +46,7 @@ class SessionManager:
             request_timeout,
         )
         self._sessions: dict[str, Session] = {}
+        self._retiring: dict[str, Session] = {}
         self.metrics: dict[str, int] = {
             "requests": 0,
             "failures": 0,
@@ -54,7 +56,7 @@ class SessionManager:
 
     @property
     def active_sessions(self) -> int:
-        return len(self._sessions)
+        return len(self._sessions) + len(self._retiring)
 
     async def create(self, owner: str) -> str:
         if not owner:
@@ -88,11 +90,16 @@ class SessionManager:
     ) -> dict[str, Any]:
         request_id, start = uuid.uuid4().hex, time.monotonic()
         result: dict[str, Any]
+        admitted: Session | None = None
         try:
             session = self._owned(owner, sid)
             if time.monotonic() - session.last_used > self.idle_timeout:
                 await self.close(owner, sid)
                 raise AeroError("SESSION_EXPIRED", "Session expired")
+            if session.pending >= 16:
+                raise AeroError("SESSION_BUSY", "Session request queue is full")
+            session.pending += 1
+            admitted = session
             # Bounded queue: waiting calls time out before entering the single worker.
             async with asyncio.timeout(self.request_timeout):
                 async with session.lock:
@@ -159,6 +166,9 @@ class SessionManager:
             )
             await self.close(owner, sid)
             result = AeroError("INTERNAL_ERROR", "Browser request failed").result()
+        finally:
+            if admitted is not None:
+                admitted.pending -= 1
         result.update(request_id=request_id, session_id=sid)
         self.metrics["requests"] += 1
         if not result.get("success"):
@@ -185,6 +195,7 @@ class SessionManager:
             return exc.result()
         session.closed = True
         self._sessions.pop(sid, None)
+        self._retiring[sid] = session
 
         def cleanup() -> None:
             if session.browser:
@@ -192,6 +203,24 @@ class SessionManager:
                 session.browser = None
 
         future = asyncio.get_running_loop().run_in_executor(session.worker, cleanup)
+
+        def completed(done: asyncio.Future) -> None:
+            try:
+                done.result()
+            except Exception:  # noqa: BLE001 - cleanup boundary, fixed error only
+                log.error(
+                    json.dumps(
+                        {
+                            "session_id": sid,
+                            "operation": "close",
+                            "error_code": "CLEANUP_FAILED",
+                        }
+                    )
+                )
+                return  # Remain capacity-accounted; do not admit replacements after failed cleanup.
+            self._retiring.pop(sid, None)
+
+        future.add_done_callback(completed)
         # Cleanup queues behind any cancelled operation; do not shut down its thread mid-browser call.
         try:
             await asyncio.wait_for(asyncio.shield(future), timeout=self.request_timeout)
@@ -205,6 +234,9 @@ class SessionManager:
                     }
                 )
             )
+            return AeroError(
+                "CLEANUP_PENDING", "Session retired; resource cleanup has not completed"
+            ).result()
         finally:
             session.worker.shutdown(wait=False, cancel_futures=False)
         return {"success": True, "session_id": sid}

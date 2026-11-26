@@ -127,3 +127,15 @@ mypy passed. Python sdist/wheel built successfully after adding locked packaging
 tools. Pip-audit: no known vulnerabilities found (receipt included). Rust 1.100.0
 LLVM Windows: 5 tests passed; fmt, strict Clippy and release build passed.
 Two skipped tests require Linux browser namespaces. Remote CI remains pending.
+## Independent boundary review corrections
+
+Review reproduced a slow-drip header deadline bypass, retiring-resource capacity
+bypass, and identified extraction mutation/URL output policy gaps. Added a socket
+watchdog including TLS handshake, capacity accounting through completed cleanup,
+explicit CLEANUP_PENDING errors, per-session admission bound (16 requests),
+MutationObserver epoch validation through extraction/execution, and live href
+redaction. Added transport, retiring-worker, queue, special-range and browser
+regressions. Conservative Python special-use ranges now match Rust exclusions.
+Focused transport/session suite: 47 passed. Linux CI on caf543c passed all three
+existing browser tests; new browser regressions require rerun. Rust Linux build,
+fmt, tests and strict Clippy also passed; cargo-audit compilation still pending.
