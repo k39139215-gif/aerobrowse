@@ -35,6 +35,10 @@ jobs:
       - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
       - name: Owned authentication and full workflow regressions
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/browser/test_authenticated_sessions.py tests/browser/test_agent_workflows.py -v --junitxml=evidence/agent/quick-workflows.xml
+      - name: Controlled operation and task measurements
+        run: |
+          uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
+          bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.concurrency --concurrency 2 --iterations 3 --output evidence/agent/concurrency.json
       - name: Real browser, renderer, parent and kernel quota failures
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/runtime -v --junitxml=evidence/phase2/runtime-boundary.xml
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -44,3 +48,5 @@ jobs:
           path: |
             evidence/phase2/runtime-boundary.xml
             evidence/agent/quick-workflows.xml
+            evidence/phase2/benchmark-linux.json
+            evidence/agent/concurrency.json

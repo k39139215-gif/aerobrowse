@@ -148,3 +148,11 @@ Each task asserts fixture state and worker reaping. This tiny workload does not
 measure saturation,MCP queue fairness or speedup. The actual-model harness is
 separate and records complete serialized tool-response token counts. Model runs
 are NOT_RUN without explicit API credentials/model; see AGENT_EVALUATION.md.
+
+Historical agent-continuation receipts before the handoff-label correction contain
+100 rows labeled turbo_fidelity_escalation/turbo_navigation even though only the
+first row actually escalated. Subsequent navigation retained the live Fidelity
+session. Do not use that repeated aggregate as a Turbo or repeated-escalation
+measurement. The corrected harness labels one actual handoff and subsequent live
+Fidelity navigation/click rows separately; dedicated Turbo-only warm navigation
+and ordinary Fidelity samples retain their declared scope.

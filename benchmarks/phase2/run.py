@@ -154,17 +154,32 @@ def browser_samples(url, rows, repeats):
             measure(rows, "scroll", lambda: browser.scroll(0, 200))
             measure(rows, "screenshot", browser.screenshot)
     with AeroBrowser(default_mode="turbo", policy=policy) as browser:
-        for index in range(repeats):
-            snapshot = measure(rows, "turbo_navigation", lambda: browser.fetch(url))
-            # The safe handoff deliberately returns STALE_ACTION_ID and a fresh live snapshot.
-            result = measure(
-                rows,
-                "turbo_fidelity_escalation",
-                lambda snapshot=snapshot: browser.click(action(snapshot, "Update")),
+        snapshot = measure(
+            rows, "handoff_static_navigation", lambda: browser.fetch(url)
+        )
+        # Exactly the first action escalates. Later navigation stays in Fidelity
+        # to preserve the live session; do not mislabel those rows as Turbo.
+        result = measure(
+            rows,
+            "turbo_fidelity_escalation",
+            lambda: browser.click(action(snapshot, "Update")),
+        )
+        if result.get("synchronized"):
+            rows[-1]["success"] = True
+            rows[-1]["expected_error"] = "STALE_ACTION_ID"
+        for _ in range(repeats):
+            snapshot = measure(
+                rows, "post_escalation_live_navigation", lambda: browser.fetch(url)
             )
-            if result.get("synchronized"):
-                rows[-1]["success"] = True
-                rows[-1]["expected_error"] = "STALE_ACTION_ID"
+            if not snapshot.get("success"):
+                continue
+            measure(
+                rows,
+                "post_escalation_live_click",
+                lambda snapshot=snapshot: browser.click(
+                    action(snapshot, "Update"), snapshot["generation"]
+                ),
+            )
 
 
 def concurrent_samples(url, repeats):
@@ -282,6 +297,7 @@ def main():
             "RSS sampled and CPU excludes exited children",
             "cold Python import is a new interpreter; warm browser samples reuse one context",
             "per-session CPU/RSS and MCP/browser load not measured by Turbo load",
+            "handoff sampled once; subsequent post-escalation rows are live Fidelity, not Turbo",
             "no controlled before/after speedup comparison",
         ],
     }
