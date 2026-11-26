@@ -1,0 +1,89 @@
+{
+  "source_revision": "dac1c1db4146f5b4053b3cc1d97e347ca1250578",
+  "production_source_revision": "3e1d399994638a9d08269b642f5c306ce317a1c4",
+  "source_binding": "Source blob and checkout hashes in source-dac1c1d.json; production modules unchanged after CRLF normalization",
+  "focused_linux_run": 45860943458,
+  "full_ci_pending_runs": [
+    45860943473,
+    45860953104
+  ],
+  "actual_model": "NOT_RUN: missing OPENAI_API_KEY and AEROBROWSE_EVAL_MODEL",
+  "files": [
+    {
+      "path": "evidence/agent/python-source-final.xml",
+      "sha256": "b10c214b2f97fc362d97cc1cd4d2e531278c640b9fded7eb030475be862ee936",
+      "bytes": 37696,
+      "summary": {
+        "tests": "227",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "21",
+        "time": "262.813"
+      }
+    },
+    {
+      "path": "evidence/agent/focused-sourcea0dbc66.xml",
+      "sha256": "6ae3cefbc4768d2347184aa020fd84e9d87186b3c296a25ce2ba9506602ae700",
+      "bytes": 6685,
+      "summary": {
+        "tests": "46",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "38.621"
+      }
+    },
+    {
+      "path": "evidence/agent/ci-dac1c1d/runtime/agent/quick-workflows.xml",
+      "sha256": "73d566ca445c2bbae75e4a2976ff9993bdc2eec14d95e862d06521b027f960ac",
+      "bytes": 2154,
+      "summary": {
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "45.071"
+      }
+    },
+    {
+      "path": "evidence/agent/ci-dac1c1d/runtime/phase2/runtime-boundary.xml",
+      "sha256": "575423565b127ce33b93d3380e1b0634e1daf1825f6b5d1abdef91d0bb3b8e32",
+      "bytes": 6002,
+      "summary": {
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "2",
+        "time": "28.585"
+      }
+    },
+    {
+      "path": "evidence/agent/model-evaluation-sourcedac1c1d.json",
+      "sha256": "31db4cc1644fd219bc37cba47f63a894ceae01a6b7d7fe1c4cf9810ead68148d",
+      "bytes": 422
+    },
+    {
+      "path": "evidence/agent/source-dac1c1d.json",
+      "sha256": "f5300f084cdb5339a91891e70555d1a2ef9bb99e1c0445d8d3010192d713d041",
+      "bytes": 22349
+    },
+    {
+      "path": "evidence/agent/failed-runs.json",
+      "sha256": "8c4d7d7de055a25eb2d1ba5f7c3632a609394ea3ab8f841ae893f353597e4b44",
+      "bytes": 1065
+    },
+    {
+      "path": "evidence/agent/build-match-source3e1d399.json",
+      "sha256": "bd68f976c2e20360be960c1f67ad08b6653d3f1507928ee3c5c38f9accc682c7",
+      "bytes": 1287
+    }
+  ],
+  "note": "Local SHA256 bookkeeping is not independent custody or security certification",
+  "retained_failure_receipts": [
+    {
+      "path": "evidence/agent/failure-ed5cce3-browser.xml",
+      "run": 45856138311,
+      "status": "FAIL: preserved before redirect correction"
+    }
+  ]
+}

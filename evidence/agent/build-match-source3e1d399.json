@@ -1,0 +1,74 @@
+[
+  {
+    "path": "aerobrowse\\actions.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\benchmark.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\cdp_broker.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\cli.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\engine.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\errors.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\fidelity.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\isolation.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\mcp_server.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\mcp_transport.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\pruner.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\runtime.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\sdk.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\security.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\sessions.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\tokens.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\turbo.py",
+    "matches": true
+  },
+  {
+    "path": "aerobrowse\\__init__.py",
+    "matches": true
+  }
+]

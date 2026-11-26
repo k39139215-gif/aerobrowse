@@ -1,0 +1,26 @@
+{
+  "note": "Prior failures preserved; never combined into passing receipts",
+  "runs": [
+    {
+      "run": 45856138311,
+      "source": "ed5cce3",
+      "browser": "6 failures; 60 passes",
+      "cause": "Playwright resumed 303 redirect without callback, bypassing broker then blocked by OS isolation; raw chrome-error was extracted as success",
+      "fix": "deccb87 direct per-hop CDP Fetch interception; 3e1d399 error-document regression"
+    },
+    {
+      "run": 45857608622,
+      "source": "deccb87",
+      "focused": "1 failed;11 passed",
+      "cause": "Cookie path test inspected last request favicon instead of /private/details",
+      "fix": "cecf4da asserts matching path; all12 focused tests then passed"
+    },
+    {
+      "run": 45860407139,
+      "source": "a0dbc66",
+      "focused": "1 failed;13 passed",
+      "cause": "Raw test started two sync Playwright event loops on same thread",
+      "fix": "dac1c1d owns independent low-level browser on separate thread; public SDK and MCP already use processes"
+    }
+  ]
+}
