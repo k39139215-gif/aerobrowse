@@ -237,7 +237,18 @@ async def evaluate(
             "tokenizer": "tiktoken/cl100k_base",
             "endpoint": "OpenAI chat/completions",
         },
-        "outcome": "PASS" if fixture.verdict(task, answer) and not failure and (task != "stale_recovery" or recovered) and (task != "compare_tabs" or any(call["tool"] == "browser_switch_tab" and not call["error_code"] for call in calls)) else "FAIL",
+        "outcome": "PASS"
+        if fixture.verdict(task, answer)
+        and not failure
+        and (task != "stale_recovery" or recovered)
+        and (
+            task != "compare_tabs"
+            or any(
+                call["tool"] == "browser_switch_tab" and not call["error_code"]
+                for call in calls
+            )
+        )
+        else "FAIL",
         "failure": failure,
         "answer": answer,
         "fixture_state": fixture.receipt_state(),
