@@ -40,6 +40,8 @@ pub struct FidelitySession {
 #[cfg(target_os = "linux")]
 struct LinuxResources {
     path: std::path::PathBuf,
+    guardian: Option<std::process::Child>,
+    lease: Option<std::process::ChildStdin>,
 }
 #[cfg(target_os = "linux")]
 impl LinuxResources {
@@ -60,7 +62,11 @@ impl LinuxResources {
             .as_nanos();
         let path = root.join(format!("aero-native-{}-{serial}", std::process::id()));
         fs::create_dir(&path).map_err(|_| "RESOURCE_ISOLATION_UNAVAILABLE")?;
-        let resources = Self { path };
+        let mut resources = Self {
+            path,
+            guardian: None,
+            lease: None,
+        };
         for (key, value) in [
             ("memory.max", "1073741824"),
             ("memory.swap.max", "0"),
@@ -70,6 +76,18 @@ impl LinuxResources {
             fs::write(resources.path.join(key), value)
                 .map_err(|_| "RESOURCE_ISOLATION_UNAVAILABLE")?;
         }
+        let mut guardian = std::process::Command::new(
+            std::env::current_exe().map_err(|_| "GUARDIAN_UNAVAILABLE")?,
+        )
+        .arg("native-guardian")
+        .arg(&resources.path)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .map_err(|_| "GUARDIAN_UNAVAILABLE")?;
+        resources.lease = guardian.stdin.take();
+        resources.guardian = Some(guardian);
         Ok(resources)
     }
     fn attach(&self, pid: u32) -> Result<(), String> {
@@ -94,19 +112,61 @@ impl LinuxResources {
 #[cfg(target_os = "linux")]
 impl Drop for LinuxResources {
     fn drop(&mut self) {
-        if let Err(error) = std::fs::write(self.path.join("cgroup.kill"), "1") {
-            if error.kind() != std::io::ErrorKind::NotFound {
-                eprintln!("native_cleanup outcome=error code=CGROUP_KILL_FAILED");
+        self.lease.take();
+        if let Some(mut guardian) = self.guardian.take() {
+            if guardian.wait().is_err() {
+                eprintln!("native_cleanup outcome=error code=GUARDIAN_WAIT_FAILED");
+            }
+        } else if std::fs::remove_dir(&self.path).is_err() {
+            eprintln!("native_cleanup outcome=error code=CGROUP_CLEANUP_FAILED");
+        }
+    }
+}
+
+pub fn guardian(path: std::path::PathBuf) -> Result<(), String> {
+    #[cfg(not(target_os = "linux"))]
+    {
+        let _ = path;
+        Err("NETWORK_ISOLATION_UNAVAILABLE".into())
+    }
+    #[cfg(target_os = "linux")]
+    {
+        use std::io::Read;
+        let root =
+            std::env::var_os("AEROBROWSE_CGROUP_ROOT").ok_or("RESOURCE_ISOLATION_UNAVAILABLE")?;
+        let root = std::path::PathBuf::from(root)
+            .canonicalize()
+            .map_err(|_| "RESOURCE_ISOLATION_UNAVAILABLE")?;
+        let checked = path
+            .canonicalize()
+            .map_err(|_| "RESOURCE_ISOLATION_UNAVAILABLE")?;
+        if checked.parent() != Some(root.as_path())
+            || !checked
+                .file_name()
+                .and_then(|s| s.to_str())
+                .is_some_and(|s| s.starts_with("aero-native-"))
+            || !root.starts_with("/sys/fs/cgroup")
+        {
+            return Err("INVALID_RUNTIME_CONFIG".into());
+        }
+        let mut byte = [0];
+        loop {
+            match std::io::stdin().read(&mut byte) {
+                Ok(0) => break,
+                Ok(_) => {}
+                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
+                Err(_) => break,
             }
         }
-        for _ in 0..100 {
-            match std::fs::remove_dir(&self.path) {
-                Ok(()) => return,
-                Err(error) if error.kind() == std::io::ErrorKind::NotFound => return,
+        std::fs::write(checked.join("cgroup.kill"), "1").map_err(|_| "CGROUP_KILL_FAILED")?;
+        for _ in 0..500 {
+            match std::fs::remove_dir(&checked) {
+                Ok(()) => return Ok(()),
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
                 Err(_) => std::thread::sleep(Duration::from_millis(10)),
             }
         }
-        eprintln!("native_cleanup outcome=error code=CGROUP_CLEANUP_FAILED");
+        Err("CGROUP_CLEANUP_FAILED".into())
     }
 }
 

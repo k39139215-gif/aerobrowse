@@ -6,7 +6,9 @@ import select
 import subprocess
 import sys
 import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from threading import Thread
 
 import psutil
 import pytest
@@ -137,3 +139,99 @@ def test_native_mount_network_boundary_and_cleanup(native, site):
     while controller.children(recursive=True) and time.monotonic() < deadline:
         time.sleep(0.05)
     assert not controller.children(recursive=True)
+
+
+@pytest.fixture
+def native_site():
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path.startswith("/loop"):
+                self.send_response(302)
+                self.send_header("Location", "/loop")
+                self.end_headers()
+                return
+            if self.path == "/redirect":
+                self.send_response(302)
+                self.send_header("Location", "/form")
+                self.end_headers()
+                return
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"""<html><head><title>Native</title></head><body>
+            <label>Name<input id=name></label><button onclick="document.querySelector('#result').textContent=window.injected?'INJECTED':document.querySelector('#name').value">Read</button><p id=result>Initial</p>
+            <button onclick="document.querySelector('#name').outerHTML='<label>Replacement<input></label>'">Replace</button>
+            <script>setTimeout(()=>{const button=document.createElement('button');button.textContent='Late';document.body.append(button)},500)</script>
+            </body></html>""")
+
+        def log_message(self, *args):
+            pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    yield f"http://127.0.0.1:{server.server_port}"
+    server.shutdown()
+    server.server_close()
+    thread.join(timeout=3)
+
+
+def test_native_values_are_data_and_dynamic_nodes_invalidate(native, native_site):
+    page = native.call("navigate", url=native_site + "/form")
+    assert page["success"], page
+    payload = '";window.injected=true;// 世界'
+    page = native.action(page, "Name", "fill", value=payload)
+    assert page["success"], page
+    page = native.action(page, "Read", "click")
+    assert page["success"] and payload in page["markdown"]
+    assert "INJECTED" not in page["markdown"]
+    before = page
+    time.sleep(0.7)
+    stale = native.action(before, "Name", "fill", value="wrong")
+    assert stale["error"]["code"] == "STALE_ACTION_ID", stale
+    page = native.call("snapshot")
+    assert any(a["label"] == "Late" for a in page["actions"])
+    original = page
+    page = native.action(page, "Replace", "click")
+    assert page["success"]
+    assert (
+        native.action(original, "Name", "fill", value="wrong")["error"]["code"]
+        == "STALE_ACTION_ID"
+    )
+
+
+def test_native_valid_redirect_and_loop_limit(native, native_site):
+    page = native.call("navigate", url=native_site + "/redirect")
+    assert page["success"] and page["url"].endswith("/form"), page
+    result = native.call("navigate", url=native_site + "/loop")
+    assert result["error"]["code"] == "TOO_MANY_REDIRECTS", result
+
+
+def test_native_controller_death_reaps_browser(native, site):
+    page = native.call("navigate", url=site + "/form")
+    assert page["success"], page
+    children = psutil.Process(native.process.pid).children(recursive=True)
+    assert children
+    groups = {
+        line.split(":", 2)[2].strip()
+        for child in children
+        for line in Path(f"/proc/{child.pid}/cgroup").read_text().splitlines()
+        if "aero-native-" in line
+    }
+    assert len(groups) == 1
+    native.process.kill()
+    native.process.wait(timeout=5)
+    deadline = time.monotonic() + 8
+    while time.monotonic() < deadline:
+        alive = [
+            p for p in children if p.is_running() and p.status() != psutil.STATUS_ZOMBIE
+        ]
+        if not alive:
+            break
+        time.sleep(0.05)
+    assert not alive, [(p.pid, p.name()) for p in alive]
+    for group in groups:
+        path = Path("/sys/fs/cgroup") / group.lstrip("/")
+        while path.exists() and time.monotonic() < deadline:
+            time.sleep(0.05)
+        assert not path.exists(), "native cgroup leaked after controller death"

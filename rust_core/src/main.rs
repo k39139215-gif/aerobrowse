@@ -40,6 +40,10 @@ enum Commands {
     },
     /// Persistent correlated native browser session over bounded newline JSON.
     NativeSession,
+    #[command(hide = true)]
+    NativeGuardian {
+        path: std::path::PathBuf,
+    },
     Mcp,
 }
 
@@ -82,6 +86,13 @@ async fn main() -> ExitCode {
                 let _ = (action_id, text);
                 Err("STALE_ACTION_ID: use native-session with a live generation".into())
             }
+        }
+        Commands::NativeGuardian { path } => {
+            return if native_browser::guardian(path).is_ok() {
+                ExitCode::SUCCESS
+            } else {
+                ExitCode::FAILURE
+            };
         }
         Commands::NativeSession => {
             return if fidelity::run_session().await.is_ok() {

@@ -100,9 +100,10 @@ def test_private_workspace_is_not_host_writable_directory(attack_lab):
             assert all(" - tmpfs " in line for line in private_tmp)
             assert (root / "root/workspace/tmp").is_dir()
             assert not (root / "root/tmp").exists()
-            assert "--user-data-dir=/workspace/profile" in process.cmdline() or any(
+            if process.name().lower() in {"chrome", "chromium"} and not any(
                 item.startswith("--type=") for item in process.cmdline()
-            )
+            ):
+                assert "--user-data-dir=/workspace/profile" in process.cmdline()
             assert (root / "root/workspace").stat().st_dev != Path.cwd().stat().st_dev
             checked.append(process.pid)
         except psutil.NoSuchProcess:
