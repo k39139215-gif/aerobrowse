@@ -3,7 +3,7 @@
 Actual LLM-driven evaluation: **NOT_RUN**. Missing OPENAI_API_KEY and
 AEROBROWSE_EVAL_MODEL in this environment. No agent task success rate is claimed.
 The runnable harness is `python -m benchmarks.agent.run`; it invokes OpenAI
-chat/completions with explicit model,temperature0 and bounded tool calls against
+chat/completions with explicit model,temperature 0 and bounded tool calls against
 the actual AeroBrowse newline-stdio MCP server. No separate SDK is needed for
 model HTTP calls. Credentials are not inherited by browser workers.
 
@@ -26,6 +26,22 @@ submission. Concurrent complete tasks run via `python -m benchmarks.agent.concur
 They measure a tiny owned workload and do not establish production capacity,
 fairness,indefinite stability or general autonomous-agent success.
 
-Current new-source Linux browser/workflow/concurrency verification: PENDING.
-Local server-state and SDK process tests passed; final revision receipts will
-supersede this line after CI. Historical phase2 evidence is preserved separately.
+The latest source, `dac1c1d`, passed the focused delegated Linux run
+`45860943458`: 14 workflow, authentication, storage and error-document tests;
+38 runtime passes and 2 Windows-only skips. The production Python source matches
+`3e1d399` after CRLF normalization. The latest changes affect the harness/tests.
+
+Local verification: 206 Python tests passed, with 21 native/platform skips and
+67 browser deselections. A later focused rerun passed 46 tests. Ruff, formatting,
+mypy and wheel/sdist build passed; all 18 wheel modules match the checkout.
+Full final-source CI and its benchmarks/soak are queued. These are scripted
+results, not model success. Historical phase2 evidence is kept separately.
+
+The harness records complete content+structuredContent+isError+_meta envelopes,
+including close responses used for cleanup. This is the application payload given
+to the model, not JSON-RPC IDs,stdio framing or model chat-template overhead.
+Provider/transport failure produces FAIL with a safe exception class and unverified
+cleanup marked explicitly. No provider error bodies or API credentials are stored.
+Retry count means error-bearing tool attempts,not an inferred reasoning retry;
+incorrect-action count covers observable validation/type failures,not all possible
+semantic mistakes. Independent fixture verdicts determine task completion.

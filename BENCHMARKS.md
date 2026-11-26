@@ -138,3 +138,13 @@ Explicit256task session and aggregate quota; this is not concurrent browser load
 indefinite stability or paired speedup evidence. Final raw receipts are under
 `evidence/phase2/ci-582b74c/browser/phase2/`. See ENGINEERING_REPORT.md for remaining
 requirements; successful engineering verification does not establish production readiness.
+
+## Agent continuation measurement
+
+`python -m benchmarks.agent.concurrency --concurrency 2 --iterations 3` measures six
+complete search/detail/history/two-tab tasks in two supervised SDK workers. Run in
+the supported delegated Linux environment. Add `--output evidence/agent/concurrency.json` to choose the receipt path.
+Each task asserts fixture state and worker reaping. This tiny workload does not
+measure saturation,MCP queue fairness or speedup. The actual-model harness is
+separate and records complete serialized tool-response token counts. Model runs
+are NOT_RUN without explicit API credentials/model; see AGENT_EVALUATION.md.

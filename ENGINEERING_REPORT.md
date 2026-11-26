@@ -2,7 +2,7 @@
 
 **Release recommendation: NOT_PRODUCTION_READY.**
 
-Implementation source: `7f5c859fc72cf6473890751c7809f15c3889a50f`.
+Historical phase2 implementation source: `7f5c859fc72cf6473890751c7809f15c3889a50f`.
 Verified full CI receipt head: `582b74c4d39976dfa16a37a6523ca99bb5a0109d`.
 All 72 tracked implementation/test/CI/benchmark files match that verified head.
 Draft follow-up PR #2 targets `fix/production-hardening`; original draft PR #1
@@ -197,3 +197,51 @@ Keep both PRs draft and unmerged. No fake implementation or passing test substit
 for these requirements. `AUDIT.md` and Git history preserve earlier findings;
 `PHASE2_AUDIT.md` is the current finding/status matrix. `ACCEPTANCE.md` maps every
 original requirement group to verified, partial or unimplemented scope.
+
+## Agent workflow continuation (current work)
+
+Current source: `dac1c1d`; production browser modules match `3e1d399` after
+normalizing checkout line endings. Focused delegated Linux run `45860943458`
+passed 14 workflow/auth/storage/error-document tests, followed by 38 runtime
+passes and 2 Windows-only skips. Full final-source CI, including the Python
+matrix, Rust, broader security/framework suite, concurrency measurements and
+30-minute soak, remains queued. Earlier green runs do not certify changed code.
+Actual-model evaluation is `NOT_RUN`: `OPENAI_API_KEY` and
+`AEROBROWSE_EVAL_MODEL` are missing.
+
+Useful scripted tasks now complete through public supervised SDK and real MCP:
+login through a form,read protected content,update a record,share authentication
+with another explicit tab,reload and log out; search/open detail/back/forward;
+multistep select/checkbox/validation/submission; stale-ID rejection and fresh
+snapshot recovery. Server state supplies the verdict. Auth does not depend on a
+host credential jar or unrestricted networking. Every redirect uses direct CDP
+Fetch interception because pinned Playwright route() skipped subsequent hops.
+
+Public SDK/CLI now own killable workers/kernel pools,resource bounds and absolute
+request/session deadlines. Its timeout regression exposed and fixed a startup
+closed-pipe race. Internal engine tests explicitly use trusted low-level classes.
+Canonical output token costs include live actions,tab/session metadata; the actual
+model harness separately counts complete serialized MCP tool envelopes.
+
+| Metric | Before continuation | After/current evidence | Evidence |
+|---|---|---|---|
+| Auth workflows | Redirect login failed | Scripted SDK/MCP login/update/logout passes | focused Linux run 45860943458 |
+| Python local | Historical161 component passes |206 passed,21 skips,67 browser deselections at final source | evidence/agent/python-source-final.xml |
+| Rust |5 native units+18 refusal contracts | No native browser scope expansion; latest matrix check pending | CI strict fmt/clippy/test/release/audit |
+| Turbo/Fidelity latency | Historical controlled measurements | No comparable speedup claim; current receipt pending | benchmark-linux.json |
+| Peak RAM | Sampled historical process-tree RSS | No exact peak claim | benchmark methodology |
+| Token cost | Markdown-only, omitted actions | Canonical full JSON and actual envelope counts implemented | tokens.py,agent harness |
+| Concurrent browser tasks | Not measured complete tasks |2-worker6-task controlled harness; receipt pending | benchmarks.agent.concurrency |
+| Actual AI model success | Not measured |NOT_RUN | model-evaluation-sourcedac1c1d.json |
+
+Fixed/verified:controlled auth/forms/tabs/history/stale/runtime flows. Fixed and
+awaiting full current-source receipts:final output/recovery metadata and evaluation
+guards. Partial:general extraction recall,capacity/fairness. Not implemented:native
+Rust live browser parity,trusted physical input,file transfer,WebSockets,service
+workers,HTTP Authorization. Known limitations:Linux-only Fidelity; host operator
+must provision cgroup/namespaces; independent SDK instances need enclosing aggregate
+budget; external security review and remaining Sonar findings remain open.
+
+AGENT_QUICKSTART.md and examples.agent_sdk/examples.agent_mcp reproduce complete
+owned tasks. benchmarks.agent.run offers actual-model evaluation through real MCP;
+scripted passes must never be represented as model success.

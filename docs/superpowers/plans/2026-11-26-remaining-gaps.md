@@ -35,3 +35,20 @@ Tabs use opaque IDs within the owned context, with fresh action generations on a
 - Measure concurrent owned browser lifecycle via reproducible harness without speedup claims.
 - Review actual source diff; commit coherent tasks; update acceptance/status/docs and existing draft PR.
 - Original scope remains active; native Rust parity, platform support and external review require honest status.
+
+## Continuation checkpoint:3e1d399
+
+- Authentication,tabs/history/reload,extraction,supervised public SDK,complete
+  controlled SDK/MCP workflows and actual-model evaluation harness implemented.
+- Real Linux redirect failure reproduced; direct CDP every-hop interception fixed
+  it. OS isolation and routing-detached TCP/UDP tests remain mandatory.
+- Latest focused Linux13 workflow tests+38 runtime passes;2 Windows-only skips.
+- Local final206 Python passes;21 expected native/platform skips. Static/build pass.
+- Full final-source CI queued behind preserved30-minute historical soaks.
+- Model evaluation NOT_RUN:OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL missing.
+- Next:collect final full-source artifacts,update measured report/manifest and
+  existing draft PR2; do not merge or release. Native Rust browser parity absent.
+
+Latest test/harness source: dac1c1d. Production modules match3e1d399 after newline
+normalization. Final focused Linux run45860943458:14/14 workflow/auth/storage
+passes and38 runtime passes,2 Windows-only skips. Final full CI queued.

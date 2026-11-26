@@ -1,6 +1,6 @@
 # Original acceptance map
 
-Status applies to implementation `7f5c859`; verified full CI head `582b74c` has the
+Historical status below applies to implementation `7f5c859`; verified full CI head `582b74c` has the
 same implementation. NOT_PRODUCTION_READY. Earlier green receipts do not certify
 later source. Evidence and limitations are in ENGINEERING_REPORT.md.
 
@@ -13,13 +13,13 @@ later source. Evidence and limitations are in ENGINEERING_REPORT.md.
 | Input/output safety | Implemented bounded controls | bytes/depth/body/response/deadline/JSON integer limits; safe errors and redaction tests | Host dependency/controller trusted; comprehensive fuzzing incomplete |
 | Hybrid page state and handoff | Implemented and browser-tested | engine.py; live navigation/re-extraction then stale-ID response | Static snapshot is intentionally not executable; no automatic intent remapping |
 | Selection/fallback | Implemented heuristics | semantic quality/dynamic indicators and explicit Fidelity option | Broad site classification accuracy not measured |
-| Browser lifecycle | Implemented supervised contract | process workers, kernel quotas, parentdeath, browser/renderer timeout cleanup | Renderer recovery deadline-based; direct SDK quotas absent |
+| Browser lifecycle | Implemented supervised contract | process workers, kernel quotas, parentdeath, browser/renderer timeout cleanup | Renderer recovery deadline-based; public SDK now supervised in continuation |
 | Deterministic action IDs | Implemented declared DOM contract | isolated-world exact retained node and generation, mutation epoch, no fallback | Synthetic DOM events; trusted physical interaction and file inputs unsupported |
 | Click/fill/select/check/scroll/wait | Implemented declared scope | actual Linux/browser/framework tests | Wait targets existing action ID; no arbitrary selector, broad workflow support unproven |
 | Keyboard input | Partial | Enter/Escape synthetic DOM events | General physical keyboard input unsupported |
 | MCP tools/sessions/concurrency | Implemented stdio scope | official SDK + predecode bounds, owned workers, locks, cancellation, idle/session caps | No remote transport/authentication; broad browser load/fairness testing absent |
 | Semantic extraction | Partial | bounded structure, tables/header data, labels, iframe notices and quality flags | Broad multilingual/RTL/deep malformed and important-content recall coverage incomplete |
-| Token measurement | Implemented | real versioned tokenizer counts; character metric separate; multiple encodings | Token count excludes serialized action metadata; production-site recall/savings absent |
+| Token measurement | Implemented | real versioned tokenizer counts; character metric separate; multiple encodings | Full JSON count added in continuation; production-site recall/savings absent |
 | Reproducible performance harness | Implemented exploratory | raw operation timing distributions, CPU/RSS, declared Turbo SDK load | No comparable before baseline; browser/MCP concurrency/queue/fairness and exact peaks absent |
 | Rust hardening | Implemented narrower architecture | safe bounded native HTTP; strict fmt/clippy/test/release/audit; Python MCP integration | Full native live browser/action parity not implemented; exclusion unapproved |
 | Security regression tests | Implemented declared attack families | real network canaries, DNS/redirect/input/session/injection/quotas | External exploit-chain assessment not performed |
@@ -34,3 +34,29 @@ The benchmark table reports measured values and missing baselines explicitly.
 No speedup, guaranteed RAM, universal compatibility or 90% token saving is claimed.
 No original requirement is waived by this map. Unsupported capabilities fail closed
 where safe completion is absent; a draft PR does not establish production readiness.
+
+## Agent usability continuation acceptance
+
+Latest source checkpoint: `dac1c1d`. Full CI remains queued; historical green
+receipts do not certify changed code. Focused delegated Linux run `45860943458`
+passed 14 workflow/auth/storage/error-document tests and 38 runtime tests, with
+2 Windows-only skips. Downloaded XML receipts are authoritative.
+
+| Usability requirement | State | Evidence / remaining limit |
+|---|---|---|
+| Login/protected update/logout | Demonstrated scripted SDK and actual MCP | Real form and fixture record/session state |
+| Auth sharing across owned tabs | Demonstrated | New tab reads protected record,update,reload,logout |
+| Session cookie/origin/path isolation | Demonstrated controlled scope | Multiple cookies,HttpOnly,path/host,foreign domain,credentials modes |
+| Search/detail/back/forward and tabs | Demonstrated | SDK/MCP complete workflow; opaque explicit IDs,max8 |
+| Multistep select/checkbox/validation/submission | Demonstrated | Required validation and server submission assertions |
+| Stale recovery | Demonstrated scripted | Old ID rejected; no submission before fresh generation |
+| Browser crash recovery | Demonstrated controlled failures | Kill/reap/replacement regressions retained |
+| Normal SDK resource supervision | Implemented and locally/Linux tested | Real worker,timeouts,lifetime,kill/reap; enclosing multi-instance quota required |
+| LLM-driven agent evaluation | Runnable,NOT_RUN | Missing OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL |
+| Browser concurrency measurement | Harness and CI step implemented | Owned two-worker6-task measurement; await full receipt |
+| Native Rust parity | Not implemented | Independent read-only HTTP scope retained |
+
+General public-site task completion, trusted physical events,file uploads,downloads,
+WebSockets,service workers,HTTP Authorization,persistent host profiles,remote MCP,
+production saturation/fairness and independent security assessment remain unsupported
+or unverified. No merge/release authorized or performed.

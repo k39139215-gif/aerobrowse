@@ -177,3 +177,24 @@ passed. Local Windows Python: 67 passed, 4 Linux-only skips. Save receipts under
 evidence/ci-384ae90.json, evidence/ci-384ae90-browser/ and evidence/sonar-384ae90.json.
 Final evidence/documentation commit does not change tested source. Production
 acceptance gaps remain as listed in ENGINEERING_REPORT.md; no merge authorized.
+
+## Agent workflow continuation findings
+
+- P1 confirmed: Playwright route() resumes redirect hops without invoking the host
+  broker again. Auth form303 therefore attempted direct blocked connection and
+  failed. Files:fidelity.py. Fixed with per-page CDP Fetch every-hop interception;
+  owned SDK/MCP login, multiple Set-Cookie, origin/path and logout regressions
+  passed on Linux at cecf4da and again latest-source3e1d399 focused run.
+- P1 confirmed: Chromium error documents could be extracted with success=true after
+  an action navigation failed. Fixed by rejecting non-HTTP live document URLs;
+  error-document regression added, awaiting full current-source verification.
+- P1 confirmed: Public SDK bypassed worker process quotas. Normal import and CLI
+  now use sdk.py, bounded ProcessWorker, kernel resource pools and deadlines.
+  New real timeout regression reproduced a closed-pipe race; fixed and covered.
+- P2 confirmed: token counts omitted live action/session envelope. Separate canonical
+  JSON output measurement now includes final live metadata; model harness counts
+  complete serialized MCP response content and structuredContent together.
+- P2 confirmed: ordered lists, nested tables, wrapped labels and empty documents
+  lost structure or names; targeted extraction regressions cover repaired cases.
+
+No new external security certification or native Rust browser parity is claimed.

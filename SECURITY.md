@@ -74,9 +74,10 @@ and retire the session; choose and benchmark explicit deployment quotas.
 Hard termination precedes slot release. Cleanup failures retain capacity accounting.
 Linux uses cgroup.kill plus process-group termination and a guardian for parent-death
 cleanup; Windows closes Job handles. Tests and evidence must verify each OS path.
-The direct synchronous SDK retains namespace isolation, but is a trusted embedding
-API and does not inherit MCP per-session quotas. This is an open production gate;
-use the supervised runtime for bounded untrusted operations. The host controller,
+The public synchronous AeroBrowser SDK and CLI own killable process workers and
+kernel resource pools, with request deadlines and session lifetime bounds. Internal
+engine classes remain trusted embedding APIs without supervision. Independent SDK
+instances have independent resource pools; deployment must cap their aggregate. The host controller,
 Python worker, operator and cgroup delegation are trusted. The mount sandbox covers
 Chromium descendants, not the host-side Python process or its dependency supply chain.
 
@@ -89,8 +90,9 @@ records, including mutation/restoration, invalidate the generation. Validation
 checks document, URL, identity, visibility, disabled state and fingerprint immediately
 before DOM activation in the same task; focus handlers are revalidated. These are
 synthetic DOM events, not trusted physical pointer/keyboard input. Sites requiring
-isTrusted are unsupported. Enter/Escape keyboard DOM events have no guaranteed
-native default action. No click target substitution occurs on stale state.
+isTrusted are unsupported. Bounded key DOM events are synthetic; Enter on text inputs explicitly submits the
+owning validated form unless its key handler prevents default. Other keys do not
+promise physical default behavior. No click target substitution occurs on stale state.
 
 A site's own event handler may intentionally navigate, submit or change state.
 Atomic target identity does not prove the business meaning of arbitrary JavaScript.
@@ -141,3 +143,15 @@ there is no host-side credential jar. HTTP Authorization remains unsupported.
 Tabs share the owned context; other sessions have independent ephemeral storage.
 Explicit tabs are bounded at8 and popups remain denied. IDs never execute across
 snapshot/tab/document generations. Operator development allowlists are explicit.
+
+Redirect note: Playwright route() resumes redirect hops without callbacks in the
+pinned build. Supported pages now use direct CDP Fetch interception per request,
+including every redirect hop. Chromium computes scoped cookies, and the host
+broker pins/validates each destination and enforces bounds. Direct TCP/UDP remains
+blocked at the namespace boundary even after the CDP sessions are detached.
+Browser error documents cannot be reported as successful snapshots.
+
+Page CDP Fetch interception does not claim support for every auxiliary Chromium
+target. Requests from separate worker/OOPIF targets that are not brokered remain
+blocked by OS networking. Treat these sites as unsupported,not permission to
+remove isolation. Context-created tabs are the supported page targets.
