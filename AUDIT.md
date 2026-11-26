@@ -61,3 +61,13 @@ information preservation, semantic correctness or table relationship fidelity.
 Requirements not safely completed will remain explicitly open. A draft PR does
 not establish production readiness. Native Rust browser parity and verified
 Chromium namespace operation are acceptance gates, not documentation-only fixes.
+## Phase 2 checkpoint
+
+Python transport regression: 36 passed (3.14s). Loopback regression first failed
+against baseline by returning the private service content. Namespace launch refusal
+first failed against baseline by successfully navigating with unrestricted host networking.
+DNS pinning uses a real local TCP server with substituted resolver answers.
+Chromium broker and namespace implementation remain unverified on Linux; Windows
+launch is deliberately unsupported. Cookies and authorization are not forwarded;
+authenticated applications are currently unsupported. Rust P0 paths remain open
+until phase 7. No production-readiness claim.
