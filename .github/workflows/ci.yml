@@ -38,7 +38,7 @@ jobs:
           path: evidence/*.xml
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
@@ -54,10 +54,27 @@ jobs:
           # This permits creation; each browser still has a fresh network namespace.
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           unshare --user --map-root-user --net -- python -c "import socket; assert socket.if_nameindex() == [(1, 'lo')]"
+      - name: Delegate kernel resource controllers on disposable runner
+        run: |
+          sudo mkdir /sys/fs/cgroup/aerobrowse-ci
+          sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/cgroup.subtree_control'
+          sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/aerobrowse-ci/cgroup.subtree_control'
+          sudo chown -R "$(id -u):$(id -g)" /sys/fs/cgroup/aerobrowse-ci
+          echo AEROBROWSE_CGROUP_ROOT=/sys/fs/cgroup/aerobrowse-ci >> "$GITHUB_ENV"
+      - name: Build pinned real framework fixtures
+        working-directory: tests/compatibility
+        run: |
+          npm ci --ignore-scripts --no-audit
+          npm run build
+          node node_modules/next/dist/bin/next build nextjs
       - name: Verify isolated browser fixtures
         env:
           DEBUG: pw:browser
         run: uv run --no-sync python -m pytest -m browser -v --junitxml=evidence/ci-browser.xml
+      - name: Controlled operation benchmarks
+        run: uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
+      - name: Thirty minute browser worker cleanup soak
+        run: uv run --no-sync python -m benchmarks.phase2.soak --seconds 1800 --output evidence/phase2/soak-linux.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -79,6 +96,17 @@ jobs:
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       - run: cargo test --locked
       - run: cargo build --locked --release
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
+      - name: Verify native and Python rejection contract
+        working-directory: .
+        env:
+          AEROBROWSE_NATIVE_BINARY: ${{ github.workspace }}/rust_core/target/release/aerobrowse
+        run: |
+          uv sync --locked --extra dev --no-build --no-install-project
+          uv run --no-sync python -m pytest tests/mcp/test_engine_contract.py -v
       - run: cargo install cargo-audit --locked
       - run: cargo audit
   dependencies:

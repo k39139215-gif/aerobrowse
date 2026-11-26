@@ -5,7 +5,6 @@ are deliberately unavailable for sites requiring trusted physical input.
 """
 
 import json
-import uuid
 from typing import Any
 
 from aerobrowse.errors import AeroError
@@ -98,7 +97,7 @@ class ActionContext:
         frame = self.session.send("Page.getFrameTree")["frameTree"]["frame"]["id"]
         self.context_id = self.session.send(
             "Page.createIsolatedWorld",
-            {"frameId": frame, "worldName": "AeroBrowse actions " + uuid.uuid4().hex},
+            {"frameId": frame, "worldName": "AeroBrowse actions"},
         )["executionContextId"]
         self._evaluate("globalThis.__aeroState = " + INSTALL + "; true")
 

@@ -38,3 +38,9 @@ by the owning session; cross-session generation IDs fail closed.
 Local Windows cannot establish the production network/filesystem isolation
 boundary. Any standalone action-context smoke test is functional evidence only,
 never network-isolation evidence. Linux CI results must be recorded separately.
+
+Functional-only Windows validation ran the complete controlled fill/select/counter/
+dialog/route flow against all four built apps using installed Chrome. Seventy
+actual renderer mutation cases and focus reentrancy replacement were rejected.
+These ad hoc smoke runs are not a persisted CI receipt and do not establish the
+Linux runtime boundary; required Linux tests must independently reproduce them.
