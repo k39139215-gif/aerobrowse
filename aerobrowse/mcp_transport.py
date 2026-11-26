@@ -36,6 +36,7 @@ class TransportLimits:
     in_flight: int = 64
     frame_seconds: float = 10.0
     output_bytes: int = 8 * 1024 * 1024
+    output_seconds: float = 10.0
 
 
 class FrameError(ValueError):
@@ -227,10 +228,29 @@ async def bounded_stdio_server(
         if len(encoded) > limits.output_bytes:
             raise FrameError(-32603, "MCP response limit exceeded")
         async with output_lock:
-            await anyio.to_thread.run_sync(
-                outgoing.write, encoded, abandon_on_cancel=True
-            )
-            await anyio.to_thread.run_sync(outgoing.flush, abandon_on_cancel=True)
+            complete = threading.Event()
+            failures: list[Exception] = []
+
+            def flush() -> None:
+                try:
+                    view = memoryview(encoded)
+                    while view:
+                        written = os.write(outgoing.fileno(), view)
+                        if written <= 0:
+                            raise OSError("MCP output pipe closed")
+                        view = view[written:]
+                except (OSError, ValueError) as exc:
+                    failures.append(exc)
+                finally:
+                    complete.set()
+
+            threading.Thread(target=flush, daemon=True, name="aero-stdout").start()
+            with anyio.move_on_after(limits.output_seconds) as scope:
+                while not complete.is_set():
+                    await anyio.sleep(0.01)
+            if scope.cancel_called or failures:
+                group.cancel_scope.cancel()
+                await anyio.lowlevel.checkpoint()
 
     async def error(exc: FrameError, request_id: Any = None) -> None:
         await write(

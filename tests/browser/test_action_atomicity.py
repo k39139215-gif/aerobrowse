@@ -91,7 +91,7 @@ def test_focus_preparation_mutation_is_rejected(live):
 def test_hostile_main_world_cannot_replace_isolated_primitives(live):
     browser, page = live
     page.evaluate(
-        "HTMLElement.prototype.click=function(){window.wrong=true}; window.MutationObserver=class {observe(){} takeRecords(){return []} disconnect(){}}"
+        "() => {HTMLElement.prototype.click=function(){window.wrong=true}; window.MutationObserver=class {observe(){} takeRecords(){return []} disconnect(){}};}"
     )
     snapshot = browser.snapshot()
     result = browser.click(target(snapshot, "Update"), snapshot["generation"])
@@ -111,6 +111,7 @@ def test_navigation_invalidates_world(live, site):
 def test_cross_engine_generation_rejected(live, site):
     browser, _ = live
     snapshot = browser.snapshot()
+    browser.close()  # Separate sync Playwright runtimes must own separate event loops.
     other = AeroBrowser(
         default_mode="fidelity", policy=NetworkPolicy(allow_networks=("127.0.0.1/32",))
     )

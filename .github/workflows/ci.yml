@@ -71,6 +71,8 @@ jobs:
         env:
           DEBUG: pw:browser
         run: uv run --no-sync python -m pytest -m browser -v --junitxml=evidence/ci-browser.xml
+      - name: Required delegated Linux kernel resource tests
+        run: uv run --no-sync python -m pytest tests/runtime -v --junitxml=evidence/phase2/ci-runtime-kernel.xml
       - name: Controlled operation benchmarks
         run: uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
       - name: Thirty minute browser worker cleanup soak

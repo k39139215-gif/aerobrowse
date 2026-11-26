@@ -82,3 +82,48 @@ def test_partial_frame_deadline_closes_connection(peer):
 def test_nonfinite_exponent_is_rejected():
     with pytest.raises(FrameError):
         decode_frame(b'{"n":1e999}', TransportLimits())
+
+
+def test_unread_output_pipe_closes_server_with_bounded_deadline():
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    process = subprocess.Popen(
+        [sys.executable, "-m", "aerobrowse.mcp_server"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        cwd=Path(__file__).resolve().parents[2],
+    )
+    try:
+        initialize = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "initialize",
+            "params": {
+                "protocolVersion": "2025-11-25",
+                "capabilities": {},
+                "clientInfo": {"name": "blocked-output", "version": "1"},
+            },
+        }
+        process.stdin.write(json.dumps(initialize).encode() + b"\n")
+        process.stdin.flush()
+        assert json.loads(process.stdout.readline())["id"] == 1
+        messages = [{"jsonrpc": "2.0", "method": "notifications/initialized"}]
+        messages.extend(
+            {"jsonrpc": "2.0", "id": i, "method": "tools/list"} for i in range(10, 30)
+        )
+        process.stdin.write(
+            b"".join(json.dumps(message).encode() + b"\n" for message in messages)
+        )
+        process.stdin.flush()
+        # Deliberately leave stdout unread while the server fills the real OS pipe.
+        process.wait(timeout=20)
+        assert process.returncode == 0
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=10)
+        process.stdin.close()
+        process.stdout.close()

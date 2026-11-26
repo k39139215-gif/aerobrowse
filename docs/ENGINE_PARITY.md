@@ -34,6 +34,9 @@ each container at most 2048 entries and the full JSON tree at most 8192 nodes.
 Partial frames have a 10-second absolute deadline from the first byte; idle
 connections may remain idle. At most 64 requests are active. Output is bounded to
 8 MiB per message after SDK serialization; it is not a pre-allocation memory quota.
+A blocked stdout pipe has a 10-second absolute write deadline and closes the
+transport; a single serialized raw-descriptor write avoids waiting for a blocked
+buffered thread during shutdown.
 A single daemon raw-descriptor reader uses a bounded one-chunk queue; at most two
 4 KiB chunks can exist alongside the current frame. Timeout/EOF/duplicate IDs
 close the stream group and run session cleanup without waiting on a blocked input
