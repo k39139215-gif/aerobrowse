@@ -69,3 +69,35 @@ def test_navigation_redirect_cannot_reach_canary(attack_lab):
     assert not result["success"]
     assert result["error"]["code"] == "BLOCKED_DESTINATION"
     assert lab["received"] == []
+
+
+def test_direct_webrtc_udp_sees_no_canary(attack_lab):
+    import socket
+    import time
+
+    lab = attack_lab
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as positive:
+        positive.sendto(b"positive-control", lab["udp"])
+    deadline = time.monotonic() + 2
+    while not lab["datagrams"] and time.monotonic() < deadline:
+        time.sleep(0.01)
+    assert lab["datagrams"]
+    lab["datagrams"].clear()
+    assert lab["browser"].fetch(lab["allowed"])["success"]
+    page = lab["browser"]._fidelity.current_page
+    page.context.unroute("**/*")
+    page.evaluate(
+        """port=>{let p=new RTCPeerConnection({iceServers:[{urls:'stun:127.0.0.2:'+port}]});p.createDataChannel('x');p.createOffer().then(o=>p.setLocalDescription(o));globalThis.attackPeer=p}""",
+        lab["udp"][1],
+    )
+    page.wait_for_timeout(1000)
+    page.evaluate("attackPeer.close()")
+    assert lab["datagrams"] == []
+    save_receipt(
+        "webrtc-udp",
+        {
+            "positive_control": True,
+            "udp_datagrams": lab["datagrams"],
+            "routing_removed": True,
+        },
+    )

@@ -1,6 +1,7 @@
 """Real host canaries. Only fixture address .1 is allowlisted; .2 must see no traffic."""
 
 import json
+import socket
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -14,6 +15,22 @@ from aerobrowse.security import NetworkPolicy
 def attack_lab(monkeypatch):
     monkeypatch.setenv("AEROBROWSE_TEST_HOST_SECRET", "CONTROLLED_ENV_SECRET")
     received = []
+    datagrams = []
+    udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp.bind(("127.0.0.2", 0))
+    udp.settimeout(0.1)
+    udp_stop = threading.Event()
+
+    def record_udp():
+        while not udp_stop.is_set():
+            try:
+                packet, peer = udp.recvfrom(4096)
+                datagrams.append({"bytes": len(packet), "peer": peer[0]})
+            except TimeoutError:
+                continue
+
+    udp_thread = threading.Thread(target=record_udp, daemon=True)
+    udp_thread.start()
 
     class Canary(BaseHTTPRequestHandler):
         def do_GET(self):
@@ -64,11 +81,16 @@ def attack_lab(monkeypatch):
         "allowed": f"http://127.0.0.1:{server.server_port}",
         "forbidden": forbidden,
         "received": received,
+        "udp": udp.getsockname(),
+        "datagrams": datagrams,
     }
     try:
         yield lab
     finally:
         browser.close()
+        udp_stop.set()
+        udp_thread.join(timeout=2)
+        udp.close()
         for s in (server, canary):
             s.shutdown()
             s.server_close()
