@@ -475,6 +475,36 @@
       "path": "evidence/phase2/build-reviewed.json",
       "sha256": "80738e024b96d7214425d7c7c7e6a8f8c0d3ec8046f6ed3c443b3e62b79a1ce4",
       "bytes": 475
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/completed-jobs.json",
+      "sha256": "44810464d745169e733a45e7801a47d967f021feaf0c3a99434adfd1b7ba03dd",
+      "bytes": 15538
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/rust-job.log",
+      "sha256": "38d7620834649d159f744c4730c24c757cee0dd3f6d09a3cdd1e5f43c3c39035",
+      "bytes": 109878
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/dependencies/ci-pip-audit.json",
+      "sha256": "53924096502852b5650390c4b10a8a22411ed138ece9777a0b5fe1d33441c3e6",
+      "bytes": 6528
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/dependencies/pip-audit.json",
+      "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b",
+      "bytes": 6587
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/python-linux312/ci-python.xml",
+      "sha256": "1e380f16b16a56f165cd63464817f5cd5c1b1f5b5087f5399bcb93f8de1cfe6d",
+      "bytes": 30643
+    },
+    {
+      "path": "evidence/phase2/ci-582b74c/python-linux312/python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347
     }
   ]
 }
