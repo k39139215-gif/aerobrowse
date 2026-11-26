@@ -4,18 +4,15 @@ import json
 import queue
 import subprocess
 import sys
-import tempfile
 import threading
-from contextlib import ExitStack
 from pathlib import Path
 
 import pytest
 
 
 class Peer:
-    def __init__(self):
-        self.files = ExitStack()
-        self.stderr = self.files.enter_context(tempfile.TemporaryFile())
+    def __init__(self, stderr):
+        self.stderr = stderr
         self.process = subprocess.Popen(
             [sys.executable, "-m", "aerobrowse.mcp_server"],
             stdin=subprocess.PIPE,
@@ -76,13 +73,13 @@ class Peer:
                 self.process.wait(timeout=10)
         self.reader.join(timeout=1)
         self.process.stdout.close()
-        self.files.close()
 
 
 @pytest.fixture
-def peer():
-    peer = Peer()
-    try:
-        yield peer
-    finally:
-        peer.close()
+def peer(tmp_path):
+    with (tmp_path / "stderr.log").open("w+b") as stderr:
+        peer = Peer(stderr)
+        try:
+            yield peer
+        finally:
+            peer.close()
