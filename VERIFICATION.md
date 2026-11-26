@@ -19,7 +19,8 @@ checkout hashes: `evidence/agent/source-dac1c1d.json`.
 | Static checks | Ruff, formatting and mypy pass | local checks of18 production modules |
 | Package | Wheel and sdist build;18 wheel modules match checkout | evidence/agent/build-match-source3e1d399.json |
 | Actual-model evaluation | NOT_RUN: missing explicit key/model | evidence/agent/model-evaluation-sourcedac1c1d.json |
-| Full final-source matrix/benchmarks/soak | Queued | runs45860943473 and45860953104; update after completion |
+| Corrected measurements | Complete at0530488;6 tasks/2 workers, operation rows correctly identify engine | run45864267717; evidence/agent/ci-0530488/runtime/ |
+| Full final-source CI | Python matrix, Rust and dependencies green; browser cleanup soak running | run45864277407 |
 
 Receipt SHA256 and byte lengths: `evidence/agent/receipt-manifest.json`.
 This is local provenance bookkeeping, not independent custody certification.
@@ -61,3 +62,10 @@ in1,801.468 seconds. Earlier receipts describe their tested revision only.
 The continuation reproduced login redirect failures and a deadline race; failed
 runs are indexed in `evidence/agent/failed-runs.json` and original failing browser
 XML is retained. Passing focused receipts do not erase those failures.
+
+Current corrected measurement receipt: `evidence/agent/ci-0530488/runtime/`.
+All16 nearest-rank percentile groups reproduce from1,133 raw rows. Six concurrent
+tasks use six unique sessions and all worker reaping flags are true. Token fixture
+refresh:`evidence/agent/token-fixtures-source0530488.json` contains24 rows with
+both Markdown and complete canonical extraction-output costs under3 tokenizers.
+The small fixtures expand after metadata; no fixed token-savings claim applies.

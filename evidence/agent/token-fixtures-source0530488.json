@@ -1,0 +1,753 @@
+{
+  "production_source": "3e1d399994638a9d08269b642f5c306ce317a1c4",
+  "implementation_and_measurement_source": "05304886c5e4d871c5dbca0c61c496e996fe7ac9",
+  "checkout_revision": "15fc8338127a97d544741a6f53c6dda6a3ab1d2b",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "observed_at": "2026-11-26T17:25:06.752781+00:00",
+  "rows": [
+    {
+      "fixture": "documentation",
+      "original_tokens": 41,
+      "markdown_tokens": 26,
+      "markdown_reduction_pct": 36.59,
+      "complete_serialized_output": {
+        "tokens": 214,
+        "bytes": 842,
+        "reduction_pct": -421.95,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "ecommerce",
+      "original_tokens": 48,
+      "markdown_tokens": 27,
+      "markdown_reduction_pct": 43.75,
+      "complete_serialized_output": {
+        "tokens": 207,
+        "bytes": 837,
+        "reduction_pct": -331.25,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "news",
+      "original_tokens": 33,
+      "markdown_tokens": 17,
+      "markdown_reduction_pct": 48.48,
+      "complete_serialized_output": {
+        "tokens": 132,
+        "bytes": 525,
+        "reduction_pct": -300.0,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 8,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "dashboard",
+      "original_tokens": 44,
+      "markdown_tokens": 11,
+      "markdown_reduction_pct": 75.0,
+      "complete_serialized_output": {
+        "tokens": 187,
+        "bytes": 745,
+        "reduction_pct": -325.0,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "search",
+      "original_tokens": 43,
+      "markdown_tokens": 19,
+      "markdown_reduction_pct": 55.81,
+      "complete_serialized_output": {
+        "tokens": 205,
+        "bytes": 815,
+        "reduction_pct": -376.74,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 10,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "long_article",
+      "original_tokens": 1913,
+      "markdown_tokens": 1504,
+      "markdown_reduction_pct": 21.38,
+      "complete_serialized_output": {
+        "tokens": 1820,
+        "bytes": 7258,
+        "reduction_pct": 4.86,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 204,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "complex_table",
+      "original_tokens": 74,
+      "markdown_tokens": 19,
+      "markdown_reduction_pct": 74.32,
+      "complete_serialized_output": {
+        "tokens": 389,
+        "bytes": 1421,
+        "reduction_pct": -425.68,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 18,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "form",
+      "original_tokens": 50,
+      "markdown_tokens": 12,
+      "markdown_reduction_pct": 76.0,
+      "complete_serialized_output": {
+        "tokens": 374,
+        "bytes": 1578,
+        "reduction_pct": -648.0,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 15,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "documentation",
+      "original_tokens": 42,
+      "markdown_tokens": 26,
+      "markdown_reduction_pct": 38.1,
+      "complete_serialized_output": {
+        "tokens": 220,
+        "bytes": 839,
+        "reduction_pct": -423.81,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "ecommerce",
+      "original_tokens": 46,
+      "markdown_tokens": 25,
+      "markdown_reduction_pct": 45.65,
+      "complete_serialized_output": {
+        "tokens": 212,
+        "bytes": 836,
+        "reduction_pct": -360.87,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "news",
+      "original_tokens": 34,
+      "markdown_tokens": 17,
+      "markdown_reduction_pct": 50.0,
+      "complete_serialized_output": {
+        "tokens": 136,
+        "bytes": 522,
+        "reduction_pct": -300.0,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 8,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "dashboard",
+      "original_tokens": 43,
+      "markdown_tokens": 10,
+      "markdown_reduction_pct": 76.74,
+      "complete_serialized_output": {
+        "tokens": 192,
+        "bytes": 746,
+        "reduction_pct": -346.51,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "search",
+      "original_tokens": 43,
+      "markdown_tokens": 18,
+      "markdown_reduction_pct": 58.14,
+      "complete_serialized_output": {
+        "tokens": 210,
+        "bytes": 814,
+        "reduction_pct": -388.37,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 10,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "long_article",
+      "original_tokens": 1314,
+      "markdown_tokens": 904,
+      "markdown_reduction_pct": 31.2,
+      "complete_serialized_output": {
+        "tokens": 1223,
+        "bytes": 7254,
+        "reduction_pct": 6.93,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 204,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "complex_table",
+      "original_tokens": 72,
+      "markdown_tokens": 19,
+      "markdown_reduction_pct": 73.61,
+      "complete_serialized_output": {
+        "tokens": 395,
+        "bytes": 1420,
+        "reduction_pct": -448.61,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 18,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "form",
+      "original_tokens": 49,
+      "markdown_tokens": 11,
+      "markdown_reduction_pct": 77.55,
+      "complete_serialized_output": {
+        "tokens": 380,
+        "bytes": 1579,
+        "reduction_pct": -675.51,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "o200k_base"
+      },
+      "quality": {
+        "node_count": 15,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "documentation",
+      "original_tokens": 45,
+      "markdown_tokens": 36,
+      "markdown_reduction_pct": 20.0,
+      "complete_serialized_output": {
+        "tokens": 264,
+        "bytes": 838,
+        "reduction_pct": -486.67,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "ecommerce",
+      "original_tokens": 53,
+      "markdown_tokens": 33,
+      "markdown_reduction_pct": 37.74,
+      "complete_serialized_output": {
+        "tokens": 257,
+        "bytes": 835,
+        "reduction_pct": -384.91,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "news",
+      "original_tokens": 36,
+      "markdown_tokens": 20,
+      "markdown_reduction_pct": 44.44,
+      "complete_serialized_output": {
+        "tokens": 171,
+        "bytes": 523,
+        "reduction_pct": -375.0,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 8,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "dashboard",
+      "original_tokens": 49,
+      "markdown_tokens": 13,
+      "markdown_reduction_pct": 73.47,
+      "complete_serialized_output": {
+        "tokens": 232,
+        "bytes": 745,
+        "reduction_pct": -373.47,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 11,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "search",
+      "original_tokens": 45,
+      "markdown_tokens": 22,
+      "markdown_reduction_pct": 51.11,
+      "complete_serialized_output": {
+        "tokens": 249,
+        "bytes": 813,
+        "reduction_pct": -453.33,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 10,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "long_article",
+      "original_tokens": 2114,
+      "markdown_tokens": 1903,
+      "markdown_reduction_pct": 9.98,
+      "complete_serialized_output": {
+        "tokens": 2254,
+        "bytes": 7254,
+        "reduction_pct": -6.62,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 204,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "complex_table",
+      "original_tokens": 80,
+      "markdown_tokens": 25,
+      "markdown_reduction_pct": 68.75,
+      "complete_serialized_output": {
+        "tokens": 461,
+        "bytes": 1419,
+        "reduction_pct": -476.25,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 18,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    },
+    {
+      "fixture": "form",
+      "original_tokens": 54,
+      "markdown_tokens": 15,
+      "markdown_reduction_pct": 72.22,
+      "complete_serialized_output": {
+        "tokens": 436,
+        "bytes": 1578,
+        "reduction_pct": -707.41,
+        "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+        "excluded_fields": [
+          "serialized_output"
+        ]
+      },
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "p50k_base"
+      },
+      "quality": {
+        "node_count": 15,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      },
+      "limitations": [
+        "synthetic markup; no production-site recall judgment",
+        "canonical JSON extraction response excludes later runtime/MCP envelope and this metric itself"
+      ]
+    }
+  ]
+}

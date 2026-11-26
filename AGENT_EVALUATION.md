@@ -34,7 +34,9 @@ The latest source, `dac1c1d`, passed the focused delegated Linux run
 Local verification: 206 Python tests passed, with 21 native/platform skips and
 67 browser deselections. A later focused rerun passed 46 tests. Ruff, formatting,
 mypy and wheel/sdist build passed; all 18 wheel modules match the checkout.
-Full final-source CI and its benchmarks/soak are queued. These are scripted
+Corrected measurement source `0530488` passed the focused workflow/kernel and
+benchmark run `45864267717`. Full final-source CI `45864277407` has passed its
+Python matrix, Rust and dependency gates; the mandatory cleanup soak is running. These are scripted
 results, not model success. Historical phase2 evidence is kept separately.
 
 The harness records complete content+structuredContent+isError+_meta envelopes,

@@ -23,7 +23,7 @@ later source. Evidence and limitations are in ENGINEERING_REPORT.md.
 | Reproducible performance harness | Implemented exploratory | raw operation timing distributions, CPU/RSS, declared Turbo SDK load | No comparable before baseline; browser/MCP concurrency/queue/fairness and exact peaks absent |
 | Rust hardening | Implemented narrower architecture | safe bounded native HTTP; strict fmt/clippy/test/release/audit; Python MCP integration | Full native live browser/action parity not implemented; exclusion unapproved |
 | Security regression tests | Implemented declared attack families | real network canaries, DNS/redirect/input/session/injection/quotas | External exploit-chain assessment not performed |
-| Functional compatibility tests | Partial | real pinned plain HTML/React/Vue/Next/Angular flows | Authenticated browsing, tabs/history, infinite/lazy content and broader form/error states incomplete |
+| Functional compatibility tests | Partial | real pinned plain HTML/React/Vue/Next/Angular flows | Controlled auth/tabs/history implemented in continuation; infinite/lazy content and broader form/error states remain incomplete |
 | Concurrency/resource tests | Partial | owned concurrent sessions, locks, actual kernel denial/crash/cleanup | Broad browser throughput, fairness/starvation and production exhaustion not measured |
 | CI/dependencies/builds | Implemented engineering pipeline | Python 3.11 through 3.14 matrix; Rust strict checks; audits, locks, browser job, builds | Sonar two private-tmpfs findings open; final current-source full CI/soak green |
 | Observability | Partial | request/session/engine/operation/duration/outcome/error JSON logs and bounded counters | Full requested metrics export/aggregation and peak-memory service telemetry incomplete |
@@ -37,7 +37,8 @@ where safe completion is absent; a draft PR does not establish production readin
 
 ## Agent usability continuation acceptance
 
-Latest source checkpoint: `dac1c1d`. Full CI remains queued; historical green
+Latest implementation/benchmark checkpoint: `0530488`. Full CI is running in
+`45864277407`; only its mandatory cleanup soak remains. Historical green
 receipts do not certify changed code. Focused delegated Linux run `45860943458`
 passed 14 workflow/auth/storage/error-document tests and 38 runtime tests, with
 2 Windows-only skips. Downloaded XML receipts are authoritative.
@@ -53,7 +54,7 @@ passed 14 workflow/auth/storage/error-document tests and 38 runtime tests, with
 | Browser crash recovery | Demonstrated controlled failures | Kill/reap/replacement regressions retained |
 | Normal SDK resource supervision | Implemented and locally/Linux tested | Real worker,timeouts,lifetime,kill/reap; enclosing multi-instance quota required |
 | LLM-driven agent evaluation | Runnable,NOT_RUN | Missing OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL |
-| Browser concurrency measurement | Harness and CI step implemented | Owned two-worker6-task measurement; await full receipt |
+| Browser concurrency measurement | Controlled SDK task measurement complete | 6 tasks, 2 workers, 9.152 seconds at0530488; no saturation/fairness claim |
 | Native Rust parity | Not implemented | Independent read-only HTTP scope retained |
 
 General public-site task completion, trusted physical events,file uploads,downloads,

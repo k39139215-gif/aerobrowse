@@ -22,7 +22,9 @@ search, long article, nested table and form markup. These are synthetic cases,
 not measured production-site compatibility. Negative token reduction is valid
 when semantic annotations increase small documents. Tokenizer counts include
 Markdown output only; action/table metadata adds further tokens when serialized.
-Full tool-payload savings and content-recall grading are not yet measured.
+The continuation adds canonical complete extraction-output measurements below.
+Full model chat-template overhead and production content-recall grading remain
+unmeasured.
 
 Default encoding: cl100k_base, library/version recorded per receipt. Python also
 supports o200k_base and p50k_base. Rust uses tiktoken-rs 0.12.1/cl100k_base.
@@ -166,3 +168,34 @@ Six complete tasks with2 workers finished in9.152 seconds,0.656 tasks/second;
 all worker processes reaped. Scope:owned tiny fixture,SDK tasks; no speedup,
 public-site,MCP saturation,exact peak or fairness claim. Raw receipts are under
 `evidence/agent/ci-0530488/runtime/`.
+
+Operation summaries use nearest-rank percentiles,including the value labeled
+median_ms (nearest-rank p50). For even sample counts this is the lower middle
+sample,not the arithmetic mean of the middle pair. Raw rows are retained so
+readers can compute a different descriptive statistic without altering evidence.
+
+## Current complete extraction-output token cost
+
+Source0530488 (same production modules as3e1d399),tiktoken0.14.0,
+cl100k_base. These tiny synthetic cases often cost more after metadata is included.
+The complete canonical output excludes only its own serialized_output measurement;
+later session/request/MCP envelope fields add more tokens. Negative savings are
+reported,not converted into a misleading positive reduction claim.
+
+| Fixture | HTML tokens | Markdown tokens | Complete extraction JSON tokens | Complete reduction |
+|---|---:|---:|---:|---:|
+| Documentation | 41 | 26 | 214 | -421.95% |
+| E-commerce | 48 | 27 | 207 | -331.25% |
+| News | 33 | 17 | 132 | -300.00% |
+| Dashboard | 44 | 11 | 187 | -325.00% |
+| Search | 43 | 19 | 205 | -376.74% |
+| Long article | 1913 | 1504 | 1820 | 4.86% |
+| Complex table | 74 | 19 | 389 | -425.68% |
+| Form | 50 | 12 | 374 | -648.00% |
+
+Raw24 rows cover all eight cases under cl100k_base,o200k_base,p50k_base,
+with tokenizer version,quality and missing-content indicators:
+`evidence/agent/token-fixtures-source0530488.json`. Synthetic quality indicators
+are not a validated production recall score. Runtime output is measured after
+live actions and session metadata are added; the actual-model harness measures
+complete tool-result content+structuredContent envelopes when configured.

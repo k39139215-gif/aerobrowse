@@ -4,7 +4,8 @@
 
 Historical phase2 implementation source: `7f5c859fc72cf6473890751c7809f15c3889a50f`.
 Verified full CI receipt head: `582b74c4d39976dfa16a37a6523ca99bb5a0109d`.
-All 72 tracked implementation/test/CI/benchmark files match that verified head.
+At that historical checkpoint, all 72 tracked implementation/test/CI/benchmark
+files matched that verified head. The current continuation is recorded below.
 Draft follow-up PR #2 targets `fix/production-hardening`; original draft PR #1
 against main remains unchanged. No PR merge, package publication or version change.
 
@@ -101,7 +102,9 @@ Crash tests kill the actual browser process and all owned renderers, then verify
 old action failure, cleanup and fresh-session navigation. Renderer recovery uses
 the operation deadline (3 seconds in its test), not immediate crash notification.
 Linux parent death verifies cgroup/temp removal. Kernel tests observe actual OOM
-kills and denied forks. The direct SDK has no equivalent supervised quotas.
+kills and denied forks. At the historical phase-two source, the direct SDK had no
+equivalent supervised quotas. The agent continuation below replaces the normal
+public SDK/CLI entry point with owned process supervision.
 
 ## Completed historical full runs
 
@@ -183,7 +186,7 @@ Controller/fixture resources are included; no paired speedup comparison exists.
 |---|---|---|
 | OS browser boundary | Implemented and verified for declared Linux canary/process scenarios | Full utility/network mechanism audit and inner Chromium sandbox remain open |
 | Killable MCP worker lifecycle | Verified bounded contract, including crashes and parent death | Renderer detection is timeout-based; broader hostile-load assessment absent |
-| Kernel resource controls | Verified supervised session/pool caps | Direct SDK, separate renderer and cross-instance limits not implemented |
+| Kernel resource controls (historical phase2) | Verified supervised session/pool caps | Public SDK supervision added in continuation; separate renderer and cross-instance deployment limits remain open |
 | Deterministic action identity | Verified declared synthetic DOM contract | Trusted physical events, file inputs and broader interactions unsupported |
 | MCP framing/owner isolation | Implemented and covered by real-pipe tests | No remote authenticated transport; broad fuzz/load coverage incomplete |
 | Framework compatibility | Four real controlled framework fixtures pass | Broad validation, lazy/infinite content, large-page recall and error states incomplete |
@@ -228,16 +231,16 @@ model harness separately counts complete serialized MCP tool envelopes.
 |---|---|---|---|
 | Auth workflows | Redirect login failed | Scripted SDK/MCP login/update/logout passes | focused Linux run 45860943458 |
 | Python local | Historical 161 component passes |206 passed, 21 skips, 67 browser deselections at final source | evidence/agent/python-source-final.xml |
-| Rust | 5 native units + 18 refusal contracts | No native browser scope expansion; latest matrix check pending | CI strict fmt/clippy/test/release/audit |
+| Rust | 5 native units + 18 refusal contracts | Final run passed fmt, strict Clippy, tests, release build, shared refusal contract and dependency audit | run 45864277407; no native browser scope expansion |
 | Turbo/Fidelity latency | No comparable baseline | Warm medians 2.872 ms / 27.096 ms; 100 / 99 samples; no speedup claim | evidence/agent/ci-0530488/runtime/phase2/benchmark-linux.json |
 | Peak RAM | No comparable baseline | 1,441,820,672 bytes sampled process-tree maximum across full operation/load run; 20 ms interval, not exact peak | same corrected benchmark receipt |
-| Token cost | Markdown-only, omitted actions | Canonical full JSON and actual envelope counts implemented | tokens.py,agent harness |
+| Token cost | Markdown-only, omitted actions | Synthetic long article:1913 HTML /1504 Markdown /1820 complete JSON tokens (4.86% complete reduction); tiny cases expand | evidence/agent/token-fixtures-source0530488.json; runtime/MCP overhead additional |
 | Concurrent browser tasks | Complete tasks unmeasured | 6 tasks / 2 workers / 9.152 seconds; 0.656 tasks/s, all workers reaped | evidence/agent/ci-0530488/runtime/agent/concurrency.json |
 | Actual AI model success | Not measured |NOT_RUN | model-evaluation-sourcedac1c1d.json |
 
-Fixed and verified: controlled auth/forms/tabs/history/stale/runtime flows. Fixed and
-awaiting full current-source receipts:final output/recovery metadata and evaluation
-guards. Partial: general extraction recall and capacity/fairness. Not implemented: native
+Fixed and verified in the declared controlled scope: authentication, forms, tabs,
+history, stale recovery, runtime quotas, output/recovery metadata and benchmark
+guards. The complete final-source cleanup soak remains in progress. Partial: general extraction recall and capacity/fairness. Not implemented: native
 Rust live browser parity, trusted physical input, file transfer, WebSockets, service
 workers, HTTP Authorization. Known limitations: Linux-only Fidelity; host operator
 must provision cgroup/namespaces; independent SDK instances need enclosing aggregate
@@ -262,3 +265,8 @@ The benchmark RSS maximum covers the entire sampled tree during all operations
 and load cases, not one steady browser or a measured exact peak. CPU observations
 exclude exited child processes. These tiny fixture results do not establish public
 website speed, success, fairness, production capacity or improvement over baseline.
+
+Reported operation medians use the harness's documented nearest-rank50th
+percentile (lower middle sample for even counts),not the arithmetic mean of two
+middle samples. Raw counts,failure rates,p50/p90/p95/p99 values and concurrent-task
+throughput/unique-session/reaping assertions were recomputed and matched.

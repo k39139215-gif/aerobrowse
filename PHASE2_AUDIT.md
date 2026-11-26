@@ -127,7 +127,8 @@ reproduced as a failed login,then fixed with direct per-hop CDP interception whi
 retaining mandatory namespace isolation. Error documents fail explicitly.
 
 At dac1c1d,focused Linux run45860943458 passed14 workflow/auth/storage/error-page
-checks and38 runtime checks,with2 Windows-only skips. Full final-source CI and
-soak remain queued. Actual LLM evaluation is NOT_RUN without explicit key/model.
+checks and38 runtime checks,with2 Windows-only skips. Corrected measurement
+source0530488 passed run45864267717. Final PR run45864277407 has passed all
+Python matrix,Rust and dependency jobs; only its mandatory cleanup soak is running. Actual LLM evaluation is NOT_RUN without explicit key/model.
 See VERIFICATION.md,AGENT_EVALUATION.md and ENGINEERING_REPORT.md. None of these
 changes closes native Rust browser parity or independent security assessment.
