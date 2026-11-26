@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ActionElement {
     pub id: usize,
+    pub executable: bool,
     pub tag: String,
     pub label: String,
     pub href: Option<String>,
@@ -17,18 +18,35 @@ pub struct PrunedResult {
     pub actions: Vec<ActionElement>,
     pub original_chars: usize,
     pub pruned_chars: usize,
-    pub reduction_pct: f64,
+    pub character_reduction_pct: f64,
+    pub original_tokens: Option<usize>,
+    pub extracted_tokens: Option<usize>,
+    pub token_reduction_pct: Option<f64>,
+    pub tokenizer: Option<String>,
+    pub limitations: Vec<String>,
 }
 
 pub struct SemanticPruner;
 
 impl SemanticPruner {
-    pub fn prune(html_str: &str, _base_url: &str) -> PrunedResult {
-        let original_chars = html_str.len();
+    pub fn prune(html_str: &str, _base_url: &str) -> Result<PrunedResult, String> {
+        if html_str.len() > crate::security::MAX_BYTES {
+            return Err("HTML_TOO_LARGE".into());
+        }
+        let original_chars = html_str.chars().count();
         let document = Html::parse_document(html_str);
+        let mut stack = vec![(document.tree.root(), 0usize)];
+        let mut nodes = 0;
+        while let Some((node, depth)) = stack.pop() {
+            nodes += 1;
+            if nodes > 100_000 || depth > 128 {
+                return Err("HTML_LIMIT_EXCEEDED".into());
+            }
+            stack.extend(node.children().map(|n| (n, depth + 1)));
+        }
 
         // 1. Extract Title
-        let title_selector = Selector::parse("title").unwrap();
+        let title_selector = Selector::parse("title").map_err(|_| "PARSER_ERROR")?;
         let title = document
             .select(&title_selector)
             .next()
@@ -37,7 +55,8 @@ impl SemanticPruner {
 
         // 2. Extract Actionable Interactive Map
         let mut actions = Vec::new();
-        let interactive_selector = Selector::parse("button, a, input, textarea, select").unwrap();
+        let interactive_selector =
+            Selector::parse("button, a, input, textarea, select").map_err(|_| "PARSER_ERROR")?;
         let mut action_id = 1;
 
         for element in document.select(&interactive_selector) {
@@ -45,12 +64,26 @@ impl SemanticPruner {
             let tag = val.name().to_string();
             let input_type = val.attr("type").map(|s| s.to_string());
 
-            if tag == "input" && (input_type.as_deref() == Some("hidden") || input_type.as_deref() == Some("submit")) {
+            if tag == "input"
+                && (input_type.as_deref() == Some("hidden")
+                    || input_type.as_deref() == Some("submit"))
+            {
                 continue;
             }
 
-            let text = element.text().collect::<String>().trim().to_string();
-            let aria = val.attr("aria-label")
+            if val.attr("hidden").is_some()
+                || val.attr("aria-hidden") == Some("true")
+                || val.attr("inert").is_some()
+            {
+                continue;
+            }
+            let text = if matches!(tag.as_str(), "textarea" | "select") {
+                String::new()
+            } else {
+                element.text().collect::<String>().trim().to_string()
+            };
+            let aria = val
+                .attr("aria-label")
                 .or_else(|| val.attr("placeholder"))
                 .or_else(|| val.attr("title"))
                 .unwrap_or("");
@@ -58,7 +91,7 @@ impl SemanticPruner {
             let label = if !text.is_empty() {
                 // If text is truncated with ellipsis, prefer title if present
                 if text.ends_with("...") && val.attr("title").is_some() {
-                    val.attr("title").unwrap().to_string()
+                    val.attr("title").unwrap_or("").to_string()
                 } else {
                     text
                 }
@@ -70,10 +103,21 @@ impl SemanticPruner {
                 format!("<{}>", tag)
             };
 
-            let href = val.attr("href").map(|s| s.to_string());
+            let href = val
+                .attr("href")
+                .and_then(|s| url::Url::parse(s).ok())
+                .filter(|u| matches!(u.scheme(), "http" | "https"))
+                .map(|mut u| {
+                    u.set_query(None);
+                    u.set_fragment(None);
+                    let _ = u.set_username("");
+                    let _ = u.set_password(None);
+                    u.to_string()
+                });
 
             actions.push(ActionElement {
                 id: action_id,
+                executable: false,
                 tag,
                 label: label.chars().take(80).collect(),
                 href,
@@ -82,7 +126,7 @@ impl SemanticPruner {
             action_id += 1;
         }
 
-        // 3. Extract 100% Complete Text Content via Recursive AST Walker
+        // 3. Extract bounded semantic text
         let mut raw_markdown = String::new();
         Self::walk_tree(document.tree.root(), &mut raw_markdown);
 
@@ -96,21 +140,36 @@ impl SemanticPruner {
         }
         let markdown = cleaned_lines.join("\n\n");
 
-        let pruned_chars = markdown.len();
+        let pruned_chars = markdown.chars().count();
+        static TOKENIZER: std::sync::OnceLock<Result<tiktoken_rs::CoreBPE, String>> =
+            std::sync::OnceLock::new();
+        let enc = TOKENIZER
+            .get_or_init(|| tiktoken_rs::cl100k_base().map_err(|_| "TOKENIZER_ERROR".into()))
+            .as_ref()
+            .map_err(Clone::clone)?;
+        let original_tokens = enc.encode_ordinary(html_str).len();
+        let extracted_tokens = enc.encode_ordinary(&markdown).len();
+        let token_reduction = if original_tokens > 0 {
+            (1.0 - extracted_tokens as f64 / original_tokens as f64) * 100.0
+        } else {
+            0.0
+        };
         let reduction_pct = if original_chars > 0 {
             ((1.0 - (pruned_chars as f64 / original_chars as f64)) * 100.0).max(0.0)
         } else {
             0.0
         };
 
-        PrunedResult {
+        Ok(PrunedResult {
             title,
             markdown,
             actions,
             original_chars,
             pruned_chars,
-            reduction_pct: (reduction_pct * 10.0).round() / 10.0,
-        }
+            character_reduction_pct: (reduction_pct * 10.0).round() / 10.0,
+            original_tokens: Some(original_tokens), extracted_tokens: Some(extracted_tokens), token_reduction_pct: Some(token_reduction), tokenizer: Some("tiktoken-rs/0.12.1:cl100k_base".into()),
+            limitations: vec!["Native static extraction does not provide executable action IDs or verified CSS visibility".into()],
+        })
     }
 
     fn walk_tree(node: ego_tree::NodeRef<scraper::node::Node>, out: &mut String) {
@@ -124,13 +183,52 @@ impl SemanticPruner {
             }
             scraper::node::Node::Element(elem) => {
                 let tag = elem.name();
+                if elem.attr("hidden").is_some()
+                    || elem.attr("inert").is_some()
+                    || elem.attr("aria-hidden") == Some("true")
+                    || (tag == "input" && elem.attr("type") == Some("hidden"))
+                {
+                    return;
+                }
+                if tag == "textarea" {
+                    out.push_str("[textarea: value omitted]");
+                    return;
+                }
+                if matches!(tag, "iframe" | "embed" | "object") {
+                    out.push_str("\n[Embedded content inaccessible: ");
+                    out.push_str(elem.attr("title").unwrap_or(tag));
+                    out.push_str("]\n");
+                    return;
+                }
                 // Strip unwanted tags completely
-                if matches!(tag, "script" | "style" | "noscript" | "svg" | "path" | "meta" | "link" | "iframe" | "header-nav" | "ad") {
+                if matches!(
+                    tag,
+                    "script"
+                        | "style"
+                        | "noscript"
+                        | "svg"
+                        | "path"
+                        | "meta"
+                        | "link"
+                        | "header-nav"
+                        | "ad"
+                ) {
                     return;
                 }
 
                 let is_heading = matches!(tag, "h1" | "h2" | "h3" | "h4" | "h5" | "h6");
-                let is_block = matches!(tag, "div" | "section" | "article" | "tr" | "header" | "footer" | "p" | "blockquote" | "li");
+                let is_block = matches!(
+                    tag,
+                    "div"
+                        | "section"
+                        | "article"
+                        | "tr"
+                        | "header"
+                        | "footer"
+                        | "p"
+                        | "blockquote"
+                        | "li"
+                );
 
                 if is_heading {
                     out.push_str("\n\n# ");
@@ -138,14 +236,6 @@ impl SemanticPruner {
                     out.push_str("\n\n");
                 } else if tag == "li" {
                     out.push_str("\n* ");
-                }
-
-                // If element has truncated text with title attribute, use title
-                if tag == "a" && elem.attr("title").is_some() {
-                    let has_ellipsis = elem.attr("title").unwrap().len() > 5;
-                    if has_ellipsis {
-                        // Traverse children normally
-                    }
                 }
 
                 for child in node.children() {
@@ -164,5 +254,36 @@ impl SemanticPruner {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn measures_real_tokens_and_rejects_deep_documents() {
+        let html = "<h1>Hello 世界</h1>";
+        let result = SemanticPruner::prune(html, "").expect("fixture should parse");
+        let enc = tiktoken_rs::cl100k_base().expect("tokenizer should initialize");
+        assert_eq!(
+            result.original_tokens,
+            Some(enc.encode_ordinary(html).len())
+        );
+        assert_eq!(result.original_chars, html.chars().count());
+        assert!(result.tokenizer.is_some());
+        assert!(
+            SemanticPruner::prune(&("<div>".repeat(200) + "x" + &"</div>".repeat(200)), "")
+                .is_err()
+        );
+    }
+    #[test]
+    fn does_not_expose_form_values_as_actions() {
+        let result=SemanticPruner::prune("<textarea>SECRET</textarea><input type=hidden value=TOKEN><iframe title=Report></iframe>","").expect("fixture parses");
+        assert!(!result.markdown.contains("SECRET"));
+        assert!(result.markdown.contains("Report"));
+        assert!(result
+            .actions
+            .iter()
+            .all(|a| !a.executable && !a.label.contains("SECRET")));
     }
 }

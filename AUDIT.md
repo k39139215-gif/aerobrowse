@@ -98,3 +98,14 @@ cl100k_base by default, with o200k_base/p50k_base options. Tokenizer failures
 are explicit errors. Character reduction remains a separate field. Full table
 cell/header metadata and inaccessible embedded content notices are returned.
 All form values are omitted by default. Static visibility remains unknown.
+## Phase 7 checkpoint
+
+Rust now validates URLs/resolved addresses, pins reqwest DNS resolution, disables
+implicit proxies/redirects, limits bodies/deadlines, and measures real cl100k_base
+tokens with tiktoken-rs 0.12.1. Native Chromium was removed from execution because
+its process/network boundary was unsafe; it explicitly fails closed. Native MCP
+launches the maintained Python stdio server, making Python a documented runtime
+requirement for MCP. These are deliberate breaking restrictions, not full native
+feature parity. Five Rust tests passed; strict Clippy all-targets/all-features
+passed on workspace-local Rust 1.100.0 LLVM Windows target. Native HTML tables
+remain less complete than Python. Rust HTTP integration tests still need expansion.
