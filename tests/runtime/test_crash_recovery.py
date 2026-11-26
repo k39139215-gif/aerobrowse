@@ -186,16 +186,30 @@ def test_live_browser_crash_releases_tree_and_recovers(site, target):
             worker = psutil.Process(manager._sessions[sid].worker.pid)
             descendants = worker.children(recursive=True)
             chromes = [p for p in descendants if p.name() in ("chrome", "chromium")]
-            selected = next(
-                p
-                for p in chromes
-                if ("--type=renderer" in p.cmdline()) == (target == "renderer")
-                and (
-                    target == "renderer"
-                    or not any(a.startswith("--type=") for a in p.cmdline())
-                )
+            selected = (
+                [
+                    p
+                    for p in chromes
+                    if ("--type=renderer" in p.cmdline())
+                    if target == "renderer"
+                ]
+                if target == "renderer"
+                else [
+                    next(
+                        p
+                        for p in chromes
+                        if not any(a.startswith("--type=") for a in p.cmdline())
+                    )
+                ]
             )
-            selected.kill()
+            # Chromium can prestart a spare renderer; terminate every session renderer
+            # so this test cannot accidentally kill only the spare process.
+            assert selected
+            for process in selected:
+                try:
+                    process.kill()
+                except psutil.NoSuchProcess:
+                    pass
             await asyncio.sleep(0.1)
             aid = next(a["id"] for a in snapshot["actions"] if a["label"] == "Name")
             result = await manager.call(
