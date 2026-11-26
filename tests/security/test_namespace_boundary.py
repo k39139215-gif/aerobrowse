@@ -78,3 +78,29 @@ def test_browser_cannot_read_host_secret_or_environment(attack_lab):
                 continue
     finally:
         secret.unlink()
+
+
+def test_private_tmp_mount_is_not_host_writable_directory(attack_lab):
+    lab = attack_lab
+    assert lab["browser"].fetch(lab["allowed"])["success"]
+    checked = []
+    for process in psutil.Process().children(recursive=True):
+        try:
+            if not (
+                "chrome" in process.name().lower()
+                or "chromium" in process.name().lower()
+            ):
+                continue
+            root = Path("/proc") / str(process.pid)
+            mounts = (root / "mountinfo").read_text()
+            private_tmp = [
+                line for line in mounts.splitlines() if line.split()[4] == "/tmp"
+            ]
+            assert private_tmp
+            assert all(" - tmpfs " in line for line in private_tmp)
+            assert (root / "root/tmp").stat().st_dev != Path("/tmp").stat().st_dev
+            checked.append(process.pid)
+        except psutil.NoSuchProcess:
+            continue
+    assert checked
+    save_receipt("private-tmpfs", {"processes": checked, "host_tmp_exposed": False})

@@ -78,8 +78,9 @@ class IsolatedLauncher:
         ):
             if Path(directory).exists():
                 command.extend(["--ro-bind", directory, directory])
-        if Path("/etc/ld.so.cache").exists():
-            command.extend(["--ro-bind", "/etc/ld.so.cache", "/etc/ld.so.cache"])
+        cache = "/etc/ld.so.cache"
+        if Path(cache).exists():
+            command.extend(["--ro-bind", cache, cache])
         # Exact installed browser distribution; a caller must not choose an unrelated host directory.
         command.extend(["--ro-bind", str(executable.parent), str(executable.parent)])
         # Bubblewrap inherits the CDP pipe descriptors; tested on the minimum CI package.
