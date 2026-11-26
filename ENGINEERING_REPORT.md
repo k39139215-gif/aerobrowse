@@ -1,231 +1,149 @@
-# Phase-two engineering report
+# AeroBrowse engineering report
 
-Release recommendation: **NOT_PRODUCTION_READY**.
+**Release recommendation: NOT_PRODUCTION_READY.**
 
-This is an implementation/evidence report, not an external security assessment.
-Open P0 gates and unapproved P1 exclusions prevent a production recommendation.
-Phase-one report is preserved below as historical evidence, not current acceptance.
+Source fixes, tests, CI and evidence are implemented on the draft follow-up branch
+`fix/phase2-adversarial-validation`, targeting `fix/production-hardening`. Original
+draft PR #1 remains at `943ca57e9ef8ef5c4993a0aff25a8b8539e42713`. Main is unchanged;
+neither PR is merged. No package publication or version change was made.
 
-## Implemented source and architecture
+## Implemented behavior
 
-Follow-up draft PR #2 targets fix/production-hardening; PR #1 and main remain
-unchanged and unmerged. Preflight source/base and baseline are in PHASE2_AUDIT.md.
+- HTTP requests use centralized public-destination validation, IDNA normalization,
+  validation of all DNS answers, numeric connection pinning with TLS hostname
+  verification, bounded redirects, request/response limits and absolute deadlines.
+  Environment proxies and implicit credential forwarding are disabled.
+- Chromium runs behind mandatory Linux Bubblewrap network, mount, user, PID, IPC
+  and UTS namespaces. It receives minimal read-only runtime mounts, private writable
+  storage, a private proc view and a scrubbed environment. A trusted host broker
+  performs pinned HTTP requests. Real tests remove routing and verify that the OS
+  boundary still blocks host TCP/UDP canaries. Unsupported platforms fail closed.
+- MCP sessions own killable worker processes rather than unkillable browser threads.
+  Per-owner locks, bounded queues, correlated IPC and explicit lifecycle states
+  prevent requests from acting on another session. Linux cgroup v2 and Windows Job
+  Objects enforce aggregate memory/CPU/task limits. Cleanup handles cancellation,
+  deadlines, worker/browser crashes and parent death. Linux guardians use inherited
+  directory descriptors with generated basenames; traversal and symlinks are tested.
+- Turbo-to-Fidelity escalation navigates the current URL and returns a fresh live
+  snapshot with `STALE_ACTION_ID`; the caller must choose a live action before
+  activation. Static HTML action identifiers are never silently reused.
+- Snapshot HTML and live actions are captured together in an isolated CDP world.
+  Activation validates the exact retained node, document, URL, generation, mutation
+  epoch, visibility and state in the same renderer task. Focus reentrancy is checked.
+  There is no ordinal/selector fallback. These are explicitly synthetic DOM events.
+- The supported MCP stdio entry point bounds bytes, UTF-8, nesting and object shape
+  before SDK decoding. It limits in-flight requests, rejects duplicate active IDs,
+  preserves response correlation, handles cancellation, and bounds partial-frame
+  and blocked-output waits. Raw worker IPC now handles partial writes correctly.
+- Controlled local React, Vue, Next.js and Angular applications are pinned and built
+  in CI. Tests verify actual input/select state, action identity, counter updates,
+  dialogs, routes, hidden/disabled controls and stale-generation refusal.
+- Python is the authoritative browser runtime. Rust retains narrower native HTTP
+  retrieval and integrates Python for MCP; native unrestricted CDP is disabled.
+  Actual compiled native/Python rejection contracts are tested. This narrower
+  architecture is documented and does not waive the original full-parity requirement.
+- Semantic output preserves structured content and embedded-content indicators.
+  Token measurements record real tokenizer identity/version and separate character
+  reduction from token reduction. The benchmark harness stores raw observations,
+  percentiles, failure rates, token metadata and the scope of each load measurement.
 
-- aerobrowse/isolation.py now builds Bubblewrap user/network/mount/PID/IPC/UTS
-  boundaries with only runtime mounts, private tmp/home/proc and scrubbed environment.
-  Real canaries test host egress and secret-file exclusion; routing is not the final
-  network boundary. See SECURITY.md for the explicit no-sandbox Chromium limitation.
-- aerobrowse/runtime.py and sessions.py replace thread-owned browser state with
-  process workers, lifecycle states, bounded correlated IPC, hard teardown and
-  capability-gated kernel quotas. Windows uses nested jobs; Linux uses delegated
-  cgroup v2 and an independent guardian with descriptor-confined cleanup.
-- aerobrowse/actions.py and fidelity.py capture HTML/actions in one isolated-world
-  renderer task and activate exact retained nodes after generation/document/epoch/
-  state checks. No selector/ordinal fallback exists. Events are synthetic DOM events;
-  physical trusted-event semantics are excluded and documented.
-- aerobrowse/mcp_transport.py bounds newline UTF-8 frames before SDK decoding,
-  validates depth/shape/protocol envelopes, caps in-flight requests, rejects duplicate
-  active IDs and terminates stalled framing/output. Official SDK owns MCP negotiation.
-- tests/compatibility contains pinned, locally built React/Vue/Next.js/Angular
-  applications and checks actual controlled state, route, modal and action identity.
-  Coverage is narrower than universal framework support; COMPATIBILITY.md lists gaps.
-- docs/ENGINE_PARITY.md selects Option B: Python authoritative browser runtime;
-  native Rust HTTP remains a narrower independent implementation, Rust MCP integrates
-  Python. Real native/Python refusal contract tests prevent security-model fallback.
-- benchmarks/phase2 stores raw timings, token metadata, distributions, Turbo load
-  levels and a mandatory kernel-supervised browser/action cleanup soak.
+See `SECURITY.md`, `COMPATIBILITY.md`, `docs/ENGINE_PARITY.md` and
+`SECURITY_REVIEW_PACKAGE.md` for exact contracts, assumptions and reproduction.
 
-## Verification ledger
+## Verification and evidence
 
-Results are bound to the stated source/environment; they do not transfer automatically
-to every later revision. CI uses a GitHub PR merge checkout, whose hash appears in
-raw receipts. Failed and cancelled runs are retained and do not count as passes.
+The original repository baseline was `44f3e73409d3f0c4e6e376f0c98198abd00ccc0f`:
+Python 5 passes, with live third-party dependencies; the original Rust toolchain
+failed before execution. Phase-two baseline at PR #1 head had 67 Python passes,
+4 platform skips and 5 Rust tests. These are different baselines and are not added.
 
-| Area | Before | Phase-two observed result | Evidence/limits |
+| Gate | Verified result | Revision and evidence |
+|---|---|---|
+| Local Python suite | 146 passes, 2 platform skips, 64 browser/native deselections | source through `fe159f9`; `evidence/phase2/python-final-reviewed.xml` |
+| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11–3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
+| Rust | Formatting, strict Clippy, tests, release build, native contract and dependency audit pass | green run `45833263200`; final-source rerun tracked separately |
+| Linux browser boundary/actions/frameworks | 43 passes, zero skips | `evidence/phase2/ci-f1ce086/ci-browser.xml` |
+| Linux kernel/runtime suite | 19 passes, 2 Windows-only skips | `ci-f1ce086/phase2/ci-runtime-kernel.xml` |
+| Final focused Linux runtime | 25 passes, 2 Windows-only skips | source `c963127`, run `45837608925`; `runtime-c963127/runtime-boundary.xml` |
+| Final Windows runtime | 16 passes, 3 Linux-only skips, 8 browser deselections | `runtime-final-windows.xml` |
+| MCP framing/deadlines | 15 passes using real subprocess pipes | `protocol-final-reviewed.xml` |
+| MCP malformed/session concurrency | 16 focused passes | `mcp-session-recheck.xml`; these overlap the full suite |
+| Native/Python refusal contract | 18 passes against a real built native executable | `native-contract.xml`; narrower negative contract, not full parity |
+| Required supervised browser soak | 1,800.735 seconds, 931 successful lifecycle/action iterations | source `f1ce086`, run `45833263200`; raw and summary below |
+| External analyzer | Two private-tmpfs path findings remain open | Sonar quality gate is not green; no suppression applied |
+
+Receipts live under `evidence/phase2/`. `VERIFICATION.md` indexes them;
+`receipt-manifest.json` records hashes. These are integrity aids, not independent
+custody or assessment. CI may use a synthetic PR merge checkout; the raw receipt
+records that checkout. Skipped/deselected tests are not passes. Repeated/focused
+suites must not be summed as unique tests. Failed intermediate receipts are retained.
+
+The final runtime gate kills the actual main browser process and all owned
+renderers, verifies failure of the old action, cleanup and fresh-session navigation.
+Renderer recovery uses the request deadline (3 seconds in the test), not immediate
+crash notification. Linux parent death verifies worker termination plus cgroup and
+temporary-directory removal. Kernel tests observe actual OOM kill and denied forks.
+
+## Thirty-minute soak
+
+The green run used source `f1ce086`, synthetic merge checkout
+`1710acaf4f4f0e877a53653f525939b688143b51`, Linux x86_64 and Python 3.12.16.
+It completed 931 sequential navigate/fill/click/close cycles over 1,800.735 seconds.
+All 931 raw rows match the summary and record zero remaining descendants and zero
+active sessions after cleanup. No orphan processes or permanently occupied slots
+were observed. Parent controller RSS after cleanup rose from 44,367,872 bytes to
+45,510,656 bytes, which was also its observed maximum.
+
+This is one owned synthetic fixture, a 256-task session budget and unchanged
+256-task aggregate ceiling, with `max_sessions=2`. It is not concurrent browser
+load, a browser peak-memory measurement or indefinite leak freedom. The later source
+has an independently passing runtime gate; its full repeated soak is still active
+until a separate completion receipt is recorded.
+
+The first soak failed immediately. The default Linux 64-task session cap rejected
+Chromium thread creation: `pids.events.max=66`, `oom_kill=0`. Default and aggregate
+caps were retained. Browser acceptance/soak declares the larger session budget;
+low-budget exhaustion returns `WORKER_RESOURCE_LIMIT` and retires its session.
+
+## Measurements
+
+These are exploratory controlled-fixture measurements, not a paired before/after
+experiment. No speedup or memory improvement is claimed. The benchmark reports
+`dirty=true` because generated build/test evidence exists. Exact raw values and
+configuration are in `ci-f1ce086/phase2/benchmark-linux.json`.
+
+| Metric | Before | Observed after | Evidence and limit |
 |---|---|---|---|
-| Python baseline | 67 pass, 4 platform skips | 146 pass,2 platform skips locally;64 browser/native deselections | python-final-reviewed.xml, sourcefe159f9 plus pending audit-only change |
-| Python CI | phase-one matrix | all eight Python3.11-3.14 Linux/Windows pass at f1ce086 | run45833263200; includes lint, formatting, mypy, tests, package build |
-| Rust | 5 tests | fmt, strict clippy, tests, release build, native refusal contracts and cargo-audit pass at0caf7e7 | run45831559623 Rust job; later source contract rerun pending |
-| Browser/action/framework/egress | 5 plain fixtures | 41 pass with zero skips at0caf7e7 | ci-0caf7e7/ci-browser.xml; real Linux canaries, atomicity and four frameworks |
-| Kernel/runtime | no kernel quota proof | 17 pass, 2 Windows-only skips at0caf7e7 | ci-runtime-kernel.xml; actual Linux OOM/fork denial |
-| MCP framing | SDK buffering only | 14 protocol tests and 16 malformed/session tests pass locally | mcp-protocol-latest.xml, mcp-session-recheck.xml; actual pipes |
-| Worker/local security | earlier thread cleanup | 60 pass, 2 platform skips,5 browser deselections atf1ce086 | limits-final-local.xml |
-| Long browser soak | absent | first run failed immediately; configured-budget rerun active | do not count active/failed run as 30-minute evidence |
-| Dependency audit | historical pass | Python audit passes current runs; cargo audit passed0caf7e7 | CI receipts, no guarantee of future advisory absence |
-| External quality gate | previous head passed | Sonar gate fails on two literal private/tmpfs path findings | no suppression; actual guardian traversal finding remediated with fd regression |
+| Security findings | Original confirmed P0s in `AUDIT.md` | Implemented controls with remaining P0/P1 scope gaps | `PHASE2_AUDIT.md`; no invented closed-finding count |
+| Python tests | Original 5; phase-two 67 | Local 146 passes; full matrix passes at stated revisions | JUnit and CI above; different test scopes |
+| Rust tests | Original not executable; phase-two 5 | 5 native tests plus 18 cross-language refusal checks | Rust CI; narrower native browser capability |
+| Turbo warm latency | No comparable controlled baseline | Median 2.63 ms, p95 2.96 ms, n=100 | Owned tiny fixture, direct SDK |
+| Fidelity warm latency | No comparable controlled baseline | Median 24.67 ms, p95 26.84 ms, n=99 | Direct SDK; not supervised MCP latency |
+| Peak RAM | Historical measurement has different scope | Sampled aggregate process-tree RSS 1,453,219,840 bytes | 20 ms sampling, harness/fixture included |
+| Token reduction | Historical character estimate invalid | HTML 118 tokens to Markdown 45, 61.86% | `tiktoken 0.14.0/cl100k_base`; action metadata excluded |
+| Concurrent sessions | No comparable browser load baseline | SDK Turbo load levels 1/2/4/8/16 recorded | Not browser/MCP fairness or throughput |
 
-## Measurements and their limits
+Earlier exploratory source `0caf7e7` receipts remain preserved; values differ across
+CI hosts. No 90% token-savings, fixed-memory, universal-compatibility or complete
+information-preservation claim is supported. The tiny fixture has no general recall
+measurement. Cold/operation timing distributions and all raw rows remain available.
 
-One controlled Linux fixture at source0caf7e7 via merge99ebb5d15a1263f22405c4144ba164f2170e8817,
-Python3.12.16/x86_64; raw receipt reports dirty=true because generated evidence/build
-artifacts were present. No controlled before/after experiment establishes improvement.
+## Remaining release blockers
 
-| Metric | Before | Observed phase-two value | Evidence |
-|---|---|---|---|
-| Turbo warm | no comparable controlled baseline | median2.55ms, p95 2.81ms, n100 | benchmark-linux.json statistics |
-| Fidelity warm | no comparable baseline | median23.04ms, p95 26.76ms, n99 | same, SDK not supervised MCP |
-| Browser cold | no comparable baseline | 560.42ms, n1 | one observation; no distribution claim |
-| Snapshot/click/fill | no comparable baseline | medians5.94/7.03/7.57ms, n100 each | same synthetic fixture |
-| Select/scroll/wait/screenshot | no comparable baseline | medians6.91/7.44/6.25/21.17ms,n100 | same |
-| New Python import | no comparable baseline | median177.56ms,n30 | parent-spawned new interpreters |
-| Sampled RSS | historical measurement different scope | aggregate tree1,478,348,800bytes |20ms sampling; harness/fixture included |
-| Token reduction | historical token fixtures different inputs |118->45Markdown tokens,61.86% |tiktoken0.14.0/cl100k_base; actions excluded |
-| Concurrency | historical two Turbo workers | raw SDK Turbo1/2/4/8/16 levels | does not measure browser/MCP fairness/throughput |
+| Requirement | Status | Release implication |
+|---|---|---|
+| OS browser boundary | Implemented and verified for declared Linux canary/process scenarios | Full utility/network mechanism audit and inner Chromium sandbox remain open |
+| Killable MCP worker lifecycle | Verified bounded contract, including crashes and parent death | Renderer detection is timeout-based; broader hostile-load assessment absent |
+| Kernel resource controls | Verified supervised session/pool caps | Direct SDK, separate renderer and cross-instance limits not implemented |
+| Deterministic action identity | Verified declared synthetic DOM contract | Trusted physical events, file inputs and broader interactions unsupported |
+| MCP framing/owner isolation | Implemented and covered by real-pipe tests | No remote authenticated transport; broad fuzz/load coverage incomplete |
+| Framework compatibility | Four real controlled framework fixtures pass | Broad validation, lazy/infinite content, large-page recall and error states incomplete |
+| Rust/Python parity | Explicit narrower native architecture with refusal tests | Full original native browser/action parity not implemented |
+| Performance evidence | Raw repeatable harness and 30-minute sequential soak | No paired baseline, production-site, browser/MCP concurrency/fairness measurements |
+| External quality gate | Open private `/tmp` findings; actual mount is private tmpfs in tests | Analyzer gate not green; needs review, no suppression |
+| Independent assessment | Reproduction package prepared | External security assessment not performed |
 
-No claim of faster performance, fixed memory footprint, universal compatibility,
-full information preservation or independent security certification is made.
-
-## Remaining findings and release impact
-
-PHASE2_AUDIT.md is the finding matrix; SECURITY_REVIEW_PACKAGE.md is the external
-review reproduction package. The observed quota failure was real: Linux counts
-threads as tasks; default64/session produced pids.events.max=66,oom_kill=0.
-The default and aggregate caps were retained. Real browser acceptance and soak
-explicitly configure256/session under the unchanged256 aggregate ceiling. Low-budget
-exhaustion now returns WORKER_RESOURCE_LIMIT and retires the session.
-
-| Finding | Severity | Status | Evidence | Release impact |
-|---|---|---|---|---|
-| Supervised browser30min cleanup |P0|Active rerun, not yet verified|first failed soak + required CI|Blocking|
-| Direct SDK quotas / separate renderer caps |P0|Not implemented|trusted embedding API only; aggregate cap exists|Blocking|
-| Browser/renderer crash and Linux parentdeath proof |P0|Partial|worker crash/timeout/cancel and Windows parentdeath pass|Blocking|
-| Full descendant/utility egress threat coverage |P0|Partial|observed browser/renderer namespaces + TCP/UDP attacks pass|Broader review needed|
-| Adversarial DOM contract |P0|Implemented and tested declared synthetic scope|mutation/focus/main-world tests|physical trusted input unsupported|
-| Broad framework scenarios and recall metrics |P1|Partial|four real fixtures, narrow assertions|Exclusion not approved|
-| MCP/browser concurrency load/resource fairness |P1|Partial|session owner/locks/protocol concurrency covered|Exclusion not approved|
-| Performance baseline/cold distributions |P1|Partial|raw synthetic statistics, no paired baseline|No speedup claim|
-| Sonar private tmpfs findings |P1 gate|Open analyzer review|negative mount/canary tests|Gate not green|
-| Independent penetration test |P1|Not performed|review package prepared|No certification claim|
-
-No exclusion has been approved by the user. Keep both PRs draft and unmerged;
-do not publish PyPI/stable releases or change package version.
-
----
-
-# Historical phase-one report
-
-# Engineering report - remediation candidate
-
-Baseline revision: 44f3e73409d3f0c4e6e376f0c98198abd00ccc0f.
-This branch is **not production-ready**. It contains real source fixes and regression
-coverage, with substantial unsupported/unverified acceptance requirements.
-
-| Metric | Before | After | Evidence |
-|---|---|---|---|
-| Security findings | 4 P0 audit findings | HTTP pinning and session isolation regression-tested; Chromium/native feature restrictions; full browser boundary unverified | AUDIT.md, tests/test_security.py, tests/test_mcp.py |
-| Python tests | 5 passed, live-site dependencies | 67 passed, 4 Linux-only skips locally | evidence/python-tests.xml |
-| Rust tests | Could not run with damaged host toolchain | 5 passed | Local Rust 1.100.0 LLVM Windows test run |
-| Rust lint/build | No verified baseline | fmt, strict Clippy, release build passed locally | Required cargo commands executed |
-| Turbo latency | Not measured | Warm median 16.60 ms (4 samples), cold 492.20 ms; no improvement comparison | evidence/benchmark-local.json |
-| Fidelity latency | Not measured | Unsupported on Windows; failures recorded | evidence/benchmark-local.json |
-| Peak RAM | Not measured | 77.32 MiB sampled process-tree RSS | evidence/benchmark-local.json |
-| Token reduction | Historical character estimates | Actual tokenizer counts on 8 synthetic categories | evidence/token-fixtures.json |
-| Concurrent sessions | Not measured | 2 concurrent SDK Turbo workers, 10/10 successful requests; 91.64/s fixture only | evidence/benchmark-local.json |
-
-## Fixed and locally verified
-
-- Default Python loopback/private/metadata/IPv6 rejection, mixed DNS rejection,
-  numeric socket pinning under resolver rebinding, redirect destination/count
-  validation, body/URL limits and request deadline failures.
-- MCP transport-owner session isolation, explicit capacity, concurrent snapshots,
-  real SDK tool schemas, safe error envelopes.
-- Static hybrid snapshot state and no browser fallback after network policy failure.
-- Selector fallback and malformed/stale generation rejection before browser startup.
-- Python table/header metadata, iframe notices, parser depth limits, form-value
-  omission and measured tokenizer counts. Native token/depth/value regressions.
-- Native unsafe CDP execution removed; unrestricted browser launch cannot occur.
-
-## Verified browser scope and remaining browser checks
-
-Five controlled Linux browser tests pass on c09500a. They exercise namespace
-launch/host broker, Turbo/Fidelity handoff, live fill/select/check/click, scroll,
-JavaScript value safety, generation staleness, node replacement, mutate-restore,
-live URL redaction and normal close. Wait/keyboard/screenshot, exhaustive egress
-paths, independent leak profiling and crash recovery still lack integration proof.
-
-## Partial or not implemented
-
-- Native Rust Fidelity/live actions/parity: explicitly unavailable. Rust MCP uses
-  the Python runtime. This is a documented breaking restriction, not parity.
-- Authenticated sessions/cookies, multiple tabs, back/forward, WebSockets, service
-  workers and downloads: unsupported. Popups are denied.
-- React/Vue/Next/Angular controlled application compatibility suite: absent.
-- Independent process cleanup/leak and browser crash-recovery proof: absent.
-- Hard termination of stuck workers, global CPU/RAM/PID quotas: absent.
-- Atomic action validation/execution under adversarial DOM mutation: not proven;
-  retained handles prevent ordinal fallback but do not establish semantic intent.
-- Native table and ARIA extraction parity: incomplete.
-- Full operation metrics/exporters: incomplete. Session admission is capped at 16 calls.
-- MCP malformed-frame/oversized protocol request fuzzing: not implemented; SDK
-  protocol behavior is used, but application response limits are not a transport cap.
-- Rust network integration/rebinding/redirect regression suite: incomplete.
-- Benchmark cold interpreter start, click/fill, Linux Fidelity, long-running leak
-  profiling, representative production-site recall and full-payload token savings:
-  not measured. No performance optimization claim.
-
-## Compatibility and operational risks
-
-Read CHANGELOG.md for intentional security restrictions. Default APIs remain
-importable but action/session contracts and CLI output changed. No production
-release or version bump has been published. The shared 0.2.0 version is not proof
-that PyPI or old binaries contain these changes. The namespace is a network
-boundary, not filesystem/Chromium sandbox escape isolation. Deploy only in a
-restricted environment without host secrets while remaining gates are open.
-
-## CI and publishing
-
-Source 384ae90 passes SonarCloud's external quality gate, all eight Python
-3.11-3.14 Linux/Windows jobs (lint/format/types/tests/package build), all five
-Linux browser fixtures, and the Python dependency audit. Rust fmt, strict Clippy,
-tests, release build and cargo-audit also pass. All 11 engineering jobs and the
-external SonarCloud quality gate passed. Receipt: evidence/ci-384ae90.json.
-Current run: https://github.com/k39139215-gif/aerobrowse/actions/runs/45771375649.
-Browser receipt: evidence/ci-384ae90-browser/ci-browser.xml.
-Sonar receipt: evidence/sonar-384ae90.json.
-
-Earlier all-green engineering source c09500a receipts remain historical; they do
-not establish the current external gate status. Subsequent static analysis
-exposed benchmark output overwrite risk, blocking async Rust process management,
-and dependency setup builds. These were corrected with regressions, meaningful
-refactors and wheel-only CI dependencies. No analyzer suppression was introduced.
-
-Local Python: 67 passed, 4 Linux-only skips; Rust: 5 passed, strict Clippy/fmt
-passed. Python wheel/source builds succeed. No known Python dependency advisory
-was found at the recorded scan. Tests are evidence for their covered paths,
-not independent security certification or exhaustive browser egress proof.
-
-Measurements are bound to clean source c09500a before maintainability refactors;
-no measured performance improvement is claimed for later revisions. See receipt
-limitations and BENCHMARKS.md. Draft PR remains open and unmerged:
-https://github.com/k39139215-gif/aerobrowse/pull/1.
-
-## Additional final-source review
-
-The complete local suite throughfe159f9 passed146 tests,2 platform skips and64
-explicit browser/native deselections in191.74seconds. Partial raw worker pipe
-writes were corrected with a content-corruption regression; zero writes fail closed.
-The runtime positional-force-Fidelity path is now checked before browser launch
-when kernel quotas are unavailable; its regression is queued for Linux CI.
-Browser/renderer kill and Linux parentdeath regressions have been added; those
-remain unverified until required Linux CI runs. No fake worker/browser replaces
-these required browser checks. Quota/system/process fixtures run only on owned
-local data and explicit internal CIDRs.
-
-Final focused crash validation found an incorrect renderer trigger: Chromium may
-have a spare renderer. Killing all owned session renderers instead caused the
-in-flight CDP call to hit its request deadline, followed by hard worker termination.
-This is bounded timeout recovery, not immediate renderer-crash detection. The
-regression now verifies3second renderer timeout, no live descendants/capacity leak
-and fresh-session navigation. Required Linux parentdeath, main-browser-process
-crash recovery, fd-cleanup traversal, IPC partial-write and positional quota-denial
-checks passed source6d2e932 independently; renderer final rerun remains pending.
-Failed intermediate receipts are retained under evidence/phase2/runtime-*-failed.
-
-At sourcec963127, independent Linux run45837608925 passed25 runtime tests with2
-Windows-only skips (runtime-c963127/runtime-boundary.xml): actual browser main
-process and renderer-kill deadline recovery, fresh browser navigation, Linux
-controller-parent death/cgroup/temp cleanup, kernel memory/fork denial, fd-relative
-cleanup traversal/symlink, closed managers, IPC partial writes and positional
-Fidelity denial without quotas. This verifies the declared bounded runtime contract;
-it does not provide separate renderer quotas, direct SDK enforcement or indefinite
-leak-freedom. The renderer error was TIMEOUT after the configured3second deadline.
+No scope exclusion is approved. Open requirements prevent a production release.
+Keep both PRs draft and unmerged. No fake implementation or passing test substitutes
+for these requirements. `AUDIT.md` and Git history preserve earlier findings;
+`PHASE2_AUDIT.md` is the current finding/status matrix.

@@ -32,3 +32,9 @@ or deselected is a passing test. Windows cannot establish Linux namespace bounda
 Network canaries use explicit owned loopback allowances; live-customer credentials,
 URLs or data are absent. The default quota failure and synthetic DOM semantics are
 covered in ENGINEERING_REPORT.md and SECURITY.md.
+
+- ci-f1ce086:green full CIrun45833263200/sourcef1ce086,merge1710acaf4f4f0e877a53653f525939b688143b51.
+ 43required browser passes/zero skips;19runtime/kernel passes/2Windows-only skips.
+ soak1800.735seconds,931successful raw iterations;zero orphan/slot observations.
+ Single synthetic sequential fixture,256session/aggregate task cap; controller RSS
+ observations exclude browser peak. This does not transfer automatically to later source.

@@ -113,3 +113,12 @@ a focused regression subsequently confirmed pids.events.max=66 and oom_kill=0
 under the default 64-task session quota. New soak runs explicitly use 256/session
 and the unchanged 256-task aggregate ceiling; failed runs remain evidence of the
 failure and cannot substantiate stability or a speed improvement.
+
+Subsequent green run45833263200/sourcef1ce086 completed1800.735seconds and931
+sequential browser worker/action/cleanup cycles,zero observed orphans/permanent
+slots. Configuration:256tasks/session and256aggregate,max_sessions2; this is not
+concurrent browser load. Parent controller RSS44,367,872->45,510,656bytes after
+cleanup,max45,510,656. The same run's benchmark (different CI host) observed Turbo
+warm2.63ms median/p95 2.96ms,n100;Fidelity warm24.67ms/p95 26.84ms,n99; sampled
+aggregate tree RSS1,453,219,840bytes. No before/after speedup claim. Receipts:
+evidence/phase2/ci-f1ce086/phase2/soak-linux.{json,jsonl},benchmark-linux.json.
