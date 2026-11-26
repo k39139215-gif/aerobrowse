@@ -63,7 +63,8 @@ def test_cancelled_network_call_terminates_worker(site):
 
 
 @pytest.mark.skipif(
-    __import__("sys").platform != "win32", reason="Windows kernel job parent death"
+    __import__("sys").platform not in {"win32", "linux"},
+    reason="Kernel job or Linux guardian parent death",
 )
 def test_parent_death_closes_job_and_kills_worker():
     import json

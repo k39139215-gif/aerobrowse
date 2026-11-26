@@ -62,8 +62,9 @@ def test_terminated_created_worker_cannot_later_launch():
     worker = ProcessWorker(pool)
     worker.terminate()
     try:
-        from aerobrowse.errors import AeroError
         import pytest
+
+        from aerobrowse.errors import AeroError
 
         with pytest.raises(AeroError) as error:
             worker.call("snapshot", (), {})
@@ -71,3 +72,30 @@ def test_terminated_created_worker_cannot_later_launch():
         assert worker.process is None
     finally:
         pool.close()
+
+
+def test_closed_manager_cannot_reopen_without_resource_controls():
+    import pytest
+
+    from aerobrowse.errors import AeroError
+
+    async def run():
+        manager = SessionManager()
+        await manager.close_all()
+        with pytest.raises(AeroError) as error:
+            await manager.create("owner")
+        assert error.value.code == "RUNTIME_CLOSED"
+
+    asyncio.run(run())
+
+
+def test_pool_cannot_create_workers_after_shutdown():
+    import pytest
+
+    from aerobrowse.errors import AeroError
+
+    pool = ResourcePool()
+    pool.close()
+    with pytest.raises(AeroError) as error:
+        pool.session()
+    assert error.value.code == "RUNTIME_CLOSED"

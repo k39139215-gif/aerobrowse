@@ -4,7 +4,9 @@ import json
 import queue
 import subprocess
 import sys
+import tempfile
 import threading
+from contextlib import ExitStack
 from pathlib import Path
 
 import pytest
@@ -12,11 +14,13 @@ import pytest
 
 class Peer:
     def __init__(self):
+        self.files = ExitStack()
+        self.stderr = self.files.enter_context(tempfile.TemporaryFile())
         self.process = subprocess.Popen(
             [sys.executable, "-m", "aerobrowse.mcp_server"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
+            stderr=self.stderr,
             cwd=Path(__file__).resolve().parents[2],
         )
         self.output = queue.Queue()
@@ -36,7 +40,13 @@ class Peer:
         self.raw(json.dumps(message).encode("utf-8") + b"\n")
 
     def receive(self):
-        return self.output.get(timeout=20)
+        try:
+            return self.output.get(timeout=20)
+        except queue.Empty:
+            self.stderr.seek(0)
+            raise AssertionError(
+                f"MCP response timeout; exit={self.process.poll()}; stderr={self.stderr.read().decode(errors='replace')}"
+            ) from None
 
     def initialize(self):
         self.send(
@@ -66,6 +76,7 @@ class Peer:
                 self.process.wait(timeout=10)
         self.reader.join(timeout=1)
         self.process.stdout.close()
+        self.files.close()
 
 
 @pytest.fixture

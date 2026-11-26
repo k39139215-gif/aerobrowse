@@ -41,12 +41,13 @@ def test_no_cgroup_browser_action_fails_closed(monkeypatch):
         pool.close()
 
 
+@pytest.mark.browser
 @pytest.mark.skipif(sys.platform != "linux", reason="Linux cgroup hard limit test")
 def test_delegated_kernel_limits_are_installed():
     import os
 
     if "AEROBROWSE_CGROUP_ROOT" not in os.environ:
-        pytest.skip("Delegated kernel quota test requires AEROBROWSE_CGROUP_ROOT")
+        pytest.fail("Required Linux quota test requires AEROBROWSE_CGROUP_ROOT")
     pool = ResourcePool(ResourceLimits(memory_bytes=256 * 1024 * 1024, processes=4))
     group = pool.session()
     try:
@@ -116,6 +117,7 @@ def test_windows_kernel_denies_excess_child_process():
         pool.close()
 
 
+@pytest.mark.browser
 @pytest.mark.skipif(
     sys.platform != "linux", reason="Linux kernel cgroup memory enforcement"
 )
@@ -124,7 +126,7 @@ def test_linux_kernel_rejects_excess_memory():
     import subprocess
 
     if "AEROBROWSE_CGROUP_ROOT" not in os.environ:
-        pytest.skip("Delegated kernel quota test requires AEROBROWSE_CGROUP_ROOT")
+        pytest.fail("Required Linux quota test requires AEROBROWSE_CGROUP_ROOT")
     pool = ResourcePool(ResourceLimits(memory_bytes=64 * 1024 * 1024))
     group = pool.session()
     process = subprocess.Popen(
@@ -157,13 +159,14 @@ def test_linux_kernel_rejects_excess_memory():
         pool.close()
 
 
+@pytest.mark.browser
 @pytest.mark.skipif(sys.platform != "linux", reason="Linux kernel cgroup process cap")
 def test_linux_kernel_denies_excess_child_process():
     import os
     import subprocess
 
     if "AEROBROWSE_CGROUP_ROOT" not in os.environ:
-        pytest.skip("Delegated kernel quota test requires AEROBROWSE_CGROUP_ROOT")
+        pytest.fail("Required Linux quota test requires AEROBROWSE_CGROUP_ROOT")
     pool = ResourcePool(ResourceLimits(processes=1))
     group = pool.session()
     process = subprocess.Popen(

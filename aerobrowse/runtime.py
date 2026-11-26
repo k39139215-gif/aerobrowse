@@ -261,6 +261,7 @@ class ResourcePool:
         self.allow_networks = allow_networks
         self.group: Cgroup | WindowsJob | None = None
         self.path: Path | None = None
+        self.closed = False
         if sys.platform == "win32":
             self.group = WindowsJob(
                 self.limits.global_memory_bytes,
@@ -297,6 +298,8 @@ class ResourcePool:
         return self.group is not None
 
     def session(self) -> Cgroup | WindowsJob | None:
+        if self.closed:
+            raise AeroError("RUNTIME_CLOSED", "Resource pool has been closed")
         q = self.limits
         if isinstance(self.group, WindowsJob):
             return WindowsJob(q.memory_bytes, q.cpu_percent, q.processes)
@@ -307,6 +310,7 @@ class ResourcePool:
         return None
 
     def close(self) -> None:
+        self.closed = True
         if self.group:
             self.group.kill()
             self.group.close()
@@ -627,8 +631,11 @@ def _worker_main() -> None:
                 )
             except AeroError as exc:
                 value = exc.result()
-            except Exception:
-                log.exception("worker_operation_failed")
+            except (OSError, ValueError, TypeError, RuntimeError):
+                log.error(
+                    "worker_operation_failed",
+                    extra={"error_code": "WORKER_OPERATION_FAILED"},
+                )
                 value = AeroError(
                     "WORKER_OPERATION_FAILED", "Browser operation failed"
                 ).result()

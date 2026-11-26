@@ -49,6 +49,7 @@ class SessionManager:
         self._sessions: dict[str, Session] = {}
         self._retiring: dict[str, Session] = {}
         self._reaper: asyncio.Task | None = None
+        self.closed = False
         self.metrics = {"requests": 0, "failures": 0, "cancelled": 0, "timeouts": 0}
 
     @property
@@ -56,6 +57,8 @@ class SessionManager:
         return len(self._sessions) + len(self._retiring)
 
     async def create(self, owner: str) -> str:
+        if self.closed:
+            raise AeroError("RUNTIME_CLOSED", "Session manager has shut down")
         if not owner:
             raise AeroError(
                 "SESSION_OWNER_REQUIRED", "Transport session identity is required"
@@ -121,8 +124,8 @@ class SessionManager:
             self.metrics["cancelled"] += 1
             await self.close(owner, sid)
             raise
-        except Exception:
-            log.exception(
+        except (OSError, ValueError, TypeError, RuntimeError):
+            log.error(
                 json.dumps(
                     {
                         "request_id": request_id,
@@ -209,6 +212,7 @@ class SessionManager:
             await self.expire()
 
     async def close_all(self) -> None:
+        self.closed = True
         if self._reaper and self._reaper is not asyncio.current_task():
             self._reaper.cancel()
             try:
