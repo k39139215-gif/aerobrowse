@@ -167,8 +167,31 @@ async def browser_close(session_id: SessionID, ctx: Context) -> dict[str, Any]:
     return await sessions.close(ctx.session_id, session_id)
 
 
+async def _run_bounded_stdio() -> None:
+    from fastmcp.server.context import reset_transport, set_transport
+    from mcp.server.lowlevel import NotificationOptions
+
+    from aerobrowse.mcp_transport import bounded_stdio_server
+
+    token = set_transport("stdio")
+    try:
+        async with (
+            mcp._lifespan_manager(),
+            bounded_stdio_server() as (read_stream, write_stream),
+        ):
+            await mcp._mcp_server.run(
+                read_stream,
+                write_stream,
+                mcp._mcp_server.create_initialization_options(
+                    notification_options=NotificationOptions(tools_changed=True)
+                ),
+            )
+    finally:
+        reset_transport(token)
+
+
 def run_mcp() -> None:
-    mcp.run(transport="stdio")
+    asyncio.run(_run_bounded_stdio())
 
 
 if __name__ == "__main__":

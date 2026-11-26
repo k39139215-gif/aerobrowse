@@ -74,4 +74,4 @@ aero = "aerobrowse.cli:main"
 include = ["aerobrowse*"]
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
-markers = ["browser: requires isolated Linux Chromium"]
+markers = ["browser: requires isolated Linux Chromium", "native_contract: requires built Rust binary in AEROBROWSE_NATIVE_BINARY"]
