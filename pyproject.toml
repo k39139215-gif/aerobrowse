@@ -75,3 +75,6 @@ include = ["aerobrowse*"]
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
 markers = ["browser: requires isolated Linux Chromium", "native_contract: requires built Rust binary in AEROBROWSE_NATIVE_BINARY"]
+
+[tool.setuptools.package-data]
+aerobrowse = ["token_data/*.gz", "token_data/*.json", "token_data/LICENSE"]

@@ -227,9 +227,8 @@ async def evaluate(
                     break
             else:
                 failure = "MODEL_TURN_LIMIT"
-        except (
-            Exception
-        ) as exc:  # evaluation boundary emits FAIL, never hides a passing test
+        # Record a failed evaluation without leaking provider response details.
+        except Exception as exc:  # noqa: BLE001
             failure = "MODEL_OR_MCP_REQUEST_FAILED:" + type(exc).__name__
         finally:
             close_results = []

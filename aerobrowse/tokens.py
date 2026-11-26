@@ -1,9 +1,13 @@
 """Tokenizer metrics; never substitute character division after tokenizer failure."""
 
+import base64
+import gzip
+import hashlib
 import json
 from collections.abc import Mapping
 from functools import lru_cache
 from importlib.metadata import version
+from importlib.resources import files
 from typing import Any
 
 import tiktoken
@@ -16,7 +20,30 @@ def encoding(name: str) -> Any:
     if name not in {"cl100k_base", "o200k_base", "p50k_base"}:
         raise AeroError("TOKENIZER_ERROR", "Unsupported tokenizer")
     try:
-        return tiktoken.get_encoding(name)
+        root = files("aerobrowse").joinpath("token_data")
+        manifest = json.loads(
+            root.joinpath("manifest.json").read_text(encoding="utf-8")
+        )[name]
+        compressed = root.joinpath(name + ".tiktoken.gz").read_bytes()
+        if hashlib.sha256(compressed).hexdigest() != manifest["sha256"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer checksum failed")
+        data = gzip.decompress(compressed)
+        if hashlib.sha256(data).hexdigest() != manifest["raw_sha256"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer checksum failed")
+        ranks = {
+            base64.b64decode(token, validate=True): int(rank)
+            for line in data.splitlines()
+            if line
+            for token, rank in [line.split()]
+        }
+        if len(ranks) != manifest["tokens"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer is incomplete")
+        return tiktoken.Encoding(
+            name=name,
+            pat_str=manifest["pat_str"],
+            mergeable_ranks=ranks,
+            special_tokens=manifest["special_tokens"],
+        )
     except Exception as exc:
         raise AeroError(
             "TOKENIZER_ERROR", "Tokenizer could not be initialized"

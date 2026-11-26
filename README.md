@@ -266,3 +266,7 @@ Control+A/Meta+A, single printable Unicode characters and textarea Enter.
 Cancellable keydown/beforeinput events are honored; target replacement during
 preparation is rejected. Trusted hardware events, clipboard, modifier shortcuts,
 Tab default focus movement and full contenteditable editing remain unsupported.
+
+Supported Python tokenizers ship checksum-verified compressed vocabularies in the
+package. Worker tokenization requires no first-run download, shared temp cache,
+or network connection. Missing/corrupted data returns `TOKENIZER_ERROR`.
