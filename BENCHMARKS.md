@@ -156,3 +156,13 @@ session. Do not use that repeated aggregate as a Turbo or repeated-escalation
 measurement. The corrected harness labels one actual handoff and subsequent live
 Fidelity navigation/click rows separately; dedicated Turbo-only warm navigation
 and ordinary Fidelity samples retain their declared scope.
+
+Corrected source `0530488`, green measurement run `45864267717`: warm Turbo
+median2.872 ms (100 samples), warm Fidelity median27.096 ms (99 samples),
+snapshot7.066 ms,click7.914 ms,fill8.822 ms (100 each). Failure rate zero in
+these operation samples. Single actual handoff600.796 ms. Sampled process-tree
+maximum1,441,820,672 bytes over all operations/load cases at20 ms intervals.
+Six complete tasks with2 workers finished in9.152 seconds,0.656 tasks/second;
+all worker processes reaped. Scope:owned tiny fixture,SDK tasks; no speedup,
+public-site,MCP saturation,exact peak or fairness claim. Raw receipts are under
+`evidence/agent/ci-0530488/runtime/`.

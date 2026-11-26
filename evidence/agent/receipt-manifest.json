@@ -4,8 +4,7 @@
   "source_binding": "Source blob and checkout hashes in source-dac1c1d.json; production modules unchanged after CRLF normalization",
   "focused_linux_run": 45860943458,
   "full_ci_pending_runs": [
-    45860943473,
-    45860953104
+    45864277407
   ],
   "actual_model": "NOT_RUN: missing OPENAI_API_KEY and AEROBROWSE_EVAL_MODEL",
   "files": [
@@ -76,6 +75,26 @@
       "path": "evidence/agent/build-match-source3e1d399.json",
       "sha256": "bd68f976c2e20360be960c1f67ad08b6653d3f1507928ee3c5c38f9accc682c7",
       "bytes": 1287
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/agent/concurrency.json",
+      "sha256": "ee5974e2166fdf630310fb7ca5b22bdf75cf52266ce2f104426d7d5084e51d6b",
+      "bytes": 1597
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/agent/quick-workflows.xml",
+      "sha256": "cff825ac5557d61b5fe00c146150b0ae3dbf24faaf332a80d54fe9f59ca67991",
+      "bytes": 2154
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/phase2/benchmark-linux.json",
+      "sha256": "38251a9a93ab2ab1b255678d8058ae909cad4070aae12713223e9a2a88e9cd1b",
+      "bytes": 792421
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/phase2/runtime-boundary.xml",
+      "sha256": "45eac3fa125fcd6a36fc4916fb16c45986de42b40b840a6460f14b2dc70e994f",
+      "bytes": 6002
     }
   ],
   "note": "Local SHA256 bookkeeping is not independent custody or security certification",
@@ -85,5 +104,12 @@
       "run": 45856138311,
       "status": "FAIL: preserved before redirect correction"
     }
+  ],
+  "latest_measurement_source": "05304886c5e4d871c5dbca0c61c496e996fe7ac9",
+  "corrected_measurement_run": 45864267717,
+  "final_full_ci_run": 45864277407,
+  "cancelled_duplicate_runs": [
+    45862894524,
+    45864267687
   ]
 }

@@ -200,12 +200,13 @@ original requirement group to verified, partial or unimplemented scope.
 
 ## Agent workflow continuation (current work)
 
-Current source: `dac1c1d`; production browser modules match `3e1d399` after
+Current implementation/benchmark source: `0530488`; production browser modules
+match `3e1d399` after
 normalizing checkout line endings. Focused delegated Linux run `45860943458`
 passed 14 workflow/auth/storage/error-document tests, followed by 38 runtime
 passes and 2 Windows-only skips. Full final-source CI, including the Python
 matrix, Rust, broader security/framework suite, concurrency measurements and
-30-minute soak, remains queued. Earlier green runs do not certify changed code.
+30-minute soak, is running in final PR run `45864277407`. Earlier green runs do not certify changed code.
 Actual-model evaluation is `NOT_RUN`: `OPENAI_API_KEY` and
 `AEROBROWSE_EVAL_MODEL` are missing.
 
@@ -228,10 +229,10 @@ model harness separately counts complete serialized MCP tool envelopes.
 | Auth workflows | Redirect login failed | Scripted SDK/MCP login/update/logout passes | focused Linux run 45860943458 |
 | Python local | Historical 161 component passes |206 passed, 21 skips, 67 browser deselections at final source | evidence/agent/python-source-final.xml |
 | Rust | 5 native units + 18 refusal contracts | No native browser scope expansion; latest matrix check pending | CI strict fmt/clippy/test/release/audit |
-| Turbo/Fidelity latency | Historical controlled measurements | No comparable speedup claim; current receipt pending | benchmark-linux.json |
-| Peak RAM | Sampled historical process-tree RSS | No exact peak claim | benchmark methodology |
+| Turbo/Fidelity latency | No comparable baseline | Warm medians 2.872 ms / 27.096 ms; 100 / 99 samples; no speedup claim | evidence/agent/ci-0530488/runtime/phase2/benchmark-linux.json |
+| Peak RAM | No comparable baseline | 1,441,820,672 bytes sampled process-tree maximum across full operation/load run; 20 ms interval, not exact peak | same corrected benchmark receipt |
 | Token cost | Markdown-only, omitted actions | Canonical full JSON and actual envelope counts implemented | tokens.py,agent harness |
-| Concurrent browser tasks | Not measured complete tasks |2-worker / 6-task controlled harness; receipt pending | benchmarks.agent.concurrency |
+| Concurrent browser tasks | Complete tasks unmeasured | 6 tasks / 2 workers / 9.152 seconds; 0.656 tasks/s, all workers reaped | evidence/agent/ci-0530488/runtime/agent/concurrency.json |
 | Actual AI model success | Not measured |NOT_RUN | model-evaluation-sourcedac1c1d.json |
 
 Fixed and verified: controlled auth/forms/tabs/history/stale/runtime flows. Fixed and
@@ -245,3 +246,19 @@ budget; external security review and remaining Sonar findings remain open.
 AGENT_QUICKSTART.md and examples.agent_sdk/examples.agent_mcp reproduce complete
 owned tasks. benchmarks.agent.run offers actual-model evaluation through real MCP;
 scripted passes must never be represented as model success.
+
+### Corrected measurement receipt
+
+Run `45864267717` at `0530488` is green: 14 workflow/auth/storage tests,
+38 runtime passes with 2 Windows-only skips, corrected operation benchmarks,
+and six complete tasks with two SDK workers. Warm operation medians on the owned
+fixture: snapshot 7.066 ms, click 7.914 ms, fill 8.822 ms. One actual handoff
+sample took 600.796 ms; a single sample is not a latency distribution.
+Post-escalation samples are labeled live Fidelity. The earlier repeated handoff
+aggregate was mislabeled because the engine correctly retained the live session;
+those rows are excluded from Turbo/escalation claims, not silently rewritten.
+
+The benchmark RSS maximum covers the entire sampled tree during all operations
+and load cases, not one steady browser or a measured exact peak. CPU observations
+exclude exited child processes. These tiny fixture results do not establish public
+website speed, success, fairness, production capacity or improvement over baseline.
