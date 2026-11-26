@@ -34,6 +34,14 @@ class AeroBrowser:
 
     def _remember(self, result: dict[str, Any]) -> dict[str, Any]:
         result["session_id"] = self.session_id
+        if not result.get("success") and self._fidelity is not None:
+            result.setdefault("tab_id", self._fidelity._active_tab_id())
+            result.setdefault("url", self.current_url)
+            result.setdefault("generation", self._fidelity.generation or None)
+            result["recovery"] = self.capabilities()["recovery"].get(
+                result.get("error", {}).get("code"),
+                "Inspect capabilities or navigate to an owned page",
+            )
         if result.get("success"):
             self.current_url = result["url"]
             self.active_engine = result["engine"]
@@ -246,6 +254,7 @@ class AeroBrowser:
             ],
             "max_tabs": 8,
             "input_mode": "synthetic_dom",
+            "keyboard_semantics": "Synthetic keydown/keyup; Enter on text input submits owning form if not prevented; no physical default navigation",
             "keys": [
                 "Enter",
                 "Escape",

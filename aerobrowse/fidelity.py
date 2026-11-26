@@ -16,6 +16,7 @@ from aerobrowse.errors import AeroError
 from aerobrowse.isolation import IsolatedLauncher
 from aerobrowse.pruner import SemanticPruner
 from aerobrowse.security import NetworkPolicy, SafeTransport
+from aerobrowse.tokens import measure_output
 
 log = logging.getLogger(__name__)
 
@@ -391,6 +392,7 @@ class FidelityEngine:
                 input_mode="synthetic_dom",
                 tab_id=self._active_tab_id(),
             )
+            parsed.update(measure_output(parsed))
             return parsed
         except AeroError as exc:
             return {**exc.result(), "engine": "fidelity"}
