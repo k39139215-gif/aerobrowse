@@ -1,5 +1,17 @@
 ## Unreleased developer continuation
 
+- Reserve per-session task/memory budgets against aggregate capacity. A new
+  SESSION_RESOURCE_LIMIT refusal is a documented backpressure compatibility change;
+  max_sessions alone does not guarantee capacity. No production default was raised.
+- Report aggregate kernel PID/OOM exhaustion and retire affected workers.
+- Bundle licensed checksum-verified tokenizer vocabularies for offline worker
+  startup; corrupted package data fails explicitly with TOKENIZER_ERROR.
+- Add synthetic text editing/caret/select-all/textarea newline with cancellable
+  input events and exact-node revalidation; trusted physical input stays unsupported.
+- Fix native hidden-action/descendant text and credential URL label disclosure;
+  native live browser parity remains unavailable.
+- Confine agent benchmark CLI receipts to exclusive files under evidence/.
+
 - Add bounded discovery waits by exact accessible name/role, fresh generations,
   explicit WAIT_TIMEOUT/PAGE_NAVIGATED, and SDK/MCP regression coverage.
 - Preserve common row/column table header associations across spans, document

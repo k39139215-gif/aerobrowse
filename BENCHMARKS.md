@@ -227,3 +227,21 @@ A repeat of the earlier256-task/two-browser profile failed navigation; that resu
 is retained as a capacity failure. It motivated reservation-based admission and
 aggregate kernel-counter diagnostics. No reliable default two-browser capacity or
 production fairness claim follows from the passing controlled run.
+
+
+Focused source8db91bf measurements (run45880812905) are in
+`evidence/developer/ci-8db91bf/`:1133 raw operation rows reproduce16 nearest-rank
+summaries. Warm Turbo p50/p95=3.521/3.870 ms,n100;warm Fidelity=29.042/33.832 ms,
+n99;snapshot/click/fill p50=8.501/9.036/9.841 ms,n100. Operation-run sampled tree
+maximum1,476,448,256 bytes is not exact peak. Shared512-task/two-session load
+completed12 measured snapshots in2.618 seconds,both sessions6 each;2 overload
+requests refused and all workers reaped. Its separate sampled maximum2,465,923,072
+bytes includes controller/worker process-tree accounting,not a cgroup physical
+memory peak. Six complete SDK tasks with two independent pools took8.593 seconds.
+Do not combine these different memory/load scopes or claim comparable speedups.
+
+The corpus grades44 predefined requirements over12 fixtures,all present. Long
+article1713 HTML/1304 Markdown/1635 complete extraction JSON tokens gives4.55%
+complete reduction; small fixtures expand. The scoped result is not100% general
+information preservation. Full-source engineering CI and mandatory soak remain
+pending. Final report must identify that gate until it completes.

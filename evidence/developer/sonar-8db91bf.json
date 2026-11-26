@@ -1,0 +1,5332 @@
+{
+  "total": 46,
+  "p": 1,
+  "ps": 100,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 100,
+    "total": 46
+  },
+  "effortTotal": 455,
+  "debtTotal": 455,
+  "issues": [
+    {
+      "key": "AaIZKpqpoR3Czw-gEut-",
+      "rule": "python:S7494",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 102,
+      "hash": "eaae7ae0e642c755cda2f6718ddbf90b",
+      "textRange": {
+        "startLine": 102,
+        "endLine": 102,
+        "startOffset": 15,
+        "endOffset": 19
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace dict constructor call with a dictionary comprehension.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [],
+      "creationDate": "2026-11-26T18:40:59+0000",
+      "updateDate": "2026-11-26T18:41:32+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIZKpqpoR3Czw-gEut_",
+      "rule": "python:S7494",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 108,
+      "hash": "0fb1b18955f943f409d4ec15877eb150",
+      "textRange": {
+        "startLine": 108,
+        "endLine": 108,
+        "startOffset": 17,
+        "endOffset": 21
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace dict constructor call with a dictionary comprehension.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [],
+      "creationDate": "2026-11-26T18:40:59+0000",
+      "updateDate": "2026-11-26T18:41:32+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIZKpskoR3Czw-gEuuB",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 19,
+      "hash": "198ac2de7272c0442589b91b8257709e",
+      "textRange": {
+        "startLine": 19,
+        "endLine": 19,
+        "startOffset": 10,
+        "endOffset": 13
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 25,
+                "endLine": 25,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 29,
+                "endLine": 29,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 32,
+                "endLine": 32,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 71,
+                "endLine": 71,
+                "startOffset": 8,
+                "endOffset": 14
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 73,
+                "endLine": 73,
+                "startOffset": 8,
+                "endOffset": 12
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 77,
+                "endLine": 77,
+                "startOffset": 33,
+                "endOffset": 36
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 85,
+                "endLine": 85,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 87,
+                "endLine": 87,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 87,
+                "endLine": 87,
+                "startOffset": 50,
+                "endOffset": 53
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 129,
+                "endLine": 129,
+                "startOffset": 12,
+                "endOffset": 17
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 130,
+                "endLine": 130,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 147,
+                "endLine": 147,
+                "startOffset": 8,
+                "endOffset": 11
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+              "textRange": {
+                "startLine": 175,
+                "endLine": 175,
+                "startOffset": 27,
+                "endOffset": 29
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+      "effort": "7min",
+      "debt": "7min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T18:40:59+0000",
+      "updateDate": "2026-11-26T18:41:32+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6ed81cb9-8ff6-42cb-b421-89c73bc12676",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIZGJ5h0eLoJXtrLxB8",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 242,
+      "hash": "844b8281f6bae0f2fa48f8c97d9a0876",
+      "textRange": {
+        "startLine": 242,
+        "endLine": 242,
+        "startOffset": 4,
+        "endOffset": 22
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 251,
+                "endLine": 251,
+                "startOffset": 4,
+                "endOffset": 7
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 252,
+                "endLine": 252,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 252,
+                "endLine": 252,
+                "startOffset": 21,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 256,
+                "endLine": 256,
+                "startOffset": 8,
+                "endOffset": 11
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 259,
+                "endLine": 259,
+                "startOffset": 12,
+                "endOffset": 17
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 263,
+                "endLine": 263,
+                "startOffset": 46,
+                "endOffset": 49
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 265,
+                "endLine": 265,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 271,
+                "endLine": 271,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 272,
+                "endLine": 272,
+                "startOffset": 16,
+                "endOffset": 19
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 274,
+                "endLine": 274,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+5 (incl 4 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 278,
+                "endLine": 278,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+5 (incl 4 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 286,
+                "endLine": 286,
+                "startOffset": 47,
+                "endOffset": 49
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 289,
+                "endLine": 289,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 301,
+                "endLine": 301,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.",
+      "effort": "28min",
+      "debt": "28min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T18:21:47+0000",
+      "updateDate": "2026-11-26T19:04:18+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "b3c777f3-b79b-40ab-b584-a49f6d8c81f5",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEBL0xyxNhxNqM_",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 12,
+      "hash": "6f7a4723dd0e8820f76fe17d4017882f",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 12,
+        "startOffset": 8,
+        "endOffset": 16
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 40,
+                "endLine": 40,
+                "startOffset": 16,
+                "endOffset": 19
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 49,
+                "endLine": 49,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 52,
+                "endLine": 52,
+                "startOffset": 43,
+                "endOffset": 46
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 58,
+                "endLine": 58,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 62,
+                "endLine": 62,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 66,
+                "endLine": 66,
+                "startOffset": 28,
+                "endOffset": 30
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 73,
+                "endLine": 73,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 78,
+                "endLine": 78,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 82,
+                "endLine": 82,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 83,
+                "endLine": 83,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 87,
+                "endLine": 87,
+                "startOffset": 24,
+                "endOffset": 28
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 93,
+                "endLine": 93,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 97,
+                "endLine": 97,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 101,
+                "endLine": 101,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 109,
+                "endLine": 109,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 112,
+                "endLine": 112,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 120,
+                "endLine": 120,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 121,
+                "endLine": 121,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 121,
+                "endLine": 121,
+                "startOffset": 63,
+                "endOffset": 65
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 140,
+                "endLine": 140,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 140,
+                "endLine": 140,
+                "startOffset": 43,
+                "endOffset": 46
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 142,
+                "endLine": 142,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 142,
+                "endLine": 142,
+                "startOffset": 36,
+                "endOffset": 38
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 149,
+                "endLine": 149,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 151,
+                "endLine": 151,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 162,
+                "endLine": 162,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 167,
+                "endLine": 167,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 167,
+                "endLine": 167,
+                "startOffset": 41,
+                "endOffset": 43
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 176,
+                "endLine": 176,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 176,
+                "endLine": 176,
+                "startOffset": 51,
+                "endOffset": 54
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 182,
+                "endLine": 182,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 185,
+                "endLine": 185,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.",
+      "effort": "28min",
+      "debt": "28min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEBL0xyxNhxNqNA",
+      "rule": "python:S1186",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 27,
+      "hash": "4c7f6ee45da1efa055cb747dd04587e9",
+      "textRange": {
+        "startLine": 27,
+        "endLine": 27,
+        "startOffset": 16,
+        "endOffset": 27
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Add a nested comment explaining why this method is empty, or complete the implementation.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "suspicious"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEBL0xyxNhxNqM9",
+      "rule": "python:S1192",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 78,
+      "hash": "b193f277a9b4ad6cc87e2d3bd7896901",
+      "textRange": {
+        "startLine": 78,
+        "endLine": 78,
+        "startOffset": 33,
+        "endOffset": 41
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 120,
+                "endLine": 120,
+                "startOffset": 31,
+                "endOffset": 39
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 158,
+                "endLine": 158,
+                "startOffset": 45,
+                "endOffset": 53
+              },
+              "msg": "Duplication"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"/login\" 3 times.",
+      "effort": "6min",
+      "debt": "6min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEBL0xyxNhxNqM-",
+      "rule": "python:S1192",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 82,
+      "hash": "5c2da5aff020f5c0fb28b506b404b8c3",
+      "textRange": {
+        "startLine": 82,
+        "endLine": 82,
+        "startOffset": 33,
+        "endOffset": 42
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 133,
+                "endLine": 133,
+                "startOffset": 45,
+                "endOffset": 54
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 140,
+                "endLine": 140,
+                "startOffset": 33,
+                "endOffset": 42
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+              "textRange": {
+                "startLine": 148,
+                "endLine": 148,
+                "startOffset": 63,
+                "endOffset": 72
+              },
+              "msg": "Duplication"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"/record\" 4 times.",
+      "effort": "8min",
+      "debt": "8min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEHL0xyxNhxNqNG",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 101,
+      "hash": "dd468bfd6ae82f513a7bf613210c5a42",
+      "textRange": {
+        "startLine": 101,
+        "endLine": 101,
+        "startOffset": 10,
+        "endOffset": 18
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 116,
+                "endLine": 116,
+                "startOffset": 52,
+                "endOffset": 54
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 134,
+                "endLine": 134,
+                "startOffset": 12,
+                "endOffset": 15
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 147,
+                "endLine": 147,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 148,
+                "endLine": 148,
+                "startOffset": 52,
+                "endOffset": 54
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 150,
+                "endLine": 150,
+                "startOffset": 16,
+                "endOffset": 19
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 151,
+                "endLine": 151,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 158,
+                "endLine": 158,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 160,
+                "endLine": 160,
+                "startOffset": 26,
+                "endOffset": 28
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 162,
+                "endLine": 162,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 165,
+                "endLine": 165,
+                "startOffset": 28,
+                "endOffset": 30
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 185,
+                "endLine": 185,
+                "startOffset": 43,
+                "endOffset": 45
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 186,
+                "endLine": 186,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 188,
+                "endLine": 188,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 188,
+                "endLine": 188,
+                "startOffset": 63,
+                "endOffset": 66
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 190,
+                "endLine": 190,
+                "startOffset": 65,
+                "endOffset": 67
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 191,
+                "endLine": 191,
+                "startOffset": 45,
+                "endOffset": 47
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 193,
+                "endLine": 193,
+                "startOffset": 20,
+                "endOffset": 26
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 226,
+                "endLine": 226,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 228,
+                "endLine": 228,
+                "startOffset": 12,
+                "endOffset": 16
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 231,
+                "endLine": 231,
+                "startOffset": 8,
+                "endOffset": 14
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 236,
+                "endLine": 236,
+                "startOffset": 12,
+                "endOffset": 15
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 257,
+                "endLine": 257,
+                "startOffset": 24,
+                "endOffset": 27
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 272,
+                "endLine": 272,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 292,
+                "endLine": 292,
+                "startOffset": 26,
+                "endOffset": 29
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 293,
+                "endLine": 293,
+                "startOffset": 43,
+                "endOffset": 46
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 309,
+                "endLine": 309,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 313,
+                "endLine": 313,
+                "startOffset": 8,
+                "endOffset": 11
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 312,
+                "endLine": 312,
+                "startOffset": 38,
+                "endOffset": 40
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 315,
+                "endLine": 315,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+              "textRange": {
+                "startLine": 316,
+                "endLine": 316,
+                "startOffset": 53,
+                "endOffset": 56
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 53 to the 15 allowed.",
+      "effort": "43min",
+      "debt": "43min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:37:08+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "e2efb6c2-f0b0-4396-b106-aca54da0818a",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEEL0xyxNhxNqND",
+      "rule": "python:S1192",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 119,
+      "hash": "3b5668b070777bead92e3349e3ff9f46",
+      "textRange": {
+        "startLine": 119,
+        "endLine": 119,
+        "startOffset": 62,
+        "endOffset": 77
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 121,
+                "endLine": 121,
+                "startOffset": 48,
+                "endOffset": 63
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 125,
+                "endLine": 125,
+                "startOffset": 11,
+                "endOffset": 26
+              },
+              "msg": "Duplication"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"Agent updated\" 3 times.",
+      "effort": "6min",
+      "debt": "6min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEEL0xyxNhxNqNE",
+      "rule": "python:S1854",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 123,
+      "hash": "cc4d35ff8ac59b0a9972a25fb67c8f2c",
+      "textRange": {
+        "startLine": 123,
+        "endLine": 123,
+        "startOffset": 4,
+        "endOffset": 50
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 124,
+                "endLine": 124,
+                "startOffset": 4,
+                "endOffset": 37
+              },
+              "msg": "'snapshot' is reassigned here."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this assignment to local variable 'snapshot'; the value is never used.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "cwe",
+        "unused"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEEL0xyxNhxNqNC",
+      "rule": "python:S1192",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 138,
+      "hash": "285acb42914cca4eb4ff4e9693423065",
+      "textRange": {
+        "startLine": 138,
+        "endLine": 138,
+        "startOffset": 11,
+        "endOffset": 19
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 143,
+                "endLine": 143,
+                "startOffset": 11,
+                "endOffset": 19
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 148,
+                "endLine": 148,
+                "startOffset": 11,
+                "endOffset": 19
+              },
+              "msg": "Duplication"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"42 USD\" 3 times.",
+      "effort": "6min",
+      "debt": "6min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkEEL0xyxNhxNqNF",
+      "rule": "python:S1854",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 164,
+      "hash": "413afb8833319ba29536ea8cf030584a",
+      "textRange": {
+        "startLine": 164,
+        "endLine": 164,
+        "startOffset": 4,
+        "endOffset": 50
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+              "textRange": {
+                "startLine": 168,
+                "endLine": 168,
+                "startOffset": 4,
+                "endOffset": 36
+              },
+              "msg": "'fresh' is reassigned here."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this assignment to local variable 'fresh'; the value is never used.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "cwe",
+        "unused"
+      ],
+      "creationDate": "2026-11-26T16:08:15+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkE-L0xyxNhxNqNI",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 306,
+      "hash": "6deab53986efa86e45833e95cfe4dc9f",
+      "textRange": {
+        "startLine": 306,
+        "endLine": 306,
+        "startOffset": 4,
+        "endOffset": 10
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 314,
+                "endLine": 314,
+                "startOffset": 4,
+                "endOffset": 7
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 315,
+                "endLine": 315,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 317,
+                "endLine": 317,
+                "startOffset": 36,
+                "endOffset": 38
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 328,
+                "endLine": 328,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 328,
+                "endLine": 328,
+                "startOffset": 26,
+                "endOffset": 29
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 332,
+                "endLine": 332,
+                "startOffset": 8,
+                "endOffset": 11
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 333,
+                "endLine": 333,
+                "startOffset": 12,
+                "endOffset": 15
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 334,
+                "endLine": 334,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 338,
+                "endLine": 338,
+                "startOffset": 47,
+                "endOffset": 49
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 340,
+                "endLine": 340,
+                "startOffset": 44,
+                "endOffset": 46
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.",
+      "effort": "9min",
+      "debt": "9min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T18:22:14+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "b3c777f3-b79b-40ab-b584-a49f6d8c81f5",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkE-L0xyxNhxNqNJ",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 423,
+      "hash": "4c7fec294d274a558037b5c5651345e4",
+      "textRange": {
+        "startLine": 423,
+        "endLine": 423,
+        "startOffset": 4,
+        "endOffset": 16
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 425,
+                "endLine": 425,
+                "startOffset": 32,
+                "endOffset": 35
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 426,
+                "endLine": 426,
+                "startOffset": 57,
+                "endOffset": 59
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 428,
+                "endLine": 428,
+                "startOffset": 4,
+                "endOffset": 7
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 429,
+                "endLine": 429,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 429,
+                "endLine": 429,
+                "startOffset": 34,
+                "endOffset": 37
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 431,
+                "endLine": 431,
+                "startOffset": 41,
+                "endOffset": 43
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 436,
+                "endLine": 436,
+                "startOffset": 26,
+                "endOffset": 28
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 437,
+                "endLine": 437,
+                "startOffset": 8,
+                "endOffset": 12
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+              "textRange": {
+                "startLine": 439,
+                "endLine": 439,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.",
+      "effort": "6min",
+      "debt": "6min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "b3c777f3-b79b-40ab-b584-a49f6d8c81f5",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDoL0xyxNhxNqM5",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_authenticated_sessions.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 167,
+      "hash": "aa6860b8502a37b54aecd8b465fa459c",
+      "textRange": {
+        "startLine": 167,
+        "endLine": 167,
+        "startOffset": 4,
+        "endOffset": 80
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "e099678f-6206-4a8c-b4f7-0e6f1d0b99dd",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqMz",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 46,
+      "hash": "88fd3ccc8db2b9bde9eb80908f584d04",
+      "textRange": {
+        "startLine": 46,
+        "endLine": 46,
+        "startOffset": 4,
+        "endOffset": 69
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqM0",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 65,
+      "hash": "8e99c3c43692edc5900a8760a9b027f9",
+      "textRange": {
+        "startLine": 65,
+        "endLine": 65,
+        "startOffset": 4,
+        "endOffset": 59
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqM1",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 74,
+      "hash": "ff3958198558a396f9bbe09f0d619a10",
+      "textRange": {
+        "startLine": 74,
+        "endLine": 74,
+        "startOffset": 4,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqM2",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 81,
+      "hash": "ab23fd0c213cb90ab277857eee1f0579",
+      "textRange": {
+        "startLine": 81,
+        "endLine": 81,
+        "startOffset": 4,
+        "endOffset": 76
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqM3",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 99,
+      "hash": "ff3958198558a396f9bbe09f0d619a10",
+      "textRange": {
+        "startLine": 99,
+        "endLine": 99,
+        "startOffset": 4,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDnL0xyxNhxNqM4",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 101,
+      "hash": "3a47abb361227d73493e0ba1bc212962",
+      "textRange": {
+        "startLine": 101,
+        "endLine": 101,
+        "startOffset": 4,
+        "endOffset": 83
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkByL0xyxNhxNqMw",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 107,
+      "hash": "630a13abc3871d7ebdca35572ff51656",
+      "textRange": {
+        "startLine": 107,
+        "endLine": 107,
+        "startOffset": 4,
+        "endOffset": 43
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 108,
+                "endLine": 108,
+                "startOffset": 20,
+                "endOffset": 82
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 108,
+                "endLine": 108,
+                "startOffset": 8,
+                "endOffset": 19
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkByL0xyxNhxNqMx",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 123,
+      "hash": "630a13abc3871d7ebdca35572ff51656",
+      "textRange": {
+        "startLine": 123,
+        "endLine": 123,
+        "startOffset": 4,
+        "endOffset": 43
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 124,
+                "endLine": 126,
+                "startOffset": 20,
+                "endOffset": 9
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 124,
+                "endLine": 124,
+                "startOffset": 8,
+                "endOffset": 19
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkByL0xyxNhxNqMy",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 134,
+      "hash": "630a13abc3871d7ebdca35572ff51656",
+      "textRange": {
+        "startLine": 134,
+        "endLine": 134,
+        "startOffset": 4,
+        "endOffset": 43
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 135,
+                "endLine": 135,
+                "startOffset": 20,
+                "endOffset": 48
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+              "textRange": {
+                "startLine": 135,
+                "endLine": 135,
+                "startOffset": 8,
+                "endOffset": 19
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDrL0xyxNhxNqM6",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 112,
+      "hash": "630a13abc3871d7ebdca35572ff51656",
+      "textRange": {
+        "startLine": 112,
+        "endLine": 112,
+        "startOffset": 4,
+        "endOffset": 43
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+              "textRange": {
+                "startLine": 113,
+                "endLine": 113,
+                "startOffset": 38,
+                "endOffset": 49
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+              "textRange": {
+                "startLine": 113,
+                "endLine": 113,
+                "startOffset": 8,
+                "endOffset": 37
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDrL0xyxNhxNqM7",
+      "rule": "python:S3415",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 158,
+      "hash": "ee63a30a3be12d3badf4eeff03d03376",
+      "textRange": {
+        "startLine": 158,
+        "endLine": 158,
+        "startOffset": 11,
+        "endOffset": 50
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+              "textRange": {
+                "startLine": 158,
+                "endLine": 158,
+                "startOffset": 11,
+                "endOffset": 28
+              },
+              "msg": "Expected value."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+              "textRange": {
+                "startLine": 158,
+                "endLine": 158,
+                "startOffset": 32,
+                "endOffset": 50
+              },
+              "msg": "Actual value."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Swap these 2 operands so the actual value comes first, to match the rest of this file.",
+      "effort": "2min",
+      "debt": "2min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "suspicious",
+        "tests"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYnkDsL0xyxNhxNqM8",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/test_sdk_supervision.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 14,
+      "hash": "3c5159c1396a1f571d821dc95fc86ac4",
+      "textRange": {
+        "startLine": 14,
+        "endLine": 14,
+        "startOffset": 4,
+        "endOffset": 56
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T16:08:14+0000",
+      "updateDate": "2026-11-26T16:08:43+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "6662f9bd-8f89-49e5-8e8f-9d779b868b10",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYSoG9GEtHNUeP8Qk5",
+      "rule": "python:S6353",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 61,
+      "hash": "137e74ced9be025e4fa4d1fd651e9d92",
+      "textRange": {
+        "startLine": 61,
+        "endLine": 61,
+        "startOffset": 35,
+        "endOffset": 40
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use concise character class syntax '\\d' instead of '[0-9]'.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "regex"
+      ],
+      "creationDate": "2026-11-26T14:36:19+0000",
+      "updateDate": "2026-11-26T14:37:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "81f78afc-4468-4a42-94aa-b3ea8c0743ef",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYLjn8NYHPJs-QmLQC",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/runtime/test_resource_limits.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 241,
+      "hash": "8c10d704244bbc3d73a0e1e3b7213bd7",
+      "textRange": {
+        "startLine": 241,
+        "endLine": 241,
+        "startOffset": 4,
+        "endOffset": 44
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/runtime/test_resource_limits.py",
+              "textRange": {
+                "startLine": 242,
+                "endLine": 242,
+                "startOffset": 8,
+                "endOffset": 49
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/runtime/test_resource_limits.py",
+              "textRange": {
+                "startLine": 242,
+                "endLine": 242,
+                "startOffset": 21,
+                "endOffset": 29
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T14:05:57+0000",
+      "updateDate": "2026-11-26T14:06:24+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "e1251cba-1455-4900-8f1b-ecfd2ef7118c",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYFabYV8msEvTeNqkP",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 741,
+      "hash": "5546a6b0a5b6bb5dafaa9eb157ebe6e5",
+      "textRange": {
+        "startLine": 741,
+        "endLine": 741,
+        "startOffset": 4,
+        "endOffset": 21
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 746,
+                "endLine": 746,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 748,
+                "endLine": 748,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 749,
+                "endLine": 749,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 770,
+                "endLine": 770,
+                "startOffset": 12,
+                "endOffset": 17
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 774,
+                "endLine": 774,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 775,
+                "endLine": 775,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 778,
+                "endLine": 778,
+                "startOffset": 8,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 782,
+                "endLine": 782,
+                "startOffset": 4,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.",
+      "effort": "6min",
+      "debt": "6min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T13:38:44+0000",
+      "updateDate": "2026-11-26T13:39:13+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUH8eOSIDaNlBeP",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 79,
+      "hash": "0563ed10c18192363e24b31b7cee1396",
+      "textRange": {
+        "startLine": 79,
+        "endLine": 79,
+        "startOffset": 4,
+        "endOffset": 16
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 82,
+                "endLine": 82,
+                "startOffset": 4,
+                "endOffset": 9
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 85,
+                "endLine": 85,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 87,
+                "endLine": 87,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 88,
+                "endLine": 88,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 88,
+                "endLine": 88,
+                "startOffset": 50,
+                "endOffset": 52
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 92,
+                "endLine": 92,
+                "startOffset": 8,
+                "endOffset": 12
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 92,
+                "endLine": 92,
+                "startOffset": 40,
+                "endOffset": 43
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 94,
+                "endLine": 94,
+                "startOffset": 8,
+                "endOffset": 12
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 95,
+                "endLine": 95,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 98,
+                "endLine": 98,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.",
+      "effort": "8min",
+      "debt": "8min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T13:16:26+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "fa9b8e06-d3e6-4893-8c6c-6dd57434b20d",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUH8eOSIDaNlBeQ",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 150,
+      "hash": "9eaa7280426508bb86c5e574b9cc9219",
+      "textRange": {
+        "startLine": 150,
+        "endLine": 150,
+        "startOffset": 4,
+        "endOffset": 21
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 153,
+                "endLine": 153,
+                "startOffset": 4,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 156,
+                "endLine": 156,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 156,
+                "endLine": 156,
+                "startOffset": 21,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 158,
+                "endLine": 158,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 159,
+                "endLine": 159,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 161,
+                "endLine": 161,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 165,
+                "endLine": 165,
+                "startOffset": 8,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 167,
+                "endLine": 167,
+                "startOffset": 4,
+                "endOffset": 8
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 168,
+                "endLine": 168,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 170,
+                "endLine": 170,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 172,
+                "endLine": 172,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 175,
+                "endLine": 175,
+                "startOffset": 12,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 20 to the 15 allowed.",
+      "effort": "10min",
+      "debt": "10min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T13:16:26+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "91d23085-216b-4b95-ac08-9c801c348599",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUH8eOSIDaNlBeR",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 217,
+      "hash": "17daf502901d1cc08de1dd22f2cc6d16",
+      "textRange": {
+        "startLine": 217,
+        "endLine": 217,
+        "startOffset": 10,
+        "endOffset": 30
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 222,
+                "endLine": 222,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 223,
+                "endLine": 223,
+                "startOffset": 21,
+                "endOffset": 23
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 224,
+                "endLine": 224,
+                "startOffset": 22,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 240,
+                "endLine": 240,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 249,
+                "endLine": 249,
+                "startOffset": 20,
+                "endOffset": 25
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 251,
+                "endLine": 251,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 254,
+                "endLine": 254,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 261,
+                "endLine": 261,
+                "startOffset": 16,
+                "endOffset": 21
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 263,
+                "endLine": 263,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 263,
+                "endLine": 263,
+                "startOffset": 35,
+                "endOffset": 37
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 281,
+                "endLine": 281,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 285,
+                "endLine": 285,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 287,
+                "endLine": 287,
+                "startOffset": 16,
+                "endOffset": 19
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 292,
+                "endLine": 292,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 294,
+                "endLine": 294,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 296,
+                "endLine": 296,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 304,
+                "endLine": 304,
+                "startOffset": 8,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 309,
+                "endLine": 309,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 312,
+                "endLine": 312,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 316,
+                "endLine": 316,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 321,
+                "endLine": 321,
+                "startOffset": 8,
+                "endOffset": 13
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 325,
+                "endLine": 325,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 333,
+                "endLine": 333,
+                "startOffset": 12,
+                "endOffset": 17
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 336,
+                "endLine": 336,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 337,
+                "endLine": 337,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 341,
+                "endLine": 341,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 343,
+                "endLine": 343,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 345,
+                "endLine": 345,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 347,
+                "endLine": 347,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 349,
+                "endLine": 349,
+                "startOffset": 20,
+                "endOffset": 24
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 351,
+                "endLine": 351,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 357,
+                "endLine": 357,
+                "startOffset": 18,
+                "endOffset": 21
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 364,
+                "endLine": 364,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 368,
+                "endLine": 368,
+                "startOffset": 24,
+                "endOffset": 26
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+              "textRange": {
+                "startLine": 372,
+                "endLine": 372,
+                "startOffset": 20,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 83 to the 15 allowed.",
+      "effort": "1h13min",
+      "debt": "1h13min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T13:16:26+0000",
+      "updateDate": "2026-11-26T13:21:53+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "91d23085-216b-4b95-ac08-9c801c348599",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUm8eOSIDaNlBeV",
+      "rule": "python:S5713",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 369,
+      "hash": "a90f5aba54ffc46f0f0507e57ea82871",
+      "textRange": {
+        "startLine": 369,
+        "endLine": 369,
+        "startOffset": 24,
+        "endOffset": 36
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 369,
+                "endLine": 369,
+                "startOffset": 12,
+                "endOffset": 22
+              },
+              "msg": "Parent class."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this redundant Exception class; it derives from another which is already caught.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "bad-practice",
+        "error-handling",
+        "unused"
+      ],
+      "creationDate": "2026-11-26T13:16:25+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUm8eOSIDaNlBeW",
+      "rule": "python:S5713",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 573,
+      "hash": "71d5d003a9c0c8bd2f574066f67b2868",
+      "textRange": {
+        "startLine": 573,
+        "endLine": 573,
+        "startOffset": 20,
+        "endOffset": 35
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 573,
+                "endLine": 573,
+                "startOffset": 37,
+                "endOffset": 44
+              },
+              "msg": "Parent class."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this redundant Exception class; it derives from another which is already caught.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "bad-practice",
+        "error-handling",
+        "unused"
+      ],
+      "creationDate": "2026-11-26T13:16:25+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUm8eOSIDaNlBeX",
+      "rule": "python:S3776",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 582,
+      "hash": "a4fba8048621c1baae7b55e34fcacf24",
+      "textRange": {
+        "startLine": 582,
+        "endLine": 582,
+        "startOffset": 8,
+        "endOffset": 18
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 585,
+                "endLine": 585,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 587,
+                "endLine": 587,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 588,
+                "endLine": 588,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 589,
+                "endLine": 589,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 592,
+                "endLine": 592,
+                "startOffset": 20,
+                "endOffset": 26
+              },
+              "msg": "+4 (incl 3 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 594,
+                "endLine": 594,
+                "startOffset": 16,
+                "endOffset": 20
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 598,
+                "endLine": 598,
+                "startOffset": 12,
+                "endOffset": 18
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 603,
+                "endLine": 603,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 605,
+                "endLine": 605,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 610,
+                "endLine": 610,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 612,
+                "endLine": 612,
+                "startOffset": 16,
+                "endOffset": 22
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 616,
+                "endLine": 616,
+                "startOffset": 12,
+                "endOffset": 15
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 617,
+                "endLine": 617,
+                "startOffset": 16,
+                "endOffset": 18
+              },
+              "msg": "+3 (incl 2 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 619,
+                "endLine": 619,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 622,
+                "endLine": 622,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 623,
+                "endLine": 623,
+                "startOffset": 12,
+                "endOffset": 14
+              },
+              "msg": "+2 (incl 1 for nesting)"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 626,
+                "endLine": 626,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+              "textRange": {
+                "startLine": 629,
+                "endLine": 629,
+                "startOffset": 8,
+                "endOffset": 10
+              },
+              "msg": "+1"
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.",
+      "effort": "25min",
+      "debt": "25min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-11-26T13:16:25+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARUm8eOSIDaNlBeY",
+      "rule": "python:S108",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 790,
+      "hash": "1a1dc91c907325c69271ddf0c944bc72",
+      "textRange": {
+        "startLine": 790,
+        "endLine": 790,
+        "startOffset": 12,
+        "endOffset": 16
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Either remove or fill this block of code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "suspicious"
+      ],
+      "creationDate": "2026-11-26T13:16:25+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "44e8921b-11e6-4d9a-913f-426749fee3a7",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYART08eOSIDaNlBeN",
+      "rule": "python:S9073",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/runtime/test_worker_lifecycle.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 21,
+      "hash": "3c5159c1396a1f571d821dc95fc86ac4",
+      "textRange": {
+        "startLine": 21,
+        "endLine": 21,
+        "startOffset": 8,
+        "endOffset": 60
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Split this composite assertion into separate assertions.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest"
+      ],
+      "creationDate": "2026-11-26T13:16:25+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARTx8eOSIDaNlBeL",
+      "rule": "javascript:S9382",
+      "severity": "MINOR",
+      "component": "k39139215-gif_aerobrowse:tests/compatibility/build.mjs",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 1,
+      "hash": "dbf7209477d53b24fd538b731a6cbcf5",
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 170,
+        "endOffset": 421
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected `await` inside a loop.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "async",
+        "es2017",
+        "performance",
+        "promise"
+      ],
+      "creationDate": "2026-11-26T13:11:38+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "EFFICIENT",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARRu8eOSIDaNlBeJ",
+      "rule": "javascript:S5254",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/compatibility/nextjs/app/layout.jsx",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 1,
+      "hash": "8608b5841534aaa1db3df6d1f43ba51a",
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 51,
+        "endOffset": 55
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "<html> elements must have the lang prop.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2026-11-26T13:11:38+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARTu8eOSIDaNlBeK",
+      "rule": "javascript:S6819",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/compatibility/nextjs/app/page.jsx",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 3,
+      "hash": "6d388599dc2f1cac9bba0177e93430e7",
+      "textRange": {
+        "startLine": 3,
+        "endLine": 3,
+        "startOffset": 760,
+        "endOffset": 779
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use <dialog> instead of the \"dialog\" role to ensure accessibility across all devices.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2026-11-26T13:11:38+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYARTy8eOSIDaNlBeM",
+      "rule": "javascript:S6819",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/compatibility/react/app.jsx",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 2,
+      "hash": "57e1eefcc3aaca282bb730696cb8217e",
+      "textRange": {
+        "startLine": 2,
+        "endLine": 2,
+        "startOffset": 749,
+        "endOffset": 768
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use <dialog> instead of the \"dialog\" role to ensure accessibility across all devices.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2026-11-26T13:11:38+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIYART68eOSIDaNlBeO",
+      "rule": "python:S5778",
+      "severity": "MAJOR",
+      "component": "k39139215-gif_aerobrowse:tests/security/test_broker_boundary.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 48,
+      "hash": "8c10d704244bbc3d73a0e1e3b7213bd7",
+      "textRange": {
+        "startLine": 48,
+        "endLine": 48,
+        "startOffset": 8,
+        "endOffset": 48
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/security/test_broker_boundary.py",
+              "textRange": {
+                "startLine": 49,
+                "endLine": 51,
+                "startOffset": 75,
+                "endOffset": 13
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "k39139215-gif_aerobrowse:tests/security/test_broker_boundary.py",
+              "textRange": {
+                "startLine": 49,
+                "endLine": 49,
+                "startOffset": 12,
+                "endOffset": 74
+              },
+              "msg": "Invocation possibly throwing an exception."
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Refactor this exception test to have only one invocation possibly throwing an exception.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "pytest",
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2026-11-26T13:07:37+0000",
+      "updateDate": "2026-11-26T13:16:59+0000",
+      "type": "CODE_SMELL",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "666e7c6b-9621-4e70-b504-0b2a7f45fcb0",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIXbXbCMTYYOMDLDf5M",
+      "rule": "python:S5443",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/isolation.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 57,
+      "hash": "931e4dba2b04ac8d55ffe4546945c493",
+      "textRange": {
+        "startLine": 57,
+        "endLine": 57,
+        "startOffset": 12,
+        "endOffset": 18
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Make sure publicly writable directories are used safely here.",
+      "effort": "30min",
+      "debt": "30min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "cwe",
+        "former-hotspot"
+      ],
+      "creationDate": "2026-11-26T10:34:56+0000",
+      "updateDate": "2026-11-26T10:35:56+0000",
+      "type": "VULNERABILITY",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "c47617e2-c74b-40f8-ae4f-c35e1766b782",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    },
+    {
+      "key": "AaIXbXbCMTYYOMDLDf5N",
+      "rule": "python:S5443",
+      "severity": "CRITICAL",
+      "component": "k39139215-gif_aerobrowse:aerobrowse/isolation.py",
+      "project": "k39139215-gif_aerobrowse",
+      "line": 65,
+      "hash": "931e4dba2b04ac8d55ffe4546945c493",
+      "textRange": {
+        "startLine": 65,
+        "endLine": 65,
+        "startOffset": 12,
+        "endOffset": 18
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Make sure publicly writable directories are used safely here.",
+      "effort": "30min",
+      "debt": "30min",
+      "assignee": "k39139215-gif-mshm0@github",
+      "tags": [
+        "cwe",
+        "former-hotspot"
+      ],
+      "creationDate": "2026-11-26T10:34:56+0000",
+      "updateDate": "2026-11-26T10:35:56+0000",
+      "type": "VULNERABILITY",
+      "organization": "k39139215-gif",
+      "pullRequest": "2",
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "aerobrowse",
+      "internalTags": [],
+      "lastChangeAnalysisUuid": "c47617e2-c74b-40f8-ae4f-c35e1766b782",
+      "lastChangeSource": "ANALYSIS",
+      "producer": "SCANNER"
+    }
+  ],
+  "components": [
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/browser/test_tabs_history.py",
+      "uuid": "AaIYnjzLL0xyxNhxNqLz",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_tabs_history.py",
+      "longName": "tests/browser/test_tabs_history.py",
+      "path": "tests/browser/test_tabs_history.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/runtime/test_resource_limits.py",
+      "uuid": "AaIYARDi8eOSIDaNlBdA",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_resource_limits.py",
+      "longName": "tests/runtime/test_resource_limits.py",
+      "path": "tests/runtime/test_resource_limits.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:aerobrowse/runtime.py",
+      "uuid": "AaIYARDi8eOSIDaNlBeB",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "runtime.py",
+      "longName": "aerobrowse/runtime.py",
+      "path": "aerobrowse/runtime.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/test_extraction_edges.py",
+      "uuid": "AaIYnjzLL0xyxNhxNqL6",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_extraction_edges.py",
+      "longName": "tests/test_extraction_edges.py",
+      "path": "tests/test_extraction_edges.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/test_browser_credentials.py",
+      "uuid": "AaIYnjzLL0xyxNhxNqLv",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_browser_credentials.py",
+      "longName": "tests/test_browser_credentials.py",
+      "path": "tests/test_browser_credentials.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/runtime/test_worker_lifecycle.py",
+      "uuid": "AaIYARDi8eOSIDaNlBdB",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_worker_lifecycle.py",
+      "longName": "tests/runtime/test_worker_lifecycle.py",
+      "path": "tests/runtime/test_worker_lifecycle.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/test_sdk_supervision.py",
+      "uuid": "AaIYnjzLL0xyxNhxNqL7",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_sdk_supervision.py",
+      "longName": "tests/test_sdk_supervision.py",
+      "path": "tests/test_sdk_supervision.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/browser/test_authenticated_sessions.py",
+      "uuid": "AaIYnjzLL0xyxNhxNqL0",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_authenticated_sessions.py",
+      "longName": "tests/browser/test_authenticated_sessions.py",
+      "path": "tests/browser/test_authenticated_sessions.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:aerobrowse/pruner.py",
+      "uuid": "AaIYnjzML0xyxNhxNqMq",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "pruner.py",
+      "longName": "aerobrowse/pruner.py",
+      "path": "aerobrowse/pruner.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:benchmarks/agent/run.py",
+      "uuid": "AaIYnjzML0xyxNhxNqMQ",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "run.py",
+      "longName": "benchmarks/agent/run.py",
+      "path": "benchmarks/agent/run.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:benchmarks/agent/workflows.py",
+      "uuid": "AaIYnjzML0xyxNhxNqMP",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "workflows.py",
+      "longName": "benchmarks/agent/workflows.py",
+      "path": "benchmarks/agent/workflows.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:benchmarks/agent/fixture.py",
+      "uuid": "AaIYnjzML0xyxNhxNqMN",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "fixture.py",
+      "longName": "benchmarks/agent/fixture.py",
+      "path": "benchmarks/agent/fixture.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/compatibility/build.mjs",
+      "uuid": "AaIYARDi8eOSIDaNlBc8",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "build.mjs",
+      "longName": "tests/compatibility/build.mjs",
+      "path": "tests/compatibility/build.mjs",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/compatibility/react/app.jsx",
+      "uuid": "AaIYARDi8eOSIDaNlBc9",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "app.jsx",
+      "longName": "tests/compatibility/react/app.jsx",
+      "path": "tests/compatibility/react/app.jsx",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:benchmarks/agent/shared_load.py",
+      "uuid": "AaIZEWMFVJkA_IZ-zgKD",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "shared_load.py",
+      "longName": "benchmarks/agent/shared_load.py",
+      "path": "benchmarks/agent/shared_load.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/security/test_broker_boundary.py",
+      "uuid": "AaIYARDi8eOSIDaNlBdP",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "test_broker_boundary.py",
+      "longName": "tests/security/test_broker_boundary.py",
+      "path": "tests/security/test_broker_boundary.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:aerobrowse/mcp_transport.py",
+      "uuid": "AaIYARDi8eOSIDaNlBd1",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "mcp_transport.py",
+      "longName": "aerobrowse/mcp_transport.py",
+      "path": "aerobrowse/mcp_transport.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse",
+      "uuid": "AaIXbQ9-SFqYplWehX8p",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "aerobrowse",
+      "longName": "aerobrowse",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/compatibility/nextjs/app/layout.jsx",
+      "uuid": "AaIYARDi8eOSIDaNlBc4",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "layout.jsx",
+      "longName": "tests/compatibility/nextjs/app/layout.jsx",
+      "path": "tests/compatibility/nextjs/app/layout.jsx",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:aerobrowse/isolation.py",
+      "uuid": "AaIXbXQdMTYYOMDLDf4H",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "isolation.py",
+      "longName": "aerobrowse/isolation.py",
+      "path": "aerobrowse/isolation.py",
+      "pullRequest": "2"
+    },
+    {
+      "organization": "k39139215-gif",
+      "key": "k39139215-gif_aerobrowse:tests/compatibility/nextjs/app/page.jsx",
+      "uuid": "AaIYARDi8eOSIDaNlBc5",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "page.jsx",
+      "longName": "tests/compatibility/nextjs/app/page.jsx",
+      "path": "tests/compatibility/nextjs/app/page.jsx",
+      "pullRequest": "2"
+    }
+  ],
+  "organizations": [
+    {
+      "key": "k39139215-gif",
+      "name": "k39139215-gif"
+    }
+  ],
+  "facets": []
+}

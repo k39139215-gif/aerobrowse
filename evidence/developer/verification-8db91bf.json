@@ -1,0 +1,153 @@
+{
+  "implementation_revision": "8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d",
+  "focused_linux_run": "https://github.com/k39139215-gif/aerobrowse/actions/runs/45880812905",
+  "focused_conclusion": "success",
+  "tests": {
+    "quick-workflows.xml": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "runtime-boundary.xml": {
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    }
+  },
+  "measured_observations": {
+    "browser_cold_navigation": {
+      "n": 1,
+      "p50_ms": 724.120221000021,
+      "p95_ms": 724.120221000021
+    },
+    "browser_warm_navigation": {
+      "n": 99,
+      "p50_ms": 29.042400000008683,
+      "p95_ms": 33.83197799999493
+    },
+    "click": {
+      "n": 100,
+      "p50_ms": 9.0355709999983,
+      "p95_ms": 10.414069999995945
+    },
+    "cold_python_import": {
+      "n": 30,
+      "p50_ms": 239.18900700000734,
+      "p95_ms": 248.4571800000026
+    },
+    "fill": {
+      "n": 100,
+      "p50_ms": 9.841271999988521,
+      "p95_ms": 11.637401000001546
+    },
+    "handoff_static_navigation": {
+      "n": 1,
+      "p50_ms": 4.54467199998021,
+      "p95_ms": 4.54467199998021
+    },
+    "post_escalation_live_click": {
+      "n": 100,
+      "p50_ms": 10.631423000006635,
+      "p95_ms": 12.813523999994914
+    },
+    "post_escalation_live_navigation": {
+      "n": 100,
+      "p50_ms": 30.640967000010733,
+      "p95_ms": 33.752923999998075
+    },
+    "screenshot": {
+      "n": 100,
+      "p50_ms": 32.423281999996334,
+      "p95_ms": 37.45195600001239
+    },
+    "scroll": {
+      "n": 100,
+      "p50_ms": 9.637061000006497,
+      "p95_ms": 10.962648999992552
+    },
+    "select": {
+      "n": 100,
+      "p50_ms": 8.815360999989252,
+      "p95_ms": 10.461921999990409
+    },
+    "snapshot": {
+      "n": 100,
+      "p50_ms": 8.501490000014655,
+      "p95_ms": 10.582376000002114
+    },
+    "turbo_fidelity_escalation": {
+      "n": 1,
+      "p50_ms": 731.089609999998,
+      "p95_ms": 731.089609999998
+    },
+    "turbo_first_navigation": {
+      "n": 1,
+      "p50_ms": 246.88617099999988,
+      "p95_ms": 246.88617099999988
+    },
+    "turbo_warm_navigation": {
+      "n": 100,
+      "p50_ms": 3.5212249999858614,
+      "p95_ms": 3.870229000000336
+    },
+    "wait": {
+      "n": 100,
+      "p50_ms": 8.155621000014435,
+      "p95_ms": 9.765837999992755
+    }
+  },
+  "sampled_tree_maximum_bytes": 1476448256,
+  "shared_pool": {
+    "duration_seconds": 2.6181779919999997,
+    "completed_operations": 12,
+    "overload_rejections": 2,
+    "capacity_rejected": true,
+    "foreign_session_rejected": true,
+    "active_sessions_after_cleanup": 0,
+    "sessions": [
+      {
+        "index": 0,
+        "completed": 6,
+        "worker_reaped": true
+      },
+      {
+        "index": 1,
+        "completed": 6,
+        "worker_reaped": true
+      }
+    ],
+    "limits": {
+      "max_sessions": 2,
+      "pending_per_session": 16,
+      "per_session_processes": 256,
+      "aggregate_processes": 512
+    }
+  },
+  "quality": {
+    "checked_requirements": 44,
+    "missing_requirements": 0,
+    "recall": 1.0
+  },
+  "full_ci": "PENDING - must replace after final full run including mandatory soak",
+  "local_python": {
+    "passed": 236,
+    "skipped": 21,
+    "deselected_browser": 76,
+    "receipt": "python-8db91bf.xml"
+  },
+  "local_native_contract": {
+    "passed": 18,
+    "receipt": "native-contract-8db91bf.xml"
+  },
+  "wheel_offline": {
+    "wheel": "aerobrowse-0.2.0-py3-none-any.whl",
+    "exit": 0,
+    "token_counts": {
+      "cl100k_base": 10,
+      "o200k_base": 4,
+      "p50k_base": 12
+    }
+  }
+}

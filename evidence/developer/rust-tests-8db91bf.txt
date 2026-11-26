@@ -1,0 +1,15 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.00s
+     Running unittests src\main.rs (rust_core\target\debug\build\aerobrowse/94f04d71961c3056\out\aerobrowse-94f04d71961c3056.exe)
+
+running 8 tests
+test fidelity::tests::cannot_start_unrestricted_browser_or_execute_values ... ok
+test security::tests::public_addresses ... ok
+test security::tests::blocked_networks_and_schemes ... ok
+test pruner::tests::accessible_name_priority_and_image_text_match_static_contract ... ok
+test pruner::tests::does_not_expose_form_values_as_actions ... ok
+test pruner::tests::hidden_descendant_text_does_not_escape_in_action_labels ... ok
+test pruner::tests::hidden_ancestors_and_credential_urls_do_not_leak_into_actions ... ok
+test pruner::tests::measures_real_tokens_and_rejects_deep_documents ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.05s
+

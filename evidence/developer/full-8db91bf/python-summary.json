@@ -1,0 +1,58 @@
+[
+  {
+    "job": "python-ubuntu-24.04-3.11",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-ubuntu-24.04-3.12",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-ubuntu-24.04-3.13",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-ubuntu-24.04-3.14",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-windows-latest-3.11",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-windows-latest-3.12",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-windows-latest-3.13",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  },
+  {
+    "job": "python-windows-latest-3.14",
+    "tests": 257,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 21
+  }
+]

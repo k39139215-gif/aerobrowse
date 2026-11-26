@@ -1,0 +1,104 @@
+{
+  "implementation": "8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d",
+  "wheel": "aerobrowse-0.2.0-py3-none-any.whl",
+  "wheel_sha256": "bfd8a9833b63a113f7fdc0d6573f15a36bd375fec787df0a497cfc75ae34f0f2",
+  "entries": [
+    {
+      "path": "aerobrowse/__init__.py",
+      "wheel_sha256": "f901d707e8e3c616caad20122ae6be77435fd9eda80e954cf46ccac78a4db113"
+    },
+    {
+      "path": "aerobrowse/actions.py",
+      "wheel_sha256": "b765bd98d0151947a9bf9e0ce21a4c65d6ecb34fc75d327cc3d780f682c34a34"
+    },
+    {
+      "path": "aerobrowse/benchmark.py",
+      "wheel_sha256": "990b1ffdd47a2aaffbac994fafb3292ad28a82e89cb192fd1b91f66bfa5c2a3c"
+    },
+    {
+      "path": "aerobrowse/cdp_broker.py",
+      "wheel_sha256": "cc4289fc217e9f087c64faf00d741108bff5899528642a36186627bd7ecffa73"
+    },
+    {
+      "path": "aerobrowse/cli.py",
+      "wheel_sha256": "0fe1fe755e08b30884b550e37f0eea165cca0b8e4d954f0b134049c132a23490"
+    },
+    {
+      "path": "aerobrowse/engine.py",
+      "wheel_sha256": "3ed45b1a4d7d58dcb05a4878241ed7100ee9404202108aa27da3dae35823f24a"
+    },
+    {
+      "path": "aerobrowse/errors.py",
+      "wheel_sha256": "32c2e280f3d9a26a75ee10e32b878551c652318b21610d554681ace504b9b4e7"
+    },
+    {
+      "path": "aerobrowse/fidelity.py",
+      "wheel_sha256": "ca6432ec556235d493b0128621f77f82b78ce69986dcda876128115e895c065d"
+    },
+    {
+      "path": "aerobrowse/isolation.py",
+      "wheel_sha256": "583a3447e2d039cc233f131cf3571791e1313d59434f161638340e8a456eeb5f"
+    },
+    {
+      "path": "aerobrowse/mcp_server.py",
+      "wheel_sha256": "6568d287c1d5e9d17696ac242402addb8bc0634ccd321fc15a4348346a566be0"
+    },
+    {
+      "path": "aerobrowse/mcp_transport.py",
+      "wheel_sha256": "70119f722c6049f113aea4934570b18acca2f6e7fb2352f8568dcb378539c06f"
+    },
+    {
+      "path": "aerobrowse/observability.py",
+      "wheel_sha256": "002b2e5c2b3693b92a123ed021b93207ead5876619832ca7638e524a7290056b"
+    },
+    {
+      "path": "aerobrowse/pruner.py",
+      "wheel_sha256": "3d40d075a6566f3086ab901b45295a4b20055f26120e702039c6a51c753cc61d"
+    },
+    {
+      "path": "aerobrowse/runtime.py",
+      "wheel_sha256": "bbcdd9ba990f67010919a40d088cf5d4b3f74ac4ab1fac0ac155d1cf53eda52b"
+    },
+    {
+      "path": "aerobrowse/sdk.py",
+      "wheel_sha256": "b9ead33b777c8c8d0c4056c4ad880380bec2a627273db323de41eeb60fa88f05"
+    },
+    {
+      "path": "aerobrowse/security.py",
+      "wheel_sha256": "c715d09a6b9b4e12c8d7354d7b0f9f633b4eba89b09bdc5910ab2ab6938463ca"
+    },
+    {
+      "path": "aerobrowse/sessions.py",
+      "wheel_sha256": "cf6bcb83a55beb6b2a8f82a6f49fe5359f494b83adebf4401435ccb29d727dd4"
+    },
+    {
+      "path": "aerobrowse/tokens.py",
+      "wheel_sha256": "9d41c18085c6022399e040e1aa6e4da57de44856e185a8fadd1a1cb49719463b"
+    },
+    {
+      "path": "aerobrowse/turbo.py",
+      "wheel_sha256": "454b35d1ce59f25c233a95fdaac31049a571913a1a8be690771d4f0cc9180c30"
+    },
+    {
+      "path": "aerobrowse/token_data/LICENSE",
+      "wheel_sha256": "258463fc3788f1f9b6a3f1820d8a87481ac24018d53167597e25d3e9031851ca"
+    },
+    {
+      "path": "aerobrowse/token_data/cl100k_base.tiktoken.gz",
+      "wheel_sha256": "6d8a859e0265c73e8452d36350df5f3826503a46e5674dd16a826aea8a8ef6e6"
+    },
+    {
+      "path": "aerobrowse/token_data/manifest.json",
+      "wheel_sha256": "68b495e18e8473a2d088000b4efa48b4e256cdde9967adaf8c811b0e88776e27"
+    },
+    {
+      "path": "aerobrowse/token_data/o200k_base.tiktoken.gz",
+      "wheel_sha256": "dbd9849186175ddc1f242d3fcc3ac90696f4fd1fd16cea8e06972c586db0697b"
+    },
+    {
+      "path": "aerobrowse/token_data/p50k_base.tiktoken.gz",
+      "wheel_sha256": "0651d44cd048d907ecd210e6021b3c08c0aa8b6a9dddbe6b0ab6e24ae0f23da0"
+    }
+  ],
+  "python_source_line_endings": "normalized CRLF/LF for comparison; token data byte identical"
+}

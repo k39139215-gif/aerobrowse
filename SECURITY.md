@@ -60,7 +60,8 @@ Windows process workers use nested kill-on-close Job Objects for memory, CPU and
 process caps; that does not enable Windows Fidelity. Defaults: 1 GiB/session,
 4 GiB/pool, 64 processes/session, 256/pool, 100% one core/session and 200%/pool,
 15-second worker startup, 1800-second session lifetime, 300-second idle lifetime,
-45-second request deadline, 8 sessions and 16 outstanding calls/session. Python
+45-second request deadline, configured maximum8 sessions (subject to aggregate
+budget reservation) and16 outstanding calls/session. Python
 ResourceLimits and SessionManager configure these limits. Separate browser versus
 renderer process counts are not enforced; aggregate PID limits include threads
 on Linux. Pools are per server instance; operators must cap multiple instances

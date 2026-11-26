@@ -20,8 +20,11 @@ namespaces. No host broker port is reachable. CDP pipes cross the boundary; the
 host controller services intercepted HTTP(S) requests. SafeTransport validates
 all DNS answers, pins numeric destinations, preserves TLS verification and
 revalidates each redirect. Private destinations require explicit operator CIDRs.
-Host, cookie, authorization and proxy headers are filtered. Response cookies are
-removed; authenticated sessions, WebSockets, service workers and popups are unsupported.
+Standalone HTTP filters credentials and response cookies. For supported browser
+requests, Chromium-selected Cookie and Set-Cookie fields pass only through the
+pinned per-hop broker; Chromium applies credential scope. Form/cookie authentication
+is supported in ephemeral owned contexts; HTTP Authorization, WebSockets, service
+workers and popups remain unsupported.
 
 Private home/tmp/run/proc and minimal device mounts plus read-only runtime mounts
 reduce filesystem exposure. Namespace creation alone is not proof: the regression
@@ -41,8 +44,10 @@ memory/CPU/process limits, while Fidelity is unavailable there. An independent
 Linux guardian observes controller pipe death and kills worker group/cgroup and
 removes temporary files. Review launch-before-attach ordering, parent-death races,
 reaper lifetime, cancellation/reentrancy, cgroup migration and cleanup errors.
-Limits/configuration are in SECURITY.md. Direct SDK quota enforcement, separate
-renderer/browser caps and cross-instance global quotas remain release gaps.
+Limits/configuration are in SECURITY.md. Public SDK workers enforce quotas;
+session admission reserves configured task/memory budgets against its aggregate
+pool. Shared-pool exhaustion counters are checked. Separate renderer/browser caps
+and cross-instance global deployment quotas remain release gaps.
 
 ## Protocol/session model
 
@@ -93,3 +98,16 @@ chains, hostile kernel/system libraries, comprehensive real-world authenticated
 sites, all framework scenarios/versions, indefinite leaks, high-load browser/MCP
 session fairness, per-renderer caps, cross-instance quota control or formal isolation.
 Unfinished evidence and P0/P1 scope exclusions are explicit release blockers.
+
+
+## Developer continuation evidence
+
+Implementation8db91bf: name/role discovery waits,synthetic keyboard editing with
+beforeinput identity revalidation,bounded semantic metadata,static Rust disclosure
+regressions,offline checked vocabularies and safe benchmark receipt output. Review
+exact admission reservation and aggregate PID/OOM error semantics,partial browser
+support,and local metric scope. Latest focused Linux run45880812905 is SUCCESS;
+full current-source CI/soak remains pending. The latest analyzer report has46 open
+findings,including2 private-tmpfs path findings,not only two total findings.
+Evidence: evidence/developer/source-8db91bf.json,verification-8db91bf.json and
+ci-8db91bf/. No independent assessment or release authorization is implied.

@@ -74,6 +74,16 @@ was built from the current working source with the existing Rust toolchain.
 The stdio suite uses actual subprocess pipes, not a mocked SDK transport. Covered
 cases include strict Unicode/JSON frames, invalid protocol envelopes, shape caps,
 trickled partial frames, duplicate active IDs, pipelined request correlation,
-cancellation with concurrent malformed input, eight separate owned sessions, and
+cancellation with concurrent malformed input, owned session correlation with
+aggregate-budget admission backpressure, and
 MCP EOF cleanup of actual worker descendants. Required CI should execute these
 alongside OS/browser tests; none is proof of Chromium network isolation.
+
+
+Developer continuation: Python waits discover exact accessible names/optional
+roles with fresh IDs; keyboard editing uses synthetic DOM input/caret events.
+Static native extraction now filters hidden ancestors/descendants,uses explicit
+accessible labels and sanitized relative links. Rust MCP still delegates to Python;
+this is not native live-browser/action parity. Native8-unit coverage and18 shared
+negative URL contracts do not prove equivalent native browser functionality.
+Python tokenizers are bundled/checksummed/offline; Rust uses its linked tokenizer.

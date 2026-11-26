@@ -175,8 +175,8 @@ The binary is no longer advertised as a standalone interactive browser.
 - `STALE_ACTION_ID`: request a new snapshot and choose the action again.
 - `NETWORK_ISOLATION_UNAVAILABLE`: use a Linux host that permits user/network
   namespaces. No unsafe launch switch is provided.
-- `TOKENIZER_ERROR`: encoding initialization may need its initial data download;
-  configure the tokenizer cache for offline deployments before serving traffic.
+- `TOKENIZER_ERROR`: reinstall a complete package and verify bundled vocabulary
+  data; supported encodings initialize offline and never download at runtime.
 
 ## Verification
 

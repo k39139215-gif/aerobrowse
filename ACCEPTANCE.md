@@ -1,70 +1,45 @@
 # Original acceptance map
 
-Historical status below applies to implementation `7f5c859`; verified full CI head `582b74c` has the
-same implementation. NOT_PRODUCTION_READY. Earlier green receipts do not certify
-later source. Evidence and limitations are in ENGINEERING_REPORT.md.
+Implementation: `8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d`.
+Release recommendation: **NOT_PRODUCTION_READY**. No original requirement or
+unsupported capability is waived by this map. Draft PRs are not release approval.
+See ENGINEERING_REPORT.md for measurements, exact scope and evidence.
 
-| Original requirement group | Status | Implementation / evidence | Remaining requirement |
-|---|---|---|---|
-| Audit entire repository before edits | Completed record | AUDIT.md and baseline inventory; baseline commit | No independent audit certification |
-| Dedicated branch, main protected, PR | Implemented | Original draft PR #1 against main; follow-up draft #2 against original branch | Neither merged; final approval not requested |
-| Public-only HTTP and redirects | Implemented and regression-tested | security.py / Rust security.rs; DNS pinning, all-address validation, per-hop bounds | Broader native integration parity not demonstrated |
-| Chromium equivalent network boundary | Implemented for supported Linux scope | isolation.py / host broker; namespaces, real TCP/UDP canaries with routing removed | Exhaustive browser utility/egress assessment; inner Chromium sandbox; Windows/macOS fail closed |
-| Input/output safety | Implemented bounded controls | bytes/depth/body/response/deadline/JSON integer limits; safe errors and redaction tests | Host dependency/controller trusted; comprehensive fuzzing incomplete |
-| Hybrid page state and handoff | Implemented and browser-tested | engine.py; live navigation/re-extraction then stale-ID response | Static snapshot is intentionally not executable; no automatic intent remapping |
-| Selection/fallback | Implemented heuristics | semantic quality/dynamic indicators and explicit Fidelity option | Broad site classification accuracy not measured |
-| Browser lifecycle | Implemented supervised contract | process workers, kernel quotas, parentdeath, browser/renderer timeout cleanup | Renderer recovery deadline-based; public SDK now supervised in continuation |
-| Deterministic action IDs | Implemented declared DOM contract | isolated-world exact retained node and generation, mutation epoch, no fallback | Synthetic DOM events; trusted physical interaction and file inputs unsupported |
-| Click/fill/select/check/scroll/wait | Implemented declared scope | actual Linux/browser/framework tests | Wait targets existing action ID; no arbitrary selector, broad workflow support unproven |
-| Keyboard input | Partial | Enter/Escape synthetic DOM events | General physical keyboard input unsupported |
-| MCP tools/sessions/concurrency | Implemented stdio scope | official SDK + predecode bounds, owned workers, locks, cancellation, idle/session caps | No remote transport/authentication; broad browser load/fairness testing absent |
-| Semantic extraction | Partial | bounded structure, tables/header data, labels, iframe notices and quality flags | Broad multilingual/RTL/deep malformed and important-content recall coverage incomplete |
-| Token measurement | Implemented | real versioned tokenizer counts; character metric separate; multiple encodings | Full JSON count added in continuation; production-site recall/savings absent |
-| Reproducible performance harness | Implemented exploratory | raw operation timing distributions, CPU/RSS, declared Turbo SDK load | No comparable before baseline; browser/MCP concurrency/queue/fairness and exact peaks absent |
-| Rust hardening | Implemented narrower architecture | safe bounded native HTTP; strict fmt/clippy/test/release/audit; Python MCP integration | Full native live browser/action parity not implemented; exclusion unapproved |
-| Security regression tests | Implemented declared attack families | real network canaries, DNS/redirect/input/session/injection/quotas | External exploit-chain assessment not performed |
-| Functional compatibility tests | Partial | real pinned plain HTML/React/Vue/Next/Angular flows | Controlled auth/tabs/history implemented in continuation; infinite/lazy content and broader form/error states remain incomplete |
-| Concurrency/resource tests | Partial | owned concurrent sessions, locks, actual kernel denial/crash/cleanup | Broad browser throughput, fairness/starvation and production exhaustion not measured |
-| CI/dependencies/builds | Implemented engineering pipeline | Python 3.11 through 3.14 matrix; Rust strict checks; audits, locks, browser job, builds | Sonar two private-tmpfs findings open; final current-source full CI/soak green |
-| Observability | Partial | request/session/engine/operation/duration/outcome/error JSON logs and bounded counters | Full requested metrics export/aggregation and peak-memory service telemetry incomplete |
-| Documentation | Implemented current-scope documentation | README, SECURITY, CHANGELOG, AUDIT, BENCHMARKS, report and review package | Remaining limitations are release blockers, not approved exclusions |
-| Independent verification | Not performed | Reproduction package prepared, revision/hash-bound receipts | No external assessment or independent custody claim |
-
-The benchmark table reports measured values and missing baselines explicitly.
-No speedup, guaranteed RAM, universal compatibility or 90% token saving is claimed.
-No original requirement is waived by this map. Unsupported capabilities fail closed
-where safe completion is absent; a draft PR does not establish production readiness.
-
-## Agent usability continuation acceptance
-
-Latest implementation/benchmark checkpoint: `0530488`. Full CI completed SUCCESS in
-`45864277407`; all jobs,including its mandatory cleanup soak,passed. Historical green
-receipts do not certify changed code. Focused delegated Linux run `45860943458`
-passed 14 workflow/auth/storage/error-document tests and 38 runtime tests, with
-2 Windows-only skips. Downloaded XML receipts are authoritative.
-
-| Usability requirement | State | Evidence / remaining limit |
+| Original requirement | Status and demonstrated scope | Remaining gate or limitation |
 |---|---|---|
-| Login/protected update/logout | Demonstrated scripted SDK and actual MCP | Real form and fixture record/session state |
-| Auth sharing across owned tabs | Demonstrated | New tab reads protected record,update,reload,logout |
-| Session cookie/origin/path isolation | Demonstrated controlled scope | Multiple cookies,HttpOnly,path/host,foreign domain,credentials modes |
-| Search/detail/back/forward and tabs | Demonstrated | SDK/MCP complete workflow; opaque explicit IDs,max8 |
-| Multistep select/checkbox/validation/submission | Demonstrated | Required validation and server submission assertions |
-| Stale recovery | Demonstrated scripted | Old ID rejected; no submission before fresh generation |
-| Browser crash recovery | Demonstrated controlled failures | Kill/reap/replacement regressions retained |
-| Normal SDK resource supervision | Implemented and locally/Linux tested | Real worker,timeouts,lifetime,kill/reap; enclosing multi-instance quota required |
-| LLM-driven agent evaluation | Runnable,NOT_RUN | Missing OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL |
-| Browser concurrency measurement | Controlled SDK task measurement complete | 6 tasks, 2 workers, 9.152 seconds at0530488; no saturation/fairness claim |
-| Native Rust parity | Not implemented | Independent read-only HTTP scope retained |
+| Inspect repository before edits | Baseline inventory and AUDIT.md record tracked source/configuration review | No independent audit certification |
+| Dedicated branch and PR against main | Original fix/production-hardening draft PR #1; stacked continuation PR #2 | Both remain unmerged; continuation does not bypass original review |
+| Central SSRF/redirect protection | Public-only HTTP, address normalization/all-answer DNS checks, numeric pinning and per-hop redirect validation in Python/native HTTP | Broader native DNS/redirect integration parity assessment incomplete |
+| Chromium network boundary | Required Linux namespace plus host broker; real TCP/UDP canary tests with interception detached | Full auxiliary-target compatibility and Chromium/kernel exploit assessment incomplete; Windows/macOS fail closed |
+| Input/output limits and redaction | Bounded URL/body/response/depth/JSON/deadlines, credential filters and safe error regressions | Comprehensive fuzzing and arbitrary page-prose DLP absent |
+| Hybrid state and engine selection | Explicit active page/engine; Turbo/live synchronization and fresh IDs; heuristic fallback | General website classification accuracy unmeasured |
+| Browser lifecycle | Supervised process workers, deadlines, crash/parent-death/cleanup and required kernel controls | Latest full cleanup soak pending; cross-instance enclosing quotas remain operator responsibility |
+| Action mapping and staleness | Exact retained live node, generation/document/mutation validation; stale IDs fail without ordinal fallback | Strict invalidation can require repeated extraction on dynamic pages |
+| Click/fill/select/check/scroll/wait | Implemented and controlled browser/SDK/MCP tested | Discovery uses exact accessible name/optional role; no arbitrary selector execution |
+| Keyboard input | Synthetic text/caret/select-all/textarea newline/Enter with cancellable input and exact-node revalidation | Trusted physical events, clipboard, Tab default focus and full contenteditable unsupported |
+| MCP sessions and protocol | Official SDK, bounded stdio frames, explicit owner-bound sessions, correlated workers, cancellation, queue/admission limits | No remote authentication/transport or production multi-tenant claim |
+| Session concurrency and resource bounds | Admission reserves declared task/memory budgets; real aggregate exhaustion, ownership/capacity/overload/reaping regressions | Explicit 512-task/two-session workload is not saturation/fairness proof; production defaults unchanged |
+| Semantic extraction | Bounded structure, tables/scopes/spans/groups, embeds, language/RTL/landmarks; 44 predefined checks across 12 fixtures | General semantic recall and full malformed HTML header algorithm incomplete |
+| Token measurement | Real versioned tokenizers, Markdown/full JSON/character metrics; 3 bundled offline checksummed vocabularies | Canonical JSON excludes model chat-template overhead; no fixed savings claim |
+| Performance and load | Raw latency/CPU/sampled RSS harness; controlled complete tasks and shared pool workload | No comparable before baseline, exact peak, production capacity or fairness measurement |
+| Rust hardening | Native bounded HTTP/static extraction; 8 unit tests, strict formatting/Clippy/build/audit; 18 native/Python negative contracts | Native live browser/action parity NOT IMPLEMENTED; Python MCP delegation is not native parity |
+| Security regressions | Covered declared URL/network/session/action/input/resource attack families; original failures retained | Independent exploit-chain assessment and broad fuzzing absent |
+| Functional/framework compatibility | Real pinned plain HTML/React/Vue/Next/Angular fixtures; controlled login/logout, tabs/history/forms/stale recovery | General websites, trusted-input/file-transfer/WebSocket/service-worker/Authorization flows unsupported |
+| CI, dependencies and builds | Python 3.11–3.14 on Linux/Windows, Rust, lint/types/audits/builds/browser tests | Latest engineering soak pending; SonarCloud red with 46 open findings, including 2 private-tmpfs findings |
+| Observability | Structured request/session/operation logs, bounded local JSON/Prometheus metrics and sampled memory | External aggregation, public endpoint and exact peak-memory telemetry absent |
+| Documentation and report | README, SECURITY, AUDIT, CHANGELOG, BENCHMARKS, acceptance, quickstart and source-bound evidence updated | Documented limits remain release blockers, not approved exclusions |
+| Independent verification | Reproducible first-party receipt checks and source/hash bindings | No external security assessment or independent evidence custody |
 
-General public-site task completion, trusted physical events,file uploads,downloads,
-WebSockets,service workers,HTTP Authorization,persistent host profiles,remote MCP,
-production saturation/fairness and independent security assessment remain unsupported
-or unverified. No merge/release authorized or performed.
+## Current verification
 
-Final full CI run45864277407 is SUCCESS at head0530488/tested merge1f59be05.
-Browser68 passes/0 skips;kernel38 passes/2 Windows-only skips;all8 Python jobs
-206 passes/21 explained skips;strict Rust/dependency gates pass. Soak739 cycles
-in1801.544 seconds,zero observed orphan processes/permanent slots. All raw rows
-and81 tested implementation Git blobs verified. See ENGINEERING_REPORT.md for
-final before/after table,limits and remaining NOT_PRODUCTION_READY scope.
+Focused Linux run [45880812905](https://github.com/k39139215-gif/aerobrowse/actions/runs/45880812905)
+is SUCCESS: 33 workflow passes, 40 runtime passes with 2 Windows-only skips, and
+shared-pool load passes. Local non-browser suite: 236 passes / 21 explained skips.
+Each of the 8 final full Python jobs has the same totals. Rust CI, dependency
+checks and native negative contracts pass. The built wheel matches 24 checkout
+files and initializes all 3 supported tokenizers with socket creation denied.
+
+Full engineering run [45880822782](https://github.com/k39139215-gif/aerobrowse/actions/runs/45880822782)
+is still in progress at the mandatory 30-minute cleanup soak. Historical full run
+45880010831 passed at d4c2996; it does not verify the later refactor.
+Actual-model evaluation remains NOT_RUN without explicit credentials/model.

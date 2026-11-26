@@ -1,0 +1,348 @@
+* Getting build dependencies for sdist...
+running egg_info
+writing aerobrowse.egg-info\PKG-INFO
+writing dependency_links to aerobrowse.egg-info\dependency_links.txt
+writing entry points to aerobrowse.egg-info\entry_points.txt
+writing requirements to aerobrowse.egg-info\requires.txt
+writing top-level names to aerobrowse.egg-info\top_level.txt
+reading manifest file 'aerobrowse.egg-info\SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'aerobrowse.egg-info\SOURCES.txt'
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Building sdist...
+running sdist
+running egg_info
+writing aerobrowse.egg-info\PKG-INFO
+writing dependency_links to aerobrowse.egg-info\dependency_links.txt
+writing entry points to aerobrowse.egg-info\entry_points.txt
+writing requirements to aerobrowse.egg-info\requires.txt
+writing top-level names to aerobrowse.egg-info\top_level.txt
+reading manifest file 'aerobrowse.egg-info\SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'aerobrowse.egg-info\SOURCES.txt'
+running check
+creating aerobrowse-0.2.0
+creating aerobrowse-0.2.0\aerobrowse
+creating aerobrowse-0.2.0\aerobrowse.egg-info
+creating aerobrowse-0.2.0\aerobrowse\token_data
+creating aerobrowse-0.2.0\tests
+copying files to aerobrowse-0.2.0...
+copying LICENSE -> aerobrowse-0.2.0
+copying README.md -> aerobrowse-0.2.0
+copying pyproject.toml -> aerobrowse-0.2.0
+copying aerobrowse\__init__.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\actions.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\benchmark.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\cdp_broker.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\cli.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\engine.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\errors.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\fidelity.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\isolation.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\mcp_server.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\mcp_transport.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\observability.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\pruner.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\runtime.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\sdk.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\security.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\sessions.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\tokens.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse\turbo.py -> aerobrowse-0.2.0\aerobrowse
+copying aerobrowse.egg-info\PKG-INFO -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse.egg-info\SOURCES.txt -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse.egg-info\dependency_links.txt -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse.egg-info\entry_points.txt -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse.egg-info\requires.txt -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse.egg-info\top_level.txt -> aerobrowse-0.2.0\aerobrowse.egg-info
+copying aerobrowse\token_data\LICENSE -> aerobrowse-0.2.0\aerobrowse\token_data
+copying aerobrowse\token_data\cl100k_base.tiktoken.gz -> aerobrowse-0.2.0\aerobrowse\token_data
+copying aerobrowse\token_data\manifest.json -> aerobrowse-0.2.0\aerobrowse\token_data
+copying aerobrowse\token_data\o200k_base.tiktoken.gz -> aerobrowse-0.2.0\aerobrowse\token_data
+copying aerobrowse\token_data\p50k_base.tiktoken.gz -> aerobrowse-0.2.0\aerobrowse\token_data
+copying tests\test_actions.py -> aerobrowse-0.2.0\tests
+copying tests\test_aerobrowse.py -> aerobrowse-0.2.0\tests
+copying tests\test_agent_fixture.py -> aerobrowse-0.2.0\tests
+copying tests\test_benchmark.py -> aerobrowse-0.2.0\tests
+copying tests\test_browser_credentials.py -> aerobrowse-0.2.0\tests
+copying tests\test_engine_state.py -> aerobrowse-0.2.0\tests
+copying tests\test_extraction.py -> aerobrowse-0.2.0\tests
+copying tests\test_extraction_edges.py -> aerobrowse-0.2.0\tests
+copying tests\test_extraction_quality.py -> aerobrowse-0.2.0\tests
+copying tests\test_interactive.py -> aerobrowse-0.2.0\tests
+copying tests\test_mcp.py -> aerobrowse-0.2.0\tests
+copying tests\test_observability.py -> aerobrowse-0.2.0\tests
+copying tests\test_offline_tokens.py -> aerobrowse-0.2.0\tests
+copying tests\test_sdk_supervision.py -> aerobrowse-0.2.0\tests
+copying tests\test_security.py -> aerobrowse-0.2.0\tests
+copying tests\test_sessions.py -> aerobrowse-0.2.0\tests
+copying tests\test_shared_load.py -> aerobrowse-0.2.0\tests
+copying tests\test_tabs_validation.py -> aerobrowse-0.2.0\tests
+copying tests\test_wait_validation.py -> aerobrowse-0.2.0\tests
+Writing aerobrowse-0.2.0\setup.cfg
+Creating tar archive
+removing 'aerobrowse-0.2.0' (and everything under it)
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Building wheel from sdist
+* Getting build dependencies for wheel...
+running egg_info
+writing aerobrowse.egg-info\PKG-INFO
+writing dependency_links to aerobrowse.egg-info\dependency_links.txt
+writing entry points to aerobrowse.egg-info\entry_points.txt
+writing requirements to aerobrowse.egg-info\requires.txt
+writing top-level names to aerobrowse.egg-info\top_level.txt
+reading manifest file 'aerobrowse.egg-info\SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'aerobrowse.egg-info\SOURCES.txt'
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+* Building wheel...
+running bdist_wheel
+running build
+running build_py
+creating build\lib\aerobrowse
+copying aerobrowse\actions.py -> build\lib\aerobrowse
+copying aerobrowse\benchmark.py -> build\lib\aerobrowse
+copying aerobrowse\cdp_broker.py -> build\lib\aerobrowse
+copying aerobrowse\cli.py -> build\lib\aerobrowse
+copying aerobrowse\engine.py -> build\lib\aerobrowse
+copying aerobrowse\errors.py -> build\lib\aerobrowse
+copying aerobrowse\fidelity.py -> build\lib\aerobrowse
+copying aerobrowse\isolation.py -> build\lib\aerobrowse
+copying aerobrowse\mcp_server.py -> build\lib\aerobrowse
+copying aerobrowse\mcp_transport.py -> build\lib\aerobrowse
+copying aerobrowse\observability.py -> build\lib\aerobrowse
+copying aerobrowse\pruner.py -> build\lib\aerobrowse
+copying aerobrowse\runtime.py -> build\lib\aerobrowse
+copying aerobrowse\sdk.py -> build\lib\aerobrowse
+copying aerobrowse\security.py -> build\lib\aerobrowse
+copying aerobrowse\sessions.py -> build\lib\aerobrowse
+copying aerobrowse\tokens.py -> build\lib\aerobrowse
+copying aerobrowse\turbo.py -> build\lib\aerobrowse
+copying aerobrowse\__init__.py -> build\lib\aerobrowse
+running egg_info
+writing aerobrowse.egg-info\PKG-INFO
+writing dependency_links to aerobrowse.egg-info\dependency_links.txt
+writing entry points to aerobrowse.egg-info\entry_points.txt
+writing requirements to aerobrowse.egg-info\requires.txt
+writing top-level names to aerobrowse.egg-info\top_level.txt
+reading manifest file 'aerobrowse.egg-info\SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'aerobrowse.egg-info\SOURCES.txt'
+creating build\lib\aerobrowse\token_data
+copying aerobrowse\token_data\cl100k_base.tiktoken.gz -> build\lib\aerobrowse\token_data
+copying aerobrowse\token_data\o200k_base.tiktoken.gz -> build\lib\aerobrowse\token_data
+copying aerobrowse\token_data\p50k_base.tiktoken.gz -> build\lib\aerobrowse\token_data
+copying aerobrowse\token_data\manifest.json -> build\lib\aerobrowse\token_data
+copying aerobrowse\token_data\LICENSE -> build\lib\aerobrowse\token_data
+installing to build\bdist.win-amd64\wheel
+running install
+running install_lib
+creating build\bdist.win-amd64\wheel
+creating build\bdist.win-amd64\wheel\aerobrowse
+copying build\lib\aerobrowse\actions.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\benchmark.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\cdp_broker.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\cli.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\engine.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\errors.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\fidelity.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\isolation.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\mcp_server.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\mcp_transport.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\observability.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\pruner.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\runtime.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\sdk.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\security.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\sessions.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\tokens.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+creating build\bdist.win-amd64\wheel\aerobrowse\token_data
+copying build\lib\aerobrowse\token_data\cl100k_base.tiktoken.gz -> build\bdist.win-amd64\wheel\.\aerobrowse\token_data
+copying build\lib\aerobrowse\token_data\LICENSE -> build\bdist.win-amd64\wheel\.\aerobrowse\token_data
+copying build\lib\aerobrowse\token_data\manifest.json -> build\bdist.win-amd64\wheel\.\aerobrowse\token_data
+copying build\lib\aerobrowse\token_data\o200k_base.tiktoken.gz -> build\bdist.win-amd64\wheel\.\aerobrowse\token_data
+copying build\lib\aerobrowse\token_data\p50k_base.tiktoken.gz -> build\bdist.win-amd64\wheel\.\aerobrowse\token_data
+copying build\lib\aerobrowse\turbo.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+copying build\lib\aerobrowse\__init__.py -> build\bdist.win-amd64\wheel\.\aerobrowse
+running install_egg_info
+Copying aerobrowse.egg-info to build\bdist.win-amd64\wheel\.\aerobrowse-0.2.0-py3.12.egg-info
+running install_scripts
+creating build\bdist.win-amd64\wheel\aerobrowse-0.2.0.dist-info\WHEEL
+creating 'C:\\Users\\kartik\\OneDrive\\Documents\\ChatGPT\\Verasett Design Doc\\aerobrowse\\dist\\.tmp-rwc5nwlc\\aerobrowse-0.2.0-py3-none-any.whl' and adding 'build\\bdist.win-amd64\\wheel' to it
+adding 'aerobrowse/__init__.py'
+adding 'aerobrowse/actions.py'
+adding 'aerobrowse/benchmark.py'
+adding 'aerobrowse/cdp_broker.py'
+adding 'aerobrowse/cli.py'
+adding 'aerobrowse/engine.py'
+adding 'aerobrowse/errors.py'
+adding 'aerobrowse/fidelity.py'
+adding 'aerobrowse/isolation.py'
+adding 'aerobrowse/mcp_server.py'
+adding 'aerobrowse/mcp_transport.py'
+adding 'aerobrowse/observability.py'
+adding 'aerobrowse/pruner.py'
+adding 'aerobrowse/runtime.py'
+adding 'aerobrowse/sdk.py'
+adding 'aerobrowse/security.py'
+adding 'aerobrowse/sessions.py'
+adding 'aerobrowse/tokens.py'
+adding 'aerobrowse/turbo.py'
+adding 'aerobrowse/token_data/LICENSE'
+adding 'aerobrowse/token_data/cl100k_base.tiktoken.gz'
+adding 'aerobrowse/token_data/manifest.json'
+adding 'aerobrowse/token_data/o200k_base.tiktoken.gz'
+adding 'aerobrowse/token_data/p50k_base.tiktoken.gz'
+adding 'aerobrowse-0.2.0.dist-info/licenses/LICENSE'
+adding 'aerobrowse-0.2.0.dist-info/METADATA'
+adding 'aerobrowse-0.2.0.dist-info/WHEEL'
+adding 'aerobrowse-0.2.0.dist-info/entry_points.txt'
+adding 'aerobrowse-0.2.0.dist-info/top_level.txt'
+adding 'aerobrowse-0.2.0.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
+WARNING `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+WARNING License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+Successfully built aerobrowse-0.2.0.tar.gz and aerobrowse-0.2.0-py3-none-any.whl

@@ -93,3 +93,25 @@ request belongs to a separate Chromium target; this is not broad browser-API par
 No persistent login import/export. A killed worker loses its ephemeral login state;
 create a new session and log in again. Never automatically replay a mutating action
 whose navigation interrupted the reply; inspect server/page state first.
+
+
+## Discovery and capacity recovery
+
+`browser_wait(session_id, name="Save", role="button", timeout_ms=5000)` waits for
+an enabled control with that exact accessible name and returns fresh action IDs.
+It performs no activation. Existing `action_id`/`generation` waits validate identity
+immediately; they cannot follow an old ID to a replacement node. `WAIT_TIMEOUT`
+leaves the session usable; `PAGE_NAVIGATED` requires a new snapshot.
+
+With `AEROBROWSE_SESSION_TASKS=256`, the default256-task aggregate pool can reserve
+one session. `SESSION_RESOURCE_LIMIT` refuses another before startup; reuse or
+close an existing owned session,or let the operator provision a tested larger pool
+through trusted embedding. This cannot be changed by MCP tool arguments.
+`WORKER_RESOURCE_LIMIT` retires a worker after kernel exhaustion; an exhausted
+aggregate pool requires recreation. Never retry by weakening the security quota.
+
+All supported tokenizers ship inside the wheel with checksum-verified vocabularies.
+No runtime vocabulary download or cache setup is required. Missing or corrupted
+package data returns `TOKENIZER_ERROR`. Local telemetry can be read using the SDK
+`metrics_snapshot()`/`metrics_prometheus()` APIs; it contains aggregate bounded
+operation labels and sampled memory,not request values or an exact memory peak.
