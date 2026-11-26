@@ -337,7 +337,14 @@ def _frame_write(stream: Any, value: dict[str, Any]) -> None:
     raw = json.dumps(value, ensure_ascii=True, allow_nan=False).encode() + b"\n"
     if len(raw) > MAX_FRAME:
         raise AeroError("RESPONSE_TOO_LARGE", "Worker message exceeds limit")
-    stream.write(raw)
+    view = memoryview(raw)
+    while view:
+        written = stream.write(view)
+        if written is None or written <= 0:
+            raise AeroError(
+                "WORKER_PROTOCOL_ERROR", "Worker pipe closed during frame write"
+            )
+        view = view[written:]
     stream.flush()
 
 

@@ -197,3 +197,44 @@ def test_linux_kernel_denies_excess_child_process():
         group.kill()
         group.close()
         pool.close()
+
+
+def test_worker_ipc_preserves_frame_across_partial_writes():
+    import json
+
+    from aerobrowse.runtime import _frame_write
+
+    class PartialWriter:
+        def __init__(self):
+            self.data = bytearray()
+            self.flushed = False
+
+        def write(self, data):
+            amount = min(7, len(data))
+            self.data.extend(data[:amount])
+            return amount
+
+        def flush(self):
+            self.flushed = True
+
+    stream = PartialWriter()
+    payload = {
+        "id": "request",
+        "result": {"unicode": "Ã™â€¦Ã˜Â±Ã˜Â­Ã˜Â¨Ã˜Â§", "data": "x" * 10000},
+    }
+    _frame_write(stream, payload)
+    assert bytes(stream.data).endswith(b"\n")
+    assert json.loads(stream.data) == payload
+    assert stream.flushed
+
+
+def test_worker_ipc_zero_write_fails_closed():
+    from aerobrowse.runtime import _frame_write
+
+    class Closed:
+        def write(self, data):
+            return 0
+
+    with pytest.raises(AeroError) as caught:
+        _frame_write(Closed(), {"id": "request"})
+    assert caught.value.code == "WORKER_PROTOCOL_ERROR"

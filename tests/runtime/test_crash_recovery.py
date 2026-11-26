@@ -161,3 +161,123 @@ def test_low_task_budget_fails_explicitly_and_releases_slot(site):
             await manager.close_all()
 
     asyncio.run(run())
+
+
+@pytest.mark.browser
+@pytest.mark.skipif(
+    __import__("sys").platform != "linux",
+    reason="Linux live browser descendant crashes",
+)
+@pytest.mark.parametrize("target", ["browser", "renderer"])
+def test_live_browser_crash_releases_tree_and_recovers(site, target):
+    async def run():
+        manager = SessionManager(
+            max_sessions=1,
+            allow_networks=("127.0.0.1/32",),
+            resource_limits=ResourceLimits(processes=256),
+        )
+        sid = await manager.create("owner")
+        descendants = []
+        try:
+            snapshot = await manager.call(
+                "owner", sid, "navigate", site + "/form", force_fidelity=True
+            )
+            assert snapshot.get("success"), snapshot
+            worker = psutil.Process(manager._sessions[sid].worker.pid)
+            descendants = worker.children(recursive=True)
+            chromes = [p for p in descendants if p.name() in ("chrome", "chromium")]
+            selected = next(
+                p
+                for p in chromes
+                if ("--type=renderer" in p.cmdline()) == (target == "renderer")
+                and (
+                    target == "renderer"
+                    or not any(a.startswith("--type=") for a in p.cmdline())
+                )
+            )
+            selected.kill()
+            await asyncio.sleep(0.1)
+            aid = next(a["id"] for a in snapshot["actions"] if a["label"] == "Name")
+            result = await manager.call(
+                "owner",
+                sid,
+                "fill",
+                aid,
+                "must not target another page",
+                snapshot["generation"],
+            )
+            assert not result.get("success"), result
+            assert result["error"]["code"] in {
+                "STALE_ACTION_ID",
+                "PAGE_NAVIGATED",
+                "NO_ACTIVE_PAGE",
+                "WORKER_CRASHED",
+                "SNAPSHOT_FAILED",
+            }, result
+            assert (await manager.close("owner", sid))["success"]
+            assert manager.active_sessions == 0
+            for process in descendants:
+                try:
+                    assert process.status() == psutil.STATUS_ZOMBIE, (
+                        process.pid,
+                        process.name(),
+                        process.status(),
+                    )
+                except psutil.NoSuchProcess:
+                    pass
+            replacement = await manager.create("owner")
+            fresh = await manager.call(
+                "owner", replacement, "navigate", site + "/form", force_fidelity=True
+            )
+            assert fresh.get("success"), fresh
+            assert fresh["generation"] != snapshot["generation"]
+        finally:
+            await manager.close_all()
+
+    asyncio.run(run())
+
+
+@pytest.mark.browser
+@pytest.mark.skipif(
+    __import__("sys").platform != "linux",
+    reason="Linux independent guardian parent death",
+)
+def test_linux_parent_death_kills_worker_and_cgroup():
+    import json
+    import subprocess
+    import sys
+    import time
+
+    code = """import json,sys
+from aerobrowse.runtime import ResourcePool,ProcessWorker
+pool=ResourcePool();worker=ProcessWorker(pool)
+worker.call('snapshot',(),{})
+print(json.dumps({'pid':worker.pid,'guardian':worker.guardian.pid,'directory':worker.directory.name,'group':str(worker.group.path)}),flush=True)
+sys.stdin.readline()
+"""
+    with subprocess.Popen(
+        [sys.executable, "-c", code],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        text=True,
+    ) as parent:
+        receipt = json.loads(parent.stdout.readline())
+        worker = psutil.Process(receipt["pid"])
+        parent.kill()
+        parent.wait(timeout=5)
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            try:
+                live = worker.is_running() and worker.status() != psutil.STATUS_ZOMBIE
+            except psutil.NoSuchProcess:
+                live = False
+            if (
+                not live
+                and not __import__("pathlib").Path(receipt["directory"]).exists()
+                and not __import__("pathlib").Path(receipt["group"]).exists()
+            ):
+                break
+            time.sleep(0.05)
+        assert not live
+        assert not __import__("pathlib").Path(receipt["directory"]).exists()
+        assert not __import__("pathlib").Path(receipt["group"]).exists()
