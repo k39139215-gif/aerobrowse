@@ -413,7 +413,7 @@ def test_aggregate_quota_exhaustion_is_explicit_and_reaps_worker(site):
     from aerobrowse.errors import AeroError
     from aerobrowse.runtime import Cgroup, ProcessWorker, ResourceLimits, ResourcePool
 
-    pool = ResourcePool(ResourceLimits(processes=64))
+    pool = ResourcePool(ResourceLimits(processes=64), allow_networks=("127.0.0.1/32",))
     worker = ProcessWorker(pool)
     try:
         worker.start()

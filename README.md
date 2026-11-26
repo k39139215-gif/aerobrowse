@@ -105,7 +105,7 @@ session's operations and preserves Playwright thread affinity.
 | browser_check | action_id, generation, checked |
 | browser_press | action_id, generation, key |
 | browser_scroll | optional x, y |
-| browser_wait | action_id, generation; optional timeout_ms |
+| browser_wait | action_id/generation or exact name; optional role, timeout_ms |
 | browser_screenshot | none |
 | browser_capabilities | none; no session required |
 | browser_tabs | none |
@@ -117,7 +117,7 @@ session's operations and preserves Playwright thread affinity.
 Tool responses use `success`, structured `error.code`/`error.message` on failure,
 and page snapshots on successful actions. Request operations include request and
 session IDs. Do not assume HTTP success from a returned dictionary: inspect
-`success`. Session defaults: 8 active sessions, 300-second idle lifetime,
+`success`. Session defaults: configured maximum8 (subject to aggregate budget reservation),300-second idle lifetime,
 45-second request timeout. Idle cleanup runs every 10 seconds. Each session admits at most 16 outstanding calls. Cancellation
 retires the session and queues cleanup. Retiring resources still count against
 capacity; incomplete cleanup returns CLEANUP_PENDING. Owned process workers are

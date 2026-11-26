@@ -17,6 +17,7 @@ from urllib.parse import urlsplit
 from fastmcp import Client
 from fastmcp.client.transports import StdioTransport
 
+from aerobrowse.benchmark import write_receipt
 from aerobrowse.tokens import encoding
 from benchmarks.agent.fixture import AgentFixture
 
@@ -226,7 +227,9 @@ async def evaluate(
                     break
             else:
                 failure = "MODEL_TURN_LIMIT"
-        except Exception as exc:  # noqa: BLE001 - evaluation boundary emits FAIL, never hides a passing test
+        except (
+            Exception
+        ) as exc:  # evaluation boundary emits FAIL, never hides a passing test
             failure = "MODEL_OR_MCP_REQUEST_FAILED:" + type(exc).__name__
         finally:
             close_results = []
@@ -266,7 +269,7 @@ async def evaluate(
                         }
                     )
                     close_results.append(success)
-                except Exception as exc:  # noqa: BLE001 - explicit failed cleanup receipt, no credentials or raw provider errors
+                except Exception as exc:  # explicit failed cleanup receipt, no credentials or raw provider errors
                     close_results.append(False)
                     cleanup_calls.append(
                         {
@@ -368,7 +371,7 @@ async def run(args):
                         args.max_calls,
                     )
                 )
-            except Exception as exc:  # noqa: BLE001 - connection/initialization failure is a visible failed task receipt
+            except Exception as exc:  # connection/initialization failure is a visible failed task receipt
                 results.append(
                     {
                         "task": task,
@@ -393,9 +396,7 @@ def main():
     if not 1 <= args.max_calls <= 100:
         parser.error("max-calls must be 1 through 100")
     result = asyncio.run(run(args))
-    path = Path(args.output)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    path = write_receipt(args.output, result)
     print(json.dumps({"status": result["status"], "output": str(path)}))
 
 

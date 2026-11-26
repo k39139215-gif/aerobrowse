@@ -33,9 +33,16 @@ def test_concurrent_tool_responses_keep_request_and_session_identity(peer):
     sessions = []
     for response in responses:
         data = response["result"]["structuredContent"]
-        assert data["error"]["code"] == "BLOCKED_DESTINATION"
-        sessions.append(data["session_id"])
-    assert len(set(sessions)) == 8
+        assert data["error"]["code"] in {
+            "BLOCKED_DESTINATION",
+            "SESSION_RESOURCE_LIMIT",
+        }
+        if data["error"]["code"] == "BLOCKED_DESTINATION":
+            sessions.append(data["session_id"])
+        else:
+            assert "session_id" not in data
+    assert len(set(sessions)) == len(sessions)
+    assert 1 <= len(sessions) <= 4
     for index, sid in enumerate(sessions):
         peer.send(
             {

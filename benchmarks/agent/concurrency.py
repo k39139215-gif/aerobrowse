@@ -1,15 +1,14 @@
 """Reproducible two-worker full browser task load; no speedup claim."""
 
 import argparse
-import json
 import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
 
 import psutil
 
 from aerobrowse import AeroBrowser
+from aerobrowse.benchmark import write_receipt
 from aerobrowse.runtime import ResourceLimits
 from aerobrowse.security import NetworkPolicy
 from benchmarks.agent.fixture import AgentFixture
@@ -68,9 +67,7 @@ def main():
     if not 1 <= args.concurrency <= 4 or not 1 <= args.iterations <= 20:
         parser.error("concurrency1..4 and iterations1..20 required")
     result = run(args.concurrency, args.iterations)
-    path = Path(args.output)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    write_receipt(args.output, result)
 
 
 if __name__ == "__main__":

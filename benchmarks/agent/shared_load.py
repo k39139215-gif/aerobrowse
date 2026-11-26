@@ -2,16 +2,15 @@
 
 import argparse
 import asyncio
-import json
 import subprocess
 import time
 from collections import Counter
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
 from threading import Thread
 
 import psutil
 
+from aerobrowse.benchmark import write_receipt
 from aerobrowse.errors import AeroError
 from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
@@ -211,9 +210,7 @@ def main():
     result = asyncio.run(
         run(args.sessions, args.rounds, args.browser, args.aggregate_processes)
     )
-    path = Path(args.output)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    write_receipt(args.output, result)
 
 
 if __name__ == "__main__":
