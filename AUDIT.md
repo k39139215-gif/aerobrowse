@@ -1,5 +1,11 @@
 # AeroBrowse remediation audit
 
+Phase-two superseding evidence and open gates: [PHASE2_AUDIT.md](PHASE2_AUDIT.md),
+[ENGINEERING_REPORT.md](ENGINEERING_REPORT.md), and [SECURITY_REVIEW_PACKAGE.md](SECURITY_REVIEW_PACKAGE.md).
+Current release recommendation: NOT_PRODUCTION_READY. Earlier receipts below are
+historical and do not prove later runtime changes.
+
+
 Baseline: `44f3e73409d3f0c4e6e376f0c98198abd00ccc0f`, inspected 2026-11-26.
 Inventory: `evidence/baseline-inventory.txt`. All tracked source, tests, configuration,
 examples, notebook cells, documentation, assets and historical benchmark data were inspected.
