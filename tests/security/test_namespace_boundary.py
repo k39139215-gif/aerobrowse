@@ -80,7 +80,7 @@ def test_browser_cannot_read_host_secret_or_environment(attack_lab):
         secret.unlink()
 
 
-def test_private_tmp_mount_is_not_host_writable_directory(attack_lab):
+def test_private_workspace_is_not_host_writable_directory(attack_lab):
     lab = attack_lab
     assert lab["browser"].fetch(lab["allowed"])["success"]
     checked = []
@@ -94,13 +94,25 @@ def test_private_tmp_mount_is_not_host_writable_directory(attack_lab):
             root = Path("/proc") / str(process.pid)
             mounts = (root / "mountinfo").read_text()
             private_tmp = [
-                line for line in mounts.splitlines() if line.split()[4] == "/tmp"
+                line for line in mounts.splitlines() if line.split()[4] == "/workspace"
             ]
             assert private_tmp
             assert all(" - tmpfs " in line for line in private_tmp)
-            assert (root / "root/tmp").stat().st_dev != Path("/tmp").stat().st_dev
+            assert (root / "root/workspace/tmp").is_dir()
+            assert not (root / "root/tmp").exists()
+            assert "--user-data-dir=/workspace/profile" in process.cmdline() or any(
+                item.startswith("--type=") for item in process.cmdline()
+            )
+            assert (root / "root/workspace").stat().st_dev != Path.cwd().stat().st_dev
             checked.append(process.pid)
         except psutil.NoSuchProcess:
             continue
     assert checked
-    save_receipt("private-tmpfs", {"processes": checked, "host_tmp_exposed": False})
+    save_receipt(
+        "private-tmpfs",
+        {
+            "processes": checked,
+            "host_tmp_exposed": False,
+            "private_workspace": "/workspace",
+        },
+    )

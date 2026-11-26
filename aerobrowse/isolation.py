@@ -54,7 +54,12 @@ class IsolatedLauncher:
             "--dev",
             "/dev",
             "--tmpfs",
-            "/tmp",
+            "/workspace",
+            "--dir",
+            "/workspace/tmp",
+            "--setenv",
+            "TMPDIR",
+            "/workspace/tmp",
             "--tmpfs",
             "/run",
             "--tmpfs",
@@ -62,7 +67,7 @@ class IsolatedLauncher:
             "--dir",
             "/home/browser",
             "--chdir",
-            "/tmp",
+            "/workspace",
         ]
         # System runtime data only. Never bind host /, /home, /run, /tmp, /proc or environment.
         for directory in (
@@ -104,7 +109,21 @@ class IsolatedLauncher:
             ) from exc
         self.directory = tempfile.TemporaryDirectory(prefix="aero-launch-")
         launcher = Path(self.directory.name) / "chromium"
-        launcher.write_text("#!/bin/sh\nexec " + shlex.join(command) + ' "$@"\n')
+        # Playwright allocates a host profile path. Rewrite that one argument using
+        # positional parameters only; never eval/interpolate caller arguments.
+        launcher.write_text(
+            "#!/bin/sh\n"
+            'remaining="$#"\n'
+            'while [ "$remaining" -gt 0 ]; do\n'
+            '  argument="$1"; shift\n'
+            '  case "$argument" in\n'
+            '    --user-data-dir=*) set -- "$@" --user-data-dir=/workspace/profile ;;\n'
+            '    *) set -- "$@" "$argument" ;;\n'
+            "  esac\n"
+            "  remaining=$((remaining - 1))\n"
+            "done\n"
+            "exec " + shlex.join(command) + ' "$@"\n'
+        )
         os.chmod(launcher, 0o700)
         return str(launcher)
 
