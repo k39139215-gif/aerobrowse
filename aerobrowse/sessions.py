@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from aerobrowse.errors import AeroError
+from aerobrowse.observability import Metrics, request_log
 from aerobrowse.runtime import ProcessWorker, ResourceLimits, ResourcePool
 from aerobrowse.tokens import measure_output
 
@@ -52,6 +53,7 @@ class SessionManager:
         self._cleanup_tasks: set[asyncio.Task[None]] = set()
         self._reaper: asyncio.Task | None = None
         self.closed = False
+        self._telemetry = Metrics()
         self.metrics = {"requests": 0, "failures": 0, "cancelled": 0, "timeouts": 0}
 
     @property
@@ -124,6 +126,13 @@ class SessionManager:
             ).result()
         except asyncio.CancelledError:
             self.metrics["cancelled"] += 1
+            cancelled = AeroError("CANCELLED", "Request cancelled").result()
+            self._telemetry.observe(
+                operation, cancelled, (time.monotonic() - start) * 1000
+            )
+            request_log(
+                request_id, sid, operation, cancelled, (time.monotonic() - start) * 1000
+            )
             await self.close(owner, sid)
             raise
         except (OSError, ValueError, TypeError, RuntimeError):
@@ -146,20 +155,26 @@ class SessionManager:
         self.metrics["requests"] += 1
         if not result.get("success"):
             self.metrics["failures"] += 1
-        log.info(
-            json.dumps(
-                {
-                    "request_id": request_id,
-                    "session_id": sid,
-                    "operation": operation,
-                    "engine": result.get("engine"),
-                    "duration_ms": round((time.monotonic() - start) * 1000, 2),
-                    "outcome": "success" if result.get("success") else "error",
-                    "error_code": result.get("error", {}).get("code"),
-                }
-            )
-        )
+        duration_ms = (time.monotonic() - start) * 1000
+        self._telemetry.observe(operation, result, duration_ms)
+        self._sample_memory()
+        request_log(request_id, sid, operation, result, duration_ms)
         return result
+
+    def _sample_memory(self) -> None:
+        self._telemetry.sample_memory(
+            session.worker.pid
+            for session in (*self._sessions.values(), *self._retiring.values())
+        )
+
+    def metrics_snapshot(self) -> dict[str, Any]:
+        """Operator-only aggregate; intentionally not exposed as an MCP tool."""
+        self._sample_memory()
+        return self._telemetry.snapshot(self.active_sessions)
+
+    def metrics_prometheus(self) -> str:
+        self._sample_memory()
+        return self._telemetry.prometheus(self.active_sessions)
 
     def _expired(self, session: Session) -> bool:
         now = time.monotonic()

@@ -68,7 +68,9 @@ class AeroBrowser:
                 and result.get("needs_fidelity")
                 and self.default_mode == "auto"
             ):
-                return self._remember(self._get_fidelity().navigate(result["url"]))
+                fallback = self._get_fidelity().navigate(result["url"])
+                fallback["fallback_reason"] = "dynamic_content"
+                return self._remember(fallback)
             return self._remember(result)
 
     def _interactive(self) -> dict[str, Any] | None:

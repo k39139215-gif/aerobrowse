@@ -1,3 +1,15 @@
+## Unreleased developer continuation
+
+- Add bounded discovery waits by exact accessible name/role, fresh generations,
+  explicit WAIT_TIMEOUT/PAGE_NAVIGATED, and SDK/MCP regression coverage.
+- Preserve common row/column table header associations across spans, document
+  language/direction, landmarks and language regions, with inference diagnostics.
+- Add public SDK request IDs/structured logs and bounded operator JSON/Prometheus
+  telemetry; request inputs never become metric labels.
+- Add shared aggregate-pool session/queue/ownership/progress/cleanup workload.
+- Existing action-ID waits remain immediate identity checks. Browser security
+  policy, quota requirements and fail-closed platform behavior stay mandatory.
+
 # Unreleased phase-two remediation
 
 No version bump, stable release or production-readiness claim.

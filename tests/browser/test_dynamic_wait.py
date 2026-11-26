@@ -46,3 +46,39 @@ def test_wait_cannot_succeed_on_another_document(site):
         page.evaluate("setTimeout(()=>location.href='/',100)")
         result = browser.wait(name="Never appears", timeout_ms=1000)
         assert result["error"]["code"] == "PAGE_NAVIGATED", result
+
+
+def test_discovery_wait_through_supervised_sdk(site):
+    from aerobrowse import AeroBrowser as PublicBrowser
+    from aerobrowse.runtime import ResourceLimits
+
+    with PublicBrowser(
+        default_mode="fidelity",
+        policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+        resource_limits=ResourceLimits(processes=256),
+    ) as browser:
+        assert browser.fetch(site + "/form")["success"]
+        result = browser.wait(name="Update", role="button", timeout_ms=1000)
+        assert result["success"], result
+        assert result["wait"]["matched_action_ids"]
+        assert (
+            browser.wait(name="Missing", timeout_ms=100)["error"]["code"]
+            == "WAIT_TIMEOUT"
+        )
+        assert browser.snapshot()["success"]
+
+
+def test_discovery_wait_through_real_mcp(site):
+    from benchmarks.agent.workflows import MCPBrowser
+
+    browser = MCPBrowser()
+    try:
+        page = browser.fetch(site + "/form")
+        assert page["success"], page
+        result = browser.call(
+            "browser_wait", name="Update", role="button", timeout_ms=1000
+        )
+        assert result["success"], result
+        assert result["wait"]["matched_action_ids"]
+    finally:
+        browser.close()

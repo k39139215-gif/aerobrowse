@@ -7,6 +7,7 @@ import uuid
 from typing import Any, Self
 
 from aerobrowse.errors import AeroError
+from aerobrowse.observability import Metrics, request_log
 from aerobrowse.runtime import ProcessWorker, ResourceLimits, ResourcePool
 from aerobrowse.security import NetworkPolicy
 from aerobrowse.tokens import measure_output
@@ -42,26 +43,44 @@ class AeroBrowser:
         self._lock = threading.RLock()
         self._closed = False
         self._created = time.monotonic()
+        self._telemetry = Metrics()
 
     def _call(self, operation: str, *args: Any, **kwargs: Any) -> dict[str, Any]:
         with self._lock:
+            request_id, start = uuid.uuid4().hex, time.monotonic()
             if self._closed:
-                return AeroError("RUNTIME_CLOSED", "Browser has been closed").result()
+                return self._finish(
+                    operation,
+                    AeroError("RUNTIME_CLOSED", "Browser has been closed").result(),
+                    request_id,
+                    start,
+                )
             if not self._pool.enforced and (
                 self.default_mode == "fidelity" or kwargs.get("force_fidelity")
             ):
-                return AeroError(
-                    "RESOURCE_ISOLATION_UNAVAILABLE",
-                    "Fidelity requires enforced aggregate quotas",
-                ).result()
+                return self._finish(
+                    operation,
+                    AeroError(
+                        "RESOURCE_ISOLATION_UNAVAILABLE",
+                        "Fidelity requires enforced aggregate quotas",
+                    ).result(),
+                    request_id,
+                    start,
+                )
             remaining = self._pool.limits.lifetime_seconds - (
                 time.monotonic() - self._created
             )
             if remaining <= 0:
                 self.close()
-                return AeroError(
-                    "SESSION_EXPIRED", "Session lifetime exceeded; create a new browser"
-                ).result()
+                return self._finish(
+                    operation,
+                    AeroError(
+                        "SESSION_EXPIRED",
+                        "Session lifetime exceeded; create a new browser",
+                    ).result(),
+                    request_id,
+                    start,
+                )
             expired = threading.Event()
 
             def timeout() -> None:
@@ -91,13 +110,23 @@ class AeroBrowser:
                 result = AeroError(
                     "TIMEOUT", "Request timed out; worker was terminated"
                 ).result()
-            result["session_id"] = self.session_id
-            if result.get("success"):
-                self.current_url = result.get("url", self.current_url)
-                self.active_engine = result.get("engine", self.active_engine)
-                self.tab_id = result.get("tab_id", self.tab_id)
-            result.update(measure_output(result))
-            return result
+            return self._finish(operation, result, request_id, start)
+
+    def _finish(
+        self, operation: str, result: dict[str, Any], request_id: str, start: float
+    ) -> dict[str, Any]:
+        result["session_id"] = self.session_id
+        result["request_id"] = request_id
+        duration_ms = (time.monotonic() - start) * 1000
+        self._telemetry.observe(operation, result, duration_ms)
+        self._telemetry.sample_memory([self._worker.pid])
+        request_log(request_id, self.session_id, operation, result, duration_ms)
+        if result.get("success"):
+            self.current_url = result.get("url", self.current_url)
+            self.active_engine = result.get("engine", self.active_engine)
+            self.tab_id = result.get("tab_id", self.tab_id)
+        result.update(measure_output(result))
+        return result
 
     def fetch(self, url: str, force_fidelity: bool = False) -> dict[str, Any]:
         self.current_url, self.active_engine = None, None
@@ -184,6 +213,18 @@ class AeroBrowser:
         self, action_id: str, key: str, generation: str | None = None
     ) -> dict[str, Any]:
         return self.perform("press", action_id, key, generation)
+
+    def metrics_snapshot(self) -> dict[str, Any]:
+        """Operator-only local telemetry; no browser secrets or per-session labels."""
+        with self._lock:
+            self._telemetry.sample_memory(
+                [self._worker.pid] if not self._closed else []
+            )
+            return self._telemetry.snapshot(int(not self._closed))
+
+    def metrics_prometheus(self) -> str:
+        with self._lock:
+            return self._telemetry.prometheus(int(not self._closed))
 
     def close(self) -> None:
         with self._lock:

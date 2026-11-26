@@ -231,3 +231,23 @@ from Markdown-only extracted_tokens. Recalculate full MCP framing cost in client
 Operator-only `AEROBROWSE_ALLOW_NETWORKS` is an optional comma-separated strict
 CIDR allowlist for MCP development fixtures. Empty by default. Never enable broad
 private networks for production; this is not an untrusted tool argument.
+
+## Dynamic controls and operator metrics
+
+`browser.wait(name="Save", role="button", timeout_ms=5000)` waits for an enabled,
+visible control by exact accessible name and optional role. The MCP equivalent is
+`browser_wait(session_id=..., name="Save", role="button", timeout_ms=5000)`.
+It returns fresh action IDs in `wait.matched_action_ids`; it executes nothing.
+Multiple matches are returned explicitly. Existing ID/generation waits validate
+identity immediately; a missing discovery target returns `WAIT_TIMEOUT`, while a
+changed document returns `PAGE_NAVIGATED`. No stale ID is remapped.
+
+The public SDK and trusted `SessionManager` expose `metrics_snapshot()` and
+`metrics_prometheus()` for operator-controlled collection. Request logs include
+request/session IDs, a bounded operation label, engine, duration and outcome;
+URLs, form values and credentials are omitted. Metrics aggregate navigation/action
+success, fallbacks, extraction failures, crashes, timeouts, latency histograms,
+active sessions and sampled worker-tree RSS. These local methods are intentionally
+not MCP tools or an unauthenticated HTTP endpoint. Memory samples include shared
+mappings and exclude processes that exited before sampling; they are not exact
+peak memory. See BENCHMARKS.md for the shared aggregate-pool workload harness.
