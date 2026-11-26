@@ -21,10 +21,13 @@ For reproducible development, install uv and run `uv sync --locked --extra dev`.
 cargo build --locked --release --manifest-path rust_core/Cargo.toml
 ```
 
-Turbo works on supported Python platforms. Fidelity requires Linux with `unshare`
-and permission to create user/network namespaces. Windows/macOS Fidelity returns
+Turbo works on supported Python platforms. Fidelity requires Linux with Bubblewrap and permission to create user/network/mount
+namespaces. MCP Fidelity additionally requires delegated cgroup v2 memory/CPU/PID
+controllers configured through `AEROBROWSE_CGROUP_ROOT`. Windows/macOS Fidelity returns
 `NETWORK_ISOLATION_UNAVAILABLE`. Do not bypass this restriction. Chromium is
 launched with no network interfaces and host-brokered, validated HTTP requests.
+The supervised MCP runtime owns process workers; the direct synchronous SDK is a
+trusted embedding API without equivalent resource quotas. See [SECURITY.md](SECURITY.md).
 The CI browser job provisions namespace permissions on its disposable Ubuntu
 runner; production hosts must provision their own restricted execution environment.
 
@@ -179,3 +182,19 @@ cargo build --locked --release --manifest-path rust_core/Cargo.toml
 Linux browser tests are marked `browser`; deterministic fixtures are used rather
 than third-party sites. See [BENCHMARKS.md](BENCHMARKS.md), [SECURITY.md](SECURITY.md)
 and [CHANGELOG.md](CHANGELOG.md). MIT license.
+
+## Phase-two runtime contract
+
+[PHASE2_AUDIT.md](PHASE2_AUDIT.md) tracks release blockers.
+[COMPATIBILITY.md](COMPATIBILITY.md) describes real pinned framework fixtures and
+synthetic DOM action semantics. [docs/ENGINE_PARITY.md](docs/ENGINE_PARITY.md)
+selects Python as authoritative browser runtime; native Rust HTTP has a narrower
+contract and Rust MCP integrates Python. [SECURITY_REVIEW_PACKAGE.md](SECURITY_REVIEW_PACKAGE.md)
+contains external assessment preparation, trust assumptions and reproduction.
+
+The supported MCP CLI uses bounded UTF-8 newline stdio before SDK parsing.
+Remote HTTP/SSE is not exposed. Local process trust is required; there is no remote
+client authentication. Worker controls and default quotas are in SECURITY.md.
+Do not expose trusted in-process FastMCP/SDK APIs as an unbounded multi-tenant service.
+Atomic browser activation targets an exact retained DOM node using synthetic DOM
+events; flows that require trusted physical user input are unsupported.

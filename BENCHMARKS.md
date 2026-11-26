@@ -63,3 +63,53 @@ components. Existing files are not overwritten; choose a fresh filename. This
 reduces accidental overwrite risk from agent-supplied command arguments. A
 malicious local filesystem actor racing directory replacement is outside the
 benchmark CLI trust boundary.
+
+## Phase-two measurement harness
+
+`python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json`
+uses an owned tiny local fixture. It separates new Python interpreter imports,
+first browser navigation, reused-context navigation, Turbo, snapshot, fill, select,
+wait, click, scroll, screenshot and deliberate handoff synchronization. Raw rows
+retain success/error codes and tokenizer/quality metadata when present. The
+nearest-rank median/p90/p95/p99 use the operation's actual sample count; one cold
+browser observation is not a statistically supported cold-start distribution.
+At least 100 observations are needed even for a coarse p99. Process-tree RSS is
+sampled at 20 ms, while CPU currently covers the parent only. Per-session browser
+CPU/RSS, browser/MCP load and queue/starvation measurements remain open.
+
+Concurrency 1/2/4/8/16 measures Turbo SDK thread workers, not browser or MCP
+session throughput. No controlled before/after comparison currently establishes
+an improvement. A small dirty-tree Windows smoke receipt only verifies harness
+operation; it is not release performance evidence.
+
+`python -m benchmarks.phase2.soak --seconds 1800 --output evidence/phase2/soak-linux.json`
+requires real delegated kernel controls. It repeatedly creates a supervised browser
+worker, navigates, fills, clicks and closes it, verifying descendants and session
+slots are released on every iteration. Exclusive JSONL output preserves completed
+iterations if the run fails; the summary is created only after successful completion.
+The CI job runs this on a disposable Linux host. RSS observations alone do not
+prove unlimited-duration boundedness; the kernel quotas remain the hard boundary.
+
+Raw receipts contain their source commit, OS, Python, configuration, failures and
+limitations. Reruns need a new output filename; do not overwrite historical receipts.
+The original phase-one token-fixture report remains historical and is not an
+information-recall benchmark for the new real framework suite.
+
+Recorded exploratory Linux run 45831559623 used source 0caf7e7 via PR merge checkout
+99ebb5d15a1263f22405c4144ba164f2170e8817, Linux x86_64/Python 3.12.16, one tiny
+controlled fixture. It observed Turbo warm median 2.55 ms (100 samples), Fidelity
+warm 23.04 ms (99), snapshot 5.94 ms, click 7.03 ms, fill 7.57 ms, select 6.91 ms,
+scroll 7.44 ms, wait 6.25 ms and screenshot 21.17 ms (100 each). The single cold
+browser observation was 560.42 ms; cold Python import median was 177.56 ms (30).
+Sampled aggregate tree RSS reached 1,478,348,800 bytes; it includes the harness,
+fixture and browser. Turbo HTML 118 tokens -> extracted Markdown 45, 61.86%,
+tiktoken 0.14.0/cl100k_base; serialized action metadata is excluded. There is no
+important-content recall denominator for this tiny receipt.
+
+This run reported dirty=true because test/build evidence existed. It is raw,
+exploratory revision-bound evidence, not a clean controlled before/after production
+comparison. The supervised-browser soak failed immediately with navigation failure;
+a focused regression subsequently confirmed pids.events.max=66 and oom_kill=0
+under the default 64-task session quota. New soak runs explicitly use 256/session
+and the unchanged 256-task aggregate ceiling; failed runs remain evidence of the
+failure and cannot substantiate stability or a speed improvement.

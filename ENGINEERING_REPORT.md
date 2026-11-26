@@ -1,3 +1,109 @@
+# Phase-two engineering report
+
+Release recommendation: **NOT_PRODUCTION_READY**.
+
+This is an implementation/evidence report, not an external security assessment.
+Open P0 gates and unapproved P1 exclusions prevent a production recommendation.
+Phase-one report is preserved below as historical evidence, not current acceptance.
+
+## Implemented source and architecture
+
+Follow-up draft PR #2 targets fix/production-hardening; PR #1 and main remain
+unchanged and unmerged. Preflight source/base and baseline are in PHASE2_AUDIT.md.
+
+- aerobrowse/isolation.py now builds Bubblewrap user/network/mount/PID/IPC/UTS
+  boundaries with only runtime mounts, private tmp/home/proc and scrubbed environment.
+  Real canaries test host egress and secret-file exclusion; routing is not the final
+  network boundary. See SECURITY.md for the explicit no-sandbox Chromium limitation.
+- aerobrowse/runtime.py and sessions.py replace thread-owned browser state with
+  process workers, lifecycle states, bounded correlated IPC, hard teardown and
+  capability-gated kernel quotas. Windows uses nested jobs; Linux uses delegated
+  cgroup v2 and an independent guardian with descriptor-confined cleanup.
+- aerobrowse/actions.py and fidelity.py capture HTML/actions in one isolated-world
+  renderer task and activate exact retained nodes after generation/document/epoch/
+  state checks. No selector/ordinal fallback exists. Events are synthetic DOM events;
+  physical trusted-event semantics are excluded and documented.
+- aerobrowse/mcp_transport.py bounds newline UTF-8 frames before SDK decoding,
+  validates depth/shape/protocol envelopes, caps in-flight requests, rejects duplicate
+  active IDs and terminates stalled framing/output. Official SDK owns MCP negotiation.
+- tests/compatibility contains pinned, locally built React/Vue/Next.js/Angular
+  applications and checks actual controlled state, route, modal and action identity.
+  Coverage is narrower than universal framework support; COMPATIBILITY.md lists gaps.
+- docs/ENGINE_PARITY.md selects Option B: Python authoritative browser runtime;
+  native Rust HTTP remains a narrower independent implementation, Rust MCP integrates
+  Python. Real native/Python refusal contract tests prevent security-model fallback.
+- benchmarks/phase2 stores raw timings, token metadata, distributions, Turbo load
+  levels and a mandatory kernel-supervised browser/action cleanup soak.
+
+## Verification ledger
+
+Results are bound to the stated source/environment; they do not transfer automatically
+to every later revision. CI uses a GitHub PR merge checkout, whose hash appears in
+raw receipts. Failed and cancelled runs are retained and do not count as passes.
+
+| Area | Before | Phase-two observed result | Evidence/limits |
+|---|---|---|---|
+| Python baseline | 67 pass, 4 platform skips | 144 pass, 1 platform skip locally; 59 browser/native deselections | python-final-local.xml, through 5195aaf |
+| Python CI | phase-one matrix | all eight Python3.11-3.14 Linux/Windows pass at f1ce086 | run45833263200; includes lint, formatting, mypy, tests, package build |
+| Rust | 5 tests | fmt, strict clippy, tests, release build, native refusal contracts and cargo-audit pass at0caf7e7 | run45831559623 Rust job; later source contract rerun pending |
+| Browser/action/framework/egress | 5 plain fixtures | 41 pass with zero skips at0caf7e7 | ci-0caf7e7/ci-browser.xml; real Linux canaries, atomicity and four frameworks |
+| Kernel/runtime | no kernel quota proof | 17 pass, 2 Windows-only skips at0caf7e7 | ci-runtime-kernel.xml; actual Linux OOM/fork denial |
+| MCP framing | SDK buffering only | 14 protocol tests and 16 malformed/session tests pass locally | mcp-protocol-latest.xml, mcp-session-recheck.xml; actual pipes |
+| Worker/local security | earlier thread cleanup | 60 pass, 2 platform skips,5 browser deselections atf1ce086 | limits-final-local.xml |
+| Long browser soak | absent | first run failed immediately; configured-budget rerun active | do not count active/failed run as 30-minute evidence |
+| Dependency audit | historical pass | Python audit passes current runs; cargo audit passed0caf7e7 | CI receipts, no guarantee of future advisory absence |
+| External quality gate | previous head passed | Sonar gate fails on two literal private/tmpfs path findings | no suppression; actual guardian traversal finding remediated with fd regression |
+
+## Measurements and their limits
+
+One controlled Linux fixture at source0caf7e7 via merge99ebb5d15a1263f22405c4144ba164f2170e8817,
+Python3.12.16/x86_64; raw receipt reports dirty=true because generated evidence/build
+artifacts were present. No controlled before/after experiment establishes improvement.
+
+| Metric | Before | Observed phase-two value | Evidence |
+|---|---|---|---|
+| Turbo warm | no comparable controlled baseline | median2.55ms, p95 2.81ms, n100 | benchmark-linux.json statistics |
+| Fidelity warm | no comparable baseline | median23.04ms, p95 26.76ms, n99 | same, SDK not supervised MCP |
+| Browser cold | no comparable baseline | 560.42ms, n1 | one observation; no distribution claim |
+| Snapshot/click/fill | no comparable baseline | medians5.94/7.03/7.57ms, n100 each | same synthetic fixture |
+| Select/scroll/wait/screenshot | no comparable baseline | medians6.91/7.44/6.25/21.17ms,n100 | same |
+| New Python import | no comparable baseline | median177.56ms,n30 | parent-spawned new interpreters |
+| Sampled RSS | historical measurement different scope | aggregate tree1,478,348,800bytes |20ms sampling; harness/fixture included |
+| Token reduction | historical token fixtures different inputs |118->45Markdown tokens,61.86% |tiktoken0.14.0/cl100k_base; actions excluded |
+| Concurrency | historical two Turbo workers | raw SDK Turbo1/2/4/8/16 levels | does not measure browser/MCP fairness/throughput |
+
+No claim of faster performance, fixed memory footprint, universal compatibility,
+full information preservation or independent security certification is made.
+
+## Remaining findings and release impact
+
+PHASE2_AUDIT.md is the finding matrix; SECURITY_REVIEW_PACKAGE.md is the external
+review reproduction package. The observed quota failure was real: Linux counts
+threads as tasks; default64/session produced pids.events.max=66,oom_kill=0.
+The default and aggregate caps were retained. Real browser acceptance and soak
+explicitly configure256/session under the unchanged256 aggregate ceiling. Low-budget
+exhaustion now returns WORKER_RESOURCE_LIMIT and retires the session.
+
+| Finding | Severity | Status | Evidence | Release impact |
+|---|---|---|---|---|
+| Supervised browser30min cleanup |P0|Active rerun, not yet verified|first failed soak + required CI|Blocking|
+| Direct SDK quotas / separate renderer caps |P0|Not implemented|trusted embedding API only; aggregate cap exists|Blocking|
+| Browser/renderer crash and Linux parentdeath proof |P0|Partial|worker crash/timeout/cancel and Windows parentdeath pass|Blocking|
+| Full descendant/utility egress threat coverage |P0|Partial|observed browser/renderer namespaces + TCP/UDP attacks pass|Broader review needed|
+| Adversarial DOM contract |P0|Implemented and tested declared synthetic scope|mutation/focus/main-world tests|physical trusted input unsupported|
+| Broad framework scenarios and recall metrics |P1|Partial|four real fixtures, narrow assertions|Exclusion not approved|
+| MCP/browser concurrency load/resource fairness |P1|Partial|session owner/locks/protocol concurrency covered|Exclusion not approved|
+| Performance baseline/cold distributions |P1|Partial|raw synthetic statistics, no paired baseline|No speedup claim|
+| Sonar private tmpfs findings |P1 gate|Open analyzer review|negative mount/canary tests|Gate not green|
+| Independent penetration test |P1|Not performed|review package prepared|No certification claim|
+
+No exclusion has been approved by the user. Keep both PRs draft and unmerged;
+do not publish PyPI/stable releases or change package version.
+
+---
+
+# Historical phase-one report
+
 # Engineering report - remediation candidate
 
 Baseline revision: 44f3e73409d3f0c4e6e376f0c98198abd00ccc0f.

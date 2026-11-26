@@ -20,38 +20,98 @@ or a production default. Rust currently offers no private-network allowlist.
 IPv4-mapped and transition IPv6 paths are conservatively rejected. DNS checks
 alone are not the security boundary: actual socket destinations are pinned.
 
-## Chromium
+## Browser boundary and platform capabilities
 
-Python Fidelity requires Linux user/network namespaces with only a down loopback
-interface. Requests intercepted by Playwright are fulfilled through the safe host
-transport. Namespace isolation is required even when routing is installed:
-WebSockets and service workers are disabled, and bypass traffic has no network.
-Popups are closed, downloads are not accepted, and browser contexts have no
-persistent profile. Host networking is never an automatic fallback. Windows and
-macOS fail closed. Native Rust Chromium is unavailable pending equivalent
-isolation. Linux CI verifies basic namespace launch and live action fixtures; exhaustive
-network-bypass testing is still required.
+Linux Fidelity uses Bubblewrap user, network, mount, PID, IPC and UTS namespaces.
+The network namespace has no usable external interface; no broker socket or proxy
+port is exposed to the browser. The trusted host Playwright controller fulfills
+intercepted HTTP(S) requests through SafeTransport, which pins validated numeric
+socket addresses. Routing is a compatibility/mediation layer, not the final egress
+boundary. Removing it still leaves the browser without host network access.
+The browser receives only its exact installed distribution, read-only system
+libraries/fonts/certificates, private tmpfs home/tmp/run, a private proc view and
+minimal devices. Environment credentials and host home contents are not mounted.
+Windows/macOS Fidelity return NETWORK_ISOLATION_UNAVAILABLE. There is no weaker
+network fallback. Turbo remains available with the same public-destination policy.
 
-Network namespaces do not isolate the host filesystem or defend against a
-Chromium sandbox escape. Deploy under an unprivileged account/container with a
-read-only minimal filesystem, no credentials, dropped capabilities, restricted
-CPU/RAM/PIDs and application-specific egress policy. Do not run with host secrets.
+WebSockets and service workers are disabled; popups are closed and downloads are
+not accepted. Cookies/authorization are deliberately not forwarded by the broker;
+authenticated browser sessions are not supported. Chromium currently starts with
+Playwright's no-sandbox default inside the outer namespace/mount boundary. This
+is an explicit limitation: network namespaces alone are neither a filesystem
+sandbox nor a complete Chromium sandbox. The additional mount restrictions do
+not establish protection against kernel/browser exploits. Runtime library mounts
+are trusted system data and may include platform-wide configuration. Do not place
+secrets in browser distribution or system runtime paths.
 
-## Sessions and outputs
+## Workers and kernel quotas
 
-MCP sessions use random IDs and transport-owner checks. One worker serializes each
-browser's state. Request timeouts and idle/capacity limits bound normal use.
-Cancelled/timed-out sessions are retired and remain capacity-accounted through
-cleanup. Per-session outstanding calls are capped at 16; incomplete cleanup returns
-CLEANUP_PENDING. Hard worker
-termination and independently verified process cleanup remain open requirements.
+MCP sessions own killable child processes with correlated, bounded JSON IPC,
+serialized actions, startup/request/lifetime deadlines, idle reaping and teardown.
+Linux requires an operator-delegated cgroup v2 root in AEROBROWSE_CGROUP_ROOT for
+Fidelity worker operations. Missing kernel controls return
+RESOURCE_ISOLATION_UNAVAILABLE; only Turbo/snapshot remains available. Workers
+enter the quota before browser startup. Delegation requires the controller process
+inside the delegated hierarchy as well as correct subtree ownership. There is no
+runtime sudo or automated permission change. Use disposable CI workers to test
+setup; scripts/ci-in-quota.sh is CI-only provisioning, not a deployment installer.
 
-Action IDs encode snapshot generation and refer to retained live node handles.
-There is no selector or ordinal fallback. Stale DOM/navigation causes a safe error.
-Raw Playwright exceptions/paths and submitted field values are not serialized to
-MCP clients. Logs omit URLs, headers, cookies and form values. Screenshots and page
-content remain sensitive, untrusted outputs; treat page instructions as data.
-No general secret detection or prompt-injection immunity is claimed.
+Windows process workers use nested kill-on-close Job Objects for memory, CPU and
+process caps; that does not enable Windows Fidelity. Defaults: 1 GiB/session,
+4 GiB/pool, 64 processes/session, 256/pool, 100% one core/session and 200%/pool,
+15-second worker startup, 1800-second session lifetime, 300-second idle lifetime,
+45-second request deadline, 8 sessions and 16 outstanding calls/session. Python
+ResourceLimits and SessionManager configure these limits. Separate browser versus
+renderer process counts are not enforced; aggregate PID limits include threads
+on Linux. Pools are per server instance; operators must cap multiple instances
+with an enclosing deployment quota. CPU caps bound consumption, not wall latency. The default Linux 64-task/session
+budget is intentionally conservative and can reject Chromium startup because
+Linux counts threads too; supervised-browser acceptance/soak explicitly configures
+256/session while retaining the 256 aggregate ceiling. This is not equivalent
+to supporting eight concurrent browsers. Low budgets fail with WORKER_RESOURCE_LIMIT
+and retire the session; choose and benchmark explicit deployment quotas.
+
+Hard termination precedes slot release. Cleanup failures retain capacity accounting.
+Linux uses cgroup.kill plus process-group termination and a guardian for parent-death
+cleanup; Windows closes Job handles. Tests and evidence must verify each OS path.
+The direct synchronous SDK retains namespace isolation, but is a trusted embedding
+API and does not inherit MCP per-session quotas. This is an open production gate;
+use the supervised runtime for bounded untrusted operations. The host controller,
+Python worker, operator and cgroup delegation are trusted. The mount sandbox covers
+Chromium descendants, not the host-side Python process or its dependency supply chain.
+
+## Browser actions
+
+Action IDs encode a random snapshot generation, retain exact node identities in
+an isolated CDP execution world, and are never resolved by ordinal or selector.
+Snapshot HTML and actions are captured in one renderer task. MutationObserver
+records, including mutation/restoration, invalidate the generation. Validation
+checks document, URL, identity, visibility, disabled state and fingerprint immediately
+before DOM activation in the same task; focus handlers are revalidated. These are
+synthetic DOM events, not trusted physical pointer/keyboard input. Sites requiring
+isTrusted are unsupported. Enter/Escape keyboard DOM events have no guaranteed
+native default action. No click target substitution occurs on stale state.
+
+A site's own event handler may intentionally navigate, submit or change state.
+Atomic target identity does not prove the business meaning of arbitrary JavaScript.
+Page content and screenshots remain sensitive, untrusted outputs. No prompt-injection
+immunity, secret classifier or external security certification is claimed.
+
+## MCP transport and ownership
+
+The supported CLI transport is UTF-8 newline stdio, limited to 128 KiB per frame
+before SDK JSON decoding, depth 32, 8192 nodes, 2048 entries/container and 64 KiB
+characters/string. Partial frames have a 10-second total deadline, 64 requests
+may be active and duplicate active request IDs terminate the connection. Replies
+have an 8 MiB serialized cap and 10-second output-write deadline. SDKs still own
+negotiation, cancellation and request/tool schemas. Unsupported batches are rejected.
+See docs/ENGINE_PARITY.md for the full contract and in-process API limitations.
+
+Stdio is local-process trust, not remote authentication. Transport-owner checks
+and random session IDs isolate clients; one process-wide SDK session is not an
+HTTP multi-tenant service. Logs omit URLs, submitted values, headers, cookies and
+raw tracebacks. Public errors never echo request content or filesystem paths.
+Screenshots and extracted content may naturally contain sensitive website data.
 
 ## Reporting
 

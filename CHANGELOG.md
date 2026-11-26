@@ -1,3 +1,25 @@
+# Unreleased phase-two remediation
+
+No version bump, stable release or production-readiness claim.
+
+- Replace thread-owned MCP browsers with correlated process workers, hard teardown,
+  lifecycle states and explicit cgroup/Job Object resource capability detection.
+- Add minimal Bubblewrap filesystem/process/network boundaries and real TCP/UDP
+  canary/descendant checks, including routing-bypass attempts.
+- Bind action snapshots and activation to an isolated-world retained node map,
+  mutation epoch and document generation in a single renderer task. Actions now
+  use synthetic DOM events; isTrusted-dependent flows are unsupported.
+- Bound MCP newline frames before SDK decoding, restrict JSON shape and active IDs,
+  and enforce partial-frame/output deadlines. MCP batches remain unsupported.
+- Add real pinned React/Vue/Next/Angular fixtures and native/Python rejection contracts.
+- Declare Python authoritative browser runtime; Rust MCP is an integration layer.
+- Add raw percentile benchmarks and a mandatory 30-minute cleanup soak harness.
+
+Compatibility changes: Linux MCP Fidelity now requires delegated kernel quotas;
+other platforms keep fail-closed Fidelity. Closed session managers cannot reopen.
+Live actions may return STALE_ACTION_ID on any observed DOM mutation and arbitrary
+keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
+
 # Unreleased - production hardening candidate
 
 ## Implemented
