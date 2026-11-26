@@ -45,3 +45,18 @@ def test_public_sdk_retains_explicit_network_policy(site):
         assert result["success"], result
         assert "Private service secret" in result["markdown"]
         assert result["serialized_output"]["tokens"] > result["extracted_tokens"]
+
+
+def test_sdk_session_lifetime_cannot_be_extended_by_calls():
+    import time
+
+    from aerobrowse.runtime import ResourceLimits
+
+    browser = AeroBrowser(
+        default_mode="turbo", resource_limits=ResourceLimits(lifetime_seconds=0.01)
+    )
+    time.sleep(0.02)
+    result = browser.snapshot()
+    assert result["error"]["code"] == "SESSION_EXPIRED"
+    assert browser._worker.process is None
+    assert browser._closed

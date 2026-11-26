@@ -2,6 +2,7 @@
 
 import base64
 import threading
+import time
 import uuid
 from typing import Any, Self
 
@@ -40,6 +41,7 @@ class AeroBrowser:
         self._worker = ProcessWorker(self._pool)
         self._lock = threading.RLock()
         self._closed = False
+        self._created = time.monotonic()
 
     def _call(self, operation: str, *args: Any, **kwargs: Any) -> dict[str, Any]:
         with self._lock:
@@ -52,13 +54,21 @@ class AeroBrowser:
                     "RESOURCE_ISOLATION_UNAVAILABLE",
                     "Fidelity requires enforced aggregate quotas",
                 ).result()
+            remaining = self._pool.limits.lifetime_seconds - (
+                time.monotonic() - self._created
+            )
+            if remaining <= 0:
+                self.close()
+                return AeroError(
+                    "SESSION_EXPIRED", "Session lifetime exceeded; create a new browser"
+                ).result()
             expired = threading.Event()
 
             def timeout() -> None:
                 expired.set()
                 self._worker.terminate()
 
-            timer = threading.Timer(self.request_timeout, timeout)
+            timer = threading.Timer(min(self.request_timeout, remaining), timeout)
             timer.daemon = True
             timer.start()
             try:

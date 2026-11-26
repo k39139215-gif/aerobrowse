@@ -88,6 +88,8 @@ def test_direct_webrtc_udp_sees_no_canary(attack_lab):
     assert lab["browser"].fetch(lab["allowed"])["success"]
     page = lab["browser"]._fidelity.current_page
     page.context.unroute("**/*")
+    for session in lab["browser"]._fidelity._brokers.values():
+        session.detach()
     page.evaluate(
         """port=>{let p=new RTCPeerConnection({iceServers:[{urls:'stun:127.0.0.2:'+port}]});p.createDataChannel('x');p.createOffer().then(o=>p.setLocalDescription(o));globalThis.attackPeer=p}""",
         lab["udp"][1],
