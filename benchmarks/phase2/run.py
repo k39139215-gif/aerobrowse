@@ -12,8 +12,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import psutil
 
-from aerobrowse.engine import AeroBrowser
 from aerobrowse.benchmark import write_receipt
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.security import NetworkPolicy
 
 LOCAL_CIDR = "127.0.0.1/32"
