@@ -477,7 +477,8 @@ class ProcessWorker:
                     env=safe_env,
                 )
             finally:
-                os.close(read_fd)
+                for descriptor in guardian_fds:
+                    os.close(descriptor)
 
     def call(
         self, operation: str, args: tuple[Any, ...], kwargs: dict[str, Any]

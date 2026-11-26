@@ -16,6 +16,8 @@ from aerobrowse import AeroBrowser
 from aerobrowse.benchmark import write_receipt
 from aerobrowse.security import NetworkPolicy
 
+LOCAL_CIDR = "127.0.0.1/32"
+
 HTML = """<html><head><title>Phase2 fixture</title></head><body><h1>Controlled account</h1>
 <p>Important invoice balance 42 USD</p><a href='/route'>Account route</a>
 <label>Name<input name='name'></label><label>Choice<select><option value='a'>A</option><option value='b'>B</option></select></label>
@@ -86,6 +88,17 @@ def measure(rows, name, operation):
             "elapsed_ms": (time.perf_counter() - start) * 1000,
             "success": bool(result.get("success")),
             "error_code": result.get("error", {}).get("code"),
+            **{
+                key: result[key]
+                for key in (
+                    "original_tokens",
+                    "extracted_tokens",
+                    "token_reduction_pct",
+                    "tokenizer",
+                    "quality",
+                )
+                if key in result
+            },
         }
     )
     return result
@@ -99,7 +112,7 @@ def action(snapshot, label):
 
 
 def browser_samples(url, rows, repeats):
-    policy = NetworkPolicy(allow_networks=("127.0.0.1/32",))
+    policy = NetworkPolicy(allow_networks=(LOCAL_CIDR,))
     with AeroBrowser(default_mode="fidelity", policy=policy) as browser:
         for index in range(repeats):
             snapshot = measure(
@@ -160,7 +173,7 @@ def concurrent_samples(url, repeats):
     def run_one(_):
         row = []
         with AeroBrowser(
-            default_mode="turbo", policy=NetworkPolicy(allow_networks=("127.0.0.1/32",))
+            default_mode="turbo", policy=NetworkPolicy(allow_networks=(LOCAL_CIDR,))
         ) as browser:
             measure(row, "concurrent_turbo", lambda: browser.fetch(url))
         return row[0]
@@ -230,7 +243,7 @@ def main():
         with Fixture() as url:
             with AeroBrowser(
                 default_mode="turbo",
-                policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+                policy=NetworkPolicy(allow_networks=(LOCAL_CIDR,)),
             ) as browser:
                 measure(rows, "turbo_first_navigation", lambda: browser.fetch(url))
                 for _ in range(args.samples):
