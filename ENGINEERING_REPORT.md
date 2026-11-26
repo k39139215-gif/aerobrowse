@@ -210,35 +210,35 @@ Actual-model evaluation is `NOT_RUN`: `OPENAI_API_KEY` and
 `AEROBROWSE_EVAL_MODEL` are missing.
 
 Useful scripted tasks now complete through public supervised SDK and real MCP:
-login through a form,read protected content,update a record,share authentication
-with another explicit tab,reload and log out; search/open detail/back/forward;
+login through a form, read protected content, update a record, share authentication
+with another explicit tab, reload and log out; search/open detail/back/forward;
 multistep select/checkbox/validation/submission; stale-ID rejection and fresh
 snapshot recovery. Server state supplies the verdict. Auth does not depend on a
 host credential jar or unrestricted networking. Every redirect uses direct CDP
 Fetch interception because pinned Playwright route() skipped subsequent hops.
 
-Public SDK/CLI now own killable workers/kernel pools,resource bounds and absolute
+Public SDK/CLI now own killable workers/kernel pools, resource bounds and absolute
 request/session deadlines. Its timeout regression exposed and fixed a startup
 closed-pipe race. Internal engine tests explicitly use trusted low-level classes.
-Canonical output token costs include live actions,tab/session metadata; the actual
+Canonical output token costs include live actions, tab/session metadata; the actual
 model harness separately counts complete serialized MCP tool envelopes.
 
 | Metric | Before continuation | After/current evidence | Evidence |
 |---|---|---|---|
 | Auth workflows | Redirect login failed | Scripted SDK/MCP login/update/logout passes | focused Linux run 45860943458 |
-| Python local | Historical161 component passes |206 passed,21 skips,67 browser deselections at final source | evidence/agent/python-source-final.xml |
-| Rust |5 native units+18 refusal contracts | No native browser scope expansion; latest matrix check pending | CI strict fmt/clippy/test/release/audit |
+| Python local | Historical 161 component passes |206 passed, 21 skips, 67 browser deselections at final source | evidence/agent/python-source-final.xml |
+| Rust | 5 native units + 18 refusal contracts | No native browser scope expansion; latest matrix check pending | CI strict fmt/clippy/test/release/audit |
 | Turbo/Fidelity latency | Historical controlled measurements | No comparable speedup claim; current receipt pending | benchmark-linux.json |
 | Peak RAM | Sampled historical process-tree RSS | No exact peak claim | benchmark methodology |
 | Token cost | Markdown-only, omitted actions | Canonical full JSON and actual envelope counts implemented | tokens.py,agent harness |
-| Concurrent browser tasks | Not measured complete tasks |2-worker6-task controlled harness; receipt pending | benchmarks.agent.concurrency |
+| Concurrent browser tasks | Not measured complete tasks |2-worker / 6-task controlled harness; receipt pending | benchmarks.agent.concurrency |
 | Actual AI model success | Not measured |NOT_RUN | model-evaluation-sourcedac1c1d.json |
 
-Fixed/verified:controlled auth/forms/tabs/history/stale/runtime flows. Fixed and
+Fixed and verified: controlled auth/forms/tabs/history/stale/runtime flows. Fixed and
 awaiting full current-source receipts:final output/recovery metadata and evaluation
-guards. Partial:general extraction recall,capacity/fairness. Not implemented:native
-Rust live browser parity,trusted physical input,file transfer,WebSockets,service
-workers,HTTP Authorization. Known limitations:Linux-only Fidelity; host operator
+guards. Partial: general extraction recall and capacity/fairness. Not implemented: native
+Rust live browser parity, trusted physical input, file transfer, WebSockets, service
+workers, HTTP Authorization. Known limitations: Linux-only Fidelity; host operator
 must provision cgroup/namespaces; independent SDK instances need enclosing aggregate
 budget; external security review and remaining Sonar findings remain open.
 
