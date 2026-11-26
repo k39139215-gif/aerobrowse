@@ -446,9 +446,11 @@ class ProcessWorker:
         if sys.platform == "linux":
             read_fd, self.guardian_pipe = os.pipe()
             temp_path = Path(self.directory.name)
-            cleanup_fd = os.open(temp_path.parent, os.O_RDONLY | os.O_DIRECTORY)
+            cleanup_fd = os.open(
+                temp_path.parent, os.O_RDONLY | cast(Any, os).O_DIRECTORY
+            )
             group_parent_fd = (
-                os.open(self.group.path.parent, os.O_RDONLY | os.O_DIRECTORY)
+                os.open(self.group.path.parent, os.O_RDONLY | cast(Any, os).O_DIRECTORY)
                 if isinstance(self.group, Cgroup)
                 else -1
             )
@@ -670,12 +672,14 @@ def _guardian_cleanup(
         try:
             descriptor = os.open(
                 group_name,
-                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                os.O_RDONLY | cast(Any, os).O_DIRECTORY | cast(Any, os).O_NOFOLLOW,
                 dir_fd=group_parent_fd,
             )
             try:
                 kill_fd = os.open(
-                    "cgroup.kill", os.O_WRONLY | os.O_NOFOLLOW, dir_fd=descriptor
+                    "cgroup.kill",
+                    os.O_WRONLY | cast(Any, os).O_NOFOLLOW,
+                    dir_fd=descriptor,
                 )
                 try:
                     os.write(kill_fd, b"1")
