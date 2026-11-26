@@ -1,9 +1,9 @@
 name: Engineering verification
 on:
   push:
-    branches: [main, fix/production-hardening]
+    branches: [main, fix/production-hardening, fix/phase2-adversarial-validation]
   pull_request:
-    branches: [main]
+    branches: [main, fix/production-hardening]
   workflow_dispatch:
 permissions:
   contents: read
@@ -46,6 +46,7 @@ jobs:
           python-version: '3.12'
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
       - run: uv sync --locked --extra dev --no-build --no-install-project
+      - run: sudo apt-get update && sudo apt-get install -y bubblewrap
       - run: uv run --no-sync playwright install --with-deps chromium
       - name: Provision namespace permission on disposable test runner
         run: |
@@ -59,7 +60,9 @@ jobs:
         if: always()
         with:
           name: browser-evidence
-          path: evidence/*.xml
+          path: |
+            evidence/*.xml
+            evidence/phase2/
   rust:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
