@@ -269,7 +269,8 @@ async def evaluate(
                         }
                     )
                     close_results.append(success)
-                except Exception as exc:  # explicit failed cleanup receipt, no credentials or raw provider errors
+                # Cleanup exceptions produce an explicit failed cleanup receipt.
+                except Exception as exc:  # noqa: BLE001
                     close_results.append(False)
                     cleanup_calls.append(
                         {
@@ -371,7 +372,8 @@ async def run(args):
                         args.max_calls,
                     )
                 )
-            except Exception as exc:  # connection/initialization failure is a visible failed task receipt
+            # Connection initialization is a failed task, never a passing evaluation.
+            except Exception as exc:  # noqa: BLE001
                 results.append(
                     {
                         "task": task,
