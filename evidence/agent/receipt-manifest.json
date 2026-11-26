@@ -233,9 +233,9 @@
       "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
     },
     {
-      "path": "evidence/agent/ci-0530488/rust.log",
-      "sha256": "5934b8a35f06513c8e9aeb575274a00638a5f5c786fc8514db170a2079d05bfb",
-      "bytes": 109870,
+      "path": "evidence/agent/ci-0530488/rust-log.json",
+      "sha256": "e47f6fba2b59600f718332f848770d8e507a93056831d8b50375a01d1d268f12",
+      "bytes": 111946,
       "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
     },
     {

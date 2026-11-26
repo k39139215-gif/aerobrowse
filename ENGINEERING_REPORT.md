@@ -283,7 +283,7 @@ unmerged; no package release or production-readiness claim is made.
 |---|---|---|---|
 | Security findings | Original unsafe network/action/session paths in AUDIT.md | Declared regression-covered fixes pass; independent review, auxiliary-target assessment and2 analyzer findings remain open | AUDIT.md,PHASE2_AUDIT.md,ACCEPTANCE.md |
 | Python tests | Historical67 passes/4 skips | Each of8 Linux/Windows Python3.11-3.14 jobs:206 passes/21 skips; browser68 passes/0 skips; kernel38 passes/2 Windows-only skips | ci-0530488/full/ receipts |
-| Rust tests |5 native units |5 native units+18 actual compiled native/Python refusal contracts; fmt,strict Clippy,release,audit pass | ci-0530488/rust.log and final-run.json |
+| Rust tests |5 native units |5 native units+18 actual compiled native/Python refusal contracts; fmt,strict Clippy,release,audit pass | ci-0530488/rust-log.json and final-run.json |
 | Warm Turbo latency | No comparable baseline | nearest-rank p50 4.324 ms,p95 4.755 ms,n100 | final browser/phase2/benchmark-linux.json |
 | Warm Fidelity latency | No comparable baseline | nearest-rank p50 34.545 ms,p95 38.625 ms,n99 | same final benchmark |
 | Peak RAM | No comparable baseline | sampled tree maximum1,472,843,776 bytes across complete operation/load run;20 ms sampling,not exact peak | same final benchmark |
