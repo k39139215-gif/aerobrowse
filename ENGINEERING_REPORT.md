@@ -60,7 +60,7 @@ failed before execution. Phase-two baseline at PR #1 head had 67 Python passes,
 | Gate | Verified result | Revision and evidence |
 |---|---|---|
 | Local Python suite | 146 passes, 2 platform skips, 64 browser/native deselections | source through `fe159f9`; `evidence/phase2/python-final-reviewed.xml` |
-| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11–3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
+| Python matrix | All 8 Linux/Windows jobs pass on Python 3.11â€“3.14 | source `f1ce086`, green run `45833263200`; later `c963127` matrix also passes |
 | Rust | Formatting, strict Clippy, tests, release build, native contract and dependency audit pass | green run `45833263200`; final-source rerun tracked separately |
 | Linux browser boundary/actions/frameworks | 43 passes, zero skips | `evidence/phase2/ci-f1ce086/ci-browser.xml` |
 | Linux kernel/runtime suite | 19 passes, 2 Windows-only skips | `ci-f1ce086/phase2/ci-runtime-kernel.xml` |
@@ -147,3 +147,14 @@ No scope exclusion is approved. Open requirements prevent a production release.
 Keep both PRs draft and unmerged. No fake implementation or passing test substitutes
 for these requirements. `AUDIT.md` and Git history preserve earlier findings;
 `PHASE2_AUDIT.md` is the current finding/status matrix.
+
+## Operator configuration verification
+
+Source `929cc25` adds operator-only `AEROBROWSE_SESSION_TASKS` configuration for
+the packaged MCP command. Canonical integers 1–256 are accepted; absence retains
+64. Aggregate task, memory and CPU ceilings stay unchanged. Eleven negative/default/
+ceiling configuration checks pass locally. Linux run `45840796649` passes the real
+stdio MCP initialize/navigate/Fidelity-fill/close flow with an explicit owned fixture
+allowance and the operator budget, alongside the existing kernel/crash regressions.
+The network allowance is trusted fixture setup, never an MCP client argument.
+This source change does not assert that more concurrent browsers fit the pool.

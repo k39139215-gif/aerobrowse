@@ -47,3 +47,7 @@ keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
 
 These restrictions remove unsafe behavior and are not claims of full feature parity.
 Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
+
+- Added operator-only `AEROBROWSE_SESSION_TASKS` (1–256) for MCP session task
+  budgets; invalid configuration fails startup, defaults and aggregate caps remain.
+  Verified actual Linux stdio MCP navigation/fill/close under this explicit budget.

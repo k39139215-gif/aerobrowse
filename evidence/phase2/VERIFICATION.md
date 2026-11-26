@@ -38,3 +38,8 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
  soak1800.735seconds,931successful raw iterations;zero orphan/slot observations.
  Single synthetic sequential fixture,256session/aggregate task cap; controller RSS
  observations exclude browser peak. This does not transfer automatically to later source.
+
+- runtime-929cc25/runtime-boundary.xml: source `929cc25`, run `45840796649`,
+  37 Linux passes and 2 Windows-only skips, including actual MCP stdio initialize/
+  navigate/Fidelity-fill/close with the explicit operator task budget. Eleven
+  configuration cases reject noncanonical or over-aggregate values and retain defaults.
