@@ -76,7 +76,7 @@ col_run, col_space = st.columns([1, 4])
 with col_run:
     run_btn = st.button("🚀 Run AeroBrowse", type="primary", use_container_width=True)
 
-if run_btn or url_input:
+if run_btn:
     with st.spinner(f"Browsing {url_input} via AeroBrowse..."):
         try:
             with AeroBrowser() as browser:
@@ -98,11 +98,11 @@ if run_btn or url_input:
             # Metrics Row
             m1, m2, m3, m4 = st.columns(4)
             with m1:
-                st.metric("Raw HTML Characters", f"{result['original_chars']:,}", f"~{raw_tokens:,} tokens")
+                st.metric("Raw HTML Characters", f"{result['original_chars']:,}", f"{raw_tokens:,} measured tokens")
             with m2:
-                st.metric("Pruned Markdown Characters", f"{result['pruned_chars']:,}", f"~{pruned_tokens:,} tokens")
+                st.metric("Pruned Markdown Characters", f"{result['pruned_chars']:,}", f"{pruned_tokens:,} measured tokens")
             with m3:
-                st.metric("Token Bill Reduction", f"{result['reduction_pct']}%", f"-{tokens_saved:,} tokens", delta_color="normal")
+                st.metric("Markdown Token Reduction", f"{result['reduction_pct']}%", f"-{tokens_saved:,} tokens", delta_color="normal")
             with m4:
                 st.metric("GPT-4o Cost Saved / Fetch", f"${dollars_saved:.4f}", f"From ${cost_unpruned:.4f} down to ${cost_pruned:.4f}")
 
