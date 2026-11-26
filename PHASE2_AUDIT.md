@@ -13,7 +13,7 @@ Original audit and inventory remain in `AUDIT.md` and `evidence/baseline-invento
 | Browser direct egress | P0 | `isolation.py`: network-only boundary lacked filesystem/process separation | Mandatory Bubblewrap network/mount/user/PID/IPC/UTS boundary; host broker only | 43 required Linux browser checks at `f1ce086`; TCP/UDP canaries, routing removed, descendants inspected | Declared scenarios verified; exhaustive utility/egress review and inner Chromium sandbox open |
 | Host filesystem exposure | P0 | `isolation.py`: browser could see host files/environment | Minimal read-only runtime mounts, private tmp/home/proc/dev, scrubbed environment | Host-secret absence and private-tmpfs mount receipts | Narrow gate verified; no external exploit assessment |
 | Unkillable worker operations | P0 | `sessions.py`: thread cancellation could not stop a browser operation | Process-owned sessions, bounded IPC and correlated requests, hard deadline teardown | `c963127`: 25 Linux runtime passes, 2 Windows-only skips; actual browser/renderer crashes and parent death | Bounded contract verified; renderer recovery uses timeout |
-| Resource exhaustion | P0 | `runtime.py`: request limits alone do not cap descendants | cgroup v2 / nested Windows Job Objects; aggregate session/pool memory/CPU/task controls | Real OOM and fork denial; default 64-task Chromium failure correctly reproduced; low-budget refusal retires slot | Direct SDK, separate renderer and cross-instance caps remain unimplemented and blocking |
+| Resource exhaustion | P0 | `runtime.py`: request limits alone do not cap descendants | cgroup v2 / nested Windows Job Objects; aggregate session/pool memory/CPU/task controls | Real OOM and fork denial; default 64-task Chromium failure correctly reproduced; low-budget refusal retires slot | Public SDK supervision added in agent continuation; separate renderer and cross-instance deployment caps remain open |
 | Action TOCTOU | P0 | `fidelity.py`: separate validation and activation could select changed targets | Isolated-world one-task exact-node/epoch/document/generation/state validation and activation; focus recheck | Actual renderer mutation/restoration, duplicate-target and main-world override tests | Declared synthetic-event contract verified; physical trusted events unsupported |
 | Unsafe guardian cleanup | P1 | `runtime.py`: CLI filesystem paths reached recursive cleanup | Inherited parent-directory descriptors plus generated basename validation; no-follow cgroup access | Real Linux traversal/symlink/cleanup regression; actual parentdeath cgroup/temp removal | Implemented and verified; no analyzer traversal finding remains |
 | Raw IPC corruption | P1 | `runtime.py`: unbuffered pipe writes assumed complete frames | Loop over partial writes; zero writes fail closed | Real-worker suite plus deterministic partial-write/closed-pipe regression | Verified; no fake browser substituted for crash tests |
@@ -117,3 +117,17 @@ bytes. Same explicit256session/aggregate task fixture; no browser concurrency,
 production load, indefinite leak or exact peak-memory claim. CI merge source
 `0b594a7f5b8156866b6195b0d89ea55458a47da5`; receipts `ci-582b74c/`.
 `ACCEPTANCE.md` still identifies unimplemented and partial original requirements.
+
+## Agent continuation
+
+Public SDK and CLI now use bounded owned workers. Cookies,explicit bounded tabs,
+history/reload,capability discovery,complete-output token cost and independently
+judged owned SDK/MCP tasks are implemented. Playwright's redirect callback gap was
+reproduced as a failed login,then fixed with direct per-hop CDP interception while
+retaining mandatory namespace isolation. Error documents fail explicitly.
+
+At dac1c1d,focused Linux run45860943458 passed14 workflow/auth/storage/error-page
+checks and38 runtime checks,with2 Windows-only skips. Full final-source CI and
+soak remain queued. Actual LLM evaluation is NOT_RUN without explicit key/model.
+See VERIFICATION.md,AGENT_EVALUATION.md and ENGINEERING_REPORT.md. None of these
+changes closes native Rust browser parity or independent security assessment.
