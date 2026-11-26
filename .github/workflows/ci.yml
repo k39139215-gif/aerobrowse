@@ -47,6 +47,12 @@ jobs:
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
       - run: uv sync --locked --extra dev
       - run: uv run --no-sync playwright install --with-deps chromium
+      - name: Provision namespace permission on disposable test runner
+        run: |
+          # Ubuntu AppArmor otherwise denies unprivileged namespace creation.
+          # This permits creation; each browser still has a fresh network namespace.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          unshare --user --map-root-user --net -- python -c "import socket; assert socket.if_nameindex() == [(1, 'lo')]"
       - name: Verify isolated browser fixtures
         run: uv run --no-sync pytest -m browser -v --junitxml=evidence/ci-browser.xml
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

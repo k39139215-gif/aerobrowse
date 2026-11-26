@@ -25,7 +25,8 @@ Turbo works on supported Python platforms. Fidelity requires Linux with `unshare
 and permission to create user/network namespaces. Windows/macOS Fidelity returns
 `NETWORK_ISOLATION_UNAVAILABLE`. Do not bypass this restriction. Chromium is
 launched with no network interfaces and host-brokered, validated HTTP requests.
-This process boundary has not yet been verified in this branch's Linux CI.
+The CI browser job provisions namespace permissions on its disposable Ubuntu
+runner; production hosts must provision their own restricted execution environment.
 
 ## Python API
 
