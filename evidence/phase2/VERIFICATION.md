@@ -53,3 +53,6 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
   2 Windows-only skips, including actual shutdown overlapping a retiring worker.
 - review-regressions.xml: four focused regressions after both defects were first
   reproduced as failures; real stdio recovery and gated real process termination.
+
+- review-suites.xml: source `7f5c859`, 62 broader MCP/runtime passes, 3 platform
+  skips and 27 browser/native deselections; overlaps the complete suite.
