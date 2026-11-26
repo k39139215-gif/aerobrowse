@@ -79,3 +79,14 @@ now preserve static snapshots and prevent fallback after policy rejection. Turbo
 Fidelity deliberately returns a live synchronization snapshot with STALE_ACTION_ID;
 it does not pretend static IDs match browser elements. End-to-end handoff still
 requires isolated Linux browser verification.
+## Phases 4 and 5 checkpoint
+
+Live DOM mapping now uses retained ElementHandles rather than page-writable ID
+attributes or selector/ordinal fallback. IDs embed a random snapshot generation;
+DOM content changes, navigation and disconnected nodes are rejected. Static
+candidates are marked non-executable. Click/fill/select/check/press/scroll/wait
+are implemented in Python; browser execution remains pending Linux integration.
+Local action/state/security tests: 41 passed. Session ownership/capacity and
+concurrent snapshot tests: 2 passed. Dedicated per-session workers preserve
+Playwright thread affinity. Cancellation retires a session and queues cleanup;
+hard termination of a stuck worker is not implemented and remains a limitation.
