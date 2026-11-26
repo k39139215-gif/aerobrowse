@@ -43,7 +43,7 @@ Source `c963127`, focused run `45837608925`: 25 Linux runtime passes, 2 Windows-
 skips. It verifies real main-browser-process recovery, termination of all owned
 renderers with a bounded 3-second operation timeout, replacement navigation, Linux
 parentdeath cgroup/temp cleanup, OOM/fork refusal, partial IPC and quota escalation
-denial. Later full CI and its repeated soak remain pending until separately recorded.
+denial. Its full CI and repeated soak subsequently passed, as recorded below.
 
 Local full suite through `fe159f9`: 146 passes, 2 platform skips, 64 browser/native
 deselections. Final Windows runtime: 16 passes, 3 Linux-only skips, 8 browser
@@ -86,7 +86,9 @@ error, and the real-pipe regression proves a subsequent ping succeeds. Concurren
 open; shutdown now tracks/awaits shielded termination tasks before pool closure.
 A real-worker gated overlap test failed before the fix and passes after it,
 verifying process/temp cleanup and closed pool. Source fix `7f5c859`; focused
-4-test regression receipt `review-regressions.xml`. Broader reruns pending.
+4-test regression receipt `review-regressions.xml`. Broader local rerun subsequently
+passed 62 tests/3 platform skips; complete corrected-source local suite passed
+161 tests/3 platform skips/65 browser-native deselections.
 
 Source `7f5c859` Linux runtime run `45842826008`: 38 passes, 2 Windows-only skips,
 including real shutdown-overlap reproduction after the fix and configured MCP
