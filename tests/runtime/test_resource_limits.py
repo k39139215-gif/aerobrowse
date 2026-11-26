@@ -221,7 +221,7 @@ def test_worker_ipc_preserves_frame_across_partial_writes():
     payload = {
         "id": "request",
         "result": {
-            "unicode": "Ãƒâ„¢Ã¢â‚¬Â¦ÃƒËœÃ‚Â±ÃƒËœÃ‚Â­ÃƒËœÃ‚Â¨ÃƒËœÃ‚Â§",
+            "unicode": "ÃƒÆ’Ã¢â€žÂ¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã‹Å“Ãƒâ€šÃ‚Â±ÃƒÆ’Ã‹Å“Ãƒâ€šÃ‚Â­ÃƒÆ’Ã‹Å“Ãƒâ€šÃ‚Â¨ÃƒÆ’Ã‹Å“Ãƒâ€šÃ‚Â§",
             "data": "x" * 10000,
         },
     }
@@ -256,3 +256,34 @@ def test_positional_fidelity_cannot_bypass_missing_kernel_quota(monkeypatch, sit
     finally:
         worker.terminate()
         pool.close()
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "0",
+        "-1",
+        "257",
+        "4096",
+        "1.0",
+        " 256",
+        "256 ",
+        "",
+        "abc",
+        "999999999999999999999",
+    ],
+)
+def test_operator_task_budget_rejects_invalid_or_aggregate_bypass(monkeypatch, raw):
+    monkeypatch.setenv("AEROBROWSE_SESSION_TASKS", raw)
+    with pytest.raises(AeroError) as error:
+        ResourceLimits.from_environment()
+    assert error.value.code == "INVALID_RUNTIME_CONFIG"
+
+
+def test_operator_task_budget_keeps_defaults_and_aggregate_ceiling(monkeypatch):
+    monkeypatch.delenv("AEROBROWSE_SESSION_TASKS", raising=False)
+    assert ResourceLimits.from_environment().processes == 64
+    monkeypatch.setenv("AEROBROWSE_SESSION_TASKS", "256")
+    configured = ResourceLimits.from_environment()
+    assert configured.processes == configured.global_processes == 256
+    assert configured.global_memory_bytes == ResourceLimits().global_memory_bytes

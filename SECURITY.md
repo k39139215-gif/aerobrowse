@@ -119,3 +119,11 @@ Report reproducible issues privately to k39139215@gmail.com, including revision,
 platform, minimal reproduction and impact. Do not include credentials or customer
 data. No response-time SLA is guaranteed. Older 0.2.0 deployments do not inherit
 these branch changes merely by sharing a version number.
+
+The packaged MCP command accepts the operator-only environment variable
+`AEROBROWSE_SESSION_TASKS` as a canonical integer from 1 through 256. It changes
+only the per-session task budget; aggregate CPU/memory/task ceilings stay at their
+defaults. Invalid values fail at startup with `INVALID_RUNTIME_CONFIG`. Omitting
+it retains 64. For the tested Chromium configuration, explicitly set it to 256;
+this does not imply multiple concurrent browsers fit the aggregate pool. Tool
+arguments cannot change this setting, and it never enables private-network access.

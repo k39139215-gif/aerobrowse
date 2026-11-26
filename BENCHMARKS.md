@@ -34,10 +34,11 @@ Their results cannot establish performance improvements. Historical JSON is kept
 for provenance, not accepted as current evidence. Legacy benchmark entrypoints
 now direct users to this harness rather than producing misleading numbers.
 
-Current limitations: no verified Linux Fidelity timing, click/fill timing,
-interpreter cold start, exact peak RAM or browser memory-leak profile. No speed,
-memory or fixed token-saving improvement is claimed. Correctness/security gates
-remain open; performance optimization has not been attempted.
+Phase-one limitations included absent Linux Fidelity/action/interpreter timing.
+Phase-two receipts below add those observations and a 30-minute sequential browser
+cleanup soak. Exact peak RAM, indefinite leak behavior, paired before/after speedup
+and browser/MCP load remain unverified. No speed, memory or fixed token-saving
+improvement is claimed; production correctness/security requirements remain open.
 
 Clean-source local receipt at c09500a: cold Turbo 492.197 ms, four warm samples
 median 16.604 ms, sampled process-tree RSS 77.324 MiB, 10/10 successful requests
@@ -114,11 +115,13 @@ under the default 64-task session quota. New soak runs explicitly use 256/sessio
 and the unchanged 256-task aggregate ceiling; failed runs remain evidence of the
 failure and cannot substantiate stability or a speed improvement.
 
-Subsequent green run45833263200/sourcef1ce086 completed1800.735seconds and931
-sequential browser worker/action/cleanup cycles,zero observed orphans/permanent
-slots. Configuration:256tasks/session and256aggregate,max_sessions2; this is not
-concurrent browser load. Parent controller RSS44,367,872->45,510,656bytes after
-cleanup,max45,510,656. The same run's benchmark (different CI host) observed Turbo
-warm2.63ms median/p95 2.96ms,n100;Fidelity warm24.67ms/p95 26.84ms,n99; sampled
-aggregate tree RSS1,453,219,840bytes. No before/after speedup claim. Receipts:
-evidence/phase2/ci-f1ce086/phase2/soak-linux.{json,jsonl},benchmark-linux.json.
+Subsequent green run `45833263200`, source `f1ce086`, completed 1,800.735 seconds
+and 931 sequential browser worker/action/cleanup cycles, with zero observed
+orphans or permanent slots. Configuration: 256 tasks/session and 256 aggregate,
+`max_sessions=2`; this is not concurrent browser load. Parent controller RSS rose
+from 44,367,872 to 45,510,656 bytes after cleanup; maximum 45,510,656 bytes.
+The same run's benchmark on a different CI host observed Turbo warm median
+2.63 ms/p95 2.96 ms, n=100; Fidelity warm median 24.67 ms/p95 26.84 ms, n=99;
+sampled aggregate tree RSS 1,453,219,840 bytes. No before/after speedup claim.
+Receipts: `evidence/phase2/ci-f1ce086/phase2/soak-linux.{json,jsonl}` and
+`benchmark-linux.json`.

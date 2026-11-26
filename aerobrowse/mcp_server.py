@@ -8,9 +8,10 @@ from fastmcp import Context, FastMCP
 from pydantic import Field
 
 from aerobrowse.errors import AeroError
+from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
 
-sessions = SessionManager()
+sessions = SessionManager(resource_limits=ResourceLimits.from_environment())
 
 
 @asynccontextmanager

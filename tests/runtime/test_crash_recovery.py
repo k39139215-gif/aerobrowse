@@ -294,3 +294,113 @@ sys.stdin.readline()
         assert not live
         assert not __import__("pathlib").Path(receipt["directory"]).exists()
         assert not __import__("pathlib").Path(receipt["group"]).exists()
+
+
+@pytest.mark.browser
+@pytest.mark.skipif(
+    __import__("sys").platform != "linux",
+    reason="Linux configured MCP real stdio browser flow",
+)
+def test_configured_mcp_stdio_browser_flow(site):
+    import json
+    import os
+    import queue
+    import subprocess
+    import sys
+    import threading
+
+    env = dict(os.environ, AEROBROWSE_SESSION_TASKS="256")
+    # Trusted fixture operator explicitly grants one owned address. No MCP tool can grant it.
+    entry = "from aerobrowse.mcp_server import sessions,run_mcp;sessions.pool.allow_networks=('127.0.0.1/32',);run_mcp()"
+    process = subprocess.Popen(
+        [sys.executable, "-c", entry],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=env,
+    )
+    output = queue.Queue()
+
+    def read():
+        for line in process.stdout:
+            output.put(json.loads(line))
+
+    reader = threading.Thread(target=read, daemon=True)
+    reader.start()
+
+    def exchange(message):
+        process.stdin.write(json.dumps(message).encode() + b"\n")
+        process.stdin.flush()
+        response = output.get(timeout=60)
+        assert response.get("id") == message["id"], response
+        return response
+
+    try:
+        init = exchange(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "initialize",
+                "params": {
+                    "protocolVersion": "2025-11-25",
+                    "capabilities": {},
+                    "clientInfo": {"name": "configured-runtime", "version": "1"},
+                },
+            }
+        )
+        assert "result" in init
+        process.stdin.write(b'{"jsonrpc":"2.0","method":"notifications/initialized"}\n')
+        process.stdin.flush()
+        result = exchange(
+            {
+                "jsonrpc": "2.0",
+                "id": 2,
+                "method": "tools/call",
+                "params": {
+                    "name": "browser_navigate",
+                    "arguments": {"url": site + "/form", "force_js": True},
+                },
+            }
+        )["result"]["structuredContent"]
+        assert result.get("success"), result
+        sid = result["session_id"]
+        filled = exchange(
+            {
+                "jsonrpc": "2.0",
+                "id": 3,
+                "method": "tools/call",
+                "params": {
+                    "name": "browser_fill",
+                    "arguments": {
+                        "session_id": sid,
+                        "action_id": next(
+                            a["id"] for a in result["actions"] if a["label"] == "Name"
+                        ),
+                        "generation": result["generation"],
+                        "value": "Ada",
+                    },
+                },
+            }
+        )["result"]["structuredContent"]
+        assert filled.get("success"), filled
+        closed = exchange(
+            {
+                "jsonrpc": "2.0",
+                "id": 4,
+                "method": "tools/call",
+                "params": {"name": "browser_close", "arguments": {"session_id": sid}},
+            }
+        )["result"]["structuredContent"]
+        assert closed.get("success"), closed
+        process.stdin.close()
+        process.wait(timeout=10)
+        assert process.returncode == 0, process.stderr.read().decode()
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=5)
+        if not process.stdin.closed:
+            process.stdin.close()
+        process.stdout.close()
+        reader.join(timeout=2)
+        process.stderr.close()

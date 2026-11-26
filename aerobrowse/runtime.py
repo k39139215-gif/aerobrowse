@@ -52,6 +52,21 @@ class ResourceLimits:
     startup_seconds: float = 15
     lifetime_seconds: float = 1800
 
+    @classmethod
+    def from_environment(cls) -> ResourceLimits:
+        """Operator-only session task budget; aggregate defaults remain enforced."""
+        raw = os.environ.get("AEROBROWSE_SESSION_TASKS")
+        if raw is None:
+            return cls()
+        if not re.fullmatch(r"[1-9][0-9]{0,3}", raw):
+            raise AeroError("INVALID_RUNTIME_CONFIG", "Invalid session task budget")
+        try:
+            return cls(processes=int(raw))
+        except ValueError as exc:
+            raise AeroError(
+                "INVALID_RUNTIME_CONFIG", "Session task budget exceeds aggregate limit"
+            ) from exc
+
     def __post_init__(self) -> None:
         if not (64 * 1024 * 1024 <= self.memory_bytes <= self.global_memory_bytes):
             raise ValueError("Invalid memory quota")

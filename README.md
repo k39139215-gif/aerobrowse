@@ -198,3 +198,9 @@ client authentication. Worker controls and default quotas are in SECURITY.md.
 Do not expose trusted in-process FastMCP/SDK APIs as an unbounded multi-tenant service.
 Atomic browser activation targets an exact retained DOM node using synthetic DOM
 events; flows that require trusted physical user input are unsupported.
+
+For the tested Linux MCP Chromium configuration, the operator can explicitly set
+`AEROBROWSE_SESSION_TASKS=256` alongside the delegated `AEROBROWSE_CGROUP_ROOT`.
+The default remains 64 tasks per session; the aggregate ceiling remains 256.
+Invalid task budgets fail startup. This is a resource setting, not permission to
+reach private networks; see SECURITY.md for deployment limits.
