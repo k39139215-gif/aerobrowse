@@ -9,6 +9,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from importlib.metadata import version
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
@@ -178,6 +179,7 @@ async def evaluate(
                             ],
                             "isError": result.is_error,
                             "structuredContent": result.structured_content,
+                            "_meta": result.meta,
                         }
                         data = result.data if isinstance(result.data, dict) else {}
                         if data.get("session_id"):
@@ -224,17 +226,56 @@ async def evaluate(
                     break
             else:
                 failure = "MODEL_TURN_LIMIT"
-        except (TimeoutError, RuntimeError, KeyError, TypeError):
-            failure = "MODEL_OR_MCP_REQUEST_FAILED"
+        except Exception as exc:  # noqa: BLE001 - evaluation boundary emits FAIL, never hides a passing test
+            failure = "MODEL_OR_MCP_REQUEST_FAILED:" + type(exc).__name__
         finally:
             close_results = []
+            cleanup_calls = []
             for sid in sessions:
-                closed = await client.call_tool(
-                    "browser_close", {"session_id": sid}, raise_on_error=False
-                )
-                close_results.append(
-                    isinstance(closed.data, dict) and closed.data.get("success") is True
-                )
+                try:
+                    closed = await client.call_tool(
+                        "browser_close", {"session_id": sid}, raise_on_error=False
+                    )
+                    payload = json.dumps(
+                        {
+                            "content": [
+                                block.model_dump(mode="json", exclude_none=True)
+                                for block in closed.content
+                            ],
+                            "structuredContent": closed.structured_content,
+                            "isError": closed.is_error,
+                            "_meta": closed.meta,
+                        },
+                        ensure_ascii=False,
+                        separators=(",", ":"),
+                        allow_nan=False,
+                    )
+                    success = (
+                        isinstance(closed.data, dict)
+                        and closed.data.get("success") is True
+                    )
+                    cleanup_calls.append(
+                        {
+                            "tool": "browser_close",
+                            "success": success,
+                            "serialized_tool_response_tokens": len(
+                                encoding("cl100k_base").encode(
+                                    payload, disallowed_special=()
+                                )
+                            ),
+                        }
+                    )
+                    close_results.append(success)
+                except Exception as exc:  # noqa: BLE001 - explicit failed cleanup receipt, no credentials or raw provider errors
+                    close_results.append(False)
+                    cleanup_calls.append(
+                        {
+                            "tool": "browser_close",
+                            "success": False,
+                            "error_code": "CLEANUP_FAILED:" + type(exc).__name__,
+                            "serialized_tool_response_tokens": 0,
+                        }
+                    )
             cleanup = all(close_results)
     stale = sum(call["error_code"] == "STALE_ACTION_ID" for call in calls)
     stale_index = next(
@@ -258,6 +299,7 @@ async def evaluate(
             "temperature": 0,
             "max_tool_calls": max_calls,
             "tokenizer": "tiktoken/cl100k_base",
+            "tokenizer_version": version("tiktoken"),
             "endpoint": "OpenAI chat/completions",
         },
         "outcome": "PASS"
@@ -288,8 +330,9 @@ async def evaluate(
         "stale_recovery_observed": recovered,
         "latency_seconds": time.monotonic() - start,
         "cleanup_success": cleanup,
+        "cleanup_calls": cleanup_calls,
         "total_serialized_tool_response_tokens": sum(
-            call["serialized_tool_response_tokens"] for call in calls
+            call["serialized_tool_response_tokens"] for call in calls + cleanup_calls
         ),
         "limitations": [
             "Fixture-specific verdict; no general real-site success claim",
@@ -316,11 +359,28 @@ async def run(args):
     results = []
     for task in args.task or TASKS:
         with AgentFixture() as fixture:
-            results.append(
-                await evaluate(
-                    task, fixture, os.environ["AEROBROWSE_EVAL_MODEL"], args.max_calls
+            try:
+                results.append(
+                    await evaluate(
+                        task,
+                        fixture,
+                        os.environ["AEROBROWSE_EVAL_MODEL"],
+                        args.max_calls,
+                    )
                 )
-            )
+            except Exception as exc:  # noqa: BLE001 - connection/initialization failure is a visible failed task receipt
+                results.append(
+                    {
+                        "task": task,
+                        "revision": revision(),
+                        "model": os.environ["AEROBROWSE_EVAL_MODEL"],
+                        "outcome": "FAIL",
+                        "failure": "EVALUATION_ABORTED:" + type(exc).__name__,
+                        "cleanup_success": False,
+                        "cleanup_verified": False,
+                        "reason": "No completion claim; inspect supported host and provider configuration",
+                    }
+                )
     return {"status": "COMPLETED", "results": results}
 
 

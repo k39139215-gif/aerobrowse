@@ -112,3 +112,41 @@ def test_error_document_never_reports_success(site):
         except __import__("playwright.sync_api", fromlist=["Error"]).Error:
             pass
         assert not browser.snapshot()["success"]
+
+
+def test_auth_cookie_and_storage_isolation_between_real_sessions():
+    from aerobrowse.engine import AeroBrowser as InternalBrowser
+    from benchmarks.agent.workflows import action, good
+
+    with (
+        AgentFixture() as fixture,
+        InternalBrowser(
+            default_mode="fidelity",
+            policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+        ) as owner,
+        InternalBrowser(
+            default_mode="fidelity",
+            policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+        ) as other,
+    ):
+        snapshot = good(owner.fetch(fixture.url + "/login"))
+        snapshot = action(owner, snapshot, "Username", "fill", "agent")
+        snapshot = action(owner, snapshot, "Password", "fill", "fixture-only")
+        snapshot = action(owner, snapshot, "Sign in")
+        assert "Protected record" in snapshot["markdown"]
+        page = owner._fidelity.current_page
+        page.evaluate(
+            "localStorage.setItem('owned-scope','yes');sessionStorage.setItem('only-tab','yes')"
+        )
+        shared = good(owner.new_tab(fixture.url + "/record"))
+        assert "Protected record" in shared["markdown"]
+        tab = owner._fidelity.current_page
+        assert tab.evaluate("localStorage.getItem('owned-scope')") == "yes"
+        assert tab.evaluate("sessionStorage.getItem('only-tab')") is None
+        denied = good(other.fetch(fixture.url + "/record"))
+        assert "Login required" in denied["markdown"]
+        assert (
+            other._fidelity.current_page.evaluate("localStorage.getItem('owned-scope')")
+            is None
+        )
+        assert len(fixture.sessions) == 1
