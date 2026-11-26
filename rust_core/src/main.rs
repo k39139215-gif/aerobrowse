@@ -1,6 +1,8 @@
 //! Structured CLI output. Native browser commands fail closed, never report a fallback success.
 mod fidelity;
 mod mcp;
+mod native_browser;
+mod native_network;
 mod pruner;
 mod security;
 mod turbo;
@@ -36,6 +38,8 @@ enum Commands {
         action_id: usize,
         text: String,
     },
+    /// Persistent correlated native browser session over bounded newline JSON.
+    NativeSession,
     Mcp,
 }
 
@@ -46,7 +50,7 @@ async fn main() -> ExitCode {
             if fidelity {
                 match fidelity::FidelitySession::launch().await {
                     Err(code) => Err(code),
-                    Ok(session) => session.navigate(&url).await.and_then(|v| {
+                    Ok(mut session) => session.navigate(&url).await.and_then(|v| {
                         serde_json::to_value(v).map_err(|_| "SERIALIZATION_ERROR".into())
                     }),
                 }
@@ -63,10 +67,8 @@ async fn main() -> ExitCode {
             if let Err(code) = security::parse_url(&url) {
                 Err(code)
             } else {
-                fidelity::FidelitySession
-                    .click(action_id)
-                    .await
-                    .map(|v| json!({"message":v}))
+                let _ = action_id;
+                Err("STALE_ACTION_ID: use native-session with a live generation".into())
             }
         }
         Commands::Fill {
@@ -77,11 +79,16 @@ async fn main() -> ExitCode {
             if let Err(code) = security::parse_url(&url) {
                 Err(code)
             } else {
-                fidelity::FidelitySession
-                    .fill(action_id, &text)
-                    .await
-                    .map(|v| json!({"message":v}))
+                let _ = (action_id, text);
+                Err("STALE_ACTION_ID: use native-session with a live generation".into())
             }
+        }
+        Commands::NativeSession => {
+            return if fidelity::run_session().await.is_ok() {
+                ExitCode::SUCCESS
+            } else {
+                ExitCode::FAILURE
+            };
         }
         Commands::Mcp => {
             return if mcp::run_mcp_server().await.is_ok() {
