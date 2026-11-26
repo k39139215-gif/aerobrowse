@@ -10,11 +10,11 @@ coverage, with substantial unsupported/unverified acceptance requirements.
 | Python tests | 5 passed, live-site dependencies | 54 passed, 2 skipped locally | evidence/python-tests.xml |
 | Rust tests | Could not run with damaged host toolchain | 5 passed | Local Rust 1.100.0 LLVM Windows test run |
 | Rust lint/build | No verified baseline | fmt, strict Clippy, release build passed locally | Required cargo commands executed |
-| Turbo latency | Not measured | See local receipt; no improvement comparison claimed | evidence/benchmark-local.json |
+| Turbo latency | Not measured | Warm median 30.31 ms (4 samples), cold 596.18 ms; no improvement comparison | evidence/benchmark-local.json |
 | Fidelity latency | Not measured | Unsupported on Windows; failures recorded | evidence/benchmark-local.json |
-| Peak RAM | Not measured | Sampled process-tree RSS, see receipt | evidence/benchmark-local.json |
+| Peak RAM | Not measured | 79.13 MiB sampled process-tree RSS | evidence/benchmark-local.json |
 | Token reduction | Historical character estimates | Actual tokenizer counts on 8 synthetic categories | evidence/token-fixtures.json |
-| Concurrent sessions | Not measured | 2 concurrent SDK Turbo workers, 10 requests | evidence/benchmark-local.json |
+| Concurrent sessions | Not measured | 2 concurrent SDK Turbo workers, 10/10 successful requests; 107.08/s fixture only | evidence/benchmark-local.json |
 
 ## Fixed and locally verified
 
@@ -72,3 +72,9 @@ Linux browser fixtures, strict Rust checks and dependency audits. Its final
 remote status is not yet known. Local Python dependency advisory scan found no known
 vulnerabilities in the installed environment; evidence/pip-audit.json records the scan. Draft PR will remain unmerged; production
 acceptance cannot be inferred from its creation or a subset of green jobs.
+
+Remote checkpoint: all eight Python matrix jobs passed, as did Linux Rust fmt,
+Clippy, tests and release build on ca233b9. Initial browser job failed closed
+because namespace creation was denied. CI provisioning was added; rerun pending.
+Local benchmark receipt was captured from a dirty working tree; its recorded Git
+revision is a base revision, not an exact source binding. No speedup claim.

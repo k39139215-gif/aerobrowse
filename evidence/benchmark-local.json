@@ -245,5 +245,9 @@
     "RSS is sampled, not an exact peak",
     "Navigation cold excludes Python interpreter startup",
     "Click/fill latency requires the browser integration benchmark; not measured here"
-  ]
+  ],
+  "source_state": {
+    "revision_is_base_of_dirty_tree": true,
+    "note": "Measured before benchmark harness and final formatting were committed; revision identifies base, not exact clean source tree. Reproduce on PR head for comparable evidence."
+  }
 }

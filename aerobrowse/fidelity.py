@@ -29,7 +29,7 @@ EXTRACT = r"""() => Array.from(document.querySelectorAll(
 METADATA = r"""el => {
  const labelIds=(el.getAttribute('aria-labelledby')||'').split(/\s+/).filter(Boolean);
  const referenced=labelIds.map(id=>document.getElementById(id)?.textContent||'').join(' ');
- const labels=Array.from(el.labels||[]).map(l=>l.textContent).join(' ');
+ const labels=Array.from(el.labels||[]).map(l=>{const copy=l.cloneNode(true); copy.querySelectorAll('input,textarea,select,button').forEach(n=>n.remove()); return copy.textContent;}).join(' ');
  const tag=el.tagName.toLowerCase(), type=el.getAttribute('type')||'';
  const label=(el.getAttribute('aria-label')||referenced||labels||el.textContent||el.getAttribute('alt')||el.getAttribute('title')||el.getAttribute('placeholder')||'').trim();
  const role=el.getAttribute('role')||({a:'link',button:'button',textarea:'textbox',select:'combobox',summary:'button'}[tag])||(tag==='input'?(type==='checkbox'?'checkbox':type==='radio'?'radio':'textbox'):'');
