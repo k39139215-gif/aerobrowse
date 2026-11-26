@@ -43,3 +43,8 @@ covered in ENGINEERING_REPORT.md and SECURITY.md.
   37 Linux passes and 2 Windows-only skips, including actual MCP stdio initialize/
   navigate/Fidelity-fill/close with the explicit operator task budget. Eleven
   configuration cases reject noncanonical or over-aggregate values and retain defaults.
+
+- python-source929-final.xml: final implementation `929cc25`, 157 passes,
+  3 platform skips, 65 browser/native deselections, Windows/Python 3.12.
+- build-source929.json: wheel/sdist succeeded and all 16 package modules present;
+  artifact hashes and packaging deprecation recorded, no publication.
