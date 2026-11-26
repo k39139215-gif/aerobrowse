@@ -27,8 +27,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
       - run: uv sync --locked --extra dev --no-build --no-install-project
-      - run: uv run --no-sync ruff check aerobrowse tests
-      - run: uv run --no-sync ruff format --check aerobrowse tests
+      - run: uv run --no-sync ruff check aerobrowse tests benchmarks/agent examples/agent_sdk.py examples/agent_mcp.py
+      - run: uv run --no-sync ruff format --check aerobrowse tests benchmarks/agent examples/agent_sdk.py examples/agent_mcp.py
       - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
       - run: uv run --no-sync python -m pytest -m "not browser" --junitxml=evidence/ci-python.xml
       - run: uv run --no-sync python -m build
@@ -75,6 +75,10 @@ jobs:
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest -m browser -v --junitxml=evidence/ci-browser.xml
       - name: Required delegated Linux kernel resource tests
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/runtime -v --junitxml=evidence/phase2/ci-runtime-kernel.xml
+      - name: Controlled concurrent complete tasks
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.concurrency --concurrency 2 --iterations 3 --output evidence/agent/concurrency.json
+      - name: Actual-model evaluation configuration receipt
+        run: uv run --no-sync python -m benchmarks.agent.run --output evidence/agent/model-evaluation.json
       - name: Controlled operation benchmarks
         run: uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
       - name: Thirty minute browser worker cleanup soak
@@ -86,6 +90,7 @@ jobs:
           path: |
             evidence/*.xml
             evidence/phase2/
+            evidence/agent/
   rust:
     runs-on: ubuntu-24.04
     timeout-minutes: 20

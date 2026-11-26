@@ -48,7 +48,7 @@ keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
 These restrictions remove unsafe behavior and are not claims of full feature parity.
 Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
 
-- Added operator-only `AEROBROWSE_SESSION_TASKS` (1â€“256) for MCP session task
+- Added operator-only `AEROBROWSE_SESSION_TASKS` (1Ã¢â‚¬â€œ256) for MCP session task
   budgets; invalid configuration fails startup, defaults and aggregate caps remain.
   Verified actual Linux stdio MCP navigation/fill/close under this explicit budget.
 
@@ -56,3 +56,14 @@ Read ENGINEERING_REPORT.md for outstanding acceptance criteria and verification.
   frames return fixed errors and preserve subsequent MCP requests.
 - Await already-retiring worker termination during shutdown before pool closure.
   Both defects were reproduced and covered by real-pipe/real-worker regressions.
+
+## Unreleased agent workflow continuation
+
+- Public AeroBrowser and CLI now run in supervised process workers. Fidelity
+  requires kernel resource delegation; direct engine internals moved out of the
+  normal SDK path. Access to private _fidelity/_turbo is not supported by facade.
+- Add ephemeral browser cookie auth via pinned one-hop broker, bounded tabs,
+  back/forward/reload and supported-capability discovery.
+- Improve nested tables/lists/labels and complete snapshot JSON token accounting.
+- Add independently judged owned SDK/MCP workflows and runnable actual-model harness.
+- Actual model evaluation NOT_RUN without OPENAI_API_KEY,AEROBROWSE_EVAL_MODEL.

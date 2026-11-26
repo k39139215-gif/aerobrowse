@@ -128,3 +128,16 @@ defaults. Invalid values fail at startup with `INVALID_RUNTIME_CONFIG`. Omitting
 it retains 64. For the tested Chromium configuration, explicitly set it to 256;
 this does not imply multiple concurrent browsers fit the aggregate pool. Tool
 arguments cannot change this setting, and it never enables private-network access.
+
+## Stateful browsing continuation
+
+The public AeroBrowser SDK and CLI now use bounded supervised process workers,
+with the same kernel quota requirement for browser actions as MCP. Internal engine
+classes remain low-level trusted embedding APIs. In-memory Chromium cookies are
+forwarded only from intercepted browser-selected request headers through the pinned
+one-hop broker. Ordinary HTTP continues stripping Cookie/Authorization/Set-Cookie.
+Chromium applies Set-Cookie domain/path/Secure/HttpOnly/SameSite/expiry policy;
+there is no host-side credential jar. HTTP Authorization remains unsupported.
+Tabs share the owned context; other sessions have independent ephemeral storage.
+Explicit tabs are bounded at8 and popups remain denied. IDs never execute across
+snapshot/tab/document generations. Operator development allowlists are explicit.

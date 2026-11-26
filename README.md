@@ -22,12 +22,12 @@ cargo build --locked --release --manifest-path rust_core/Cargo.toml
 ```
 
 Turbo works on supported Python platforms. Fidelity requires Linux with Bubblewrap and permission to create user/network/mount
-namespaces. MCP Fidelity additionally requires delegated cgroup v2 memory/CPU/PID
+namespaces. Fidelity through either public SDK or MCP additionally requires delegated cgroup v2 memory/CPU/PID
 controllers configured through `AEROBROWSE_CGROUP_ROOT`. Windows/macOS Fidelity returns
 `NETWORK_ISOLATION_UNAVAILABLE`. Do not bypass this restriction. Chromium is
 launched with no network interfaces and host-brokered, validated HTTP requests.
-The supervised MCP runtime owns process workers; the direct synchronous SDK is a
-trusted embedding API without equivalent resource quotas. See [SECURITY.md](SECURITY.md).
+The public synchronous SDK, CLI and MCP runtime own supervised process workers.
+Low-level engine classes remain trusted internal embedding APIs. See [SECURITY.md](SECURITY.md).
 The CI browser job provisions namespace permissions on its disposable Ubuntu
 runner; production hosts must provision their own restricted execution environment.
 
@@ -45,7 +45,10 @@ with AeroBrowser(default_mode="auto") as browser:
         print(page["original_tokens"], page["extracted_tokens"], page["tokenizer"])
 ```
 
-Modes: `turbo` never escalates; `fidelity` requires Chromium; `auto` escalates
+See [AGENT_QUICKSTART.md](AGENT_QUICKSTART.md) for complete SDK/MCP task examples
+and [AGENT_EVALUATION.md](AGENT_EVALUATION.md) for actual-model evaluation.
+
+Modes: `turbo` does not automatically escalate; `fidelity` requires Chromium; `auto` escalates
 sparse application roots and explicit JavaScript requirements. A network-policy
 error never triggers fallback. These are heuristics, not framework compatibility
 guarantees. Static action candidates have `executable: false`.
@@ -204,3 +207,18 @@ For the tested Linux MCP Chromium configuration, the operator can explicitly set
 The default remains 64 tasks per session; the aggregate ceiling remains 256.
 Invalid task budgets fail startup. This is a resource setting, not permission to
 reach private networks; see SECURITY.md for deployment limits.
+
+## Stateful agent operations
+
+Authenticated cookie sessions work through Chromium-scoped cookies and the pinned
+broker. Cookies/storage are ephemeral per owned context; tabs share that context.
+Use `new_tab(url)`, `tabs()`, `switch_tab(tab_id)`, `close_tab(tab_id)`, `back()`,
+`forward()`, `reload()` and `capabilities()` on the public SDK; MCP has corresponding
+browser_ tools. Maximum8 explicit tabs; page-created popups remain denied.
+After Fidelity activation, navigation remains in that context to preserve auth.
+`serialized_output` measures canonical JSON including action metadata, separately
+from Markdown-only extracted_tokens. Recalculate full MCP framing cost in clients.
+
+Operator-only `AEROBROWSE_ALLOW_NETWORKS` is an optional comma-separated strict
+CIDR allowlist for MCP development fixtures. Empty by default. Never enable broad
+private networks for production; this is not an untrusted tool argument.
