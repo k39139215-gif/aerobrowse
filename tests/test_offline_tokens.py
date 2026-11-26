@@ -32,9 +32,10 @@ assert len(enc.encode("مرحبا 世界 hello")) > 0
 
 
 def test_bundled_vocab_checksum_failure_is_explicit(tmp_path, monkeypatch):
-    import aerobrowse.tokens as tokens
-    from aerobrowse.errors import AeroError
     import json
+
+    from aerobrowse import tokens
+    from aerobrowse.errors import AeroError
 
     root = tmp_path / "token_data"
     root.mkdir()
