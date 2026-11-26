@@ -71,3 +71,11 @@ Chromium broker and namespace implementation remain unverified on Linux; Windows
 launch is deliberately unsupported. Cookies and authorization are not forwarded;
 authenticated applications are currently unsupported. Rust P0 paths remain open
 until phase 7. No production-readiness claim.
+## Phase 3 checkpoint
+
+Hybrid state tests first failed on missing policy/state, security failure fallback,
+and action-without-navigation behavior. Explicit URL/engine/session state and lock
+now preserve static snapshots and prevent fallback after policy rejection. Turbo to
+Fidelity deliberately returns a live synchronization snapshot with STALE_ACTION_ID;
+it does not pretend static IDs match browser elements. End-to-end handoff still
+requires isolated Linux browser verification.
