@@ -220,7 +220,10 @@ def test_worker_ipc_preserves_frame_across_partial_writes():
     stream = PartialWriter()
     payload = {
         "id": "request",
-        "result": {"unicode": "Ã™â€¦Ã˜Â±Ã˜Â­Ã˜Â¨Ã˜Â§", "data": "x" * 10000},
+        "result": {
+            "unicode": "Ãƒâ„¢Ã¢â‚¬Â¦ÃƒËœÃ‚Â±ÃƒËœÃ‚Â­ÃƒËœÃ‚Â¨ÃƒËœÃ‚Â§",
+            "data": "x" * 10000,
+        },
     }
     _frame_write(stream, payload)
     assert bytes(stream.data).endswith(b"\n")
@@ -238,3 +241,18 @@ def test_worker_ipc_zero_write_fails_closed():
     with pytest.raises(AeroError) as caught:
         _frame_write(Closed(), {"id": "request"})
     assert caught.value.code == "WORKER_PROTOCOL_ERROR"
+
+
+@pytest.mark.skipif(
+    sys.platform != "linux", reason="Linux no-delegation capability rejection"
+)
+def test_positional_fidelity_cannot_bypass_missing_kernel_quota(monkeypatch, site):
+    monkeypatch.delenv("AEROBROWSE_CGROUP_ROOT", raising=False)
+    pool = ResourcePool()
+    worker = ProcessWorker(pool)
+    try:
+        result = worker.call("navigate", (site + "/form", True), {})
+        assert result["error"]["code"] == "RESOURCE_ISOLATION_UNAVAILABLE", result
+    finally:
+        worker.terminate()
+        pool.close()

@@ -613,7 +613,10 @@ def _execute(
             "RESOURCE_ISOLATION_UNAVAILABLE",
             "Browser actions require enforced aggregate quotas",
         )
-    if not quotas and kwargs.get("force_fidelity"):
+    if not quotas and (
+        kwargs.get("force_fidelity")
+        or (operation == "navigate" and len(args) > 1 and args[1])
+    ):
         raise AeroError(
             "RESOURCE_ISOLATION_UNAVAILABLE",
             "Fidelity requires enforced aggregate quotas",
