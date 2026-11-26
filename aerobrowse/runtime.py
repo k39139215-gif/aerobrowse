@@ -113,7 +113,7 @@ class WindowsJob:
     def __init__(self, memory: int, cpu: int, processes: int):
         from ctypes import wintypes
 
-        self.api = ctypes.WinDLL("kernel32", use_last_error=True)
+        self.api = cast(Any, ctypes).WinDLL("kernel32", use_last_error=True)
         self.api.CreateJobObjectW.restype = wintypes.HANDLE
         self.api.CreateJobObjectW.argtypes = [ctypes.c_void_p, wintypes.LPCWSTR]
         self.api.SetInformationJobObject.argtypes = [
@@ -401,7 +401,7 @@ class ProcessWorker:
         options: dict[str, Any] = (
             {"start_new_session": True}
             if os.name != "nt"
-            else {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+            else {"creationflags": cast(Any, subprocess).CREATE_NEW_PROCESS_GROUP}
         )
         self.directory = tempfile.TemporaryDirectory(prefix="aero-worker-")
         safe_env = {
