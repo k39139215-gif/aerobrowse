@@ -156,7 +156,7 @@ private-tmpfs path findings; full engineering workflow green does not close that
 These are exploratory controlled-fixture measurements, not a paired before/after
 experiment. No speedup or memory improvement is claimed. The benchmark reports
 `dirty=true` because generated build/test evidence exists. Exact raw values and
-configuration are in `ci-f1ce086/phase2/benchmark-linux.json`.
+configuration are in `ci-582b74c/browser/phase2/benchmark-linux.json`.
 
 | Metric | Before | Observed after | Evidence and limit |
 |---|---|---|---|
