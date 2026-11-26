@@ -7,7 +7,7 @@ coverage, with substantial unsupported/unverified acceptance requirements.
 | Metric | Before | After | Evidence |
 |---|---|---|---|
 | Security findings | 4 P0 audit findings | HTTP pinning and session isolation regression-tested; Chromium/native feature restrictions; full browser boundary unverified | AUDIT.md, tests/test_security.py, tests/test_mcp.py |
-| Python tests | 5 passed, live-site dependencies | 53 passed, 2 skipped at checkpoint; final receipt updated below | evidence/python-tests.xml |
+| Python tests | 5 passed, live-site dependencies | 54 passed, 2 skipped locally | evidence/python-tests.xml |
 | Rust tests | Could not run with damaged host toolchain | 5 passed | Local Rust 1.100.0 LLVM Windows test run |
 | Rust lint/build | No verified baseline | fmt, strict Clippy, release build passed locally | Required cargo commands executed |
 | Turbo latency | Not measured | See local receipt; no improvement comparison claimed | evidence/benchmark-local.json |
@@ -69,5 +69,6 @@ restricted environment without host secrets while remaining gates are open.
 
 CI configuration adds Python matrices, lint/types/build, deterministic tests,
 Linux browser fixtures, strict Rust checks and dependency audits. Its final
-remote status is not yet known. Draft PR will remain unmerged; production
+remote status is not yet known. Local Python dependency advisory scan found no known
+vulnerabilities in the installed environment; evidence/pip-audit.json records the scan. Draft PR will remain unmerged; production
 acceptance cannot be inferred from its creation or a subset of green jobs.
