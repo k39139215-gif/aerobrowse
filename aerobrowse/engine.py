@@ -7,6 +7,7 @@ from typing import Any, Self
 from aerobrowse.errors import AeroError
 from aerobrowse.fidelity import FidelityEngine
 from aerobrowse.security import NetworkPolicy
+from aerobrowse.tokens import measure_output
 from aerobrowse.turbo import TurboEngine
 
 
@@ -37,13 +38,21 @@ class AeroBrowser:
             self.current_url = result["url"]
             self.active_engine = result["engine"]
             self._snapshot = result
+        result.update(measure_output(result))
         return result
 
     def fetch(self, url: str, force_fidelity: bool = False) -> dict[str, Any]:
         with self._lock:
             # Failed navigation invalidates previous state rather than exposing it as current.
             self.current_url, self.active_engine, self._snapshot = None, None, None
-            if force_fidelity or self.default_mode == "fidelity":
+            if (
+                force_fidelity
+                or self.default_mode == "fidelity"
+                or (self._fidelity is not None and self._fidelity.tabs()["tabs"])
+            ):
+                # After escalation, navigation stays in the active live tab.
+                # Returning to stateless HTTP would discard its cookies/history
+                # and advertise a different page from the visible tab map.
                 return self._remember(self._get_fidelity().navigate(url))
             result = self.turbo.fetch(url)
             if (
@@ -145,6 +154,124 @@ class AeroBrowser:
                     error.get("message", "Refresh snapshot"),
                 )
             return self._get_fidelity().screenshot()
+
+    def tabs(self) -> dict[str, Any]:
+        with self._lock:
+            return {**self._get_fidelity().tabs(), "session_id": self.session_id}
+
+    def new_tab(self, url: str) -> dict[str, Any]:
+        with self._lock:
+            fidelity = self._get_fidelity()
+            try:
+                self.policy.validate(url)
+            except AeroError as exc:
+                return exc.result()
+            if len(fidelity.tabs()["tabs"]) >= fidelity.max_tabs:
+                return AeroError("TAB_LIMIT", "Maximum browser tabs reached").result()
+            if self.active_engine == "turbo" and self.current_url:
+                synchronized = fidelity.navigate(self.current_url)
+                if not synchronized.get("success"):
+                    return synchronized
+                self._remember(synchronized)
+            result = fidelity.new_tab(url)
+            if not result.get("success") and fidelity.current_page is not None:
+                # A failed tab navigation must never leave a previous snapshot
+                # advertised as the current live document.
+                self.current_url, self.active_engine, self._snapshot = None, None, None
+            return self._remember(result)
+
+    def switch_tab(self, tab_id: str) -> dict[str, Any]:
+        with self._lock:
+            return self._remember(self._get_fidelity().switch_tab(tab_id))
+
+    def close_tab(self, tab_id: str) -> dict[str, Any]:
+        with self._lock:
+            result = self._get_fidelity().close_tab(tab_id)
+            if result.get("success") and result.get("tab_id") is None:
+                self.current_url, self.active_engine, self._snapshot = None, None, None
+                return {**result, "session_id": self.session_id}
+            return self._remember(result)
+
+    def _history(self, direction: str) -> dict[str, Any]:
+        with self._lock:
+            if self.active_engine != "fidelity":
+                return AeroError(
+                    "NO_ACTIVE_PAGE", "History requires an active Chromium tab"
+                ).result()
+            result = getattr(self._get_fidelity(), direction)()
+            if (
+                not result.get("success")
+                and result.get("error", {}).get("code") != "HISTORY_UNAVAILABLE"
+            ):
+                self.current_url, self.active_engine, self._snapshot = None, None, None
+            return self._remember(result)
+
+    def back(self) -> dict[str, Any]:
+        return self._history("back")
+
+    def forward(self) -> dict[str, Any]:
+        return self._history("forward")
+
+    def reload(self) -> dict[str, Any]:
+        with self._lock:
+            if self.active_engine == "turbo" and self.current_url:
+                return self.fetch(self.current_url)
+            if self._fidelity is None:
+                return AeroError("NO_ACTIVE_PAGE", "Navigate before reloading").result()
+            return self._remember(self._fidelity.reload())
+
+    @staticmethod
+    def capabilities() -> dict[str, Any]:
+        return {
+            "success": True,
+            "operations": [
+                "navigate",
+                "snapshot",
+                "click",
+                "fill",
+                "select",
+                "check",
+                "press",
+                "scroll",
+                "wait",
+                "screenshot",
+                "tabs",
+                "new_tab",
+                "switch_tab",
+                "close_tab",
+                "back",
+                "forward",
+                "reload",
+                "close",
+            ],
+            "max_tabs": 8,
+            "input_mode": "synthetic_dom",
+            "keys": [
+                "Enter",
+                "Escape",
+                "ArrowUp",
+                "ArrowDown",
+                "ArrowLeft",
+                "ArrowRight",
+                "Home",
+                "End",
+            ],
+            "cookies": "ephemeral context-scoped; shared only within owning session",
+            "unsupported": [
+                "trusted physical input",
+                "file uploads",
+                "downloads",
+                "WebSocket",
+                "service workers",
+                "HTTP Authorization",
+            ],
+            "recovery": {
+                "STALE_ACTION_ID": "Request browser_snapshot and choose a new action; IDs are never remapped",
+                "TAB_NOT_FOUND": "List owned tabs and select a returned tab ID",
+                "TIMEOUT": "Worker and session are retired; create a new session and log in again",
+                "PAGE_NAVIGATED": "Request browser_snapshot; navigate again if no active page",
+            },
+        }
 
     def close(self) -> None:
         with self._lock:

@@ -38,6 +38,7 @@ const check = (entry,generation) => {
  return null;
 };
 const fail = code => ({success:false,error:{code,message:'Action target state no longer matches the active snapshot'}});
+const nativeSubmit=HTMLFormElement.prototype.requestSubmit;
 const nativeClick=HTMLElement.prototype.click;
 const nativeFocus=HTMLElement.prototype.focus;
 const dispatch=EventTarget.prototype.dispatchEvent;
@@ -74,10 +75,15 @@ state.perform = args => {
   if(el.checked!==value)nativeClick.call(el);return {success:true,input_mode:'synthetic_dom'};
  }
  if(op==='press'){
-  if(value!=='Enter'&&value!=='Escape')return fail('UNSUPPORTED_CAPABILITY');
+  if(!['Enter','Escape','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(value))return fail('UNSUPPORTED_CAPABILITY');
   nativeFocus.call(el);const after=check(entry,args.generation);if(after)return fail(after);
-  dispatch.call(el,new KeyboardEvent('keydown',{key:value,bubbles:true}));
+  const accepted=dispatch.call(el,new KeyboardEvent('keydown',{key:value,bubbles:true,cancelable:true}));
   if(!el.isConnected||state.document!==document||epoch()!==state.captured)return fail('STALE_ACTION_ID');
+  if(accepted && value==='Enter' && el.tagName==='INPUT' && el.form && !['button','submit','reset','file','checkbox','radio'].includes(el.type)){
+   const submitter=[...el.form.elements].find(n=>n.type==='submit'&&!n.disabled);
+   if(submitter)nativeClick.call(submitter);else nativeSubmit.call(el.form);
+   return {success:true,input_mode:'synthetic_dom'};
+  }
   dispatch.call(el,new KeyboardEvent('keyup',{key:value,bubbles:true}));
   return {success:true,input_mode:'synthetic_dom'};
  }

@@ -40,6 +40,10 @@ class FidelityEngine:
         self._network_error: AeroError | None = None
         self._redirects = 0
         self._action_context: ActionContext | None = None
+        self._tabs: dict[str, Any] = {}
+        self._creating_page = False
+        self._pending_pages: list[Any] = []
+        self.max_tabs = 8
 
     def _ensure_page(self) -> Any:
         if self.browser and not self.browser.is_connected():
@@ -79,16 +83,183 @@ class FidelityEngine:
                 self.current_context.route("**/*", self._broker)
                 self.current_context.route_web_socket("**/*", lambda ws: ws.close())
                 self.current_context.on("page", self._new_page)
-                self.current_page = self.current_context.new_page()
+                self.current_page = self._open_page()
             except (AeroError, PlaywrightError):
                 self.close()
                 raise
+        if self.current_page is None or self.current_page.is_closed():
+            self.current_page = self._open_page()
         return self.current_page
 
     def _new_page(self, page: Any) -> None:
-        # Popups are denied; a single active tab is the implemented contract.
-        if self.current_page is not None and page != self.current_page:
+        # Only explicit API-created blank tabs are admitted. Page-created popups
+        # remain denied even when the context already owns multiple tabs.
+        if not self._creating_page or page.opener() is not None:
             page.close()
+        else:
+            self._pending_pages.append(page)
+
+    def _open_page(self) -> Any:
+        if len(self._tabs) >= self.max_tabs:
+            raise AeroError("TAB_LIMIT", "Maximum browser tabs reached")
+        self._creating_page = True
+        try:
+            page = self.current_context.new_page()
+        except PlaywrightError:
+            pending, self._pending_pages = self._pending_pages, []
+            for candidate in pending:
+                if not candidate.is_closed():
+                    candidate.close()
+            raise
+        finally:
+            self._creating_page = False
+        # A concurrent noopener popup can also have no opener. Only the exact
+        # page returned by the explicit context call is admitted into the map.
+        pending, self._pending_pages = self._pending_pages, []
+        for candidate in pending:
+            if candidate != page and not candidate.is_closed():
+                candidate.close()
+        if page.is_closed():
+            raise AeroError("TAB_FAILED", "Browser rejected the new tab")
+        tab_id = uuid.uuid4().hex
+        self._tabs[tab_id] = page
+        page.on("close", lambda closed_page: self._tab_closed(tab_id, closed_page))
+        return page
+
+    def _tab_closed(self, tab_id: str, page: Any) -> None:
+        self._tabs.pop(tab_id, None)
+        if page == self.current_page:
+            self._invalidate()
+            self.current_page = None
+
+    def _tab(self, tab_id: str) -> Any:
+        if not isinstance(tab_id, str) or not re.fullmatch(r"[0-9a-f]{32}", tab_id):
+            raise AeroError("INVALID_TAB_ID", "Use an opaque tab ID from browser_tabs")
+        page = self._tabs.get(tab_id)
+        if page is None or page.is_closed():
+            raise AeroError("TAB_NOT_FOUND", "Tab does not exist in this session")
+        return page
+
+    def _active_tab_id(self) -> str | None:
+        return next(
+            (key for key, page in self._tabs.items() if page == self.current_page), None
+        )
+
+    def tabs(self) -> dict[str, Any]:
+        return {
+            "success": True,
+            "engine": "fidelity",
+            "active_tab_id": self._active_tab_id(),
+            "tabs": [
+                {"tab_id": key, "url": page.url, "active": page == self.current_page}
+                for key, page in self._tabs.items()
+                if not page.is_closed()
+            ],
+            "max_tabs": self.max_tabs,
+        }
+
+    def new_tab(self, url: str) -> dict[str, Any]:
+        try:
+            # Reject disallowed destinations before allocating any browser resources.
+            self.policy.validate(url)
+            if not self.browser:
+                self._ensure_page()
+            else:
+                page = self._open_page()
+                self._invalidate()
+                self.current_page = page
+            return self.navigate(url)
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return AeroError("TAB_FAILED", "Could not create browser tab").result()
+
+    def switch_tab(self, tab_id: str) -> dict[str, Any]:
+        try:
+            page = self._tab(tab_id)
+            self._invalidate()
+            self.current_page = page
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+
+    def close_tab(self, tab_id: str) -> dict[str, Any]:
+        try:
+            page = self._tab(tab_id)
+            self._invalidate()
+            page.close()
+            if self.current_page is None and self._tabs:
+                self.current_page = next(iter(self._tabs.values()))
+            if self.current_page is not None:
+                result = self.snapshot()
+                result["closed_tab_id"] = tab_id
+                return result
+            return {**self.tabs(), "closed_tab_id": tab_id, "tab_id": None, "url": None}
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return AeroError("TAB_FAILED", "Could not close browser tab").result()
+
+    def _history(self, direction: str) -> dict[str, Any]:
+        try:
+            if not self.current_page or self.current_page.is_closed():
+                raise AeroError("NO_ACTIVE_PAGE", "Navigate before using history")
+            page = self._ensure_page()
+            self._invalidate()
+            self._network_error = None
+            self._redirects = 0
+            # CDP distinguishes same-document history from an absent entry;
+            # Playwright returns None for both cases.
+            client = self.current_context.new_cdp_session(page)
+            try:
+                history = client.send("Page.getNavigationHistory")
+            finally:
+                client.detach()
+            target = history["currentIndex"] + (-1 if direction == "back" else 1)
+            if not 0 <= target < len(history["entries"]):
+                raise AeroError(
+                    "HISTORY_UNAVAILABLE", "No history entry in this direction"
+                )
+            self.policy.validate(history["entries"][target]["url"])
+            if direction == "back":
+                page.go_back(wait_until="domcontentloaded", timeout=20000)
+            else:
+                page.go_forward(wait_until="domcontentloaded", timeout=20000)
+            if self._network_error:
+                raise self._network_error
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return (
+                self._network_error
+                or AeroError("NAVIGATION_FAILED", "History navigation failed")
+            ).result()
+
+    def back(self) -> dict[str, Any]:
+        return self._history("back")
+
+    def forward(self) -> dict[str, Any]:
+        return self._history("forward")
+
+    def reload(self) -> dict[str, Any]:
+        try:
+            if not self.current_page or self.current_page.is_closed():
+                raise AeroError("NO_ACTIVE_PAGE", "Navigate before reloading")
+            self._invalidate()
+            self._network_error = None
+            self._redirects = 0
+            self.current_page.reload(wait_until="domcontentloaded", timeout=20000)
+            if self._network_error:
+                raise self._network_error
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            self._invalidate()
+            return AeroError(
+                "NAVIGATION_FAILED", "Reload failed; request a fresh snapshot"
+            ).result()
 
     def _broker(self, route: Any) -> None:
         try:
@@ -102,12 +273,13 @@ class FidelityEngine:
             if self.block_heavy and request.resource_type in {"image", "media", "font"}:
                 route.abort("blockedbyclient")
                 return
-            response = self.transport.request(
+            response = self.transport._browser_request(
                 request.url,
                 method=request.method,
-                headers=request.headers,
+                # The abbreviated headers property omits security-sensitive cookies.
+                # Chromium computes credentials per destination, including redirects.
+                headers=request.all_headers(),
                 body=request.post_data_buffer or b"",
-                follow_redirects=False,
             )
             headers = {
                 k: v
@@ -121,6 +293,11 @@ class FidelityEngine:
                     "set-cookie",
                 }
             }
+            if response.set_cookies:
+                # Playwright's HAR router uses this representation for repeated
+                # Set-Cookie fields. Chromium, rather than a host-side jar, applies
+                # HttpOnly, domain/path, Secure, SameSite and expiry restrictions.
+                headers["set-cookie"] = "\n".join(response.set_cookies)
             route.fulfill(status=response.status, headers=headers, body=response.body)
         except AeroError as exc:
             self._network_error = exc
@@ -198,6 +375,7 @@ class FidelityEngine:
                 generation=self.generation,
                 elapsed_ms=round(elapsed_ms, 2),
                 input_mode="synthetic_dom",
+                tab_id=self._active_tab_id(),
             )
             return parsed
         except AeroError as exc:
@@ -320,4 +498,6 @@ class FidelityEngine:
                         "browser_cleanup_failed", extra={"error_code": "CLEANUP_FAILED"}
                     )
         self.current_page = None
+        self._tabs.clear()
+        self._pending_pages.clear()
         self.launcher.close()

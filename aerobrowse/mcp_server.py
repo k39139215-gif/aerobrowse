@@ -1,6 +1,8 @@
 """MCP stdio tools with explicit owned browser sessions and safe errors."""
 
 import asyncio
+import ipaddress
+import os
 from contextlib import asynccontextmanager
 from typing import Annotated, Any
 
@@ -11,7 +13,26 @@ from aerobrowse.errors import AeroError
 from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
 
-sessions = SessionManager(resource_limits=ResourceLimits.from_environment())
+
+def _operator_networks() -> tuple[str, ...]:
+    raw = os.environ.get("AEROBROWSE_ALLOW_NETWORKS", "")
+    if not raw:
+        return ()
+    try:
+        values = raw.split(",")
+        if len(values) > 16 or len(raw) > 1024:
+            raise ValueError("too many development networks")
+        return tuple(str(ipaddress.ip_network(value, strict=True)) for value in values)
+    except ValueError as exc:
+        raise AeroError(
+            "INVALID_RUNTIME_CONFIG", "Invalid operator network allowlist"
+        ) from exc
+
+
+sessions = SessionManager(
+    resource_limits=ResourceLimits.from_environment(),
+    allow_networks=_operator_networks(),
+)
 
 
 @asynccontextmanager
@@ -40,6 +61,7 @@ mcp = FastMCP(
 SessionID = Annotated[str, Field(min_length=32, max_length=128)]
 ActionID = Annotated[str, Field(pattern=r"^[0-9a-f]{32}:[1-9][0-9]{0,5}$")]
 Generation = Annotated[str, Field(pattern=r"^[0-9a-f]{32}$")]
+TabID = Annotated[str, Field(pattern=r"^[0-9a-f]{32}$")]
 
 
 @mcp.tool()
@@ -160,6 +182,65 @@ async def browser_wait(
 async def browser_screenshot(session_id: SessionID, ctx: Context) -> dict[str, Any]:
     """Return bounded base64 PNG; screenshots can contain sensitive page content."""
     return await sessions.call(ctx.session_id, session_id, "screenshot")
+
+
+@mcp.tool()
+async def browser_tabs(session_id: SessionID, ctx: Context) -> dict[str, Any]:
+    """List opaque context-owned tab IDs; page-created popups remain denied."""
+    return await sessions.call(ctx.session_id, session_id, "tabs")
+
+
+@mcp.tool()
+async def browser_new_tab(
+    session_id: SessionID,
+    url: Annotated[str, Field(min_length=1, max_length=8192)],
+    ctx: Context,
+) -> dict[str, Any]:
+    """Open and activate a validated URL, up to eight tabs per owned session."""
+    return await sessions.call(ctx.session_id, session_id, "new_tab", url)
+
+
+@mcp.tool()
+async def browser_switch_tab(
+    session_id: SessionID, tab_id: TabID, ctx: Context
+) -> dict[str, Any]:
+    """Activate an owned tab and return a fresh action generation."""
+    return await sessions.call(ctx.session_id, session_id, "switch_tab", tab_id)
+
+
+@mcp.tool()
+async def browser_close_tab(
+    session_id: SessionID, tab_id: TabID, ctx: Context
+) -> dict[str, Any]:
+    """Close an owned tab and return the remaining active page, if any."""
+    return await sessions.call(ctx.session_id, session_id, "close_tab", tab_id)
+
+
+@mcp.tool()
+async def browser_back(session_id: SessionID, ctx: Context) -> dict[str, Any]:
+    """Navigate backward in the active Chromium tab's validated history."""
+    return await sessions.call(ctx.session_id, session_id, "back")
+
+
+@mcp.tool()
+async def browser_forward(session_id: SessionID, ctx: Context) -> dict[str, Any]:
+    """Navigate forward in the active Chromium tab's validated history."""
+    return await sessions.call(ctx.session_id, session_id, "forward")
+
+
+@mcp.tool()
+async def browser_reload(session_id: SessionID, ctx: Context) -> dict[str, Any]:
+    """Reload the active tab and return fresh generation-scoped actions."""
+    return await sessions.call(ctx.session_id, session_id, "reload")
+
+
+@mcp.tool()
+async def browser_capabilities() -> dict[str, Any]:
+    """Discover supported operations, bounds and recovery instructions before browsing."""
+    from aerobrowse.engine import AeroBrowser
+
+    # No engine creation is needed for this static capability contract.
+    return AeroBrowser.capabilities()
 
 
 @mcp.tool()
