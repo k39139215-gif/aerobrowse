@@ -509,6 +509,18 @@ class ProcessWorker:
                     raise AeroError(
                         "WORKER_PROTOCOL_ERROR", "Worker correlation failed"
                     )
+                if isinstance(self.group, Cgroup):
+                    events = dict(
+                        line.split()
+                        for line in (self.group.path / "pids.events")
+                        .read_text()
+                        .splitlines()
+                    )
+                    if int(events.get("max", "0")) > 0:
+                        raise AeroError(
+                            "WORKER_RESOURCE_LIMIT",
+                            "Worker task quota exhausted; session must be retired",
+                        )
                 self.state = WorkerState.READY
                 return response["result"]
             except (BrokenPipeError, OSError) as exc:

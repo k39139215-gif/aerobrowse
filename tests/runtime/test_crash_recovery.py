@@ -3,6 +3,7 @@ import asyncio
 import psutil
 import pytest
 
+from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
 
 
@@ -104,7 +105,11 @@ def test_parent_death_closes_job_and_kills_worker():
 )
 def test_supervised_browser_navigation_actions_and_cleanup(site):
     async def run():
-        manager = SessionManager(max_sessions=1, allow_networks=("127.0.0.1/32",))
+        manager = SessionManager(
+            max_sessions=1,
+            allow_networks=("127.0.0.1/32",),
+            resource_limits=ResourceLimits(processes=256),
+        )
         sid = await manager.create("owner")
         try:
             result = await manager.call(
@@ -127,6 +132,30 @@ def test_supervised_browser_navigation_actions_and_cleanup(site):
             )
             assert result.get("success"), result
             assert (await manager.close("owner", sid))["success"]
+            assert manager.active_sessions == 0
+        finally:
+            await manager.close_all()
+
+    asyncio.run(run())
+
+
+@pytest.mark.browser
+@pytest.mark.skipif(
+    __import__("sys").platform != "linux", reason="Linux Chromium task exhaustion"
+)
+def test_low_task_budget_fails_explicitly_and_releases_slot(site):
+    async def run():
+        manager = SessionManager(
+            max_sessions=1,
+            allow_networks=("127.0.0.1/32",),
+            resource_limits=ResourceLimits(processes=16),
+        )
+        sid = await manager.create("owner")
+        try:
+            result = await manager.call(
+                "owner", sid, "navigate", site + "/form", force_fidelity=True
+            )
+            assert result["error"]["code"] == "WORKER_RESOURCE_LIMIT", result
             assert manager.active_sessions == 0
         finally:
             await manager.close_all()

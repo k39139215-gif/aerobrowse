@@ -12,12 +12,17 @@ from pathlib import Path
 import psutil
 
 from aerobrowse.benchmark import write_receipt
+from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
 from benchmarks.phase2.run import Fixture
 
 
 async def run(seconds, raw_path):
-    manager = SessionManager(max_sessions=2, allow_networks=("127.0.0.1/32",))
+    manager = SessionManager(
+        max_sessions=2,
+        allow_networks=("127.0.0.1/32",),
+        resource_limits=ResourceLimits(processes=256),
+    )
     if not manager.pool.enforced:
         raise RuntimeError("Soak requires real kernel resource controls")
     parent = psutil.Process()
@@ -77,7 +82,12 @@ async def run(seconds, raw_path):
         "last_parent_rss_bytes": rows[-1]["parent_rss_bytes"],
         "orphan_processes": 0,
         "permanently_occupied_slots": 0,
-        "configuration": {"requested_seconds": seconds, "max_sessions": 2},
+        "configuration": {
+            "requested_seconds": seconds,
+            "max_sessions": 2,
+            "session_task_limit": 256,
+            "aggregate_task_limit": 256,
+        },
         "limitations": [
             "single owned synthetic fixture and sequential lifecycle; not adversarial infinite allocation",
             "parent RSS sampled at completed iterations; kernel cgroup enforces worker quota",
