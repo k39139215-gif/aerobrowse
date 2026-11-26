@@ -1,113 +1,105 @@
-"""
-AeroBrowse Model Context Protocol (MCP) Server
-Allows Claude Desktop, Cursor, Antigravity, and AI Agents to browse
-the web with 90% fewer tokens and zero resource bloat.
-"""
+"""MCP stdio tools with explicit owned browser sessions and safe errors."""
+import asyncio
+from contextlib import asynccontextmanager
+from typing import Annotated, Any
+from fastmcp import FastMCP, Context
+from pydantic import Field
+from aerobrowse.errors import AeroError
+from aerobrowse.sessions import SessionManager
 
-import sys
-import base64
-from fastmcp import FastMCP
-from aerobrowse.engine import AeroBrowser
+sessions = SessionManager()
 
-mcp = FastMCP("AeroBrowse")
-browser_instance = None
+@asynccontextmanager
+async def lifespan(server: FastMCP):
+    async def sweep():
+        while True:
+            await asyncio.sleep(10)
+            await sessions.expire()
+    task = asyncio.create_task(sweep())
+    try:
+        yield {}
+    finally:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass  # Expected completion of the owned idle-sweeper task.
+        await sessions.close_all()
 
-def get_browser() -> AeroBrowser:
-    global browser_instance
-    if browser_instance is None:
-        browser_instance = AeroBrowser()
-    return browser_instance
-
-
-@mcp.tool()
-def browser_navigate(url: str, force_js: bool = False) -> str:
-    """
-    Navigate to a URL and return token-dense Markdown along with an actionable element map.
-    Use this to read documentation, news, search results, or interactive web pages.
-    """
-    b = get_browser()
-    res = b.fetch(url, force_fidelity=force_js)
-
-    output = []
-    output.append(f"# {res.get('title', 'Untitled')}")
-    output.append(f"**URL**: {res.get('url', url)}")
-    output.append(f"**Engine**: {res.get('engine', 'auto').upper()} ({res.get('elapsed_ms', 0)}ms, {res.get('reduction_pct', 0)}% token reduction)\n")
-    output.append("## Content\n")
-    output.append(res.get("markdown", "No content extracted."))
-
-    actions = res.get("actions", [])
-    if actions:
-        output.append("\n## Interactive Elements (Use Action ID to Click/Fill)")
-        for a in actions[:40]:  # Cap to first 40 for token efficiency
-            tag = a.get("tag")
-            aid = a.get("id")
-            label = a.get("label")
-            href = f" (href: {a['href']})" if a.get("href") else ""
-            output.append(f"[{aid}] <{tag}> {label}{href}")
-
-    return "\n".join(output)
-
+mcp = FastMCP('AeroBrowse',mask_error_details=True,strict_input_validation=True,lifespan=lifespan)
+SessionID = Annotated[str,Field(min_length=32,max_length=128)]
+ActionID = Annotated[str,Field(pattern=r'^[0-9a-f]{32}:[1-9][0-9]{0,5}$')]
+Generation = Annotated[str,Field(pattern=r'^[0-9a-f]{32}$')]
 
 @mcp.tool()
-def browser_click(action_id: str) -> str:
-    """
-    Click an interactive element on the current page using its Action ID (e.g. '1', '2').
-    """
-    b = get_browser()
-    res = b.click(action_id)
-    if res.get("success"):
-        snap = b.snapshot()
-        return f"Successfully clicked element [{action_id}]. New page title: {snap.get('title')}"
-    return f"Failed to click element [{action_id}]: {res.get('error')}"
-
+async def browser_navigate(url: Annotated[str,Field(min_length=1,max_length=8192)], ctx: Context,
+                           force_js: bool = False, session_id: SessionID | None = None) -> dict[str,Any]:
+    """Navigate; omit session_id to create an owned session, then reuse the returned ID."""
+    try:
+        sid = session_id or await sessions.create(ctx.session_id)
+        return await sessions.call(ctx.session_id,sid,'navigate',url,force_fidelity=force_js)
+    except AeroError as exc:
+        return exc.result()
 
 @mcp.tool()
-def browser_fill(action_id: str, value: str) -> str:
-    """
-    Fill an input field or search bar on the current page using its Action ID and text value.
-    """
-    b = get_browser()
-    res = b.fill(action_id, value)
-    if res.get("success"):
-        return f"Successfully typed '{value}' into field [{action_id}]."
-    return f"Failed to fill field [{action_id}]: {res.get('error')}"
-
+async def browser_snapshot(session_id: SessionID, ctx: Context) -> dict[str,Any]:
+    """Return the active page and fresh live action generation."""
+    return await sessions.call(ctx.session_id,session_id,'snapshot')
 
 @mcp.tool()
-def browser_snapshot() -> str:
-    """
-    Capture the latest snapshot and action map of the currently active page.
-    """
-    b = get_browser()
-    snap = b.snapshot()
-    return f"# {snap.get('title')}\n\n{snap.get('markdown')}"
-
+async def browser_click(session_id: SessionID, action_id: ActionID, generation: Generation, ctx: Context) -> dict[str,Any]:
+    """Click a live action from the specified snapshot generation."""
+    return await sessions.call(ctx.session_id,session_id,'click',action_id,generation=generation)
 
 @mcp.tool()
-def browser_screenshot() -> str:
-    """
-    Take a visual screenshot of the current page (returned as base64 PNG).
-    """
-    b = get_browser()
-    png_bytes = b.screenshot()
-    b64 = base64.b64encode(png_bytes).decode("utf-8")
-    return f"data:image/png;base64,{b64}"
-
+async def browser_fill(session_id: SessionID, action_id: ActionID, generation: Generation,
+                       value: Annotated[str,Field(max_length=65536)], ctx: Context) -> dict[str,Any]:
+    """Fill a live field. Values are not echoed or logged."""
+    return await sessions.call(ctx.session_id,session_id,'fill',action_id,value,generation=generation)
 
 @mcp.tool()
-def browser_close() -> str:
-    """
-    Close the current browser session and release all memory.
-    """
-    global browser_instance
-    if browser_instance:
-        browser_instance.close()
-        browser_instance = None
-    return "AeroBrowse session closed."
+async def browser_select(session_id: SessionID, action_id: ActionID, generation: Generation,
+                         value: Annotated[str,Field(max_length=8192)], ctx: Context) -> dict[str,Any]:
+    """Select an option by value on a live select control."""
+    return await sessions.call(ctx.session_id,session_id,'select',action_id,value,generation=generation)
 
+@mcp.tool()
+async def browser_check(session_id: SessionID, action_id: ActionID, generation: Generation,
+                        checked: bool, ctx: Context) -> dict[str,Any]:
+    """Check or uncheck a live checkbox."""
+    return await sessions.call(ctx.session_id,session_id,'perform','check',action_id,checked,generation)
 
-def run_mcp():
-    mcp.run()
+@mcp.tool()
+async def browser_press(session_id: SessionID, action_id: ActionID, generation: Generation,
+                        key: Annotated[str,Field(max_length=64)], ctx: Context) -> dict[str,Any]:
+    """Send a keyboard key to a live element."""
+    return await sessions.call(ctx.session_id,session_id,'perform','press',action_id,key,generation)
 
-if __name__ == "__main__":
+@mcp.tool()
+async def browser_scroll(session_id: SessionID, ctx: Context,
+                         x: Annotated[int,Field(ge=-10000,le=10000)] = 0,
+                         y: Annotated[int,Field(ge=-10000,le=10000)] = 600) -> dict[str,Any]:
+    """Scroll the active live page by bounded pixels."""
+    return await sessions.call(ctx.session_id,session_id,'scroll',x,y)
+
+@mcp.tool()
+async def browser_wait(session_id: SessionID, action_id: ActionID, generation: Generation,
+                       ctx: Context, timeout_ms: Annotated[int,Field(ge=1,le=30000)] = 5000) -> dict[str,Any]:
+    """Wait for an existing live element; arbitrary CSS selectors are not accepted."""
+    return await sessions.call(ctx.session_id,session_id,'wait',action_id,generation,timeout_ms)
+
+@mcp.tool()
+async def browser_screenshot(session_id: SessionID, ctx: Context) -> dict[str,Any]:
+    """Return bounded base64 PNG; screenshots can contain sensitive page content."""
+    return await sessions.call(ctx.session_id,session_id,'screenshot')
+
+@mcp.tool()
+async def browser_close(session_id: SessionID, ctx: Context) -> dict[str,Any]:
+    """Close only this client's specified session."""
+    return await sessions.close(ctx.session_id,session_id)
+
+def run_mcp() -> None:
+    mcp.run(transport='stdio')
+
+if __name__ == '__main__':
     run_mcp()
