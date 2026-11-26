@@ -115,6 +115,8 @@ def test_error_document_never_reports_success(site):
 
 
 def test_auth_cookie_and_storage_isolation_between_real_sessions():
+    from concurrent.futures import ThreadPoolExecutor
+
     from aerobrowse.engine import AeroBrowser as InternalBrowser
     from benchmarks.agent.workflows import action, good
 
@@ -124,10 +126,6 @@ def test_auth_cookie_and_storage_isolation_between_real_sessions():
             default_mode="fidelity",
             policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
         ) as owner,
-        InternalBrowser(
-            default_mode="fidelity",
-            policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
-        ) as other,
     ):
         snapshot = good(owner.fetch(fixture.url + "/login"))
         snapshot = action(owner, snapshot, "Username", "fill", "agent")
@@ -143,10 +141,23 @@ def test_auth_cookie_and_storage_isolation_between_real_sessions():
         tab = owner._fidelity.current_page
         assert tab.evaluate("localStorage.getItem('owned-scope')") == "yes"
         assert tab.evaluate("sessionStorage.getItem('only-tab')") is None
-        denied = good(other.fetch(fixture.url + "/record"))
-        assert "Login required" in denied["markdown"]
-        assert (
-            other._fidelity.current_page.evaluate("localStorage.getItem('owned-scope')")
-            is None
-        )
+
+        # Separate sync Playwright instances must have separate owning event-loop threads.
+        # Public SDK/MCP use separate workers; this low-level inspection preserves ownership too.
+        def independent_session():
+            with InternalBrowser(
+                default_mode="fidelity",
+                policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+            ) as other:
+                denied = good(other.fetch(fixture.url + "/record"))
+                assert "Login required" in denied["markdown"]
+                assert (
+                    other._fidelity.current_page.evaluate(
+                        "localStorage.getItem('owned-scope')"
+                    )
+                    is None
+                )
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            executor.submit(independent_session).result(timeout=30)
         assert len(fixture.sessions) == 1
