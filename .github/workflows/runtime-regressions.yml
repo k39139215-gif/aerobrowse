@@ -1,0 +1,42 @@
+name: Runtime boundary regressions
+on:
+  push:
+    branches: [fix/phase2-adversarial-validation]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: runtime-boundary-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  kernel-browser-crashes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d
+      - run: uv sync --locked --extra dev --no-build --no-install-project
+      - run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - run: uv run --no-sync playwright install --with-deps chromium
+      - name: Disposable host kernel delegation
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          sudo mkdir /sys/fs/cgroup/aerobrowse-ci
+          sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/cgroup.subtree_control'
+          sudo sh -c 'echo "+cpu +memory +pids" > /sys/fs/cgroup/aerobrowse-ci/cgroup.subtree_control'
+          sudo mkdir /sys/fs/cgroup/aerobrowse-ci/driver
+          sudo chown -R "$(id -u):$(id -g)" /sys/fs/cgroup/aerobrowse-ci
+          echo AEROBROWSE_CGROUP_ROOT=/sys/fs/cgroup/aerobrowse-ci >> "$GITHUB_ENV"
+      - run: uv run --no-sync ruff check aerobrowse tests benchmarks/phase2
+      - run: uv run --no-sync ruff format --check aerobrowse tests benchmarks/phase2
+      - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
+      - name: Real browser, renderer, parent and kernel quota failures
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/runtime -v --junitxml=evidence/phase2/runtime-boundary.xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: runtime-boundary-evidence
+          path: evidence/phase2/runtime-boundary.xml

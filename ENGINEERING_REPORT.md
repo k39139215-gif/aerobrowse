@@ -43,7 +43,7 @@ raw receipts. Failed and cancelled runs are retained and do not count as passes.
 
 | Area | Before | Phase-two observed result | Evidence/limits |
 |---|---|---|---|
-| Python baseline | 67 pass, 4 platform skips | 144 pass, 1 platform skip locally; 59 browser/native deselections | python-final-local.xml, through 5195aaf |
+| Python baseline | 67 pass, 4 platform skips | 146 pass,2 platform skips locally;64 browser/native deselections | python-final-reviewed.xml, sourcefe159f9 plus pending audit-only change |
 | Python CI | phase-one matrix | all eight Python3.11-3.14 Linux/Windows pass at f1ce086 | run45833263200; includes lint, formatting, mypy, tests, package build |
 | Rust | 5 tests | fmt, strict clippy, tests, release build, native refusal contracts and cargo-audit pass at0caf7e7 | run45831559623 Rust job; later source contract rerun pending |
 | Browser/action/framework/egress | 5 plain fixtures | 41 pass with zero skips at0caf7e7 | ci-0caf7e7/ci-browser.xml; real Linux canaries, atomicity and four frameworks |
@@ -198,3 +198,15 @@ Measurements are bound to clean source c09500a before maintainability refactors;
 no measured performance improvement is claimed for later revisions. See receipt
 limitations and BENCHMARKS.md. Draft PR remains open and unmerged:
 https://github.com/k39139215-gif/aerobrowse/pull/1.
+
+## Additional final-source review
+
+The complete local suite throughfe159f9 passed146 tests,2 platform skips and64
+explicit browser/native deselections in191.74seconds. Partial raw worker pipe
+writes were corrected with a content-corruption regression; zero writes fail closed.
+The runtime positional-force-Fidelity path is now checked before browser launch
+when kernel quotas are unavailable; its regression is queued for Linux CI.
+Browser/renderer kill and Linux parentdeath regressions have been added; those
+remain unverified until required Linux CI runs. No fake worker/browser replaces
+these required browser checks. Quota/system/process fixtures run only on owned
+local data and explicit internal CIDRs.
