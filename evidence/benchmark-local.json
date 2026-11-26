@@ -1,0 +1,249 @@
+{
+  "timestamp": "2026-11-26T06:15:15.260996+00:00",
+  "revision": "07514ebf7ec6101700ba80fd437fdc9a07ee1279",
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "packages": {
+      "playwright": "1.65.2",
+      "tiktoken": "0.14.0",
+      "beautifulsoup4": "4.15.0"
+    }
+  },
+  "configuration": {
+    "repeats": 5,
+    "concurrency": 2,
+    "allow_networks": [
+      "127.0.0.1/32"
+    ]
+  },
+  "operations": [
+    {
+      "engine": "turbo",
+      "operation": "navigate",
+      "temperature": "cold",
+      "elapsed_ms": 596.175,
+      "success": true,
+      "error_code": null,
+      "original_tokens": 61,
+      "extracted_tokens": 38,
+      "token_reduction_pct": 37.7,
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 16,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      }
+    },
+    {
+      "engine": "turbo",
+      "operation": "snapshot",
+      "elapsed_ms": 0.004,
+      "success": true
+    },
+    {
+      "engine": "turbo",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 29.269,
+      "success": true,
+      "error_code": null,
+      "original_tokens": 61,
+      "extracted_tokens": 38,
+      "token_reduction_pct": 37.7,
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 16,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      }
+    },
+    {
+      "engine": "turbo",
+      "operation": "snapshot",
+      "elapsed_ms": 0.005,
+      "success": true
+    },
+    {
+      "engine": "turbo",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 33.643,
+      "success": true,
+      "error_code": null,
+      "original_tokens": 61,
+      "extracted_tokens": 38,
+      "token_reduction_pct": 37.7,
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 16,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      }
+    },
+    {
+      "engine": "turbo",
+      "operation": "snapshot",
+      "elapsed_ms": 0.004,
+      "success": true
+    },
+    {
+      "engine": "turbo",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 31.354,
+      "success": true,
+      "error_code": null,
+      "original_tokens": 61,
+      "extracted_tokens": 38,
+      "token_reduction_pct": 37.7,
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 16,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      }
+    },
+    {
+      "engine": "turbo",
+      "operation": "snapshot",
+      "elapsed_ms": 0.004,
+      "success": true
+    },
+    {
+      "engine": "turbo",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 28.402,
+      "success": true,
+      "error_code": null,
+      "original_tokens": 61,
+      "extracted_tokens": 38,
+      "token_reduction_pct": 37.7,
+      "tokenizer": {
+        "library": "tiktoken",
+        "version": "0.14.0",
+        "name": "cl100k_base"
+      },
+      "quality": {
+        "node_count": 16,
+        "empty_content": false,
+        "embedded_content_inaccessible": 0,
+        "visibility_verified": false,
+        "missing_content_indicators": []
+      }
+    },
+    {
+      "engine": "turbo",
+      "operation": "snapshot",
+      "elapsed_ms": 0.007,
+      "success": true
+    },
+    {
+      "engine": "fidelity",
+      "operation": "navigate",
+      "temperature": "cold",
+      "elapsed_ms": 0.201,
+      "success": false,
+      "error_code": "NETWORK_ISOLATION_UNAVAILABLE",
+      "original_tokens": null,
+      "extracted_tokens": null,
+      "token_reduction_pct": null,
+      "tokenizer": null,
+      "quality": null
+    },
+    {
+      "engine": "fidelity",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 0.09,
+      "success": false,
+      "error_code": "NETWORK_ISOLATION_UNAVAILABLE",
+      "original_tokens": null,
+      "extracted_tokens": null,
+      "token_reduction_pct": null,
+      "tokenizer": null,
+      "quality": null
+    },
+    {
+      "engine": "fidelity",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 0.062,
+      "success": false,
+      "error_code": "NETWORK_ISOLATION_UNAVAILABLE",
+      "original_tokens": null,
+      "extracted_tokens": null,
+      "token_reduction_pct": null,
+      "tokenizer": null,
+      "quality": null
+    },
+    {
+      "engine": "fidelity",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 0.054,
+      "success": false,
+      "error_code": "NETWORK_ISOLATION_UNAVAILABLE",
+      "original_tokens": null,
+      "extracted_tokens": null,
+      "token_reduction_pct": null,
+      "tokenizer": null,
+      "quality": null
+    },
+    {
+      "engine": "fidelity",
+      "operation": "navigate",
+      "temperature": "warm",
+      "elapsed_ms": 0.048,
+      "success": false,
+      "error_code": "NETWORK_ISOLATION_UNAVAILABLE",
+      "original_tokens": null,
+      "extracted_tokens": null,
+      "token_reduction_pct": null,
+      "tokenizer": null,
+      "quality": null
+    }
+  ],
+  "peak_sampled_process_tree_rss_bytes": 82972672,
+  "rss_sample_interval_ms": 10,
+  "sampling_errors": [],
+  "cpu_seconds": 0.875,
+  "wall_seconds": 1.0782008999999562,
+  "load": {
+    "requests": 10,
+    "successes": 10,
+    "concurrency": 2,
+    "elapsed_seconds": 0.0933893999999782,
+    "successful_requests_per_second": 107.07853353809249
+  },
+  "limitations": [
+    "RSS is sampled, not an exact peak",
+    "Navigation cold excludes Python interpreter startup",
+    "Click/fill latency requires the browser integration benchmark; not measured here"
+  ]
+}

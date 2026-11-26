@@ -1,0 +1,178 @@
+[
+  {
+    "fixture": "documentation",
+    "original_tokens": 41,
+    "extracted_tokens": 26,
+    "token_reduction_pct": 36.59,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 20.77,
+    "quality": {
+      "node_count": 11,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "ecommerce",
+    "original_tokens": 48,
+    "extracted_tokens": 27,
+    "token_reduction_pct": 43.75,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 31.72,
+    "quality": {
+      "node_count": 11,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "news",
+    "original_tokens": 33,
+    "extracted_tokens": 17,
+    "token_reduction_pct": 48.48,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 32.43,
+    "quality": {
+      "node_count": 8,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "dashboard",
+    "original_tokens": 44,
+    "extracted_tokens": 11,
+    "token_reduction_pct": 75.0,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 78.3,
+    "quality": {
+      "node_count": 11,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "search",
+    "original_tokens": 43,
+    "extracted_tokens": 18,
+    "token_reduction_pct": 58.14,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 42.5,
+    "quality": {
+      "node_count": 10,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "long_article",
+    "original_tokens": 1913,
+    "extracted_tokens": 1504,
+    "token_reduction_pct": 21.38,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 8.72,
+    "quality": {
+      "node_count": 204,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "complex_table",
+    "original_tokens": 74,
+    "extracted_tokens": 19,
+    "token_reduction_pct": 74.32,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 74.54,
+    "quality": {
+      "node_count": 18,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  },
+  {
+    "fixture": "form",
+    "original_tokens": 50,
+    "extracted_tokens": 12,
+    "token_reduction_pct": 76.0,
+    "tokenizer": {
+      "library": "tiktoken",
+      "version": "0.14.0",
+      "name": "cl100k_base"
+    },
+    "character_reduction_pct": 70.45,
+    "quality": {
+      "node_count": 15,
+      "empty_content": false,
+      "embedded_content_inaccessible": 0,
+      "visibility_verified": false,
+      "missing_content_indicators": []
+    },
+    "limitations": [
+      "Synthetic controlled markup; not representative production-site recall or framework compatibility"
+    ]
+  }
+]
