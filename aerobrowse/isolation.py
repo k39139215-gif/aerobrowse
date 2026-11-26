@@ -16,7 +16,7 @@ class IsolatedLauncher:
         self.directory: tempfile.TemporaryDirectory | None = None
 
     @staticmethod
-    def command(browser: str, *, preserve_cdp: bool = True) -> list[str]:
+    def command(browser: str) -> list[str]:
         bwrap = shutil.which("bwrap")
         executable = Path(browser).resolve(strict=True)
         if sys.platform != "linux" or not bwrap:
@@ -82,16 +82,14 @@ class IsolatedLauncher:
             command.extend(["--ro-bind", "/etc/ld.so.cache", "/etc/ld.so.cache"])
         # Exact installed browser distribution; a caller must not choose an unrelated host directory.
         command.extend(["--ro-bind", str(executable.parent), str(executable.parent)])
-        if preserve_cdp:
-            # Chromium's remote-debugging-pipe uses descriptors 3 and 4; no TCP proxy is exposed.
-            command.extend(["--preserve-fds", "2"])
+        # Bubblewrap inherits the CDP pipe descriptors; tested on the minimum CI package.
         return command + ["--", str(executable)]
 
     def create(self, browser: str) -> str:
         try:
             command = self.command(browser)
             # Probe actual primitives and mount layout using the installed browser, not host Python.
-            probe = self.command(browser, preserve_cdp=False) + ["--version"]
+            probe = self.command(browser) + ["--version"]
             result = subprocess.run(probe, capture_output=True, timeout=10, check=False)
             if result.returncode != 0:
                 raise AeroError(
