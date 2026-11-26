@@ -12,7 +12,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import psutil
 
-from aerobrowse import AeroBrowser
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.benchmark import write_receipt
 from aerobrowse.security import NetworkPolicy
 

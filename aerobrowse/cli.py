@@ -4,7 +4,7 @@ import argparse
 import json
 from typing import Any
 
-from aerobrowse.engine import AeroBrowser
+from aerobrowse.sdk import AeroBrowser
 
 
 def cmd_fetch(args: Any) -> None:

@@ -7,7 +7,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
 
-from aerobrowse import AeroBrowser
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.security import NetworkPolicy
 
 

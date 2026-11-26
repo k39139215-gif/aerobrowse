@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from aerobrowse import AeroBrowser
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.security import NetworkPolicy
 
 pytestmark = [

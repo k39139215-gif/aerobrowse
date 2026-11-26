@@ -19,7 +19,7 @@ import tempfile
 import threading
 import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from enum import StrEnum
 from pathlib import Path
 from typing import Any, cast
@@ -272,9 +272,13 @@ class ResourcePool:
         limits: ResourceLimits | None = None,
         *,
         allow_networks: tuple[str, ...] = (),
+        network_limits: Any = None,
+        default_mode: str | None = None,
     ):
         self.limits = limits or ResourceLimits()
         self.allow_networks = allow_networks
+        self.network_limits = network_limits
+        self.default_mode = default_mode
         self.group: Cgroup | WindowsJob | None = None
         self.path: Path | None = None
         self.closed = False
@@ -404,6 +408,10 @@ class ProcessWorker:
                     {
                         "quotas": self.pool.enforced,
                         "allow_networks": self.pool.allow_networks,
+                        "network_limits": asdict(self.pool.network_limits)
+                        if self.pool.network_limits
+                        else {},
+                        "default_mode": self.pool.default_mode,
                     },
                 )
                 ready = _frame_read(process.stdout)
@@ -620,10 +628,23 @@ def _execute(
         "wait": "wait",
         "screenshot": "screenshot",
         "perform": "perform",
+        **{
+            name: name
+            for name in (
+                "tabs",
+                "new_tab",
+                "switch_tab",
+                "close_tab",
+                "back",
+                "forward",
+                "reload",
+                "capabilities",
+            )
+        },
     }
     if operation not in methods:
         raise AeroError("UNSUPPORTED_OPERATION", "Unknown browser operation")
-    if not quotas and operation not in {"navigate", "snapshot"}:
+    if not quotas and operation not in {"navigate", "snapshot", "capabilities"}:
         raise AeroError(
             "RESOURCE_ISOLATION_UNAVAILABLE",
             "Browser actions require enforced aggregate quotas",
@@ -661,11 +682,15 @@ def _worker_main() -> None:
     command = _frame_read(sys.stdin.buffer)
     quotas = command.get("quotas") is True
     from aerobrowse.engine import AeroBrowser
-    from aerobrowse.security import NetworkPolicy
+    from aerobrowse.security import Limits, NetworkPolicy
 
+    requested_mode = command.get("default_mode") or ("auto" if quotas else "turbo")
     browser = AeroBrowser(
-        default_mode="auto" if quotas else "turbo",
-        policy=NetworkPolicy(allow_networks=tuple(command.get("allow_networks", ()))),
+        default_mode=requested_mode if quotas else "turbo",
+        policy=NetworkPolicy(
+            allow_networks=tuple(command.get("allow_networks", ())),
+            limits=Limits(**command.get("network_limits", {})),
+        ),
     )
     _frame_write(
         sys.stdout.buffer, {"state": "READY", "pid": os.getpid(), "quotas": quotas}

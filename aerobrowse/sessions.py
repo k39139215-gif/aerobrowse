@@ -11,6 +11,7 @@ from typing import Any
 
 from aerobrowse.errors import AeroError
 from aerobrowse.runtime import ProcessWorker, ResourceLimits, ResourcePool
+from aerobrowse.tokens import measure_output
 
 log = logging.getLogger("aerobrowse.requests")
 
@@ -141,6 +142,7 @@ class SessionManager:
             if admitted is not None:
                 admitted.pending -= 1
         result.update(request_id=request_id, session_id=sid)
+        result.update(measure_output(result))
         self.metrics["requests"] += 1
         if not result.get("success"):
             self.metrics["failures"] += 1
