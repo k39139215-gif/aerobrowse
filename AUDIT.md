@@ -149,3 +149,14 @@ evidence/ci-c09500a.json and evidence/ci-c09500a-browser/ci-browser.xml.
 This closes basic browser fixture verification, not exhaustive network-bypass,
 framework compatibility, native parity, leak profiling or production acceptance.
 Draft PR #1 remains open and unmerged. Final report records remaining work.
+
+## External static analysis remediation
+
+SonarCloud's separate gate failed on new-code reliability/security. Confined
+benchmark CLI outputs to evidence/ with traversal/symlink rejection and exclusive
+creation; added regressions. Rust MCP now uses Tokio process management with
+kill-on-drop. MCP shutdown awaits its explicitly cancelled child without swallowing
+parent cancellation. Refactored transport/parser/benchmark/action routines into
+bounded helpers without suppressions. Local tests: 67 passed, 4 Linux-only skips;
+Rust 5 tests and strict Clippy passed. Sonar reanalysis and current-source browser
+CI remain required. Earlier c09500a green engineering CI does not clear Sonar.

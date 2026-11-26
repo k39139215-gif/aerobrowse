@@ -21,3 +21,5 @@ debug.log
 .uv-python/
 .tool-downloads/
 .toolchain/
+
+.pytest-*/

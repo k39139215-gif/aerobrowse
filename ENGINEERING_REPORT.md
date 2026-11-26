@@ -7,7 +7,7 @@ coverage, with substantial unsupported/unverified acceptance requirements.
 | Metric | Before | After | Evidence |
 |---|---|---|---|
 | Security findings | 4 P0 audit findings | HTTP pinning and session isolation regression-tested; Chromium/native feature restrictions; full browser boundary unverified | AUDIT.md, tests/test_security.py, tests/test_mcp.py |
-| Python tests | 5 passed, live-site dependencies | 62 passed, 4 Linux-only skips locally | evidence/python-tests.xml |
+| Python tests | 5 passed, live-site dependencies | 67 passed, 4 Linux-only skips locally | evidence/python-tests.xml |
 | Rust tests | Could not run with damaged host toolchain | 5 passed | Local Rust 1.100.0 LLVM Windows test run |
 | Rust lint/build | No verified baseline | fmt, strict Clippy, release build passed locally | Required cargo commands executed |
 | Turbo latency | Not measured | Warm median 16.60 ms (4 samples), cold 492.20 ms; no improvement comparison | evidence/benchmark-local.json |
@@ -86,3 +86,8 @@ The local measurement receipt is bound to clean source c09500a; it supersedes an
 earlier dirty-tree receipt. It records tiny controlled fixtures and is not a
 speedup claim. No independent security certification or production readiness
 claim is made. Draft PR: https://github.com/k39139215-gif/aerobrowse/pull/1.
+
+Separate SonarCloud gate failed on 4cbfb6d despite passing engineering CI.
+Benchmark path restrictions, asynchronous Rust MCP process management, cancellation
+cleanup and complexity refactors were implemented; final reanalysis is pending.
+Do not interpret the earlier 11-job receipt as a fully green PR status.

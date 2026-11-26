@@ -25,10 +25,8 @@ async def lifespan(server: FastMCP):
         yield {}
     finally:
         task.cancel()
-        try:
-            await task
-        except asyncio.CancelledError:
-            pass  # Expected completion of the owned idle-sweeper task.
+        # Collect only the explicitly cancelled child; cancellation of this parent propagates.
+        await asyncio.gather(task, return_exceptions=True)
         await sessions.close_all()
 
 

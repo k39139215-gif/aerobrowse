@@ -35,15 +35,7 @@ impl SemanticPruner {
         }
         let original_chars = html_str.chars().count();
         let document = Html::parse_document(html_str);
-        let mut stack = vec![(document.tree.root(), 0usize)];
-        let mut nodes = 0;
-        while let Some((node, depth)) = stack.pop() {
-            nodes += 1;
-            if nodes > 100_000 || depth > 128 {
-                return Err("HTML_LIMIT_EXCEEDED".into());
-            }
-            stack.extend(node.children().map(|n| (n, depth + 1)));
-        }
+        Self::validate_tree(&document)?;
 
         // 1. Extract Title
         let title_selector = Selector::parse("title").map_err(|_| "PARSER_ERROR")?;
@@ -170,6 +162,20 @@ impl SemanticPruner {
             original_tokens: Some(original_tokens), extracted_tokens: Some(extracted_tokens), token_reduction_pct: Some(token_reduction), tokenizer: Some("tiktoken-rs/0.12.1:cl100k_base".into()),
             limitations: vec!["Native static extraction does not provide executable action IDs or verified CSS visibility".into()],
         })
+    }
+
+    fn validate_tree(document: &Html) -> Result<(), String> {
+        let mut stack = vec![(document.tree.root(), 0usize)];
+        let mut nodes = 0;
+        while let Some((node, depth)) = stack.pop() {
+            nodes += 1;
+            if nodes > 100_000 || depth > 128 {
+                return Err("HTML_LIMIT_EXCEEDED".into());
+            }
+            stack.extend(node.children().map(|n| (n, depth + 1)));
+        }
+
+        Ok(())
     }
 
     fn walk_tree(node: ego_tree::NodeRef<scraper::node::Node>, out: &mut String) {

@@ -53,40 +53,7 @@ def run(
     wall_start = time.perf_counter()
     try:
         for mode in ("turbo", "fidelity"):
-            with AeroBrowser(default_mode=mode, policy=policy) as browser:
-                for index in range(repeats):
-                    start = time.perf_counter()
-                    result = browser.fetch(url)
-                    operations.append(
-                        {
-                            "engine": mode,
-                            "operation": "navigate",
-                            "temperature": "cold" if index == 0 else "warm",
-                            "elapsed_ms": round(
-                                (time.perf_counter() - start) * 1000, 3
-                            ),
-                            "success": result.get("success"),
-                            "error_code": result.get("error", {}).get("code"),
-                            "original_tokens": result.get("original_tokens"),
-                            "extracted_tokens": result.get("extracted_tokens"),
-                            "token_reduction_pct": result.get("token_reduction_pct"),
-                            "tokenizer": result.get("tokenizer"),
-                            "quality": result.get("quality"),
-                        }
-                    )
-                    if result.get("success"):
-                        start = time.perf_counter()
-                        snap = browser.snapshot()
-                        operations.append(
-                            {
-                                "engine": mode,
-                                "operation": "snapshot",
-                                "elapsed_ms": round(
-                                    (time.perf_counter() - start) * 1000, 3
-                                ),
-                                "success": snap.get("success"),
-                            }
-                        )
+            operations.extend(_measure_engine(url, mode, repeats, policy))
 
         def worker(_: int) -> bool:
             with AeroBrowser(default_mode="turbo", policy=policy) as browser:
@@ -142,6 +109,43 @@ def run(
     }
 
 
+def _measure_engine(
+    url: str, mode: str, repeats: int, policy: NetworkPolicy
+) -> list[dict[str, Any]]:
+    operations: list[dict[str, Any]] = []
+    with AeroBrowser(default_mode=mode, policy=policy) as browser:
+        for index in range(repeats):
+            start = time.perf_counter()
+            result = browser.fetch(url)
+            operations.append(
+                {
+                    "engine": mode,
+                    "operation": "navigate",
+                    "temperature": "cold" if index == 0 else "warm",
+                    "elapsed_ms": round((time.perf_counter() - start) * 1000, 3),
+                    "success": result.get("success"),
+                    "error_code": result.get("error", {}).get("code"),
+                    "original_tokens": result.get("original_tokens"),
+                    "extracted_tokens": result.get("extracted_tokens"),
+                    "token_reduction_pct": result.get("token_reduction_pct"),
+                    "tokenizer": result.get("tokenizer"),
+                    "quality": result.get("quality"),
+                }
+            )
+            if result.get("success"):
+                start = time.perf_counter()
+                snap = browser.snapshot()
+                operations.append(
+                    {
+                        "engine": mode,
+                        "operation": "snapshot",
+                        "elapsed_ms": round((time.perf_counter() - start) * 1000, 3),
+                        "success": snap.get("success"),
+                    }
+                )
+    return operations
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("url")
@@ -156,9 +160,32 @@ def main() -> None:
         allow_networks=tuple(args.allow_network),
         concurrency=args.concurrency,
     )
-    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.output).write_text(json.dumps(result, indent=2), encoding="utf-8")
-    print(args.output)
+    destination = write_receipt(args.output, result)
+    print(str(destination))
+
+
+def write_receipt(output: str, result: dict[str, Any]) -> Path:
+    """Confine CLI output to evidence/ without traversing any symlink components."""
+    root = Path.cwd().resolve()
+    relative = Path(output)
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or not relative.parts
+        or relative.parts[0] != "evidence"
+    ):
+        raise ValueError("Benchmark output must be inside ./evidence")
+    destination = root / relative
+    current = root
+    for part in relative.parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError("Symlink output paths are not permitted")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    # Exclusive creation avoids clobbering existing files or following a file symlink.
+    with destination.open("x", encoding="utf-8") as stream:
+        json.dump(result, stream, indent=2)
+    return destination
 
 
 if __name__ == "__main__":

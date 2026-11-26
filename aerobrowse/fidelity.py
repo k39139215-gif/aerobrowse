@@ -17,6 +17,7 @@ from aerobrowse.pruner import SemanticPruner, safe_link
 from aerobrowse.security import NetworkPolicy, SafeTransport
 
 log = logging.getLogger(__name__)
+READ_EPOCH = "state => state.epoch()"
 
 # One extraction rule set; host retains actual ElementHandles, never ordinal selectors.
 EXTRACT = r"""() => Array.from(document.querySelectorAll(
@@ -217,7 +218,7 @@ class FidelityEngine:
                 observer.observe(document,{subtree:true,childList:true,attributes:true,characterData:true});
                 return {epoch:()=>{epoch+=observer.takeRecords().length;return epoch},dispose:()=>observer.disconnect()};
             }""")
-            epoch = self._observer.evaluate("state => state.epoch()")
+            epoch = self._observer.evaluate(READ_EPOCH)
             html = page.content()
             if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
                 raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
@@ -245,7 +246,7 @@ class FidelityEngine:
             finally:
                 array.dispose()
             self._url = page.url
-            if self._observer.evaluate("state => state.epoch()") != epoch:
+            if self._observer.evaluate(READ_EPOCH) != epoch:
                 self._invalidate()
                 raise AeroError(
                     "STALE_ACTION_ID",
@@ -287,7 +288,7 @@ class FidelityEngine:
         handle, metadata = self._actions[action_id]
         changed = (
             self._observer is None
-            or self._observer.evaluate("state => state.epoch()") != self._epoch
+            or self._observer.evaluate(READ_EPOCH) != self._epoch
             or page.url != self._url
             or hashlib.sha256(page.content().encode()).hexdigest() != self._digest
         )
@@ -323,28 +324,7 @@ class FidelityEngine:
                 and len(value.encode()) > self.policy.limits.body_bytes
             ):
                 raise AeroError("REQUEST_TOO_LARGE", "Action value exceeds limit")
-            if operation == "click":
-                element.click(timeout=5000)
-            elif operation == "fill":
-                if not isinstance(value, str):
-                    raise AeroError("INVALID_ARGUMENT", "Fill requires a string")
-                element.fill(value, timeout=5000)
-            elif operation == "select":
-                element.select_option(value=value, timeout=5000)
-            elif operation == "check":
-                if not isinstance(value, bool):
-                    raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
-                element.set_checked(value, timeout=5000)
-            elif operation == "press":
-                if (
-                    not isinstance(value, str)
-                    or len(value) > 64
-                    or not re.fullmatch(r"[A-Za-z0-9+_-]+", value)
-                ):
-                    raise AeroError("INVALID_ARGUMENT", "Invalid keyboard key")
-                element.press(value, timeout=5000)
-            else:
-                raise AeroError("UNSUPPORTED_OPERATION", "Operation is not implemented")
+            self._execute_element(element, operation, value)
             return self.snapshot()
         except AeroError as exc:
             return exc.result()
@@ -352,6 +332,31 @@ class FidelityEngine:
             return AeroError(
                 "ACTION_FAILED", "Browser action failed; inspect a new snapshot"
             ).result()
+
+    @staticmethod
+    def _execute_element(element: Any, operation: str, value: Any) -> None:
+        if operation == "click":
+            element.click(timeout=5000)
+        elif operation == "fill":
+            if not isinstance(value, str):
+                raise AeroError("INVALID_ARGUMENT", "Fill requires a string")
+            element.fill(value, timeout=5000)
+        elif operation == "select":
+            element.select_option(value=value, timeout=5000)
+        elif operation == "check":
+            if not isinstance(value, bool):
+                raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
+            element.set_checked(value, timeout=5000)
+        elif operation == "press":
+            if (
+                not isinstance(value, str)
+                or len(value) > 64
+                or not re.fullmatch(r"[A-Za-z0-9+_-]+", value)
+            ):
+                raise AeroError("INVALID_ARGUMENT", "Invalid keyboard key")
+            element.press(value, timeout=5000)
+        else:
+            raise AeroError("UNSUPPORTED_OPERATION", "Operation is not implemented")
 
     def click(self, action_id: str, generation: str | None = None) -> dict[str, Any]:
         return self.perform("click", action_id, generation=generation)

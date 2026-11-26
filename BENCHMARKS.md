@@ -57,3 +57,9 @@ and include local server/tokenizer costs; they are not production SLOs or speedu
 
 These counts exclude structured actions/tables; lower output counts do not prove
 content completeness. Quality indicators and missing-content flags are in receipts.
+
+CLI receipt paths must be under ./evidence, with no traversal or symlink path
+components. Existing files are not overwritten; choose a fresh filename. This
+reduces accidental overwrite risk from agent-supplied command arguments. A
+malicious local filesystem actor racing directory replacement is outside the
+benchmark CLI trust boundary.
