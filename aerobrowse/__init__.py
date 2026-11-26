@@ -1,7 +1,4 @@
-"""
-AeroBrowse — The Featherweight AI Browser Engine
-100% Web Compatibility at 30MB Memory with 90% Fewer Tokens.
-"""
+"""Hybrid HTTP and isolated Chromium browser SDK."""
 
 from aerobrowse.engine import AeroBrowser
 from aerobrowse.pruner import SemanticPruner

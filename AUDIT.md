@@ -90,3 +90,11 @@ Local action/state/security tests: 41 passed. Session ownership/capacity and
 concurrent snapshot tests: 2 passed. Dedicated per-session workers preserve
 Playwright thread affinity. Cancellation retires a session and queues cleanup;
 hard termination of a stuck worker is not implemented and remains a limitation.
+## Phase 6 checkpoint
+
+Extraction regressions: 4 initially failed, then passed; existing four
+pruner/Turbo/unified tests also passed (8 combined). Real tokenizer counts use
+cl100k_base by default, with o200k_base/p50k_base options. Tokenizer failures
+are explicit errors. Character reduction remains a separate field. Full table
+cell/header metadata and inaccessible embedded content notices are returned.
+All form values are omitted by default. Static visibility remains unknown.
