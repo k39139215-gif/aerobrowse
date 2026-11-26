@@ -34,7 +34,7 @@ jobs:
       - run: uv run --no-sync ruff format --check aerobrowse tests benchmarks/phase2
       - run: uv run --no-sync mypy aerobrowse --ignore-missing-imports --check-untyped-defs
       - name: Owned authentication and full workflow regressions
-        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/browser/test_authenticated_sessions.py tests/browser/test_agent_workflows.py tests/browser/test_dynamic_wait.py -v --junitxml=evidence/agent/quick-workflows.xml
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/browser/test_authenticated_sessions.py tests/browser/test_agent_workflows.py tests/browser/test_dynamic_wait.py tests/browser/test_action_atomicity.py -v --junitxml=evidence/agent/quick-workflows.xml
       - name: Controlled operation and task measurements
         run: |
           uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json

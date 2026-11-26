@@ -122,3 +122,50 @@ def test_cross_engine_generation_rejected(live, site):
         assert result["error"]["code"] == "STALE_ACTION_ID"
     finally:
         other.close()
+
+
+def test_keyboard_editing_preserves_identity_and_literal_values(live):
+    browser, page = live
+    page.evaluate(
+        "document.body.innerHTML='<label>Editor<input value=abc></label><label>Notes<textarea></textarea></label>';window.keys=[];document.querySelector('input').addEventListener('input',e=>window.keys.push(e.inputType))"
+    )
+
+    def press(label, key):
+        snapshot = browser.snapshot()
+        return browser.perform(
+            "press", target(snapshot, label), key, snapshot["generation"]
+        )
+
+    for key in ["End", "Backspace", "<", "ArrowLeft", "Delete", "Control+A", "界"]:
+        assert press("Editor", key)["success"], key
+    assert page.locator("input").input_value() == "界"
+    assert "deleteContentBackward" in page.evaluate("window.keys")
+    assert press("Notes", "Enter")["success"]
+    assert page.locator("textarea").input_value() == "\n"
+    assert press("Editor", "Alt+F4")["error"]["code"] == "UNSUPPORTED_CAPABILITY"
+
+
+def test_keyboard_beforeinput_reentrancy_cannot_write_replacement(live):
+    browser, page = live
+    page.evaluate(
+        "document.body.innerHTML='<label>Editor<input></label>';document.querySelector('input').onbeforeinput=function(){this.outerHTML='<input id=replacement>'}"
+    )
+    snapshot = browser.snapshot()
+    result = browser.perform(
+        "press", target(snapshot, "Editor"), "s", snapshot["generation"]
+    )
+    assert result["error"]["code"] == "STALE_ACTION_ID"
+    assert page.locator("#replacement").input_value() == ""
+
+
+def test_keyboard_cancellation_prevents_edit(live):
+    browser, page = live
+    page.evaluate(
+        "document.body.innerHTML='<label>Editor<input value=abc></label>';document.querySelector('input').onbeforeinput=e=>e.preventDefault()"
+    )
+    snapshot = browser.snapshot()
+    result = browser.perform(
+        "press", target(snapshot, "Editor"), "x", snapshot["generation"]
+    )
+    assert result["success"]
+    assert page.locator("input").input_value() == "abc"
