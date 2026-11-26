@@ -1,4 +1,5 @@
 import asyncio
+import sys
 
 import psutil
 import pytest
@@ -404,3 +405,37 @@ def test_configured_mcp_stdio_browser_flow(site):
         process.stdout.close()
         reader.join(timeout=2)
         process.stderr.close()
+
+
+@pytest.mark.browser
+@pytest.mark.skipif(sys.platform != "linux", reason="Linux aggregate cgroup exhaustion")
+def test_aggregate_quota_exhaustion_is_explicit_and_reaps_worker(site):
+    from aerobrowse.errors import AeroError
+    from aerobrowse.runtime import Cgroup, ProcessWorker, ResourceLimits, ResourcePool
+
+    pool = ResourcePool(ResourceLimits(processes=64))
+    worker = ProcessWorker(pool)
+    try:
+        worker.start()
+        assert isinstance(pool.group, Cgroup)
+        assert isinstance(worker.group, Cgroup)
+        # Force an actual aggregate child-task denial, not a fabricated counter.
+        current = int((pool.group.path / "pids.current").read_text())
+        (pool.group.path / "pids.max").write_text(str(current))
+        process = worker.process
+        assert process is not None
+        # The real worker command launches Chromium children and must hit the cap.
+        try:
+            result = worker.call(
+                "navigate", (site + "/form",), {"force_fidelity": True}
+            )
+        except AeroError as exc:
+            assert exc.code == "WORKER_RESOURCE_LIMIT", exc.code
+        else:
+            raise AssertionError(result)
+        assert pool.group.resource_events()["pids_max"] > 0
+        assert worker.group.resource_events()["pids_max"] == 0
+    finally:
+        worker.terminate()
+        pool.close()
+    assert process.poll() is not None

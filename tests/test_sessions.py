@@ -60,3 +60,27 @@ def test_bounded_session_queue():
         await manager.close_all()
 
     asyncio.run(run())
+
+
+def test_declared_session_budgets_cannot_overcommit_aggregate():
+    from aerobrowse.errors import AeroError
+    from aerobrowse.runtime import ResourceLimits
+    from aerobrowse.sessions import SessionManager
+
+    async def run():
+        manager = SessionManager(
+            max_sessions=4, resource_limits=ResourceLimits(processes=256)
+        )
+        try:
+            first = await manager.create("owner")
+            with pytest.raises(AeroError) as caught:
+                await manager.create("other")
+            assert caught.value.code == "SESSION_RESOURCE_LIMIT"
+            assert manager.active_sessions == 1
+            assert (await manager.close("owner", first))["success"]
+            replacement = await manager.create("other")
+            assert replacement != first
+        finally:
+            await manager.close_all()
+
+    asyncio.run(run())

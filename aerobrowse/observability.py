@@ -176,8 +176,9 @@ class Metrics:
                 / counts["action_requests"]
                 if counts["action_requests"]
                 else None,
-                "fallback_rate": counts["fallbacks"] / counts["navigation_requests"]
-                if counts["navigation_requests"]
+                "fallback_rate": counts["fallbacks"]
+                / (counts["navigation_requests"] + counts["action_requests"])
+                if counts["navigation_requests"] + counts["action_requests"]
                 else None,
                 "operations": dict(sorted(self._operations.items())),
                 "latency_ms": {

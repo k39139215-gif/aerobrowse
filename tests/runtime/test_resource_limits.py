@@ -287,3 +287,22 @@ def test_operator_task_budget_keeps_defaults_and_aggregate_ceiling(monkeypatch):
     configured = ResourceLimits.from_environment()
     assert configured.processes == configured.global_processes == 256
     assert configured.global_memory_bytes == ResourceLimits().global_memory_bytes
+
+
+def test_cgroup_resource_diagnostics_include_aggregate_limits(tmp_path):
+    from aerobrowse.runtime import Cgroup
+
+    root = tmp_path / "pool"
+    child = root / "worker"
+    child.mkdir(parents=True)
+    for group, exhausted in [(root, True), (child, False)]:
+        (group / "pids.events").write_text("max " + ("1" if exhausted else "0") + "\n")
+        (group / "memory.events").write_text("max 0\noom 0\noom_kill 0\n")
+    pool = Cgroup.__new__(Cgroup)
+    pool.path = root
+    session = Cgroup.__new__(Cgroup)
+    session.path = child
+    assert pool.resource_events()["pids_max"] == 1
+    assert session.resource_events()["pids_max"] == 0
+    (root / "memory.events").write_text("max 3\noom 1\noom_kill 1\n")
+    assert pool.resource_events()["oom_kill"] == 1

@@ -70,6 +70,14 @@ class SessionManager:
         await self.expire()
         if self.active_sessions >= self.max_sessions:
             raise AeroError("SESSION_LIMIT", "Maximum browser sessions reached")
+        limits = self.pool.limits
+        if (self.active_sessions + 1) * limits.processes > limits.global_processes or (
+            self.active_sessions + 1
+        ) * limits.memory_bytes > limits.global_memory_bytes:
+            raise AeroError(
+                "SESSION_RESOURCE_LIMIT",
+                "Aggregate pool cannot reserve another session budget",
+            )
         sid = secrets.token_urlsafe(32)
         self._sessions[sid] = Session(owner, ProcessWorker(self.pool))
         if self._reaper is None or self._reaper.done():

@@ -202,3 +202,13 @@ def test_scoped_rowgroups_do_not_leak_between_table_sections():
     rows = result["tables"][0]["rows"]
     assert [h["text"] for h in rows[1][1]["inferred_headers"]] == ["North"]
     assert [h["text"] for h in rows[2][1]["inferred_headers"]] == ["South"]
+
+
+def test_semantic_metadata_limit_is_explicit_and_bounded():
+    result = SemanticPruner().prune(
+        "<main>" + '<p lang="ar">مرحبا</p>' * 300 + "</main>"
+    )
+    assert len(result["language_regions"]) == 256
+    assert (
+        "semantic_metadata_truncated" in result["quality"]["missing_content_indicators"]
+    )

@@ -40,7 +40,7 @@ jobs:
           uv run --no-sync python -m benchmarks.phase2.run --samples 100 --browser --output evidence/phase2/benchmark-linux.json
           bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.concurrency --concurrency 2 --iterations 3 --output evidence/agent/concurrency.json
       - name: Shared aggregate browser admission and queue load
-        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --output evidence/developer/shared-browser-load.json
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --aggregate-processes 512 --output evidence/developer/shared-browser-load.json
       - name: Real browser, renderer, parent and kernel quota failures
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/runtime -v --junitxml=evidence/phase2/runtime-boundary.xml
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

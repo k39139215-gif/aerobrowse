@@ -504,15 +504,28 @@ class SemanticPruner:
                 "contentinfo",
             }
         ]
-        language_regions = [
-            {
-                "language": str(node.get("lang", ""))[:128],
-                "direction": str(node.get("dir", ""))[:8],
-                "text": node.get_text(" ", strip=True)[:4096],
-            }
-            for node in soup.find_all(["p", "span", "section", "article", "div"])
-            if node.has_attr("lang") or node.has_attr("dir")
-        ]
+        language_regions: list[dict[str, str]] = []
+        language_region_count = 0
+        for node in soup.find_all(["p", "span", "section", "article", "div"]):
+            if not node.has_attr("lang") and not node.has_attr("dir"):
+                continue
+            language_region_count += 1
+            if len(language_regions) >= 256:
+                continue
+            parts = []
+            length = 0
+            for text in node.stripped_strings:
+                parts.append(text[: 4096 - length])
+                length += min(len(text), 4096 - length) + 1
+                if length >= 4096:
+                    break
+            language_regions.append(
+                {
+                    "language": str(node.get("lang", ""))[:128],
+                    "direction": str(node.get("dir", ""))[:8],
+                    "text": " ".join(parts)[:4096],
+                }
+            )
         structured_tables = [_table(table, indexes) for table in tables]
         inference_limited = any(
             cell["header_inference_limited"]
@@ -545,7 +558,7 @@ class SemanticPruner:
                 + (["table_header_inference_limited"] if inference_limited else [])
                 + (
                     ["semantic_metadata_truncated"]
-                    if len(landmarks) > 256 or len(language_regions) > 256
+                    if len(landmarks) > 256 or language_region_count > 256
                     else []
                 ),
             },

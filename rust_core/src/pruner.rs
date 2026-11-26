@@ -177,7 +177,11 @@ impl SemanticPruner {
                     .filter_map(scraper::ElementRef::wrap)
                     .take_while(|parent| parent.id() != element.id())
                     .any(|parent| matches!(parent.value().name(), "input" | "textarea" | "select"));
-                if !in_control && !text.trim().is_empty() {
+                let visible_ancestors = node
+                    .ancestors()
+                    .filter_map(scraper::ElementRef::wrap)
+                    .all(Self::included);
+                if !in_control && visible_ancestors && !text.trim().is_empty() {
                     parts.push(text.trim().to_string());
                 }
             }
@@ -405,5 +409,14 @@ mod tests {
         assert_eq!(result.actions[0].label, "Full name");
         assert_eq!(result.actions[1].label, "Accessible");
         assert_eq!(result.actions[2].label, "Photo detail");
+    }
+    #[test]
+    fn hidden_descendant_text_does_not_escape_in_action_labels() {
+        let result = SemanticPruner::prune("<button>Safe<span hidden>SECRET</span></button>", "")
+            .expect("fixture parses");
+        assert_eq!(result.actions[0].label, "Safe");
+        assert!(!serde_json::to_string(&result)
+            .expect("serialize")
+            .contains("SECRET"));
     }
 }

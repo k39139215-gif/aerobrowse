@@ -78,7 +78,7 @@ jobs:
       - name: Controlled concurrent complete tasks
         run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.concurrency --concurrency 2 --iterations 3 --output evidence/agent/concurrency.json
       - name: Shared aggregate browser admission and queue load
-        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --output evidence/developer/shared-browser-load.json
+        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --aggregate-processes 512 --output evidence/developer/shared-browser-load.json
       - name: Actual-model evaluation configuration receipt
         run: uv run --no-sync python -m benchmarks.agent.run --output evidence/agent/model-evaluation.json
       - name: Controlled operation benchmarks

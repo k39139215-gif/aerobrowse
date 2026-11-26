@@ -17,8 +17,21 @@ from aerobrowse.runtime import ResourceLimits
 from aerobrowse.sessions import SessionManager
 
 
-async def run(sessions_count: int = 2, rounds: int = 3, browser: bool = False) -> dict:
-    if not 1 <= sessions_count <= 4 or not 1 <= rounds <= 20:
+async def run(
+    sessions_count: int = 2,
+    rounds: int = 3,
+    browser: bool = False,
+    aggregate_processes: int = 256,
+) -> dict:
+    if sessions_count * 256 > aggregate_processes:
+        raise ValueError(
+            "aggregate-processes must reserve 256 tasks per declared session"
+        )
+    if (
+        not 1 <= sessions_count <= 4
+        or not 1 <= rounds <= 20
+        or not 256 <= aggregate_processes <= 2048
+    ):
         raise ValueError("sessions1..4 and rounds1..20 required")
 
     class Handler(BaseHTTPRequestHandler):
@@ -43,7 +56,9 @@ async def run(sessions_count: int = 2, rounds: int = 3, browser: bool = False) -
     manager = SessionManager(
         max_sessions=sessions_count,
         allow_networks=("127.0.0.1/32",),
-        resource_limits=ResourceLimits(processes=256),
+        resource_limits=ResourceLimits(
+            processes=256, global_processes=aggregate_processes
+        ),
     )
     ids = []
     pids = []
@@ -68,7 +83,15 @@ async def run(sessions_count: int = 2, rounds: int = 3, browser: bool = False) -
                 "owner-" + str(index), ids[index], operation, *args, **kwargs
             )
             elapsed = time.monotonic() - queued
-            assert result.get("success"), result.get("error", {})
+            if not result.get("success"):
+                diagnostics = {"error": result.get("error", {}), "session_index": index}
+                if manager.pool.group is not None and hasattr(
+                    manager.pool.group, "resource_events"
+                ):
+                    diagnostics["aggregate_kernel_events"] = (
+                        manager.pool.group.resource_events()
+                    )
+                raise AssertionError(diagnostics)
             assert "Owned session " + str(index) in result["markdown"]
             operations.append(
                 {
@@ -172,6 +195,7 @@ async def run(sessions_count: int = 2, rounds: int = 3, browser: bool = False) -
             "Duration includes initialization and deliberate queue-admission phase; cleanup duration excluded",
             "Navigation rows and 16 queue-test snapshots excluded from completed_operations; retained separately in telemetry",
             "RSS sampled at request completion; not exact peak",
+            "Explicit aggregate task budget recorded; results must not be attributed to default capacity",
         ],
     }
 
@@ -181,9 +205,12 @@ def main():
     parser.add_argument("--sessions", type=int, default=2)
     parser.add_argument("--rounds", type=int, default=3)
     parser.add_argument("--browser", action="store_true")
+    parser.add_argument("--aggregate-processes", type=int, default=256)
     parser.add_argument("--output", default="evidence/developer/shared-load.json")
     args = parser.parse_args()
-    result = asyncio.run(run(args.sessions, args.rounds, args.browser))
+    result = asyncio.run(
+        run(args.sessions, args.rounds, args.browser, args.aggregate_processes)
+    )
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

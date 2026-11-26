@@ -251,3 +251,18 @@ active sessions and sampled worker-tree RSS. These local methods are intentional
 not MCP tools or an unauthenticated HTTP endpoint. Memory samples include shared
 mappings and exclude processes that exited before sampling; they are not exact
 peak memory. See BENCHMARKS.md for the shared aggregate-pool workload harness.
+
+Session admission reserves each configured per-session task and memory budget from
+the aggregate pool. `SESSION_RESOURCE_LIMIT` means another session cannot be
+reserved even if `max_sessions` is higher. For example, a256-task session inside
+a256-task pool permits one owned session. Trusted embedding can explicitly choose
+`ResourceLimits(processes=256, global_processes=512)` for two sessions after
+capacity testing; this does not alter packaged MCP defaults. Kernel exhaustion
+returns `WORKER_RESOURCE_LIMIT` and retires the affected worker. Pools with an
+observed aggregate exhaustion event require recreation; limits are never relaxed.
+
+Synthetic keyboard editing supports Backspace/Delete, Home/End, Left/Right,
+Control+A/Meta+A, single printable Unicode characters and textarea Enter.
+Cancellable keydown/beforeinput events are honored; target replacement during
+preparation is rejected. Trusted hardware events, clipboard, modifier shortcuts,
+Tab default focus movement and full contenteditable editing remain unsupported.

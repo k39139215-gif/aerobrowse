@@ -155,3 +155,18 @@ Page CDP Fetch interception does not claim support for every auxiliary Chromium
 target. Requests from separate worker/OOPIF targets that are not brokered remain
 blocked by OS networking. Treat these sites as unsupported,not permission to
 remove isolation. Context-created tabs are the supported page targets.
+
+## Developer continuation controls
+
+Static Rust extraction now excludes hidden/template ancestors and hidden descendant
+label text; unnamed credential-bearing URLs never become action names. Native tests
+cover these disclosure regressions. Native live-browser support remains disabled.
+Synthetic keyboard editing checks exact target identity again after cancellable
+beforeinput; page-induced replacement never receives the value. Discovery waits
+return fresh generations and do not execute discovered controls.
+
+Session admission reserves configured task/memory budgets against the aggregate
+pool. `SESSION_RESOURCE_LIMIT` is explicit backpressure,not a browser startup
+attempt. Worker response checks include both session and aggregate pids/OOM counters;
+exhaustion retires the worker. Operator metrics have bounded labels and omit request
+inputs; they are local embedding APIs,not MCP tools or a public metrics endpoint.

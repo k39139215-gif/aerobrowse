@@ -97,6 +97,27 @@ class Cgroup:
                 "Delegated cgroup controls are unavailable",
             ) from exc
 
+    def resource_events(self) -> dict[str, int]:
+        """Kernel counters, including child events when called on the pool group."""
+        pids = dict(
+            line.split()
+            for line in (self.path / "pids.events")
+            .read_text(encoding="ascii")
+            .splitlines()
+        )
+        memory = dict(
+            line.split()
+            for line in (self.path / "memory.events")
+            .read_text(encoding="ascii")
+            .splitlines()
+        )
+        return {
+            "pids_max": int(pids.get("max", "0")),
+            "memory_max": int(memory.get("max", "0")),
+            "oom": int(memory.get("oom", "0")),
+            "oom_kill": int(memory.get("oom_kill", "0")),
+        }
+
     def attach(self, pid: int) -> None:
         (self.path / "cgroup.procs").write_text(str(pid), encoding="ascii")
 
@@ -539,18 +560,14 @@ class ProcessWorker:
                     raise AeroError(
                         "WORKER_PROTOCOL_ERROR", "Worker correlation failed"
                     )
-                if isinstance(self.group, Cgroup):
-                    events = dict(
-                        line.split()
-                        for line in (self.group.path / "pids.events")
-                        .read_text()
-                        .splitlines()
-                    )
-                    if int(events.get("max", "0")) > 0:
-                        raise AeroError(
-                            "WORKER_RESOURCE_LIMIT",
-                            "Worker task quota exhausted; session must be retired",
-                        )
+                for group in (self.group, self.pool.group):
+                    if isinstance(group, Cgroup):
+                        events = group.resource_events()
+                        if events["pids_max"] or events["oom"] or events["oom_kill"]:
+                            raise AeroError(
+                                "WORKER_RESOURCE_LIMIT",
+                                "Worker or aggregate kernel quota exhausted; session must be retired",
+                            )
                 self.state = WorkerState.READY
                 return response["result"]
             except (BrokenPipeError, OSError) as exc:

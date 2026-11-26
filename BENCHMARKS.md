@@ -208,3 +208,22 @@ sampled tree maximum1,472,843,776 bytes. Six complete tasks with2 workers took
 rows successful and cleaned. No comparable baseline,speedup,exact peak,indefinite
 leak or public-site capacity claim. Receipts:ci-0530488/full/browser/. Earlier
 focused measurements above are retained as a separate observation,not pooled.
+
+## Developer continuation harnesses
+
+`python -m benchmarks.agent.extraction_quality --output evidence/developer/quality.json`
+grades12 owned synthetic fixtures against explicit literal/structural requirements.
+It reports each missing requirement, corpus recall, versioned tokenizer, HTML,
+Markdown and complete JSON tokens. This is corpus coverage,not general site recall.
+Small snapshots can cost more tokens after adding action/table/quality metadata.
+
+`python -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser
+--aggregate-processes 512 --output evidence/developer/shared-load.json` runs real
+SessionManager workers in one aggregate pool (join this command onto one line).
+It records queue-inclusive operations,capacity/ownership/overload refusal,per-session
+progress,cleanup and operator metrics. The explicit512-task pool differs from the
+production default256-task pool; defaults are not changed for benchmark results.
+A repeat of the earlier256-task/two-browser profile failed navigation; that result
+is retained as a capacity failure. It motivated reservation-based admission and
+aggregate kernel-counter diagnostics. No reliable default two-browser capacity or
+production fairness claim follows from the passing controlled run.

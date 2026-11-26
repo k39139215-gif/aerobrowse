@@ -90,3 +90,13 @@ def test_telemetry_label_cardinality_and_histogram_are_bounded():
     assert value["latency_ms"]["sum"] == sum(range(1000))
     assert "SECRET" not in metrics.prometheus(0)
     assert 'le="+Inf"} 1000' in metrics.prometheus(0)
+
+
+def test_handoff_rate_uses_all_navigation_and_action_opportunities():
+    from aerobrowse.observability import Metrics
+
+    metrics = Metrics()
+    metrics.observe("navigate", {"success": True}, 1)
+    for _ in range(3):
+        metrics.observe("click", {"success": False, "synchronized": True}, 2)
+    assert metrics.snapshot(0)["fallback_rate"] == 0.75
