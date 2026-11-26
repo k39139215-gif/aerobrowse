@@ -1,6 +1,5 @@
 """Chromium lifecycle with mandatory OS network isolation and host HTTP broker."""
 
-import hashlib
 import logging
 import re
 import sys
@@ -11,35 +10,13 @@ from typing import Any
 from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 
+from aerobrowse.actions import ActionContext
 from aerobrowse.errors import AeroError
 from aerobrowse.isolation import IsolatedLauncher
-from aerobrowse.pruner import SemanticPruner, safe_link
+from aerobrowse.pruner import SemanticPruner
 from aerobrowse.security import NetworkPolicy, SafeTransport
 
 log = logging.getLogger(__name__)
-READ_EPOCH = "state => state.epoch()"
-
-# One extraction rule set; host retains actual ElementHandles, never ordinal selectors.
-EXTRACT = r"""() => Array.from(document.querySelectorAll(
- 'a[href],button,input:not([type="hidden"]),textarea,select,summary,[role="button"],[role="link"],[role="textbox"],[role="checkbox"],[role="combobox"],[role="radio"],[role="switch"],[role="menuitem"],[contenteditable="true"]'
-)).filter(el => {
- const s=getComputedStyle(el);
- return el.isConnected && el.getClientRects().length && s.display!=='none' && s.visibility!=='hidden'
-   && !el.closest('[hidden],[inert],[aria-hidden="true"]');
-})"""
-METADATA = r"""el => {
- const labelIds=(el.getAttribute('aria-labelledby')||'').split(/\s+/).filter(Boolean);
- const referenced=labelIds.map(id=>document.getElementById(id)?.textContent||'').join(' ');
- const labels=Array.from(el.labels||[]).map(l=>{const copy=l.cloneNode(true); copy.querySelectorAll('input,textarea,select,button').forEach(n=>n.remove()); return copy.textContent;}).join(' ');
- const tag=el.tagName.toLowerCase(), type=el.getAttribute('type')||'';
- const label=(el.getAttribute('aria-label')||referenced||labels||el.textContent||el.getAttribute('alt')||el.getAttribute('title')||el.getAttribute('placeholder')||'').trim();
- const role=el.getAttribute('role')||({a:'link',button:'button',textarea:'textbox',select:'combobox',summary:'button'}[tag])||(tag==='input'?(type==='checkbox'?'checkbox':type==='radio'?'radio':'textbox'):'');
- return {tag,element_type:tag,label,accessible_name:label,role,input_type:type,
- disabled:el.matches(':disabled')||el.getAttribute('aria-disabled')==='true',visible:true,
- value:null,checked:typeof el.checked==='boolean'?el.checked:null,
- href:el.getAttribute('href')||'',name:el.getAttribute('name')||'',
- attributes:{required:el.hasAttribute('required'),readonly:el.hasAttribute('readonly'),multiple:el.hasAttribute('multiple')}};
-}"""
 
 
 class FidelityEngine:
@@ -60,13 +37,9 @@ class FidelityEngine:
         self.launcher = IsolatedLauncher()
         self.pruner = SemanticPruner()
         self.generation = ""
-        self._actions: dict[str, tuple[Any, dict[str, Any]]] = {}
-        self._digest = ""
-        self._url = ""
         self._network_error: AeroError | None = None
         self._redirects = 0
-        self._observer: Any = None
-        self._epoch = 0
+        self._action_context: ActionContext | None = None
 
     def _ensure_page(self) -> Any:
         if self.browser and not self.browser.is_connected():
@@ -188,21 +161,13 @@ class FidelityEngine:
             return {**error.result(), "engine": "fidelity"}
 
     def _invalidate(self) -> None:
-        if self._observer is not None:
-            try:
-                self._observer.evaluate("state => state.dispose()")
-                self._observer.dispose()
-            except PlaywrightError:
-                log.debug("observer_disposal_after_navigation")
-            self._observer = None
-        for handle, _ in self._actions.values():
-            try:
-                handle.dispose()
-            except PlaywrightError:
-                log.debug("action_disposal_after_navigation")
-        self._actions.clear()
         self.generation = ""
-        self._digest = ""
+        if self._action_context is not None:
+            try:
+                self._action_context.close()
+            except PlaywrightError:
+                log.debug("action_context_close_after_navigation")
+            self._action_context = None
 
     def snapshot(self, elapsed_ms: float = 0.0) -> dict[str, Any]:
         try:
@@ -212,55 +177,27 @@ class FidelityEngine:
                 )
             page = self._ensure_page()
             self._invalidate()
-            self._observer = page.evaluate_handle("""() => {
-                let epoch=0;
-                const observer=new MutationObserver(records=>{epoch+=records.length});
-                observer.observe(document,{subtree:true,childList:true,attributes:true,characterData:true});
-                return {epoch:()=>{epoch+=observer.takeRecords().length;return epoch},dispose:()=>observer.disconnect()};
-            }""")
-            epoch = self._observer.evaluate(READ_EPOCH)
-            html = page.content()
-            if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
-                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
-            parsed = self.pruner.prune(html, base_url=page.url)
+            self._action_context = ActionContext(page)
             self.generation = uuid.uuid4().hex
-            array = page.evaluate_handle(EXTRACT)
-            properties = array.get_properties()
-            actions: list[dict[str, Any]] = []
-            try:
-                for key, handle in properties.items():
-                    element = handle.as_element()
-                    if not key.isdigit() or element is None:
-                        handle.dispose()
-                        continue
-                    metadata = element.evaluate(METADATA)
-                    metadata["href"] = safe_link(metadata["href"], page.url)
-                    aid = f"{self.generation}:{len(actions) + 1}"
-                    metadata.update(
-                        id=aid,
-                        generation=self.generation,
-                        executable=not metadata["disabled"],
-                    )
-                    self._actions[aid] = (element, metadata)
-                    actions.append(metadata)
-            finally:
-                array.dispose()
-            self._url = page.url
-            if self._observer.evaluate(READ_EPOCH) != epoch:
+            live = self._action_context.snapshot(
+                self.generation, self.policy.limits.response_bytes
+            )
+            if live.get("error"):
                 self._invalidate()
-                raise AeroError(
-                    "STALE_ACTION_ID",
-                    "DOM changed during extraction; request a new snapshot",
-                )
-            self._epoch = epoch
-            self._digest = hashlib.sha256(html.encode()).hexdigest()
+                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
+            html = live["html"]
+            if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
+                self._invalidate()
+                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
+            parsed = self.pruner.prune(html, base_url=live["url"])
             parsed.update(
                 success=True,
-                url=page.url,
+                url=live["url"],
                 engine="fidelity",
-                actions=actions,
+                actions=live["actions"],
                 generation=self.generation,
                 elapsed_ms=round(elapsed_ms, 2),
+                input_mode="synthetic_dom",
             )
             return parsed
         except AeroError as exc:
@@ -269,7 +206,7 @@ class FidelityEngine:
             self._invalidate()
             return AeroError("SNAPSHOT_FAILED", "Browser snapshot failed").result()
 
-    def _element(self, action_id: str, generation: str | None) -> Any:
+    def _validate_action(self, action_id: str, generation: str | None) -> None:
         if not isinstance(action_id, str) or not re.fullmatch(
             r"[0-9a-f]{32}:[1-9][0-9]{0,5}", action_id
         ):
@@ -280,35 +217,8 @@ class FidelityEngine:
             raise AeroError(
                 "STALE_ACTION_ID", "Snapshot generation is no longer active"
             )
-        if action_id not in self._actions or not action_id.startswith(
-            self.generation + ":"
-        ):
+        if not action_id.startswith(self.generation + ":"):
             raise AeroError("STALE_ACTION_ID", "Action ID is no longer active")
-        page = self._ensure_page()
-        handle, metadata = self._actions[action_id]
-        changed = (
-            self._observer is None
-            or self._observer.evaluate(READ_EPOCH) != self._epoch
-            or page.url != self._url
-            or hashlib.sha256(page.content().encode()).hexdigest() != self._digest
-        )
-        current_metadata = handle.evaluate(METADATA)
-        current_metadata["href"] = safe_link(current_metadata["href"], page.url)
-        metadata_changed = any(
-            current_metadata.get(k) != v
-            for k, v in metadata.items()
-            if k not in {"id", "generation", "executable"}
-        )
-        if (
-            changed
-            or metadata_changed
-            or not handle.evaluate("el => el.isConnected")
-            or not handle.is_visible()
-        ):
-            raise AeroError("STALE_ACTION_ID", "DOM changed; request a new snapshot")
-        if handle.is_disabled() or metadata["disabled"]:
-            raise AeroError("DISABLED_ACTION", "Element is disabled")
-        return handle
 
     def perform(
         self,
@@ -318,45 +228,32 @@ class FidelityEngine:
         generation: str | None = None,
     ) -> dict[str, Any]:
         try:
-            element = self._element(action_id, generation)
+            self._validate_action(action_id, generation)
+            self._ensure_page()
             if (
                 isinstance(value, str)
                 and len(value.encode()) > self.policy.limits.body_bytes
             ):
                 raise AeroError("REQUEST_TOO_LARGE", "Action value exceeds limit")
-            self._execute_element(element, operation, value)
+            if operation in {"fill", "select", "press"} and not isinstance(value, str):
+                raise AeroError("INVALID_ARGUMENT", "Action requires a string")
+            if operation == "check" and not isinstance(value, bool):
+                raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
+            if self._action_context is None:
+                raise AeroError("STALE_ACTION_ID", "Request a current snapshot")
+            result = self._action_context.perform(
+                action_id, generation or self.generation, operation, value
+            )
+            if not result.get("success"):
+                return result
             return self.snapshot()
         except AeroError as exc:
             return exc.result()
         except PlaywrightError:
+            self._invalidate()
             return AeroError(
-                "ACTION_FAILED", "Browser action failed; inspect a new snapshot"
+                "PAGE_NAVIGATED", "Browser document changed or terminated during action"
             ).result()
-
-    @staticmethod
-    def _execute_element(element: Any, operation: str, value: Any) -> None:
-        if operation == "click":
-            element.click(timeout=5000)
-        elif operation == "fill":
-            if not isinstance(value, str):
-                raise AeroError("INVALID_ARGUMENT", "Fill requires a string")
-            element.fill(value, timeout=5000)
-        elif operation == "select":
-            element.select_option(value=value, timeout=5000)
-        elif operation == "check":
-            if not isinstance(value, bool):
-                raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
-            element.set_checked(value, timeout=5000)
-        elif operation == "press":
-            if (
-                not isinstance(value, str)
-                or len(value) > 64
-                or not re.fullmatch(r"[A-Za-z0-9+_-]+", value)
-            ):
-                raise AeroError("INVALID_ARGUMENT", "Invalid keyboard key")
-            element.press(value, timeout=5000)
-        else:
-            raise AeroError("UNSUPPORTED_OPERATION", "Operation is not implemented")
 
     def click(self, action_id: str, generation: str | None = None) -> dict[str, Any]:
         return self.perform("click", action_id, generation=generation)
@@ -394,10 +291,7 @@ class FidelityEngine:
         try:
             if not 1 <= timeout_ms <= 30000:
                 raise AeroError("INVALID_ARGUMENT", "Wait timeout exceeds limit")
-            self._element(action_id, generation).wait_for_element_state(
-                "visible", timeout=timeout_ms
-            )
-            return self.snapshot()
+            return self.perform("wait", action_id, generation=generation)
         except AeroError as exc:
             return exc.result()
         except PlaywrightError:
