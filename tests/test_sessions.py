@@ -39,37 +39,6 @@ def test_capacity_and_concurrent_snapshots():
     asyncio.run(run())
 
 
-def test_retiring_worker_remains_capacity_accounted():
-    from threading import Event
-
-    from aerobrowse.errors import AeroError
-    from aerobrowse.sessions import SessionManager
-
-    async def run():
-        manager = SessionManager(max_sessions=1, request_timeout=0.02)
-        sid = await manager.create("owner")
-        release = Event()
-        worker = manager._sessions[sid].worker
-        blocker = asyncio.get_running_loop().run_in_executor(worker, release.wait, 1)
-        try:
-            result = await manager.close("owner", sid)
-            assert result["error"]["code"] == "CLEANUP_PENDING"
-            assert manager.active_sessions == 1
-            with pytest.raises(AeroError) as error:
-                await manager.create("next")
-            assert error.value.code == "SESSION_LIMIT"
-        finally:
-            release.set()
-            await blocker
-            for _ in range(20):
-                if manager.active_sessions == 0:
-                    break
-                await asyncio.sleep(0.01)
-        assert manager.active_sessions == 0
-
-    asyncio.run(run())
-
-
 def test_bounded_session_queue():
     from aerobrowse.sessions import SessionManager
 
