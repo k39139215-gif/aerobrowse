@@ -23,6 +23,8 @@ pytestmark = [
 @pytest.fixture
 def native():
     binary = os.environ.get("AEROBROWSE_NATIVE_BINARY")
+    if not binary and os.environ.get("AEROBROWSE_NATIVE_REQUIRED") == "1":
+        pytest.fail("required compiled native executable is missing")
     if not binary:
         pytest.skip("native browser job supplies compiled executable")
     with sync_playwright() as playwright:

@@ -39,7 +39,7 @@ jobs:
       - name: Native CDP real browser integration and isolation
         env:
           AEROBROWSE_NATIVE_BINARY: ${{ github.workspace }}/rust_core/target/release/aerobrowse
-        run: bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m pytest tests/test_native_fidelity.py tests/security/test_namespace_boundary.py -v --junitxml=evidence/native/browser.xml
+        run: bash scripts/ci-in-quota.sh /usr/bin/env AEROBROWSE_NATIVE_REQUIRED=1 AEROBROWSE_NATIVE_BINARY="$PWD/rust_core/target/release/aerobrowse" "$PWD/.venv/bin/python" -m pytest tests/test_native_fidelity.py tests/security/test_namespace_boundary.py -v --junitxml=evidence/native/browser.xml
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:

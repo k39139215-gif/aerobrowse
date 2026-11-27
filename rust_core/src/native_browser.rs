@@ -180,13 +180,19 @@ impl FidelitySession {
     pub async fn launch() -> Result<Self, String> {
         let browser =
             std::env::var_os("AEROBROWSE_CHROMIUM").ok_or("NETWORK_ISOLATION_UNAVAILABLE")?;
-        let browser = std::path::PathBuf::from(browser)
-            .canonicalize()
+        let browser = tokio::fs::canonicalize(std::path::PathBuf::from(browser))
+            .await
             .map_err(|_| "NETWORK_ISOLATION_UNAVAILABLE")?;
-        if !browser.is_file() {
+        if !tokio::fs::metadata(&browser)
+            .await
+            .map_err(|_| "NETWORK_ISOLATION_UNAVAILABLE")?
+            .is_file()
+        {
             return Err("NETWORK_ISOLATION_UNAVAILABLE".into());
         }
-        let resources = LinuxResources::create()?;
+        let resources = tokio::task::spawn_blocking(LinuxResources::create)
+            .await
+            .map_err(|_| "RESOURCE_ISOLATION_UNAVAILABLE")??;
         // The shell consumes one gate line before allocating descendants. CDP is
         // inherited as fd3/4; no unauthenticated TCP debugging endpoint exists.
         let mut command = Command::new("/bin/sh");
@@ -307,7 +313,8 @@ impl FidelitySession {
             redirect_count: 0,
             loaded: false,
             poisoned: false,
-            nonce: std::fs::read_to_string("/proc/sys/kernel/random/uuid")
+            nonce: tokio::fs::read_to_string("/proc/sys/kernel/random/uuid")
+                .await
                 .map_err(|_| "ENTROPY_UNAVAILABLE")?
                 .trim()
                 .replace('-', ""),
