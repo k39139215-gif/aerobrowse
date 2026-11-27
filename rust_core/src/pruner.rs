@@ -45,77 +45,46 @@ impl SemanticPruner {
             .map(|t| t.text().collect::<String>().trim().to_string())
             .unwrap_or_else(|| "Untitled Page".to_string());
 
-        // 2. Extract Actionable Interactive Map
+        // Build label indexes once; never scan the full document for each control.
+        let mut ids = std::collections::HashMap::new();
+        let mut labels: std::collections::HashMap<String, Vec<String>> =
+            std::collections::HashMap::new();
+        for element in document.tree.nodes().filter_map(scraper::ElementRef::wrap) {
+            if let Some(id) = element.value().attr("id") {
+                ids.entry(id.to_string()).or_insert(element);
+            }
+            if element.value().name() == "label" {
+                if let Some(target) = element.value().attr("for") {
+                    labels
+                        .entry(target.to_string())
+                        .or_default()
+                        .push(Self::label_text(element));
+                }
+            }
+        }
+        // Static candidates are informational; never resolve them into live ordinals.
         let mut actions = Vec::new();
-        let interactive_selector =
-            Selector::parse("button, a, input, textarea, select").map_err(|_| "PARSER_ERROR")?;
-        let mut action_id = 1;
-
-        for element in document.select(&interactive_selector) {
+        let selector = Selector::parse("a[href],button,input,textarea,select,summary,[role=button],[role=link],[role=textbox],[role=checkbox],[role=combobox],[role=radio],[role=switch],[role=menuitem]")
+            .map_err(|_| "PARSER_ERROR")?;
+        for element in document.select(&selector) {
+            if !Self::included(element) {
+                continue;
+            }
             let val = element.value();
             let tag = val.name().to_string();
-            let input_type = val.attr("type").map(|s| s.to_string());
-
-            if tag == "input"
-                && (input_type.as_deref() == Some("hidden")
-                    || input_type.as_deref() == Some("submit"))
-            {
-                continue;
-            }
-
-            if val.attr("hidden").is_some()
-                || val.attr("aria-hidden") == Some("true")
-                || val.attr("inert").is_some()
-            {
-                continue;
-            }
-            let text = if matches!(tag.as_str(), "textarea" | "select") {
-                String::new()
-            } else {
-                element.text().collect::<String>().trim().to_string()
-            };
-            let aria = val
-                .attr("aria-label")
-                .or_else(|| val.attr("placeholder"))
-                .or_else(|| val.attr("title"))
-                .unwrap_or("");
-
-            let label = if !text.is_empty() {
-                // If text is truncated with ellipsis, prefer title if present
-                if text.ends_with("...") && val.attr("title").is_some() {
-                    val.attr("title").unwrap_or("").to_string()
-                } else {
-                    text
-                }
-            } else if !aria.is_empty() {
-                aria.to_string()
-            } else if let Some(href) = val.attr("href") {
-                href.to_string()
-            } else {
-                format!("<{}>", tag)
-            };
-
+            let input_type = val.attr("type").map(str::to_string);
             let href = val
                 .attr("href")
-                .and_then(|s| url::Url::parse(s).ok())
-                .filter(|u| matches!(u.scheme(), "http" | "https"))
-                .map(|mut u| {
-                    u.set_query(None);
-                    u.set_fragment(None);
-                    let _ = u.set_username("");
-                    let _ = u.set_password(None);
-                    u.to_string()
-                });
-
+                .and_then(|raw| Self::safe_href(raw, _base_url));
+            let label = Self::accessible_name(element, &ids, &labels);
             actions.push(ActionElement {
-                id: action_id,
+                id: actions.len() + 1,
                 executable: false,
                 tag,
-                label: label.chars().take(80).collect(),
+                label,
                 href,
                 input_type,
             });
-            action_id += 1;
         }
 
         // 3. Extract bounded semantic text
@@ -162,6 +131,125 @@ impl SemanticPruner {
             original_tokens: Some(original_tokens), extracted_tokens: Some(extracted_tokens), token_reduction_pct: Some(token_reduction), tokenizer: Some("tiktoken-rs/0.12.1:cl100k_base".into()),
             limitations: vec!["Native static extraction does not provide executable action IDs or verified CSS visibility".into()],
         })
+    }
+
+    fn included(element: scraper::ElementRef<'_>) -> bool {
+        for node in std::iter::once(element)
+            .chain(element.ancestors().filter_map(scraper::ElementRef::wrap))
+        {
+            let value = node.value();
+            if value.attr("hidden").is_some()
+                || value.attr("inert").is_some()
+                || value.attr("aria-hidden") == Some("true")
+                || matches!(value.name(), "script" | "style" | "noscript" | "template")
+                || (value.name() == "input"
+                    && value
+                        .attr("type")
+                        .is_some_and(|v| v.eq_ignore_ascii_case("hidden")))
+            {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn safe_href(raw: &str, base: &str) -> Option<String> {
+        let mut url = url::Url::options()
+            .base_url(url::Url::parse(base).ok().as_ref())
+            .parse(raw)
+            .ok()?;
+        if !matches!(url.scheme(), "http" | "https") {
+            return None;
+        }
+        url.set_username("").ok()?;
+        url.set_password(None).ok()?;
+        url.set_query(None);
+        url.set_fragment(None);
+        Some(url.to_string())
+    }
+
+    fn label_text(element: scraper::ElementRef<'_>) -> String {
+        let mut parts = Vec::new();
+        for node in element.descendants() {
+            if let scraper::node::Node::Text(text) = node.value() {
+                let in_control = node
+                    .ancestors()
+                    .filter_map(scraper::ElementRef::wrap)
+                    .take_while(|parent| parent.id() != element.id())
+                    .any(|parent| matches!(parent.value().name(), "input" | "textarea" | "select"));
+                let visible_ancestors = node
+                    .ancestors()
+                    .filter_map(scraper::ElementRef::wrap)
+                    .all(Self::included);
+                if !in_control && visible_ancestors && !text.trim().is_empty() {
+                    parts.push(text.trim().to_string());
+                }
+            }
+        }
+        parts.join(" ")
+    }
+
+    fn accessible_name(
+        element: scraper::ElementRef<'_>,
+        ids: &std::collections::HashMap<String, scraper::ElementRef<'_>>,
+        labels: &std::collections::HashMap<String, Vec<String>>,
+    ) -> String {
+        let val = element.value();
+        if let Some(label) = val.attr("aria-label").filter(|s| !s.trim().is_empty()) {
+            return label.trim().to_string();
+        }
+        if let Some(ids_attr) = val.attr("aria-labelledby") {
+            let labels = ids_attr
+                .split_whitespace()
+                .filter_map(|id| ids.get(id))
+                .map(|node| Self::label_text(*node))
+                .collect::<Vec<_>>()
+                .join(" ");
+            if !labels.is_empty() {
+                return labels;
+            }
+        }
+        if let Some(id) = val.attr("id") {
+            if let Some(label) = labels.get(id) {
+                let label = label.join(" ");
+                if !label.is_empty() {
+                    return label;
+                }
+            }
+        }
+        if let Some(label) = element
+            .ancestors()
+            .filter_map(scraper::ElementRef::wrap)
+            .find(|node| node.value().name() == "label")
+        {
+            let text = Self::label_text(label);
+            if !text.is_empty() {
+                return text;
+            }
+        }
+        let text = if matches!(val.name(), "input" | "textarea" | "select") {
+            String::new()
+        } else {
+            Self::label_text(element)
+        };
+        if !text.is_empty() {
+            return text;
+        }
+        let images = element
+            .descendants()
+            .filter_map(scraper::ElementRef::wrap)
+            .filter(|node| node.value().name() == "img")
+            .filter_map(|node| node.value().attr("alt"))
+            .collect::<Vec<_>>()
+            .join(" ");
+        if !images.is_empty() {
+            return images;
+        }
+        val.attr("alt")
+            .or_else(|| val.attr("placeholder"))
+            .or_else(|| val.attr("title"))
+            .unwrap_or("")
+            .to_string()
     }
 
     fn validate_tree(document: &Html) -> Result<(), String> {
@@ -212,6 +300,7 @@ impl SemanticPruner {
                     "script"
                         | "style"
                         | "noscript"
+                        | "template"
                         | "svg"
                         | "path"
                         | "meta"
@@ -291,5 +380,43 @@ mod tests {
             .actions
             .iter()
             .all(|a| !a.executable && !a.label.contains("SECRET")));
+    }
+    #[test]
+    fn hidden_ancestors_and_credential_urls_do_not_leak_into_actions() {
+        let result = SemanticPruner::prune(
+            r#"<div hidden><button>HIDDEN_SECRET</button></div><template><button>TEMPLATE_SECRET</button></template><a href="https://user:SECRET@example.com/page?token=SECRET"> </a><a href="/next?q=TOKEN">Next</a><input type=submit value=SECRET>"#,
+            "https://example.com/base",
+        ).expect("fixture parses");
+        let output = serde_json::to_string(&result).expect("serialize");
+        assert!(!output.contains("SECRET"));
+        assert_eq!(result.actions.len(), 3);
+        assert_eq!(
+            result.actions[0].href.as_deref(),
+            Some("https://example.com/page")
+        );
+        assert_eq!(
+            result.actions[1].href.as_deref(),
+            Some("https://example.com/next")
+        );
+    }
+
+    #[test]
+    fn accessible_name_priority_and_image_text_match_static_contract() {
+        let result = SemanticPruner::prune(
+            r#"<label for="n">Full name</label><input id="n"><button aria-label="Accessible">Visual</button><a href="/photo"><img alt="Photo detail"></a>"#,
+            "https://example.com",
+        ).expect("fixture parses");
+        assert_eq!(result.actions[0].label, "Full name");
+        assert_eq!(result.actions[1].label, "Accessible");
+        assert_eq!(result.actions[2].label, "Photo detail");
+    }
+    #[test]
+    fn hidden_descendant_text_does_not_escape_in_action_labels() {
+        let result = SemanticPruner::prune("<button>Safe<span hidden>SECRET</span></button>", "")
+            .expect("fixture parses");
+        assert_eq!(result.actions[0].label, "Safe");
+        assert!(!serde_json::to_string(&result)
+            .expect("serialize")
+            .contains("SECRET"));
     }
 }

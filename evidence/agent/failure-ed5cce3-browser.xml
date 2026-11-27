@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="66" time="129.875" timestamp="2026-11-26T16:11:01.457977+00:00" hostname="runnervm0j63q"><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.remove()]" time="3.000" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.outerHTML='&lt;button onclick=window.wrong=true&gt;Replacement&lt;/button&gt;']" time="1.048" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.parentNode.prepend(el)]" time="1.036" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.hidden=true]" time="1.092" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.disabled=true]" time="1.068" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[const before=el.textContent;el.textContent='Transient';el.textContent=before]" time="1.048" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.closest('body').innerHTML='&lt;button onclick=window.wrong=true&gt;Update&lt;/button&gt;']" time="1.032" /><testcase classname="tests.browser.test_action_atomicity" name="test_duplicate_names_keep_exact_identity" time="1.042" /><testcase classname="tests.browser.test_action_atomicity" name="test_focus_preparation_mutation_is_rejected" time="1.042" /><testcase classname="tests.browser.test_action_atomicity" name="test_hostile_main_world_cannot_replace_isolated_primitives" time="1.038" /><testcase classname="tests.browser.test_action_atomicity" name="test_navigation_invalidates_world" time="1.114" /><testcase classname="tests.browser.test_action_atomicity" name="test_cross_engine_generation_rejected" time="1.663" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[login_update_logout-sdk]" time="2.020"><failure message="AssertionError: {'title': '127.0.0.1', 'markdown': '127.0.0.1\n\n# This site can’t be reached\n\n127.0.0.1 refused to connect.\n\nTry:\n\n- Checking the connection\n- [Checking the proxy and the firewall]([unsupported destination])\n\nERR_CONNECTION_REFUSED\n\nReload\n\nDetails\n\nCheck your Internet connection\n\nCheck any cables and reboot any routers, modems, or other network\n    devices you may be using.\n\nAllow Chromium to access the network in your firewall or antivirus\n          settin...&#10;[truncated; full report in element text]">interface = 'sdk', workflow = &lt;function login_update_logout at 0x7f20e28e98a0&gt;
+
+    @pytest.mark.parametrize("interface", ["sdk", "mcp"])
+    @pytest.mark.parametrize(
+        "workflow", [login_update_logout, search_history_tabs, wizard_and_stale]
+    )
+    def test_complete_owned_task(interface, workflow):
+        with AgentFixture() as fixture:
+            if interface == "sdk":
+                browser = AeroBrowser(
+                    default_mode="fidelity",
+                    policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+                    resource_limits=ResourceLimits(processes=256),
+                )
+            else:
+                browser = MCPBrowser()
+            try:
+&gt;               workflow(browser, fixture)
+
+tests/browser/test_agent_workflows.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+browser = &lt;aerobrowse.sdk.AeroBrowser object at 0x7f20e171be00&gt;
+fixture = &lt;benchmarks.agent.fixture.AgentFixture object at 0x7f20e025a210&gt;
+
+    def login_update_logout(browser, fixture):
+        snapshot = good(browser.fetch(fixture.url + "/login", force_fidelity=True))
+        snapshot = action(browser, snapshot, "Username", "fill", "agent")
+        snapshot = action(browser, snapshot, "Password", "fill", "fixture-only")
+        snapshot = action(browser, snapshot, "Sign in")
+&gt;       assert "Protected record" in snapshot["markdown"], snapshot
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: {'title': '127.0.0.1', 'markdown': '127.0.0.1\n\n# This site can’t be reached\n\n127.0.0.1 refused to connect.\n\nTry:\n\n- Checking the connection\n- [Checking the proxy and the firewall]([unsupported destination])\n\nERR_CONNECTION_REFUSED\n\nReload\n\nDetails\n\nCheck your Internet connection\n\nCheck any cables and reboot any routers, modems, or other network\n    devices you may be using.\n\nAllow Chromium to access the network in your firewall or antivirus\n          settings.\n\nIf it is already listed as a program allowed to access the network, try\n      removing it from the list and adding it again.\n\nIf you use a proxy server…\n\nGo to\n          the Chromium menu &gt;\n          Settings\n          &gt;\n          System\n          &gt;\n          Open your computer\'s proxy settings\n          and make sure your configuration is set to "no proxy" or "direct."\n\n127.0.0.1 refused to connect.\n\n![]([unsupported destination])\n![]([unsupported destination])', 'actions': [{'tag': 'a', 'element_type': 'a', 'label': 'Checking the proxy and the firewall', 'accessible_name': 'Checking the proxy and the firewall', 'role': 'link', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': 'a38643e0343840b29debd73ee91d4a4c:1', 'generation': 'a38643e0343840b29debd73ee91d4a4c', 'executable': True}, {'tag': 'button', 'element_type': 'button', 'label': 'Reload', 'accessible_name': 'Reload', 'role': 'button', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': 'a38643e0343840b29debd73ee91d4a4c:2', 'generation': 'a38643e0343840b29debd73ee91d4a4c', 'executable': True}, {'tag': 'button', 'element_type': 'button', 'label': 'Details', 'accessible_name': 'Details', 'role': 'button', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': 'a38643e0343840b29debd73ee91d4a4c:3', 'generation': 'a38643e0343840b29debd73ee91d4a4c', 'executable': True}], 'tables': [], 'original_chars': 188231, 'pruned_chars': 896, 'character_reduction_pct': 99.52, 'quality': {'node_count': 197, 'empty_content': False, 'embedded_content_inaccessible': 0, 'visibility_verified': False, 'missing_content_indicators': []}, 'original_tokens': 70464, 'extracted_tokens': 198, 'token_reduction_pct': 99.72, 'reduction_pct': 99.72, 'tokenizer': {'library': 'tiktoken', 'version': '0.14.0', 'name': 'cl100k_base'}, 'serialized_output': {'tokens': 790, 'bytes': 2817, 'reduction_pct': 98.88, 'serialization': 'json;ensure_ascii=false;sort_keys=true;compact=true', 'excluded_fields': ['serialized_output']}, 'success': True, 'url': 'chrome-error://chromewebdata/', 'engine': 'fidelity', 'generation': 'a38643e0343840b29debd73ee91d4a4c', 'elapsed_ms': 0.0, 'input_mode': 'synthetic_dom', 'tab_id': 'af3b7e56eb734b91955d8822ee2c762c', 'session_id': 'bdb616430fbe466fa4b1e1a42ef91517'}
+
+benchmarks/agent/workflows.py:115: AssertionError</failure></testcase><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[login_update_logout-mcp]" time="3.053"><failure message="AssertionError: {'title': '127.0.0.1', 'markdown': '127.0.0.1\n\n# This site can’t be reached\n\n127.0.0.1 refused to connect.\n\nTry:\n\n- Checking the connection\n- [Checking the proxy and the firewall]([unsupported destination])\n\nERR_CONNECTION_REFUSED\n\nReload\n\nDetails\n\nCheck your Internet connection\n\nCheck any cables and reboot any routers, modems, or other network\n    devices you may be using.\n\nAllow Chromium to access the network in your firewall or antivirus\n          settin...&#10;[truncated; full report in element text]">interface = 'mcp', workflow = &lt;function login_update_logout at 0x7f20e28e98a0&gt;
+
+    @pytest.mark.parametrize("interface", ["sdk", "mcp"])
+    @pytest.mark.parametrize(
+        "workflow", [login_update_logout, search_history_tabs, wizard_and_stale]
+    )
+    def test_complete_owned_task(interface, workflow):
+        with AgentFixture() as fixture:
+            if interface == "sdk":
+                browser = AeroBrowser(
+                    default_mode="fidelity",
+                    policy=NetworkPolicy(allow_networks=("127.0.0.1/32",)),
+                    resource_limits=ResourceLimits(processes=256),
+                )
+            else:
+                browser = MCPBrowser()
+            try:
+&gt;               workflow(browser, fixture)
+
+tests/browser/test_agent_workflows.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+browser = &lt;benchmarks.agent.workflows.MCPBrowser object at 0x7f20e159bb00&gt;
+fixture = &lt;benchmarks.agent.fixture.AgentFixture object at 0x7f20e159bda0&gt;
+
+    def login_update_logout(browser, fixture):
+        snapshot = good(browser.fetch(fixture.url + "/login", force_fidelity=True))
+        snapshot = action(browser, snapshot, "Username", "fill", "agent")
+        snapshot = action(browser, snapshot, "Password", "fill", "fixture-only")
+        snapshot = action(browser, snapshot, "Sign in")
+&gt;       assert "Protected record" in snapshot["markdown"], snapshot
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: {'title': '127.0.0.1', 'markdown': '127.0.0.1\n\n# This site can’t be reached\n\n127.0.0.1 refused to connect.\n\nTry:\n\n- Checking the connection\n- [Checking the proxy and the firewall]([unsupported destination])\n\nERR_CONNECTION_REFUSED\n\nReload\n\nDetails\n\nCheck your Internet connection\n\nCheck any cables and reboot any routers, modems, or other network\n    devices you may be using.\n\nAllow Chromium to access the network in your firewall or antivirus\n          settings.\n\nIf it is already listed as a program allowed to access the network, try\n      removing it from the list and adding it again.\n\nIf you use a proxy server…\n\nGo to\n          the Chromium menu &gt;\n          Settings\n          &gt;\n          System\n          &gt;\n          Open your computer\'s proxy settings\n          and make sure your configuration is set to "no proxy" or "direct."\n\n127.0.0.1 refused to connect.\n\n![]([unsupported destination])\n![]([unsupported destination])', 'actions': [{'tag': 'a', 'element_type': 'a', 'label': 'Checking the proxy and the firewall', 'accessible_name': 'Checking the proxy and the firewall', 'role': 'link', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': '8f15597fe2e141e8a82b6630290c6c0e:1', 'generation': '8f15597fe2e141e8a82b6630290c6c0e', 'executable': True}, {'tag': 'button', 'element_type': 'button', 'label': 'Reload', 'accessible_name': 'Reload', 'role': 'button', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': '8f15597fe2e141e8a82b6630290c6c0e:2', 'generation': '8f15597fe2e141e8a82b6630290c6c0e', 'executable': True}, {'tag': 'button', 'element_type': 'button', 'label': 'Details', 'accessible_name': 'Details', 'role': 'button', 'input_type': '', 'disabled': False, 'visible': True, 'value': None, 'checked': None, 'href': '', 'name': '', 'attributes': {'required': False, 'readonly': False, 'multiple': False}, 'id': '8f15597fe2e141e8a82b6630290c6c0e:3', 'generation': '8f15597fe2e141e8a82b6630290c6c0e', 'executable': True}], 'tables': [], 'original_chars': 188231, 'pruned_chars': 896, 'character_reduction_pct': 99.52, 'quality': {'node_count': 197, 'empty_content': False, 'embedded_content_inaccessible': 0, 'visibility_verified': False, 'missing_content_indicators': []}, 'original_tokens': 70464, 'extracted_tokens': 198, 'token_reduction_pct': 99.72, 'reduction_pct': 99.72, 'tokenizer': {'library': 'tiktoken', 'version': '0.14.0', 'name': 'cl100k_base'}, 'serialized_output': {'tokens': 837, 'bytes': 2876, 'reduction_pct': 98.81, 'serialization': 'json;ensure_ascii=false;sort_keys=true;compact=true', 'excluded_fields': ['serialized_output']}, 'success': True, 'url': 'chrome-error://chromewebdata/', 'engine': 'fidelity', 'generation': '8f15597fe2e141e8a82b6630290c6c0e', 'elapsed_ms': 0.0, 'input_mode': 'synthetic_dom', 'tab_id': '8be423860a3749ffa33b193df296333e', 'session_id': 'SWd14CQMI21SWEhbqe3E6BEaOAxSAKMsIe6FwRLa9lg', 'request_id': 'ad05e2b77f7a431c8410f0465143739b'}
+
+benchmarks/agent/workflows.py:115: AssertionError</failure></testcase><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[search_history_tabs-sdk]" time="2.439" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[search_history_tabs-mcp]" time="3.307" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[wizard_and_stale-sdk]" time="2.263" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[wizard_and_stale-mcp]" time="3.260" /><testcase classname="tests.browser.test_agent_workflows" name="test_concurrent_public_sessions_complete_without_state_crossing" time="2.534" /><testcase classname="tests.browser.test_agent_workflows" name="test_enter_submits_search_and_native_required_validation" time="2.088" /><testcase classname="tests.browser.test_authenticated_sessions" name="test_login_redirect_cookie_scopes_logout_and_secret_redaction" time="6.365"><failure message="playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.&#10;=========================== logs ===========================&#10;waiting for navigation to &quot;http://127.0.0.1:37827/account&quot; until &quot;load&quot;&#10;============================================================">login_lab = (&lt;aerobrowse.engine.AeroBrowser object at 0x7f20e14c81d0&gt;, ['http://127.0.0.1:37827', 'http://127.0.0.2:41005'], [('127.0.0.1', '/login', '')])
+caplog = &lt;_pytest.logging.LogCaptureFixture object at 0x7f20e14ca330&gt;
+
+    def test_login_redirect_cookie_scopes_logout_and_secret_redaction(login_lab, caplog):
+        browser, (url, _), received = login_lab
+&gt;       page = sign_in(browser, url)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests/browser/test_authenticated_sessions.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/browser/test_authenticated_sessions.py:106: in sign_in
+    page.wait_for_url(url + "/account")
+.venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py:21479: in wait_for_url
+    self._sync(
+.venv/lib/python3.12/site-packages/playwright/_impl/page.py:713: in wait_for_url
+    return await self._main_frame.wait_for_url(
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:356: in wait_for_url
+    await self.wait_for_navigation(url=url, wait_until=wait_until, timeout=timeout)
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:387: in finish
+    raise e from None
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:352: in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py:58: in run_async
+    return await func()
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:285: in rest
+    navigated_event: "channels.FrameNavigatedEvent" = await wait
+                                                      ^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:201: in wait_for_promise
+    raise rewrite_error_message(
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:184: in wait_for_promise
+    result = await race([promise, *self._failures])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+awaitables = [&lt;Future pending cb=[_handled() at /home/runner/work/aerobrowse/aerobrowse/.venv/lib/python3.12/site-packages/playwrig...te-packages/playwright/_impl/utils/tasks.py:33]&gt;, &lt;Future finished exception=TimeoutError('Timeout 5000ms exceeded.')&gt;]
+
+    async def race(awaitables: Sequence[Awaitable[Any]]) -&gt; Any:
+        """`Promise.race(awaitables)`: the result, or the error, of the first awaitable
+        that settles. When several have settled, the first in the list wins.
+    
+        The coroutines in the list run as tasks, which are cancelled when the race ends.
+        A future or a task in the list runs on, as in JS. The errors of the losers are
+        marked as handled, as Promise.race() handles them.
+        """
+        futures: List["asyncio.Future[Any]"] = []
+        owned: List["asyncio.Future[Any]"] = []
+        for awaitable in awaitables:
+            if asyncio.isfuture(awaitable):
+                futures.append(awaitable)
+            else:
+                task: "asyncio.Future[Any]" = asyncio.ensure_future(awaitable)
+                futures.append(task)
+                owned.append(task)
+        for future in futures:
+            future.add_done_callback(_handled)
+        try:
+            await asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
+        finally:
+            winner = next((f for f in futures if f.done()), None)
+            for task in owned:
+                if task is not winner:
+                    task.cancel()
+        assert winner is not None
+&gt;       return winner.result()
+               ^^^^^^^^^^^^^^^
+E       playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.
+E       =========================== logs ===========================
+E       waiting for navigation to "http://127.0.0.1:37827/account" until "load"
+E       ============================================================
+
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/tasks.py:131: TimeoutError</failure></testcase><testcase classname="tests.browser.test_authenticated_sessions" name="test_host_only_cookie_and_foreign_domain_cookie_do_not_cross_hosts" time="6.356"><failure message="playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.&#10;=========================== logs ===========================&#10;waiting for navigation to &quot;http://127.0.0.1:33875/account&quot; until &quot;load&quot;&#10;============================================================">login_lab = (&lt;aerobrowse.engine.AeroBrowser object at 0x7f20e03c6d20&gt;, ['http://127.0.0.1:33875', 'http://127.0.0.2:33043'], [('127.0.0.1', '/login', '')])
+
+    def test_host_only_cookie_and_foreign_domain_cookie_do_not_cross_hosts(login_lab):
+        browser, (url, foreign), received = login_lab
+&gt;       sign_in(browser, url)
+
+tests/browser/test_authenticated_sessions.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/browser/test_authenticated_sessions.py:106: in sign_in
+    page.wait_for_url(url + "/account")
+.venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py:21479: in wait_for_url
+    self._sync(
+.venv/lib/python3.12/site-packages/playwright/_impl/page.py:713: in wait_for_url
+    return await self._main_frame.wait_for_url(
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:356: in wait_for_url
+    await self.wait_for_navigation(url=url, wait_until=wait_until, timeout=timeout)
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:387: in finish
+    raise e from None
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:352: in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py:58: in run_async
+    return await func()
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:285: in rest
+    navigated_event: "channels.FrameNavigatedEvent" = await wait
+                                                      ^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:201: in wait_for_promise
+    raise rewrite_error_message(
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:184: in wait_for_promise
+    result = await race([promise, *self._failures])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+awaitables = [&lt;Future pending cb=[_handled() at /home/runner/work/aerobrowse/aerobrowse/.venv/lib/python3.12/site-packages/playwrig...te-packages/playwright/_impl/utils/tasks.py:33]&gt;, &lt;Future finished exception=TimeoutError('Timeout 5000ms exceeded.')&gt;]
+
+    async def race(awaitables: Sequence[Awaitable[Any]]) -&gt; Any:
+        """`Promise.race(awaitables)`: the result, or the error, of the first awaitable
+        that settles. When several have settled, the first in the list wins.
+    
+        The coroutines in the list run as tasks, which are cancelled when the race ends.
+        A future or a task in the list runs on, as in JS. The errors of the losers are
+        marked as handled, as Promise.race() handles them.
+        """
+        futures: List["asyncio.Future[Any]"] = []
+        owned: List["asyncio.Future[Any]"] = []
+        for awaitable in awaitables:
+            if asyncio.isfuture(awaitable):
+                futures.append(awaitable)
+            else:
+                task: "asyncio.Future[Any]" = asyncio.ensure_future(awaitable)
+                futures.append(task)
+                owned.append(task)
+        for future in futures:
+            future.add_done_callback(_handled)
+        try:
+            await asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
+        finally:
+            winner = next((f for f in futures if f.done()), None)
+            for task in owned:
+                if task is not winner:
+                    task.cancel()
+        assert winner is not None
+&gt;       return winner.result()
+               ^^^^^^^^^^^^^^^
+E       playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.
+E       =========================== logs ===========================
+E       waiting for navigation to "http://127.0.0.1:33875/account" until "load"
+E       ============================================================
+
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/tasks.py:131: TimeoutError</failure></testcase><testcase classname="tests.browser.test_authenticated_sessions" name="test_new_context_has_no_cookie_from_logged_in_context" time="6.369"><failure message="playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.&#10;=========================== logs ===========================&#10;waiting for navigation to &quot;http://127.0.0.1:41147/account&quot; until &quot;load&quot;&#10;============================================================">login_lab = (&lt;aerobrowse.engine.AeroBrowser object at 0x7f20e1540920&gt;, ['http://127.0.0.1:41147', 'http://127.0.0.2:39091'], [('127.0.0.1', '/login', '')])
+
+    def test_new_context_has_no_cookie_from_logged_in_context(login_lab):
+        browser, (url, _), received = login_lab
+&gt;       sign_in(browser, url)
+
+tests/browser/test_authenticated_sessions.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/browser/test_authenticated_sessions.py:106: in sign_in
+    page.wait_for_url(url + "/account")
+.venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py:21479: in wait_for_url
+    self._sync(
+.venv/lib/python3.12/site-packages/playwright/_impl/page.py:713: in wait_for_url
+    return await self._main_frame.wait_for_url(
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:356: in wait_for_url
+    await self.wait_for_navigation(url=url, wait_until=wait_until, timeout=timeout)
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:387: in finish
+    raise e from None
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:352: in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py:58: in run_async
+    return await func()
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:285: in rest
+    navigated_event: "channels.FrameNavigatedEvent" = await wait
+                                                      ^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:201: in wait_for_promise
+    raise rewrite_error_message(
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:184: in wait_for_promise
+    result = await race([promise, *self._failures])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+awaitables = [&lt;Future pending cb=[_handled() at /home/runner/work/aerobrowse/aerobrowse/.venv/lib/python3.12/site-packages/playwrig...te-packages/playwright/_impl/utils/tasks.py:33]&gt;, &lt;Future finished exception=TimeoutError('Timeout 5000ms exceeded.')&gt;]
+
+    async def race(awaitables: Sequence[Awaitable[Any]]) -&gt; Any:
+        """`Promise.race(awaitables)`: the result, or the error, of the first awaitable
+        that settles. When several have settled, the first in the list wins.
+    
+        The coroutines in the list run as tasks, which are cancelled when the race ends.
+        A future or a task in the list runs on, as in JS. The errors of the losers are
+        marked as handled, as Promise.race() handles them.
+        """
+        futures: List["asyncio.Future[Any]"] = []
+        owned: List["asyncio.Future[Any]"] = []
+        for awaitable in awaitables:
+            if asyncio.isfuture(awaitable):
+                futures.append(awaitable)
+            else:
+                task: "asyncio.Future[Any]" = asyncio.ensure_future(awaitable)
+                futures.append(task)
+                owned.append(task)
+        for future in futures:
+            future.add_done_callback(_handled)
+        try:
+            await asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
+        finally:
+            winner = next((f for f in futures if f.done()), None)
+            for task in owned:
+                if task is not winner:
+                    task.cancel()
+        assert winner is not None
+&gt;       return winner.result()
+               ^^^^^^^^^^^^^^^
+E       playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.
+E       =========================== logs ===========================
+E       waiting for navigation to "http://127.0.0.1:41147/account" until "load"
+E       ============================================================
+
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/tasks.py:131: TimeoutError</failure></testcase><testcase classname="tests.browser.test_authenticated_sessions" name="test_fetch_credentials_omit_cannot_acquire_cookie_from_host_broker" time="6.368"><failure message="playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.&#10;=========================== logs ===========================&#10;waiting for navigation to &quot;http://127.0.0.1:40677/account&quot; until &quot;load&quot;&#10;============================================================">login_lab = (&lt;aerobrowse.engine.AeroBrowser object at 0x7f20e14dc140&gt;, ['http://127.0.0.1:40677', 'http://127.0.0.2:36317'], [('127.0.0.1', '/login', '')])
+
+    def test_fetch_credentials_omit_cannot_acquire_cookie_from_host_broker(login_lab):
+        browser, (url, _), received = login_lab
+&gt;       page = sign_in(browser, url)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests/browser/test_authenticated_sessions.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/browser/test_authenticated_sessions.py:106: in sign_in
+    page.wait_for_url(url + "/account")
+.venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py:21479: in wait_for_url
+    self._sync(
+.venv/lib/python3.12/site-packages/playwright/_impl/page.py:713: in wait_for_url
+    return await self._main_frame.wait_for_url(
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:356: in wait_for_url
+    await self.wait_for_navigation(url=url, wait_until=wait_until, timeout=timeout)
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:387: in finish
+    raise e from None
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:352: in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py:58: in run_async
+    return await func()
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:285: in rest
+    navigated_event: "channels.FrameNavigatedEvent" = await wait
+                                                      ^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:201: in wait_for_promise
+    raise rewrite_error_message(
+.venv/lib/python3.12/site-packages/playwright/_impl/waiter.py:184: in wait_for_promise
+    result = await race([promise, *self._failures])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+awaitables = [&lt;Future pending cb=[_handled() at /home/runner/work/aerobrowse/aerobrowse/.venv/lib/python3.12/site-packages/playwrig...te-packages/playwright/_impl/utils/tasks.py:33]&gt;, &lt;Future finished exception=TimeoutError('Timeout 5000ms exceeded.')&gt;]
+
+    async def race(awaitables: Sequence[Awaitable[Any]]) -&gt; Any:
+        """`Promise.race(awaitables)`: the result, or the error, of the first awaitable
+        that settles. When several have settled, the first in the list wins.
+    
+        The coroutines in the list run as tasks, which are cancelled when the race ends.
+        A future or a task in the list runs on, as in JS. The errors of the losers are
+        marked as handled, as Promise.race() handles them.
+        """
+        futures: List["asyncio.Future[Any]"] = []
+        owned: List["asyncio.Future[Any]"] = []
+        for awaitable in awaitables:
+            if asyncio.isfuture(awaitable):
+                futures.append(awaitable)
+            else:
+                task: "asyncio.Future[Any]" = asyncio.ensure_future(awaitable)
+                futures.append(task)
+                owned.append(task)
+        for future in futures:
+            future.add_done_callback(_handled)
+        try:
+            await asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
+        finally:
+            winner = next((f for f in futures if f.done()), None)
+            for task in owned:
+                if task is not winner:
+                    task.cancel()
+        assert winner is not None
+&gt;       return winner.result()
+               ^^^^^^^^^^^^^^^
+E       playwright._impl._errors.TimeoutError: Page.wait_for_url: Timeout 5000ms exceeded.
+E       =========================== logs ===========================
+E       waiting for navigation to "http://127.0.0.1:40677/account" until "load"
+E       ============================================================
+
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/tasks.py:131: TimeoutError</failure></testcase><testcase classname="tests.browser.test_tabs_history" name="test_switch_and_close_never_reuse_inactive_generation" time="1.361" /><testcase classname="tests.browser.test_tabs_history" name="test_tab_limit_and_closed_background_tab" time="1.780" /><testcase classname="tests.browser.test_tabs_history" name="test_native_history_returns_current_document_and_invalidates_actions" time="1.230" /><testcase classname="tests.browser.test_tabs_history" name="test_unsafe_new_tab_does_not_replace_active_page" time="1.057" /><testcase classname="tests.browser.test_tabs_history" name="test_same_document_history_is_not_mistaken_for_missing_entry" time="1.114" /><testcase classname="tests.browser.test_tabs_history" name="test_popups_remain_denied_with_multiple_tabs" time="1.224" /><testcase classname="tests.browser.test_tabs_history" name="test_turbo_tab_escalation_preserves_original_page" time="1.260" /><testcase classname="tests.compatibility.test_frameworks" name="test_framework_controlled_state_and_targets[react]" time="1.081" /><testcase classname="tests.compatibility.test_frameworks" name="test_framework_controlled_state_and_targets[vue]" time="1.069" /><testcase classname="tests.compatibility.test_frameworks" name="test_framework_controlled_state_and_targets[angular]" time="1.581" /><testcase classname="tests.compatibility.test_frameworks" name="test_framework_controlled_state_and_targets[nextjs]" time="1.201" /><testcase classname="tests.runtime.test_crash_recovery" name="test_supervised_browser_navigation_actions_and_cleanup" time="2.102" /><testcase classname="tests.runtime.test_crash_recovery" name="test_low_task_budget_fails_explicitly_and_releases_slot" time="1.502" /><testcase classname="tests.runtime.test_crash_recovery" name="test_live_browser_crash_releases_tree_and_recovers[browser]" time="3.197" /><testcase classname="tests.runtime.test_crash_recovery" name="test_live_browser_crash_releases_tree_and_recovers[renderer]" time="6.147" /><testcase classname="tests.runtime.test_crash_recovery" name="test_linux_parent_death_kills_worker_and_cgroup" time="0.354" /><testcase classname="tests.runtime.test_crash_recovery" name="test_configured_mcp_stdio_browser_flow" time="2.891" /><testcase classname="tests.runtime.test_resource_limits" name="test_delegated_kernel_limits_are_installed" time="0.001" /><testcase classname="tests.runtime.test_resource_limits" name="test_linux_kernel_rejects_excess_memory" time="0.048" /><testcase classname="tests.runtime.test_resource_limits" name="test_linux_kernel_denies_excess_child_process" time="0.023" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[fetch]" time="2.020" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[xhr]" time="2.005" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[image]" time="1.506" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[css]" time="1.505" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[iframe]" time="2.005" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[websocket]" time="2.006" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[worker]" time="2.005" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[serviceworker]" time="1.505" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[popup]" time="2.006" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[download]" time="1.504" /><testcase classname="tests.security.test_browser_egress" name="test_prohibited_browser_egress_hits_no_canary[webrtc]" time="1.504" /><testcase classname="tests.security.test_browser_egress" name="test_direct_egress_without_playwright_route_is_blocked" time="1.503" /><testcase classname="tests.security.test_browser_egress" name="test_navigation_redirect_cannot_reach_canary" time="1.503" /><testcase classname="tests.security.test_browser_egress" name="test_direct_webrtc_udp_sees_no_canary" time="2.505" /><testcase classname="tests.security.test_namespace_boundary" name="test_browser_descendants_have_private_network_and_mounts" time="1.505" /><testcase classname="tests.security.test_namespace_boundary" name="test_browser_cannot_read_host_secret_or_environment" time="1.504" /><testcase classname="tests.security.test_namespace_boundary" name="test_private_tmp_mount_is_not_host_writable_directory" time="1.504" /><testcase classname="tests.test_interactive" name="test_handoff_and_live_actions" time="1.101" /><testcase classname="tests.test_interactive" name="test_dynamic_staleness_and_cleanup" time="1.049" /><testcase classname="tests.test_interactive" name="test_host_private_network_is_blocked_without_allowlist" time="0.501" /><testcase classname="tests.test_interactive" name="test_live_links_redact_sensitive_components" time="1.106" /><testcase classname="tests.test_interactive" name="test_mutate_then_restore_invalidates_action" time="1.076" /></testsuite></testsuites>

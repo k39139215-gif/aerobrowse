@@ -1,4 +1,4 @@
-from aerobrowse import AeroBrowser
+from aerobrowse.engine import AeroBrowser
 from aerobrowse.security import NetworkPolicy
 
 

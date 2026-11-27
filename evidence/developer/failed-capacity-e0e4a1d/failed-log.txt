@@ -1,0 +1,38 @@
+kernel-browser-crashes	Shared aggregate browser admission and queue load	﻿2026-11-26T18:33:57.7799113Z ##[group]Run bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --output evidence/developer/shared-browser-load.json
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7799843Z ^[[36;1mbash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.shared_load --sessions 2 --rounds 3 --browser --output evidence/developer/shared-browser-load.json^[[0m
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7837337Z shell: /usr/bin/bash -e {0}
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7837496Z env:
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7837657Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7837913Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7838158Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7838376Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7838613Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7838836Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7839090Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7839306Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7852539Z   AEROBROWSE_CGROUP_ROOT: /sys/fs/cgroup/aerobrowse-ci
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:33:57.7852762Z ##[endgroup]
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9799076Z Traceback (most recent call last):
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9807061Z   File "<frozen runpy>", line 198, in _run_module_as_main
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9807558Z   File "<frozen runpy>", line 88, in _run_code
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9807865Z   File "/home/runner/work/aerobrowse/aerobrowse/benchmarks/agent/shared_load.py", line 193, in <module>
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9808132Z     main()
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9808367Z   File "/home/runner/work/aerobrowse/aerobrowse/benchmarks/agent/shared_load.py", line 186, in main
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9808723Z     result = asyncio.run(run(args.sessions, args.rounds, args.browser))
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9808947Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9809233Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/asyncio/runners.py", line 195, in run
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9817627Z     return runner.run(main)
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9817844Z            ^^^^^^^^^^^^^^^^
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9818092Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/asyncio/runners.py", line 118, in run
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9818352Z     return self._loop.run_until_complete(task)
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9818522Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9818841Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9819123Z     return future.result()
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9819254Z            ^^^^^^^^^^^^^^^
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9819492Z   File "/home/runner/work/aerobrowse/aerobrowse/benchmarks/agent/shared_load.py", line 85, in run
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9819749Z     await asyncio.gather(
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9819987Z   File "/home/runner/work/aerobrowse/aerobrowse/benchmarks/agent/shared_load.py", line 71, in call
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9820268Z     assert result.get("success"), result.get("error", {})
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9820447Z            ^^^^^^^^^^^^^^^^^^^^^
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:19.9820661Z AssertionError: {'code': 'NAVIGATION_FAILED', 'message': 'Browser navigation failed'}
+kernel-browser-crashes	Shared aggregate browser admission and queue load	2026-11-26T18:34:20.0380272Z ##[error]Process completed with exit code 1.

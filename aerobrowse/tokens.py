@@ -1,7 +1,13 @@
 """Tokenizer metrics; never substitute character division after tokenizer failure."""
 
+import base64
+import gzip
+import hashlib
+import json
+from collections.abc import Mapping
 from functools import lru_cache
 from importlib.metadata import version
+from importlib.resources import files
 from typing import Any
 
 import tiktoken
@@ -14,7 +20,30 @@ def encoding(name: str) -> Any:
     if name not in {"cl100k_base", "o200k_base", "p50k_base"}:
         raise AeroError("TOKENIZER_ERROR", "Unsupported tokenizer")
     try:
-        return tiktoken.get_encoding(name)
+        root = files("aerobrowse").joinpath("token_data")
+        manifest = json.loads(
+            root.joinpath("manifest.json").read_text(encoding="utf-8")
+        )[name]
+        compressed = root.joinpath(name + ".tiktoken.gz").read_bytes()
+        if hashlib.sha256(compressed).hexdigest() != manifest["sha256"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer checksum failed")
+        data = gzip.decompress(compressed)
+        if hashlib.sha256(data).hexdigest() != manifest["raw_sha256"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer checksum failed")
+        ranks = {
+            base64.b64decode(token, validate=True): int(rank)
+            for line in data.splitlines()
+            if line
+            for token, rank in [line.split()]
+        }
+        if len(ranks) != manifest["tokens"]:
+            raise AeroError("TOKENIZER_ERROR", "Bundled tokenizer is incomplete")
+        return tiktoken.Encoding(
+            name=name,
+            pat_str=manifest["pat_str"],
+            mergeable_ranks=ranks,
+            special_tokens=manifest["special_tokens"],
+        )
     except Exception as exc:
         raise AeroError(
             "TOKENIZER_ERROR", "Tokenizer could not be initialized"
@@ -39,6 +68,46 @@ def measure(
                 "version": version("tiktoken"),
                 "name": tokenizer,
             },
+        }
+    except AeroError:
+        raise
+    except Exception as exc:
+        raise AeroError("TOKENIZER_ERROR", "Token measurement failed") from exc
+
+
+def measure_output(output: Mapping[str, Any]) -> dict[str, Any]:
+    """Measure canonical JSON, excluding only this measurement to avoid recursion.
+
+    Call again after adding envelope fields or replacing live actions. This reports
+    content serialization cost, not MCP framing or a model's chat-template overhead.
+    Existing extracted_tokens remains the Markdown-only metric for compatibility.
+    """
+    try:
+        serialized = json.dumps(
+            {key: value for key, value in output.items() if key != "serialized_output"},
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        )
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise AeroError(
+            "OUTPUT_SERIALIZATION_ERROR", "Snapshot cannot be serialized as JSON"
+        ) from exc
+    tokenizer = output.get("tokenizer", {}).get("name", "cl100k_base")
+    try:
+        count = len(encoding(tokenizer).encode(serialized, disallowed_special=()))
+        before = output.get("original_tokens", 0)
+        return {
+            "serialized_output": {
+                "tokens": count,
+                "bytes": len(serialized.encode("utf-8")),
+                "reduction_pct": round((1 - count / before) * 100, 2)
+                if before
+                else 0.0,
+                "serialization": "json;ensure_ascii=false;sort_keys=true;compact=true",
+                "excluded_fields": ["serialized_output"],
+            }
         }
     except AeroError:
         raise

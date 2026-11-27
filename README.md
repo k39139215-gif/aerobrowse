@@ -21,10 +21,13 @@ For reproducible development, install uv and run `uv sync --locked --extra dev`.
 cargo build --locked --release --manifest-path rust_core/Cargo.toml
 ```
 
-Turbo works on supported Python platforms. Fidelity requires Linux with `unshare`
-and permission to create user/network namespaces. Windows/macOS Fidelity returns
+Turbo works on supported Python platforms. Fidelity requires Linux with Bubblewrap and permission to create user/network/mount
+namespaces. Fidelity through either public SDK or MCP additionally requires delegated cgroup v2 memory/CPU/PID
+controllers configured through `AEROBROWSE_CGROUP_ROOT`. Windows/macOS Fidelity returns
 `NETWORK_ISOLATION_UNAVAILABLE`. Do not bypass this restriction. Chromium is
 launched with no network interfaces and host-brokered, validated HTTP requests.
+The public synchronous SDK, CLI and MCP runtime own supervised process workers.
+Low-level engine classes remain trusted internal embedding APIs. See [SECURITY.md](SECURITY.md).
 The CI browser job provisions namespace permissions on its disposable Ubuntu
 runner; production hosts must provision their own restricted execution environment.
 
@@ -42,7 +45,10 @@ with AeroBrowser(default_mode="auto") as browser:
         print(page["original_tokens"], page["extracted_tokens"], page["tokenizer"])
 ```
 
-Modes: `turbo` never escalates; `fidelity` requires Chromium; `auto` escalates
+See [AGENT_QUICKSTART.md](AGENT_QUICKSTART.md) for complete SDK/MCP task examples
+and [AGENT_EVALUATION.md](AGENT_EVALUATION.md) for actual-model evaluation.
+
+Modes: `turbo` does not automatically escalate; `fidelity` requires Chromium; `auto` escalates
 sparse application roots and explicit JavaScript requirements. A network-policy
 error never triggers fallback. These are heuristics, not framework compatibility
 guarantees. Static action candidates have `executable: false`.
@@ -99,18 +105,24 @@ session's operations and preserves Playwright thread affinity.
 | browser_check | action_id, generation, checked |
 | browser_press | action_id, generation, key |
 | browser_scroll | optional x, y |
-| browser_wait | action_id, generation; optional timeout_ms |
+| browser_wait | action_id/generation or exact name; optional role, timeout_ms |
 | browser_screenshot | none |
+| browser_capabilities | none; no session required |
+| browser_tabs | none |
+| browser_new_tab | url |
+| browser_switch_tab / browser_close_tab | tab_id |
+| browser_back / browser_forward / browser_reload | none |
 | browser_close | none |
 
 Tool responses use `success`, structured `error.code`/`error.message` on failure,
 and page snapshots on successful actions. Request operations include request and
 session IDs. Do not assume HTTP success from a returned dictionary: inspect
-`success`. Session defaults: 8 active sessions, 300-second idle lifetime,
+`success`. Session defaults: configured maximum8 (subject to aggregate budget reservation),300-second idle lifetime,
 45-second request timeout. Idle cleanup runs every 10 seconds. Each session admits at most 16 outstanding calls. Cancellation
 retires the session and queues cleanup. Retiring resources still count against
-capacity; incomplete cleanup returns CLEANUP_PENDING. A stuck native worker cannot yet be
-forcibly terminated; see known limitations.
+capacity; incomplete cleanup returns CLEANUP_PENDING. Owned process workers are
+forcibly retired on timeout, cancellation or crash; a replacement session loses
+its ephemeral browser login. See AGENT_QUICKSTART.md for recovery.
 
 ## Configuration and network restrictions
 
@@ -131,8 +143,10 @@ Default limits: URL 8192 characters; request body 1 MiB; response/HTML 4 MiB;
 network deadline 20 seconds (standalone TurboEngine defaults to 12);
 5 redirects; parser 100,000 nodes/128 depth. All DNS answers must pass policy.
 Numeric sockets pin the actual connection destination; TLS SNI and certificate
-verification use the normalized hostname. Proxies from the environment, cookies,
-authorization headers and compressed responses are not used. Legitimate
+verification use the normalized hostname. Proxies from the environment,
+HTTP Authorization and compressed responses are not used. Ordinary HTTP strips
+credentials; the Chromium-only pinned broker preserves browser-selected scoped
+cookies for ephemeral form authentication. Legitimate
 non-UTF-8 content and servers requiring compression may need additional support.
 Resource blocking is opt-in: `FidelityEngine(block_heavy_resources=True)`.
 
@@ -147,8 +161,9 @@ The binary is no longer advertised as a standalone interactive browser.
 
 ## Known limitations and troubleshooting
 
-- Authenticated browser sessions, cookie persistence, WebSockets, service workers,
-  popups/downloads, multiple tabs and back/forward are not supported yet.
+- Ephemeral form/cookie sessions, explicit tabs and history are tested on owned
+  fixtures. Host profile import/export, HTTP Authorization, WebSockets, service
+  workers, popups/downloads and trusted physical input remain unsupported.
 - Linux CI verifies namespace operation and basic handoff/live actions/staleness.
   Exhaustive iframe egress and crash-recovery coverage remain open.
 - Native extraction is less complete than Python for tables and ARIA metadata.
@@ -160,8 +175,8 @@ The binary is no longer advertised as a standalone interactive browser.
 - `STALE_ACTION_ID`: request a new snapshot and choose the action again.
 - `NETWORK_ISOLATION_UNAVAILABLE`: use a Linux host that permits user/network
   namespaces. No unsafe launch switch is provided.
-- `TOKENIZER_ERROR`: encoding initialization may need its initial data download;
-  configure the tokenizer cache for offline deployments before serving traffic.
+- `TOKENIZER_ERROR`: reinstall a complete package and verify bundled vocabulary
+  data; supported encodings initialize offline and never download at runtime.
 
 ## Verification
 
@@ -179,3 +194,79 @@ cargo build --locked --release --manifest-path rust_core/Cargo.toml
 Linux browser tests are marked `browser`; deterministic fixtures are used rather
 than third-party sites. See [BENCHMARKS.md](BENCHMARKS.md), [SECURITY.md](SECURITY.md)
 and [CHANGELOG.md](CHANGELOG.md). MIT license.
+
+## Phase-two runtime contract
+
+[PHASE2_AUDIT.md](PHASE2_AUDIT.md) tracks release blockers.
+[COMPATIBILITY.md](COMPATIBILITY.md) describes real pinned framework fixtures and
+synthetic DOM action semantics. [docs/ENGINE_PARITY.md](docs/ENGINE_PARITY.md)
+selects Python as authoritative browser runtime; native Rust HTTP has a narrower
+contract and Rust MCP integrates Python. [SECURITY_REVIEW_PACKAGE.md](SECURITY_REVIEW_PACKAGE.md)
+contains external assessment preparation, trust assumptions and reproduction.
+
+The supported MCP CLI uses bounded UTF-8 newline stdio before SDK parsing.
+Remote HTTP/SSE is not exposed. Local process trust is required; there is no remote
+client authentication. Worker controls and default quotas are in SECURITY.md.
+Do not expose trusted in-process FastMCP/SDK APIs as an unbounded multi-tenant service.
+Atomic browser activation targets an exact retained DOM node using synthetic DOM
+events; flows that require trusted physical user input are unsupported.
+
+For the tested Linux MCP Chromium configuration, the operator can explicitly set
+`AEROBROWSE_SESSION_TASKS=256` alongside the delegated `AEROBROWSE_CGROUP_ROOT`.
+The default remains 64 tasks per session; the aggregate ceiling remains 256.
+Invalid task budgets fail startup. This is a resource setting, not permission to
+reach private networks; see SECURITY.md for deployment limits.
+
+## Stateful agent operations
+
+Authenticated cookie sessions work through Chromium-scoped cookies and the pinned
+broker. Cookies/storage are ephemeral per owned context; tabs share that context.
+Use `new_tab(url)`, `tabs()`, `switch_tab(tab_id)`, `close_tab(tab_id)`, `back()`,
+`forward()`, `reload()` and `capabilities()` on the public SDK; MCP has corresponding
+browser_ tools. Maximum8 explicit tabs; page-created popups remain denied.
+After Fidelity activation, navigation remains in that context to preserve auth.
+`serialized_output` measures canonical JSON including action metadata, separately
+from Markdown-only extracted_tokens. Recalculate full MCP framing cost in clients.
+
+Operator-only `AEROBROWSE_ALLOW_NETWORKS` is an optional comma-separated strict
+CIDR allowlist for MCP development fixtures. Empty by default. Never enable broad
+private networks for production; this is not an untrusted tool argument.
+
+## Dynamic controls and operator metrics
+
+`browser.wait(name="Save", role="button", timeout_ms=5000)` waits for an enabled,
+visible control by exact accessible name and optional role. The MCP equivalent is
+`browser_wait(session_id=..., name="Save", role="button", timeout_ms=5000)`.
+It returns fresh action IDs in `wait.matched_action_ids`; it executes nothing.
+Multiple matches are returned explicitly. Existing ID/generation waits validate
+identity immediately; a missing discovery target returns `WAIT_TIMEOUT`, while a
+changed document returns `PAGE_NAVIGATED`. No stale ID is remapped.
+
+The public SDK and trusted `SessionManager` expose `metrics_snapshot()` and
+`metrics_prometheus()` for operator-controlled collection. Request logs include
+request/session IDs, a bounded operation label, engine, duration and outcome;
+URLs, form values and credentials are omitted. Metrics aggregate navigation/action
+success, fallbacks, extraction failures, crashes, timeouts, latency histograms,
+active sessions and sampled worker-tree RSS. These local methods are intentionally
+not MCP tools or an unauthenticated HTTP endpoint. Memory samples include shared
+mappings and exclude processes that exited before sampling; they are not exact
+peak memory. See BENCHMARKS.md for the shared aggregate-pool workload harness.
+
+Session admission reserves each configured per-session task and memory budget from
+the aggregate pool. `SESSION_RESOURCE_LIMIT` means another session cannot be
+reserved even if `max_sessions` is higher. For example, a256-task session inside
+a256-task pool permits one owned session. Trusted embedding can explicitly choose
+`ResourceLimits(processes=256, global_processes=512)` for two sessions after
+capacity testing; this does not alter packaged MCP defaults. Kernel exhaustion
+returns `WORKER_RESOURCE_LIMIT` and retires the affected worker. Pools with an
+observed aggregate exhaustion event require recreation; limits are never relaxed.
+
+Synthetic keyboard editing supports Backspace/Delete, Home/End, Left/Right,
+Control+A/Meta+A, single printable Unicode characters and textarea Enter.
+Cancellable keydown/beforeinput events are honored; target replacement during
+preparation is rejected. Trusted hardware events, clipboard, modifier shortcuts,
+Tab default focus movement and full contenteditable editing remain unsupported.
+
+Supported Python tokenizers ship checksum-verified compressed vocabularies in the
+package. Worker tokenization requires no first-run download, shared temp cache,
+or network connection. Missing/corrupted data returns `TOKENIZER_ERROR`.

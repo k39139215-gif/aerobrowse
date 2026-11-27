@@ -1,0 +1,5 @@
+{
+  "mechanism": "websocket",
+  "canary_received": [],
+  "positive_control": true
+}

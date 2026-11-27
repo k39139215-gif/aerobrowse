@@ -1,0 +1,5 @@
+{
+  "mechanism": "serviceworker",
+  "canary_received": [],
+  "positive_control": true
+}

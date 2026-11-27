@@ -1,0 +1,296 @@
+{
+  "source_revision": "dac1c1db4146f5b4053b3cc1d97e347ca1250578",
+  "production_source_revision": "3e1d399994638a9d08269b642f5c306ce317a1c4",
+  "source_binding": "Source blob and checkout hashes in source-dac1c1d.json; production modules unchanged after CRLF normalization",
+  "focused_linux_run": 45860943458,
+  "full_ci_pending_runs": [],
+  "actual_model": "NOT_RUN: missing OPENAI_API_KEY and AEROBROWSE_EVAL_MODEL",
+  "files": [
+    {
+      "path": "evidence/agent/python-source-final.xml",
+      "sha256": "b10c214b2f97fc362d97cc1cd4d2e531278c640b9fded7eb030475be862ee936",
+      "bytes": 37696,
+      "summary": {
+        "tests": "227",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "21",
+        "time": "262.813"
+      }
+    },
+    {
+      "path": "evidence/agent/focused-sourcea0dbc66.xml",
+      "sha256": "6ae3cefbc4768d2347184aa020fd84e9d87186b3c296a25ce2ba9506602ae700",
+      "bytes": 6685,
+      "summary": {
+        "tests": "46",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "38.621"
+      }
+    },
+    {
+      "path": "evidence/agent/ci-dac1c1d/runtime/agent/quick-workflows.xml",
+      "sha256": "73d566ca445c2bbae75e4a2976ff9993bdc2eec14d95e862d06521b027f960ac",
+      "bytes": 2154,
+      "summary": {
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "45.071"
+      }
+    },
+    {
+      "path": "evidence/agent/ci-dac1c1d/runtime/phase2/runtime-boundary.xml",
+      "sha256": "575423565b127ce33b93d3380e1b0634e1daf1825f6b5d1abdef91d0bb3b8e32",
+      "bytes": 6002,
+      "summary": {
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "2",
+        "time": "28.585"
+      }
+    },
+    {
+      "path": "evidence/agent/model-evaluation-sourcedac1c1d.json",
+      "sha256": "31db4cc1644fd219bc37cba47f63a894ceae01a6b7d7fe1c4cf9810ead68148d",
+      "bytes": 422
+    },
+    {
+      "path": "evidence/agent/source-dac1c1d.json",
+      "sha256": "f5300f084cdb5339a91891e70555d1a2ef9bb99e1c0445d8d3010192d713d041",
+      "bytes": 22349
+    },
+    {
+      "path": "evidence/agent/failed-runs.json",
+      "sha256": "8c4d7d7de055a25eb2d1ba5f7c3632a609394ea3ab8f841ae893f353597e4b44",
+      "bytes": 1065
+    },
+    {
+      "path": "evidence/agent/build-match-source3e1d399.json",
+      "sha256": "bd68f976c2e20360be960c1f67ad08b6653d3f1507928ee3c5c38f9accc682c7",
+      "bytes": 1287
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/agent/concurrency.json",
+      "sha256": "ee5974e2166fdf630310fb7ca5b22bdf75cf52266ce2f104426d7d5084e51d6b",
+      "bytes": 1597
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/agent/quick-workflows.xml",
+      "sha256": "cff825ac5557d61b5fe00c146150b0ae3dbf24faaf332a80d54fe9f59ca67991",
+      "bytes": 2154
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/phase2/benchmark-linux.json",
+      "sha256": "38251a9a93ab2ab1b255678d8058ae909cad4070aae12713223e9a2a88e9cd1b",
+      "bytes": 792421
+    },
+    {
+      "path": "evidence/agent/ci-0530488/runtime/phase2/runtime-boundary.xml",
+      "sha256": "45eac3fa125fcd6a36fc4916fb16c45986de42b40b840a6460f14b2dc70e994f",
+      "bytes": 6002
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/dependencies/ci-pip-audit.json",
+      "sha256": "53924096502852b5650390c4b10a8a22411ed138ece9777a0b5fe1d33441c3e6",
+      "bytes": 6528,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/dependencies/pip-audit.json",
+      "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b",
+      "bytes": 6587,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.11/ci-python.xml",
+      "sha256": "f0647f684ff2598ee2e25414900f618c2d7354c51b1b9e3cfe19d4ea018a01a8",
+      "bytes": 36969,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.11/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.12/ci-python.xml",
+      "sha256": "892ef8d9b0e097bce55a9defb73f799e4bb413e94f05443c4e71dc88ad4a3a2c",
+      "bytes": 36969,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.12/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.13/ci-python.xml",
+      "sha256": "48f264b4e6ec86729e75514f27c001bb86ee6c71ce0fea23e78f1b355ab7c063",
+      "bytes": 36969,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.13/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.14/ci-python.xml",
+      "sha256": "c872af670f2d7664a4e8b0a9e2cef5ced3a4542e3a8c5726cee39ef76319f7dc",
+      "bytes": 36970,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-ubuntu-24.04-3.14/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.11/ci-python.xml",
+      "sha256": "a7c87a1b9a970027adee730c1096a0377df65ec8422aaff78cb33f616e1a5c17",
+      "bytes": 36701,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.11/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.12/ci-python.xml",
+      "sha256": "9b2aad021c9fee35cd305a59b31bfe9a3e44b004d4bf9fd0d068a4e207ee8986",
+      "bytes": 36701,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.12/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.13/ci-python.xml",
+      "sha256": "8196b9aff6b81563d30233419f854d310effa2b4e0cc50076d5a5831fa1e9251",
+      "bytes": 36701,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.13/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.14/ci-python.xml",
+      "sha256": "659492676efd3a13fd080f647ae60f975cf424eb66268b321e0cafb62d585e20",
+      "bytes": 36701,
+      "scope": "current ci-python.xml and dependency audit; historical-baseline XML explicitly excluded from current counts"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/python-windows-latest-3.14/historical-baseline-python-tests.xml",
+      "sha256": "e0b9124aa8d5c1d03be1d1a23b6a7bddb5297e4b373793fd69a768d0be34960b",
+      "bytes": 9347,
+      "scope": "Historical baseline artifact inherited into CI archive; not current test evidence"
+    },
+    {
+      "path": "evidence/agent/token-fixtures-source0530488.json",
+      "sha256": "e82993f9cafbf962a18a3b288f2dd7408818c41c4f1b2a942a3353f05290f973",
+      "bytes": 22941,
+      "scope": "8 synthetic fixture categories x3tokenizers; complete canonical extraction output,not full runtime/MCP envelope"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/run.json",
+      "sha256": "180571956e21e78c726e78f7503178086f1b084870ca6a9974fc6221bd97ea69",
+      "bytes": 771,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/final-run.json",
+      "sha256": "ec3348509a72b2b83caa62037e49c3eb6ea4405205434f1ae1151402e6b7c5ed",
+      "bytes": 36688,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/merge-tree.json",
+      "sha256": "cd29ec7eb5a82c793f787a05db61e0e228c1a40421c13971698c829a20582056",
+      "bytes": 114675,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/verified-merge-source.json",
+      "sha256": "d3160cc33706662d02f5b64fb0975f4b4f43845c682b8ea0c23fa3865931eaa4",
+      "bytes": 10185,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/rust-log.json",
+      "sha256": "e47f6fba2b59600f718332f848770d8e507a93056831d8b50375a01d1d268f12",
+      "bytes": 111946,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/ci-browser.xml",
+      "sha256": "3455e6c0b9e1bb2b907969234c7ecd247b57a514b932ebfec071d1c09dc364fa",
+      "bytes": 9307,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/phase2/ci-runtime-kernel.xml",
+      "sha256": "240ad5165c63526217e95f4c2cf766ba3ca15273df0546962e32184eee3e48d4",
+      "bytes": 6001,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/phase2/soak-linux.json",
+      "sha256": "9cf616cef0aa079a28f893f01ccc7b89bb5c5e003c74ea70bc5ed2c0806fde54",
+      "bytes": 888,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/phase2/soak-linux.jsonl",
+      "sha256": "92966f6befb2df00ffb3f6369857e87e397179afff74183d9111210d753754e2",
+      "bytes": 115118,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/phase2/benchmark-linux.json",
+      "sha256": "2650ba149c026bf3ed7ae424809204cd7e91b8d30b610a07902bc8b6d70c8125",
+      "bytes": 792793,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    },
+    {
+      "path": "evidence/agent/ci-0530488/full/browser/agent/concurrency.json",
+      "sha256": "4b8ed8053bcaa554ba394575bb42c20beb69afbc190a7ed2a29450a5b2d1d0be",
+      "bytes": 1608,
+      "scope": "Final full green CI run45864277407;tested merge1f59be05,head0530488"
+    }
+  ],
+  "note": "Local SHA256 bookkeeping is not independent custody or security certification",
+  "retained_failure_receipts": [
+    {
+      "path": "evidence/agent/failure-ed5cce3-browser.xml",
+      "run": 45856138311,
+      "status": "FAIL: preserved before redirect correction"
+    }
+  ],
+  "latest_measurement_source": "05304886c5e4d871c5dbca0c61c496e996fe7ac9",
+  "corrected_measurement_run": 45864267717,
+  "final_full_ci_run": 45864277407,
+  "cancelled_duplicate_runs": [
+    45862894524,
+    45864267687
+  ],
+  "final_ci_status": "SUCCESS",
+  "tested_pull_request_merge": "1f59be05ab65a38c75a3b510785bd6904aef05c5",
+  "rust_job_id": 140064968426
+}

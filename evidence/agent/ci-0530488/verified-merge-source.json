@@ -1,0 +1,332 @@
+{
+  "source_head": "05304886c5e4d871c5dbca0c61c496e996fe7ac9",
+  "tested_merge": "1f59be05ab65a38c75a3b510785bd6904aef05c5",
+  "run": 45864277407,
+  "source_files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "git_blob_oid": "1836b9bc25d3832ab2e82b85674b15576961b0e6"
+    },
+    {
+      "path": ".github/workflows/runtime-regressions.yml",
+      "git_blob_oid": "23c6d41c0a97edcbbb6d2b4b11d0a20808930573"
+    },
+    {
+      "path": "aerobrowse/__init__.py",
+      "git_blob_oid": "30a6e64ea8f3a60fd2c109deecf74211a7984eca"
+    },
+    {
+      "path": "aerobrowse/actions.py",
+      "git_blob_oid": "29d0169217eacbbca7a4d395f6a7cc0760047771"
+    },
+    {
+      "path": "aerobrowse/benchmark.py",
+      "git_blob_oid": "4fcef6f5b94ee401475177fe2e593d5e3c5d9215"
+    },
+    {
+      "path": "aerobrowse/cdp_broker.py",
+      "git_blob_oid": "a3eace6b339f328ad69315ae02da691572f17892"
+    },
+    {
+      "path": "aerobrowse/cli.py",
+      "git_blob_oid": "56725509bedde989b6c326c5a3ed40822a24d86a"
+    },
+    {
+      "path": "aerobrowse/engine.py",
+      "git_blob_oid": "9f72b86027dc574e4a7628b31addb447fa18ca88"
+    },
+    {
+      "path": "aerobrowse/errors.py",
+      "git_blob_oid": "7ace5c9cb8591e899d9475a0a36b28e8c06eeaa7"
+    },
+    {
+      "path": "aerobrowse/fidelity.py",
+      "git_blob_oid": "9683182ddaa3be4a724aca789152a682b8f403ce"
+    },
+    {
+      "path": "aerobrowse/isolation.py",
+      "git_blob_oid": "28de9f767c54a1aa5f03e0e75887fe5d867dba62"
+    },
+    {
+      "path": "aerobrowse/mcp_server.py",
+      "git_blob_oid": "02fb21da7a253b464df7e6f4235343f5591213d7"
+    },
+    {
+      "path": "aerobrowse/mcp_transport.py",
+      "git_blob_oid": "b7d27c78b015b5207632cc6a4c218a87637707cf"
+    },
+    {
+      "path": "aerobrowse/pruner.py",
+      "git_blob_oid": "1525c196ea4df88132e70f7b7d46a000f323881a"
+    },
+    {
+      "path": "aerobrowse/runtime.py",
+      "git_blob_oid": "969518cc2f4f84e57fa93fc59e869e7206ddb4fa"
+    },
+    {
+      "path": "aerobrowse/sdk.py",
+      "git_blob_oid": "19c0802dddd0c7530589d2a47733710a8a9bb925"
+    },
+    {
+      "path": "aerobrowse/security.py",
+      "git_blob_oid": "2c301e078854ea64f471316921b009d05fbd322c"
+    },
+    {
+      "path": "aerobrowse/sessions.py",
+      "git_blob_oid": "8c243dce0c4cb8bd16a9f36a30fc7aa2299d79d1"
+    },
+    {
+      "path": "aerobrowse/tokens.py",
+      "git_blob_oid": "94b6976ff6a3ec3500f45d09c0e37ee2edfaf6f9"
+    },
+    {
+      "path": "aerobrowse/turbo.py",
+      "git_blob_oid": "d675ce65086fe709da67b374bb9f29daea3985c3"
+    },
+    {
+      "path": "benchmarks/agent/__init__.py",
+      "git_blob_oid": "06343686baba392dbfd14e8a90978c58027888f9"
+    },
+    {
+      "path": "benchmarks/agent/concurrency.py",
+      "git_blob_oid": "f287132ca3d9bacc4d8e8e1ec18d253d7c1d4432"
+    },
+    {
+      "path": "benchmarks/agent/fixture.py",
+      "git_blob_oid": "78366201d51b5f9d8050ea5c3da64aad29799bb7"
+    },
+    {
+      "path": "benchmarks/agent/run.py",
+      "git_blob_oid": "9466a80c359db7e96bf35087a64552010cf00a76"
+    },
+    {
+      "path": "benchmarks/agent/workflows.py",
+      "git_blob_oid": "0e3eb1ff112bb08bdbf0feb5c25f3c9f974761f9"
+    },
+    {
+      "path": "benchmarks/phase2/__init__.py",
+      "git_blob_oid": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "benchmarks/phase2/run.py",
+      "git_blob_oid": "670eaf3f141946099dd73aa8e67d5b0a4a7f45c9"
+    },
+    {
+      "path": "benchmarks/phase2/soak.py",
+      "git_blob_oid": "2b8b02df28a2e555298640993bd77414d4756112"
+    },
+    {
+      "path": "pyproject.toml",
+      "git_blob_oid": "4a525b4254f8c077a91e30dbde4b324789476474"
+    },
+    {
+      "path": "rust_core/Cargo.lock",
+      "git_blob_oid": "7a6f731fdbc970a925b3f5bd0e2e2df295663d0b"
+    },
+    {
+      "path": "rust_core/Cargo.toml",
+      "git_blob_oid": "5bb85ec4d2b06d00930187f5e16c90183909078b"
+    },
+    {
+      "path": "rust_core/src/fidelity.rs",
+      "git_blob_oid": "2d87128114b41ce0ea47e4c71a7360deb8fafd51"
+    },
+    {
+      "path": "rust_core/src/main.rs",
+      "git_blob_oid": "b8599c239fb6ca4e9d7c4888a09577124f5505c9"
+    },
+    {
+      "path": "rust_core/src/mcp.rs",
+      "git_blob_oid": "fba8fd278739abffd08ce6a5d403af9752f4edae"
+    },
+    {
+      "path": "rust_core/src/pruner.rs",
+      "git_blob_oid": "da95478dad9c386ca078a16cc397be349b2ba296"
+    },
+    {
+      "path": "rust_core/src/security.rs",
+      "git_blob_oid": "e3168a5bf6e62cfe10dc12049200754eca14ea84"
+    },
+    {
+      "path": "rust_core/src/turbo.rs",
+      "git_blob_oid": "8d0752abe98954fb0eac6a344636cff0c5986fae"
+    },
+    {
+      "path": "tests/browser/test_action_atomicity.py",
+      "git_blob_oid": "6d9612a077526a3d38a5fe63a47b4a87e6845928"
+    },
+    {
+      "path": "tests/browser/test_agent_workflows.py",
+      "git_blob_oid": "82024f37c1875461bd3c16b3849fa004b4c2f19c"
+    },
+    {
+      "path": "tests/browser/test_authenticated_sessions.py",
+      "git_blob_oid": "44572ff7befed9b17a6aa44e985dddec84b57c41"
+    },
+    {
+      "path": "tests/browser/test_tabs_history.py",
+      "git_blob_oid": "61c8c3b47bf62dc163b3d40a24ec63fa1369dfae"
+    },
+    {
+      "path": "tests/compatibility/.gitignore",
+      "git_blob_oid": "c0012e291a2a5a1f07ba63eb4212f8369f544454"
+    },
+    {
+      "path": "tests/compatibility/angular/app.js",
+      "git_blob_oid": "75477e74e44af50b11c868ae5d4293107c4efb43"
+    },
+    {
+      "path": "tests/compatibility/build.mjs",
+      "git_blob_oid": "af5a1b246432ac1261e75f5c0a709fd992b204ed"
+    },
+    {
+      "path": "tests/compatibility/nextjs/app/layout.jsx",
+      "git_blob_oid": "90ff2ff29819431e7cc8680c87b6d35a61005a0e"
+    },
+    {
+      "path": "tests/compatibility/nextjs/app/page.jsx",
+      "git_blob_oid": "a643705718c6ab534fe5423c6d8a891b79ab49a4"
+    },
+    {
+      "path": "tests/compatibility/nextjs/package.json",
+      "git_blob_oid": "9f331c6479fffea93418fb6e25d285ca339c5626"
+    },
+    {
+      "path": "tests/compatibility/package-lock.json",
+      "git_blob_oid": "1a44cd21f93b14d1e7766aaee332cd7cdb43b4b1"
+    },
+    {
+      "path": "tests/compatibility/package.json",
+      "git_blob_oid": "d5ac545ef1dd617cab4233a77945fc447f748cb8"
+    },
+    {
+      "path": "tests/compatibility/react/app.jsx",
+      "git_blob_oid": "0edea0300714572d2af447e42b8cf449b3cc542a"
+    },
+    {
+      "path": "tests/compatibility/test_frameworks.py",
+      "git_blob_oid": "ceb4a2c79632115092954fc65023439f3673533b"
+    },
+    {
+      "path": "tests/compatibility/vue/app.js",
+      "git_blob_oid": "a37237ba5fda184a1dba580442f25d84caed36c7"
+    },
+    {
+      "path": "tests/conftest.py",
+      "git_blob_oid": "eb52d98bd9826a34efca2dcae340f94220497db9"
+    },
+    {
+      "path": "tests/mcp/conftest.py",
+      "git_blob_oid": "0d45baab0c2524f5aff323ed17df70e9ab10c743"
+    },
+    {
+      "path": "tests/mcp/test_engine_contract.py",
+      "git_blob_oid": "b1463f82ce88f70640d03b3a8535f1725926a4da"
+    },
+    {
+      "path": "tests/mcp/test_malformed_requests.py",
+      "git_blob_oid": "8d0109d1b3238fc2fd32451c1604296a3daf64a9"
+    },
+    {
+      "path": "tests/mcp/test_protocol_limits.py",
+      "git_blob_oid": "1013c5e59678077271b0cef60e3474208366777a"
+    },
+    {
+      "path": "tests/mcp/test_session_concurrency.py",
+      "git_blob_oid": "18d2a300305dfbe228f30666546d9a5393b8ac94"
+    },
+    {
+      "path": "tests/runtime/test_crash_recovery.py",
+      "git_blob_oid": "b372adfc1db551cb37408c1b467b49ac07624fab"
+    },
+    {
+      "path": "tests/runtime/test_resource_limits.py",
+      "git_blob_oid": "a303dd83d1c88e2a22ad6852742e29ad0da98af5"
+    },
+    {
+      "path": "tests/runtime/test_worker_lifecycle.py",
+      "git_blob_oid": "2bc87e832930a1e46a06996f56052b0bc75de3c2"
+    },
+    {
+      "path": "tests/security/conftest.py",
+      "git_blob_oid": "a76d1fec08a56810366f638fe851cf2419298ccf"
+    },
+    {
+      "path": "tests/security/test_address_matrix.py",
+      "git_blob_oid": "eccb4ab9979ddf08f5ee9ad8207382bdfb99b0ec"
+    },
+    {
+      "path": "tests/security/test_broker_boundary.py",
+      "git_blob_oid": "7658c0128e75b3c69a52013d66d092a477168cac"
+    },
+    {
+      "path": "tests/security/test_browser_egress.py",
+      "git_blob_oid": "df0ade3aa0454f84e7d109e72bda27ff9a14199d"
+    },
+    {
+      "path": "tests/security/test_namespace_boundary.py",
+      "git_blob_oid": "8c358025c9e284c65dbd8eb3fdf5650f3d43aca2"
+    },
+    {
+      "path": "tests/test_actions.py",
+      "git_blob_oid": "83e2812ee25c99fa3aa793aa1a4e2f8e1744a1e0"
+    },
+    {
+      "path": "tests/test_aerobrowse.py",
+      "git_blob_oid": "d8dc045bc3570a95bd494074173b0b2f30600f6e"
+    },
+    {
+      "path": "tests/test_agent_fixture.py",
+      "git_blob_oid": "d1eefd6a7493b74e8cdeb7b5a68e3c7ed78a0477"
+    },
+    {
+      "path": "tests/test_benchmark.py",
+      "git_blob_oid": "9d7fecdedaff703cd8f7a4e54a46f1a2447843c0"
+    },
+    {
+      "path": "tests/test_browser_credentials.py",
+      "git_blob_oid": "2ca55a401aba099c532dda83ff551bfc3d4df938"
+    },
+    {
+      "path": "tests/test_engine_state.py",
+      "git_blob_oid": "76b4cc11b6b11ce58f5d0c5dd6cf09fa6f59babf"
+    },
+    {
+      "path": "tests/test_extraction.py",
+      "git_blob_oid": "30d11a00a3ffee1b49faef6ea7f5991e54b9af98"
+    },
+    {
+      "path": "tests/test_extraction_edges.py",
+      "git_blob_oid": "5b5ed2fc4c5747c0efccd4386f806247b7c12eb7"
+    },
+    {
+      "path": "tests/test_interactive.py",
+      "git_blob_oid": "85c312d97b491ec8a108404b37e3d2db48380eb7"
+    },
+    {
+      "path": "tests/test_mcp.py",
+      "git_blob_oid": "591e1da6852b6ca0db103d8d792eefd574c2b24d"
+    },
+    {
+      "path": "tests/test_sdk_supervision.py",
+      "git_blob_oid": "b9000c509d9dc49ce10187f61d0871d835a08366"
+    },
+    {
+      "path": "tests/test_security.py",
+      "git_blob_oid": "cf6ae94574eea811d34ce4e47e8d49c0f1aa999b"
+    },
+    {
+      "path": "tests/test_sessions.py",
+      "git_blob_oid": "4563134fe57d97de6f18627416e4ad8d47fadbcb"
+    },
+    {
+      "path": "tests/test_tabs_validation.py",
+      "git_blob_oid": "c0957c284f0023ad469aa3bd10c899ae3cbcd119"
+    },
+    {
+      "path": "uv.lock",
+      "git_blob_oid": "53ea182ff163c70d1a69344dfd267cea9b6b330b"
+    }
+  ],
+  "all_match": true
+}

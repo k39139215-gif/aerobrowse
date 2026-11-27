@@ -1,0 +1,28 @@
+   Compiling aerobrowse v0.2.0 (C:\Users\kartik\OneDrive\Documents\ChatGPT\Verasett Design Doc\aerobrowse\rust_core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.95s
+     Running unittests src\main.rs (rust_core\target\debug\build\aerobrowse/94f04d71961c3056\out\aerobrowse-94f04d71961c3056.exe)
+
+running 4 tests
+
+thread 'pruner::tests::accessible_name_priority_and_image_text_match_static_contract' (28444) panicked at src\pruner.rs:319:9:
+assertion `left == right` failed
+  left: "<input>"
+ right: "Full name"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'pruner::tests::hidden_ancestors_and_credential_urls_do_not_leak_into_actions' (37804) panicked at src\pruner.rs:301:9:
+assertion failed: !output.contains("SECRET")
+test pruner::tests::accessible_name_priority_and_image_text_match_static_contract ... FAILED
+test pruner::tests::does_not_expose_form_values_as_actions ... ok
+test pruner::tests::hidden_ancestors_and_credential_urls_do_not_leak_into_actions ... FAILED
+test pruner::tests::measures_real_tokens_and_rejects_deep_documents ... ok
+
+failures:
+
+failures:
+    pruner::tests::accessible_name_priority_and_image_text_match_static_contract
+    pruner::tests::hidden_ancestors_and_credential_urls_do_not_leak_into_actions
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 3 filtered out; finished in 1.10s
+
+error: test failed, to rerun pass `--bin aerobrowse`

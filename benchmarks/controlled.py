@@ -1,8 +1,9 @@
 """Run the new harness against an owned local HTTP fixture, without public dependencies."""
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from threading import Thread
-from pathlib import Path
 import json
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from threading import Thread
+
 from aerobrowse.benchmark import run
 from aerobrowse.pruner import SemanticPruner
 

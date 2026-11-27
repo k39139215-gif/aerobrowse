@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="33" time="68.432" timestamp="2026-11-26T18:18:02.507437+00:00" hostname="runnervm0j63q"><testcase classname="tests.browser.test_authenticated_sessions" name="test_login_redirect_cookie_scopes_logout_and_secret_redaction" time="2.501" /><testcase classname="tests.browser.test_authenticated_sessions" name="test_host_only_cookie_and_foreign_domain_cookie_do_not_cross_hosts" time="1.788" /><testcase classname="tests.browser.test_authenticated_sessions" name="test_new_context_has_no_cookie_from_logged_in_context" time="1.503" /><testcase classname="tests.browser.test_authenticated_sessions" name="test_fetch_credentials_omit_cannot_acquire_cookie_from_host_broker" time="1.502" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[login_update_logout-sdk]" time="3.167" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[login_update_logout-mcp]" time="4.487" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[search_history_tabs-sdk]" time="2.959" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[search_history_tabs-mcp]" time="4.087" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[wizard_and_stale-sdk]" time="2.825" /><testcase classname="tests.browser.test_agent_workflows" name="test_complete_owned_task[wizard_and_stale-mcp]" time="3.995" /><testcase classname="tests.browser.test_agent_workflows" name="test_concurrent_public_sessions_complete_without_state_crossing" time="3.386" /><testcase classname="tests.browser.test_agent_workflows" name="test_enter_submits_search_and_native_required_validation" time="2.686" /><testcase classname="tests.browser.test_agent_workflows" name="test_error_document_never_reports_success" time="1.202" /><testcase classname="tests.browser.test_agent_workflows" name="test_auth_cookie_and_storage_isolation_between_real_sessions" time="2.061" /><testcase classname="tests.browser.test_dynamic_wait" name="test_wait_discovers_late_control_without_executing_it" time="1.664" /><testcase classname="tests.browser.test_dynamic_wait" name="test_wait_cannot_succeed_on_another_document" time="1.285" /><testcase classname="tests.browser.test_dynamic_wait" name="test_discovery_wait_through_supervised_sdk" time="2.785" /><testcase classname="tests.browser.test_dynamic_wait" name="test_discovery_wait_through_real_mcp" time="3.648"><failure message="TypeError: MCPBrowser.call() got multiple values for argument 'name'">site = 'http://127.0.0.1:38609'
+
+    def test_discovery_wait_through_real_mcp(site):
+        from benchmarks.agent.workflows import MCPBrowser
+    
+        browser = MCPBrowser()
+        try:
+            page = browser.fetch(site + "/form")
+            assert page["success"], page
+&gt;           result = browser.call(
+                "browser_wait", name="Update", role="button", timeout_ms=1000
+            )
+E           TypeError: MCPBrowser.call() got multiple values for argument 'name'
+
+tests/browser/test_dynamic_wait.py:78: TypeError</failure></testcase><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.remove()]" time="1.147" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.outerHTML='&lt;button onclick=window.wrong=true&gt;Replacement&lt;/button&gt;']" time="1.156" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.parentNode.prepend(el)]" time="1.156" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.hidden=true]" time="1.156" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.disabled=true]" time="1.137" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[const before=el.textContent;el.textContent='Transient';el.textContent=before]" time="1.161" /><testcase classname="tests.browser.test_action_atomicity" name="test_mutations_never_click_replacement[el.closest('body').innerHTML='&lt;button onclick=window.wrong=true&gt;Update&lt;/button&gt;']" time="1.167" /><testcase classname="tests.browser.test_action_atomicity" name="test_duplicate_names_keep_exact_identity" time="1.156" /><testcase classname="tests.browser.test_action_atomicity" name="test_focus_preparation_mutation_is_rejected" time="1.146" /><testcase classname="tests.browser.test_action_atomicity" name="test_hostile_main_world_cannot_replace_isolated_primitives" time="1.136" /><testcase classname="tests.browser.test_action_atomicity" name="test_navigation_invalidates_world" time="1.199" /><testcase classname="tests.browser.test_action_atomicity" name="test_cross_engine_generation_rejected" time="1.897" /><testcase classname="tests.browser.test_action_atomicity" name="test_keyboard_editing_preserves_identity_and_literal_values" time="1.156"><failure message="AssertionError: Backspace&#10;assert False">live = (&lt;aerobrowse.engine.AeroBrowser object at 0x7fb6901f0440&gt;, &lt;Page url='http://127.0.0.1:33773/form'&gt;)
+
+    def test_keyboard_editing_preserves_identity_and_literal_values(live):
+        browser, page = live
+        page.evaluate(
+            "document.body.innerHTML='&lt;label&gt;Editor&lt;input value=abc&gt;&lt;/label&gt;&lt;label&gt;Notes&lt;textarea&gt;&lt;/textarea&gt;&lt;/label&gt;';window.keys=[];document.querySelector('input').addEventListener('input',e=&gt;window.keys.push(e.inputType))"
+        )
+    
+        def press(label, key):
+            snapshot = browser.snapshot()
+            return browser.perform(
+                "press", target(snapshot, label), key, snapshot["generation"]
+            )
+    
+        for key in ["End", "Backspace", "&lt;", "ArrowLeft", "Delete", "Control+A", "界"]:
+&gt;           assert press("Editor", key)["success"], key
+E           AssertionError: Backspace
+E           assert False
+
+tests/browser/test_action_atomicity.py:140: AssertionError</failure></testcase><testcase classname="tests.browser.test_action_atomicity" name="test_keyboard_beforeinput_reentrancy_cannot_write_replacement" time="1.145"><failure message="AssertionError: assert 'UNSUPPORTED_CAPABILITY' == 'STALE_ACTION_ID'&#10;  &#10;  - STALE_ACTION_ID&#10;  + UNSUPPORTED_CAPABILITY">live = (&lt;aerobrowse.engine.AeroBrowser object at 0x7fb690102240&gt;, &lt;Page url='http://127.0.0.1:34157/form'&gt;)
+
+    def test_keyboard_beforeinput_reentrancy_cannot_write_replacement(live):
+        browser, page = live
+        page.evaluate(
+            "document.body.innerHTML='&lt;label&gt;Editor&lt;input&gt;&lt;/label&gt;';document.querySelector('input').onbeforeinput=function(){this.outerHTML='&lt;input id=replacement&gt;'}"
+        )
+        snapshot = browser.snapshot()
+        result = browser.perform(
+            "press", target(snapshot, "Editor"), "s", snapshot["generation"]
+        )
+&gt;       assert result["error"]["code"] == "STALE_ACTION_ID"
+E       AssertionError: assert 'UNSUPPORTED_CAPABILITY' == 'STALE_ACTION_ID'
+E         
+E         - STALE_ACTION_ID
+E         + UNSUPPORTED_CAPABILITY
+
+tests/browser/test_action_atomicity.py:157: AssertionError</failure></testcase><testcase classname="tests.browser.test_action_atomicity" name="test_keyboard_cancellation_prevents_edit" time="0.839"><failure message="playwright._impl._errors.Error: Page.evaluate: TypeError: Cannot read properties of null (reading 'preventDefault')&#10;    at document.querySelector.onbeforeinput (eval at evaluate (:370:30), &lt;anonymous&gt;:1:117)&#10;    at UtilityScript.evaluate (&lt;anonymous&gt;:377:18)&#10;    at UtilityScript.&lt;anonymous&gt; (&lt;anonymous&gt;:1:44)">live = (&lt;aerobrowse.engine.AeroBrowser object at 0x7fb6902a6ab0&gt;, &lt;Page url='http://127.0.0.1:37255/form'&gt;)
+
+    def test_keyboard_cancellation_prevents_edit(live):
+        browser, page = live
+&gt;       page.evaluate(
+            "document.body.innerHTML='&lt;label&gt;Editor&lt;input value=abc&gt;&lt;/label&gt;';document.querySelector('input').onbeforeinput=e=&gt;e.preventDefault()"
+        )
+
+tests/browser/test_action_atomicity.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py:16876: in evaluate
+    self._sync(
+.venv/lib/python3.12/site-packages/playwright/_impl/page.py:894: in evaluate
+    return await self._main_frame.evaluate(expression=expression, arg=arg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/frame.py:380: in evaluate
+    result = await self._channel.evaluateExpression(
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:398: in _mapped
+    return mapper(await awaitable)
+                  ^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:387: in finish
+    raise e from None
+.venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py:352: in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;playwright._impl.utils.zones.Zone object at 0x7fb683815af0&gt;
+func = &lt;function ChannelOwner._wrap_api_call.&lt;locals&gt;.finish.&lt;locals&gt;.&lt;lambda&gt; at 0x7fb683811120&gt;
+
+    async def run_async(self, func: Callable[[], Awaitable[R]]) -&gt; R:
+        # Python: run() of an async function. The coroutine runs when it is awaited,
+        # so the zone must be current while it is awaited, not while it is created.
+        token = _async_local_storage.set(self)
+        try:
+&gt;           return await func()
+                   ^^^^^^^^^^^^
+E           playwright._impl._errors.Error: Page.evaluate: TypeError: Cannot read properties of null (reading 'preventDefault')
+E               at document.querySelector.onbeforeinput (eval at evaluate (:370:30), &lt;anonymous&gt;:1:117)
+E               at UtilityScript.evaluate (&lt;anonymous&gt;:377:18)
+E               at UtilityScript.&lt;anonymous&gt; (&lt;anonymous&gt;:1:44)
+
+.venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py:58: Error</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,282 @@
+{
+  "implementation_revision": "8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d",
+  "limitations": [
+    "Self-collected evidence,not independent custody",
+    "Historical failing receipts remain explicitly historical",
+    "Full engineering CI/soak passed; SonarCloud and original capability gaps remain open"
+  ],
+  "files": {
+    "source-8db91bf.json": {
+      "bytes": 17958,
+      "sha256": "98c4c9a7059c8e0aab81731f06fdb22669f9abdcd80fc10b17dd1d4b6432ed9d"
+    },
+    "verification-8db91bf.json": {
+      "bytes": 4021,
+      "sha256": "4b28e2376bde30e5209400ea7f73e77db2f1f02b1075200b1eb070b3778eae72"
+    },
+    "extraction-quality-8db91bf.json": {
+      "bytes": 9650,
+      "sha256": "76f9db296f89fb91c73d4854b2a22e493afc54b53252bb96b8604f9be4f27c1f"
+    },
+    "wheel-offline-8db91bf.json": {
+      "bytes": 160,
+      "sha256": "9df9831a3db21f08f29eb5ec081116e05f8181c5f88e8f4dd62fb078b63d32d9"
+    },
+    "python-8db91bf.xml": {
+      "bytes": 41609,
+      "sha256": "183687091764d8974d5218b29e6b9741fcc429b9039cbc871dd4264d64e54957"
+    },
+    "native-contract-8db91bf.xml": {
+      "bytes": 2810,
+      "sha256": "baea7d5e7a7c9148f92c6384713828dc456a4a28a35cd238f070fedfa52d346e"
+    },
+    "sonar-8db91bf.json": {
+      "bytes": 159302,
+      "sha256": "0d051685858be61a6d98efccb14fba59531302f0bfcf5e412674a962b1f43bd7"
+    },
+    "rust-pruner-red.txt": {
+      "bytes": 1479,
+      "sha256": "bb286117bf06e02ac4a4ca9a5361a674275abe9a5cfa3ab9541deac8b0a7bc22"
+    },
+    "rust-clippy-8db91bf.txt": {
+      "bytes": 73,
+      "sha256": "9bc06bd745722acc4fcc26800a3353cbd05b5f7d55c01fb7b7729bc1b282b644"
+    },
+    "rust-tests-8db91bf.txt": {
+      "bytes": 918,
+      "sha256": "1898aca8efae544917bef4567ab78ad4ec974c1cc5b9c4703aaad15e5c766988"
+    },
+    "rust-release-8db91bf.txt": {
+      "bytes": 63,
+      "sha256": "9c9dd6b95218a28a5181d2c911b9e3c9a24089d4c4575c7494db83d9ea4522ef"
+    },
+    "package-8db91bf.txt": {
+      "bytes": 18144,
+      "sha256": "d7f827a802dc5710b8c53fb386d2dec74ae818e14131833e1f05eeabc059975a"
+    },
+    "ci-8db91bf/run.json": {
+      "bytes": 4377,
+      "sha256": "0050afafab42bfe2e19c186dd9c7ecba8ee6eda0f7b88123eafd3dc8d37526e3"
+    },
+    "ci-8db91bf/agent/concurrency.json": {
+      "bytes": 1595,
+      "sha256": "6b655fabe37325da2118988fdf82a6e40ac38af8685729f26be874d7d9a62f04"
+    },
+    "ci-8db91bf/agent/quick-workflows.xml": {
+      "bytes": 4817,
+      "sha256": "6f9f4dccd5b556748faf712458fcbfa48bad8f554d14e5e0b852df67bc41da8d"
+    },
+    "ci-8db91bf/developer/shared-browser-load.json": {
+      "bytes": 5720,
+      "sha256": "9e7271fa99bd34bb2690ca61c5190d92e5d99665e1b334f27c1dcf61d560a467"
+    },
+    "ci-8db91bf/phase2/benchmark-linux.json": {
+      "bytes": 792543,
+      "sha256": "830ce6d7192bd36864d11d38f07a95cbcca4b455dd3d676ce9f98570aa065ee7"
+    },
+    "ci-8db91bf/phase2/runtime-boundary.xml": {
+      "bytes": 6277,
+      "sha256": "cb36ae5b817137e2bc7372de06f3df10b1876ca49e0ee6d7198b401216f8adc9"
+    },
+    "ci-d4fed85/agent/concurrency.json": {
+      "bytes": 1606,
+      "sha256": "dda26a859e4e3d11a47baf1a4a89a16c1f2532d44e474f20f90af27ddaf282c8"
+    },
+    "ci-d4fed85/agent/quick-workflows.xml": {
+      "bytes": 4817,
+      "sha256": "954d688165d43bec917bb463be639e8d04bde79d14f4cc9de597eca09e70df0b"
+    },
+    "ci-d4fed85/developer/shared-browser-load.json": {
+      "bytes": 5714,
+      "sha256": "d1158b99f31874f0e4d4327306c02bdc790604757e442bbd56fea8d607508ff9"
+    },
+    "ci-d4fed85/phase2/benchmark-linux.json": {
+      "bytes": 792897,
+      "sha256": "359e8f6bac35410f9c1ac2402a5cda646280515f0c50921d0cea0b5784c9e16e"
+    },
+    "ci-d4fed85/phase2/runtime-boundary.xml": {
+      "bytes": 8874,
+      "sha256": "836cd8de248c09714ff928b6655a90a4095ef8c17a40f0acadb309ce2f7c0c18"
+    },
+    "red-07b3a17/agent/quick-workflows.xml": {
+      "bytes": 10554,
+      "sha256": "4c0e02af7650b76c623719f9d83b277ed4be0f6247f75c3811a81087a8283295"
+    },
+    "failed-capacity-e0e4a1d/failed-log.txt": {
+      "bytes": 6309,
+      "sha256": "bb0376b4615cbf66a9ec9f8c6fc39a3d1fe208ebd025fabda982d0e9e82f7129"
+    },
+    "full-d4c2996-run.json": {
+      "bytes": 36877,
+      "sha256": "b73c4ca954ccdf2c351a584fda9fa0b1c318685b4c9a3cb6a0faf1d5d8b51c42"
+    },
+    "pr2-source-binding.json": {
+      "bytes": 153,
+      "sha256": "269b65e1254f65ab7cb44efc43c221f1567468f24dec45d50eedcd5a75293077"
+    },
+    "pr2-merge-source-verification.json": {
+      "bytes": 222,
+      "sha256": "d298c5ce863bcceafa05e3e00a2e28d0bc2b10cd286b75b843a64acc12fbc6be"
+    },
+    "wheel-source-match-8db91bf.json": {
+      "bytes": 3905,
+      "sha256": "8a311e8e83b485970bc316817c93134af44baf1d7247633ee220761dc3fdcbf5"
+    },
+    "verify.py": {
+      "bytes": 5784,
+      "sha256": "236fb347db241ab3f6e52b16feaa39c90e5cd70efd726d5c9d6378ef3708edcf"
+    },
+    "full-8db91bf/python-summary.json": {
+      "bytes": 1027,
+      "sha256": "a48d39d54da00032e93ade910f650a31bf411128924bfe8db8ee3f8280fd575f"
+    },
+    "full-8db91bf/python/python-ubuntu-24.04-3.11/ci-python.xml": {
+      "bytes": 40885,
+      "sha256": "9ee16ee92820f59e6f46c37b0738a6bb85d70f7e1860fe894a3aef1fb986afb3"
+    },
+    "full-8db91bf/python/python-ubuntu-24.04-3.12/ci-python.xml": {
+      "bytes": 40887,
+      "sha256": "4284ec2ebf068c5d8398b508977f02fd0cd77e5c04a2b80066e707d76df385c3"
+    },
+    "full-8db91bf/python/python-ubuntu-24.04-3.13/ci-python.xml": {
+      "bytes": 40886,
+      "sha256": "26e54f23beff2d0eaa0f145a8160d7af771263ae319318ce9bbfefcbe845bc60"
+    },
+    "full-8db91bf/python/python-ubuntu-24.04-3.14/ci-python.xml": {
+      "bytes": 40887,
+      "sha256": "50d54db31749e23869d3f5d4d90c4e0c50cf435015a3a849ebe960a469179d5b"
+    },
+    "full-8db91bf/python/python-windows-latest-3.11/ci-python.xml": {
+      "bytes": 40617,
+      "sha256": "aac24cfc9df01dfe2822ddac4bdf914a511cc659a1695166e435a6693304985b"
+    },
+    "full-8db91bf/python/python-windows-latest-3.12/ci-python.xml": {
+      "bytes": 40617,
+      "sha256": "5a5ab606302af5162d6250ee5cf402051751001b674d64fe11dbfabe1053211b"
+    },
+    "full-8db91bf/python/python-windows-latest-3.13/ci-python.xml": {
+      "bytes": 40617,
+      "sha256": "d43d1379b35ee3acd53dfa2ae49df2a5ef283338ad329ec83df3decd2bf321a6"
+    },
+    "full-8db91bf/python/python-windows-latest-3.14/ci-python.xml": {
+      "bytes": 40618,
+      "sha256": "e0daee7d576e8983bc6fb5ede8a39baca2539c74f5467fe466d59f0d56badede"
+    },
+    "full-8db91bf/dependencies/ci-pip-audit.json": {
+      "bytes": 6528,
+      "sha256": "53924096502852b5650390c4b10a8a22411ed138ece9777a0b5fe1d33441c3e6"
+    },
+    "full-8db91bf/dependencies/pip-audit.json": {
+      "bytes": 6587,
+      "sha256": "a091adda6844df1d8cab55361e981e40371b3fc7aea1e3a7435b5f84c018962b"
+    },
+    "ANALYZER_TRIAGE.md": {
+      "bytes": 1474,
+      "sha256": "71c5ca64d11a1932661cbf119e3341983e7345fda60f78232d0bcf6148fcb8de"
+    },
+    "sonar-quality-gate-8db91bf.json": {
+      "bytes": 1201,
+      "sha256": "f2699b5cd987dfc5bd46389f09a637aa01acf756d668bb6e5d9d29d0bb078ea9"
+    },
+    "full-8db91bf/final-run.json": {
+      "bytes": 36877,
+      "sha256": "3b9f575a9aa4633f7d7d6756317c7abbe58d9e32dcf0a6b3b6bdcb20b40dd5c3"
+    },
+    "full-8db91bf/rust-ci-log.txt": {
+      "bytes": 196304,
+      "sha256": "f850e90af580d2562dfade7480b99505b40ed0406661f32d0a4732fea5c17222"
+    },
+    "full-8db91bf/browser/ci-browser.xml": {
+      "bytes": 10332,
+      "sha256": "de23fc469e8e8ba33783e40264ec22ddec4d35d51a22c52c5f57cba9f7899e60"
+    },
+    "full-8db91bf/browser/phase2/ci-runtime-kernel.xml": {
+      "bytes": 6277,
+      "sha256": "a9db7b7e6116d8bfe50483d63be3dde291d04aa0b0d6855074f672ad70b6f810"
+    },
+    "full-8db91bf/browser/phase2/benchmark-linux.json": {
+      "bytes": 792498,
+      "sha256": "d91c9c11f68ecb29225434bacced2b855092c498b2d865b11793e43ff0424ec6"
+    },
+    "full-8db91bf/browser/phase2/soak-linux.json": {
+      "bytes": 889,
+      "sha256": "55a722ac983da88b74e3bda77216ff899379a4dc1799f0247691a61d39b9794c"
+    },
+    "full-8db91bf/browser/phase2/soak-linux.jsonl": {
+      "bytes": 163115,
+      "sha256": "e94c5561bee94be0e713962f7e0a2cf951c6d3fa6cc4b161b69f722ccc62a8b7"
+    },
+    "full-8db91bf/browser/agent/concurrency.json": {
+      "bytes": 1602,
+      "sha256": "65307807bd785967cf1c01ecf42f4afc998e73978bf6893870d6883e2530122c"
+    },
+    "full-8db91bf/browser/agent/model-evaluation.json": {
+      "bytes": 404,
+      "sha256": "e8c80ec53d244b2753d5cc66c042637972001590d1fcbf2b7a263e4ebd9ee6f3"
+    },
+    "full-8db91bf/browser/developer/shared-browser-load.json": {
+      "bytes": 5724,
+      "sha256": "e06f4b113e47dcd951ecabe1c87e15afef8c4d7341c9baa0b06564d8b73ea2ac"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-css.json": {
+      "bytes": 78,
+      "sha256": "e06a4f2969f00e8900149ab7d904a46f6bb95ebb744ac1b31909ad83959a68c4"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-download.json": {
+      "bytes": 83,
+      "sha256": "adcf3c42349ada4c35a0aae034ca56a1cf8edbfd2f410283c3b18561740121a3"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-fetch.json": {
+      "bytes": 80,
+      "sha256": "560172900e24023c26af4c5b4ebaffca5c0512ec6f1a39feb61d3db55a815d34"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-iframe.json": {
+      "bytes": 81,
+      "sha256": "32412eb372dce74716c0b725886f833874a5b4c42412c0e650a3176f721ec9c6"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-image.json": {
+      "bytes": 80,
+      "sha256": "39687d79f01cb5af1f685d9aeaa999f5340f9402d4fef30cb7ae51748377fc5c"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-popup.json": {
+      "bytes": 80,
+      "sha256": "2e8ecedfdee96338890af59b1b197237bcb66f527e2e6ce4cedbcd8caa02c9a8"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-serviceworker.json": {
+      "bytes": 88,
+      "sha256": "f25037e1003465c6f794e4f814c00a25f0f16be843911e9ef48a4bbf4150f0cf"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-webrtc.json": {
+      "bytes": 81,
+      "sha256": "6f708d2ba5402ae94ac09df3bbfa6e2afae5de28a1773c631a261cafbca5ec21"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-websocket.json": {
+      "bytes": 84,
+      "sha256": "d5c7805a653f1a690c81d999b590f6423a94aefebacd4b8890ed7d64dbdfa23c"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-worker.json": {
+      "bytes": 81,
+      "sha256": "f1f0f3162f62ed9a145f7568db5ee43381b1ae150913358aae22a0cf2d04a067"
+    },
+    "full-8db91bf/browser/phase2/runtime/egress-xhr.json": {
+      "bytes": 78,
+      "sha256": "fc24bcf6d735c6365b39dd0344882c8f79c497c7558178a730a02a658d1e89e8"
+    },
+    "full-8db91bf/browser/phase2/runtime/namespace-processes.json": {
+      "bytes": 10678,
+      "sha256": "e0f99175c7323fd7dd9a74b01bab48b694591c81f18f947766400a978f257147"
+    },
+    "full-8db91bf/browser/phase2/runtime/private-tmpfs.json": {
+      "bytes": 174,
+      "sha256": "d9bd4289b4246444ce1ba6fc3a6ac66e19ee12647d21c342799422726b4a3db7"
+    },
+    "full-8db91bf/browser/phase2/runtime/route-bypass.json": {
+      "bytes": 52,
+      "sha256": "9ea82089b407ed306758f4bd5ad38786396f4a371e68f21246268f83c7257ca1"
+    },
+    "full-8db91bf/browser/phase2/runtime/webrtc-udp.json": {
+      "bytes": 81,
+      "sha256": "758c499f36d59912b1f578388734d661c46f92c4cf443e08d3f321cfa7b4ea53"
+    }
+  }
+}

@@ -9,7 +9,7 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import TimeoutError as FutureTimeout
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from urllib.parse import SplitResult, urljoin, urlsplit, urlunsplit
 
 import idna
@@ -234,6 +234,8 @@ class Response:
     status: int
     headers: dict[str, str]
     body: bytes
+    # Populated only by the private Chromium broker path. Never log cookie values.
+    set_cookies: tuple[str, ...] = field(default=(), repr=False)
 
 
 class SafeTransport:
@@ -249,12 +251,45 @@ class SafeTransport:
         body: bytes = b"",
         follow_redirects: bool = True,
     ) -> Response:
+        return self._request(url, method, headers, body, follow_redirects, False)
+
+    def _browser_request(
+        self,
+        url: str,
+        *,
+        method: str = "GET",
+        headers: dict[str, str] | None = None,
+        body: bytes = b"",
+    ) -> Response:
+        """One pinned hop using Chromium-owned cookies, never a transport cookie jar.
+
+        Call only with intercepted Chromium request headers. Chromium chooses cookies
+        for each redirect and processes Set-Cookie using its own scope/SameSite rules.
+        Authorization challenges and manually supplied credentials are unsupported.
+        """
+        return self._request(url, method, headers, body, False, True)
+
+    def _request(
+        self,
+        url: str,
+        method: str,
+        headers: dict[str, str] | None,
+        body: bytes,
+        follow_redirects: bool,
+        browser_credentials: bool,
+    ) -> Response:
         self._check_request(method, body)
-        safe_headers = self._safe_request_headers(headers)
+        safe_headers = self._safe_request_headers(headers, browser_credentials)
         deadline = time.monotonic() + self.policy.limits.timeout
         try:
             return self._follow_request(
-                url, method, safe_headers, body, deadline, follow_redirects
+                url,
+                method,
+                safe_headers,
+                body,
+                deadline,
+                follow_redirects,
+                browser_credentials,
             )
         except TimeoutError as exc:
             raise AeroError("TIMEOUT", "Network operation timed out") from exc
@@ -268,12 +303,24 @@ class SafeTransport:
             raise AeroError("INVALID_REQUEST", "Unsupported HTTP method")
 
     @staticmethod
-    def _safe_request_headers(headers: dict[str, str] | None) -> dict[str, str]:
+    def _safe_request_headers(
+        headers: dict[str, str] | None, browser_credentials: bool = False
+    ) -> dict[str, str]:
         safe = {
             "Accept": "text/html,application/xhtml+xml,*/*;q=0.5",
             "Accept-Encoding": "identity",
         }
         permitted = {"accept", "accept-language", "content-type", "user-agent"}
+        if browser_credentials:
+            permitted |= {
+                "cookie",
+                "origin",
+                "referer",
+                "sec-fetch-site",
+                "sec-fetch-mode",
+                "sec-fetch-dest",
+                "sec-fetch-user",
+            }
         for key, value in (headers or {}).items():
             if key.lower() not in permitted:
                 continue
@@ -297,10 +344,13 @@ class SafeTransport:
         body: bytes,
         deadline: float,
         follow_redirects: bool,
+        browser_credentials: bool = False,
     ) -> Response:
         for hop in range(self.policy.limits.redirects + 1):
             target = self.policy.validate(url, self._remaining(deadline))
-            result = self._exchange(target, method, headers, body, deadline, hop)
+            result = self._exchange(
+                target, method, headers, body, deadline, hop, browser_credentials
+            )
             if result.status not in {301, 302, 303, 307, 308} or not follow_redirects:
                 return result
             url = result.headers["location"]
@@ -316,6 +366,7 @@ class SafeTransport:
         body: bytes,
         deadline: float,
         hop: int,
+        browser_credentials: bool = False,
     ) -> Response:
         conn = _PinnedConnection(target, max(0.001, deadline - time.monotonic()))
         watchdog = threading.Timer(max(0.001, deadline - time.monotonic()), conn.abort)
@@ -332,7 +383,9 @@ class SafeTransport:
             response = conn.getresponse()
             if conn.expired:
                 raise AeroError("TIMEOUT", DEADLINE_MESSAGE)
-            return self._response(target, response, conn, deadline, hop)
+            return self._response(
+                target, response, conn, deadline, hop, browser_credentials
+            )
         except (OSError, http.client.HTTPException) as exc:
             if conn.expired or time.monotonic() >= deadline:
                 raise AeroError("TIMEOUT", DEADLINE_MESSAGE) from exc
@@ -348,16 +401,28 @@ class SafeTransport:
         conn: _PinnedConnection,
         deadline: float,
         hop: int,
+        browser_credentials: bool = False,
     ) -> Response:
         headers = {
             key.lower(): value
             for key, value in response.getheaders()
             if key.lower() not in {"set-cookie", "authorization", "proxy-authorization"}
         }
+        set_cookies = (
+            tuple(response.headers.get_all("Set-Cookie", []))
+            if browser_credentials
+            else ()
+        )
+        if sum(len(value) for value in set_cookies) > 16384 or any(
+            "\r" in value or "\n" in value or "\x00" in value for value in set_cookies
+        ):
+            raise AeroError("INVALID_RESPONSE", "Invalid cookie response headers")
         if response.status in {301, 302, 303, 307, 308}:
-            return self._redirect_response(target, response, headers, deadline, hop)
+            return self._redirect_response(
+                target, response, headers, deadline, hop, set_cookies
+            )
         body = self._read_body(response, conn, deadline)
-        return Response(target.url, response.status, headers, body)
+        return Response(target.url, response.status, headers, body, set_cookies)
 
     def _redirect_response(
         self,
@@ -366,6 +431,7 @@ class SafeTransport:
         headers: dict[str, str],
         deadline: float,
         hop: int,
+        set_cookies: tuple[str, ...] = (),
     ) -> Response:
         location = response.getheader("Location")
         if not location:
@@ -376,7 +442,7 @@ class SafeTransport:
             urljoin(target.url, location), max(0.001, deadline - time.monotonic())
         )
         headers["location"] = validated.url
-        return Response(target.url, response.status, headers, b"")
+        return Response(target.url, response.status, headers, b"", set_cookies)
 
     def _read_body(
         self,

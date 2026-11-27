@@ -1,0 +1,17 @@
+{
+  "pr": 1,
+  "head": "943ca57e9ef8ef5c4993a0aff25a8b8539e42713",
+  "base": "44f3e73409d3f0c4e6e376f0c98198abd00ccc0f",
+  "working_tree_before": "clean",
+  "python": {
+    "passed": 67,
+    "skipped": 4,
+    "duration_seconds": 13.71,
+    "platform": "Windows Python 3.12"
+  },
+  "rust": {
+    "passed": 5,
+    "toolchain": "stable-x86_64-pc-windows-gnullvm"
+  },
+  "branch": "fix/phase2-adversarial-validation"
+}

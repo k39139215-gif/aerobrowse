@@ -1,5 +1,11 @@
 # AeroBrowse remediation audit
 
+Phase-two superseding evidence and open gates: [PHASE2_AUDIT.md](PHASE2_AUDIT.md),
+[ENGINEERING_REPORT.md](ENGINEERING_REPORT.md), and [SECURITY_REVIEW_PACKAGE.md](SECURITY_REVIEW_PACKAGE.md).
+Current release recommendation: NOT_PRODUCTION_READY. Earlier receipts below are
+historical and do not prove later runtime changes.
+
+
 Baseline: `44f3e73409d3f0c4e6e376f0c98198abd00ccc0f`, inspected 2026-11-26.
 Inventory: `evidence/baseline-inventory.txt`. All tracked source, tests, configuration,
 examples, notebook cells, documentation, assets and historical benchmark data were inspected.
@@ -36,7 +42,7 @@ division and are not tokenizer evidence.
 | EXT-01 | P2 | Both pruners | Iframes discarded, tables flattened, recursive depth unbounded, hidden controls exposed | Bounded semantic walk, table/header metadata, explicit embedded-content limitations |
 | MET-01 | P2 | CLI, benchmark scripts, README, metadata | Characters labelled tokens; fixed RAM/speed/compatibility claims without reproducible evidence | Actual versioned tokenizers, measured harness, withdraw unsupported claims |
 | CI-01 | P2 | .github/workflows/ci.yml, manifests | No Rust lint, Python types/lint/security checks; live-site tests; unbounded dependencies/no locks; workflow-wide write permission | Deterministic fixtures, least privilege, locks, checks and artifacts |
-| API-01 | P2 | examples/quickstart_python.py | Imports nonexistent AeroEngine | Correct SDK example and verify import path |
+| API-01 | P2 | examples/quickstart_python.py | Baseline audit identified an import of a nonexistent AeroEngine; current tracked quickstart imports the public AeroBrowser SDK | Resolved in current source; retain a smoke check so the documented entrypoint stays valid |
 
 ## Risks, not confirmed vulnerabilities
 
@@ -171,3 +177,40 @@ passed. Local Windows Python: 67 passed, 4 Linux-only skips. Save receipts under
 evidence/ci-384ae90.json, evidence/ci-384ae90-browser/ and evidence/sonar-384ae90.json.
 Final evidence/documentation commit does not change tested source. Production
 acceptance gaps remain as listed in ENGINEERING_REPORT.md; no merge authorized.
+
+## Agent workflow continuation findings
+
+- P1 confirmed: Playwright route() resumes redirect hops without invoking the host
+  broker again. Auth form303 therefore attempted direct blocked connection and
+  failed. Files:fidelity.py. Fixed with per-page CDP Fetch every-hop interception;
+  owned SDK/MCP login, multiple Set-Cookie, origin/path and logout regressions
+  passed on Linux at cecf4da and again latest-source3e1d399 focused run.
+- P1 confirmed: Chromium error documents could be extracted with success=true after
+  an action navigation failed. Fixed by rejecting non-HTTP live document URLs;
+  error-document regression added, awaiting full current-source verification.
+- P1 confirmed: Public SDK bypassed worker process quotas. Normal import and CLI
+  now use sdk.py, bounded ProcessWorker, kernel resource pools and deadlines.
+  New real timeout regression reproduced a closed-pipe race; fixed and covered.
+- P2 confirmed: token counts omitted live action/session envelope. Separate canonical
+  JSON output measurement now includes final live metadata; model harness counts
+  complete serialized MCP response content and structuredContent together.
+- P2 confirmed: ordered lists, nested tables, wrapped labels and empty documents
+  lost structure or names; targeted extraction regressions cover repaired cases.
+
+No external security certification is claimed. Native Rust browser parity is
+implemented for the tested Linux configuration; Windows/macOS remain unsupported.
+
+
+## Confirmed developer continuation findings
+
+| ID | Priority | Affected file/root cause | Impact and remediation | Evidence |
+|---|---|---|---|---|
+| DEV-01 | P1 | sessions.py admitted full per-session budgets without aggregate reservation | Competing256-task browsers could fail under a256-task pool; reserve declared task/memory budgets and return SESSION_RESOURCE_LIMIT | Failed shared load e0e4a1d; admission/kernel regressions; ci-8db91bf |
+| DEV-02 | P1 | runtime.py checked only session PID counters | Aggregate exhaustion surfaced as generic navigation failure; inspect both session/pool PID/OOM counters and retire | Actual kernel aggregate denial test;40 passing runtime tests |
+| DEV-03 | P1 | tokens.py used tiktoken default network-backed cache in fresh worker temp | Blocked navigation could wait on tokenizer download; bundle verified licensed vocabularies,fail explicitly on corruption | Offline socket-denial subprocess tests for3 encodings; built-wheel check |
+| DEV-04 | P1 | Rust pruner.rs accepted hidden-ancestor actions and used raw unnamed href label | Hidden text/URL credentials could reach snapshots; ancestor/descendant filtering,safe names,sanitized relative URL resolution | Original2 native regressions failed;9 native unit tests and10 real Chromium/security tests now pass |
+| DEV-05 | P2 | agent benchmark CLIs accepted arbitrary output path | Operator/agent could overwrite unrelated files; use confined exclusive evidence writer |4 entrypoint path regressions; shared writer traversal/no-overwrite tests |
+| DEV-06 | P2 | pruner.py omitted rowgroup association and telemetry fallback denominator used only navigation | Missing table relationships and rates above1; scoped associations,bounded metadata and combined navigation/action opportunities | Table/metric regressions and44 explicit corpus checks |
+| DEV-07 | P2 | rust_core dependency graph includes unmaintained fxhash | cargo audit reports RUSTSEC-2025-0057 with no fixed upgrade available; assess use and replace when compatible remediation exists | cargo audit warning in run46006851015 |
+
+Current native receipts are under evidence/native/0450352; run46006841440 passes10 native Chromium tests with zero skips. Full engineering run46006851015 on head0450352 passed all11 jobs, including the Python 3.11-3.14 Linux/Windows matrix, dependency and Rust checks, and the30-minute browser-worker soak. SonarCloud passes; the older46-finding inventory is historical. The soak receipt is bound to merge tree6669d2ff, counts1,168 cycles over1,801.479 seconds with zero orphan processes or occupied slots, and is not a native-Rust soak. Native Windows/macOS browser support, trusted physical input, file transfer, WebSockets, service workers and Authorization remain unsupported. Independent review remains outstanding. See ENGINEERING_REPORT.md.

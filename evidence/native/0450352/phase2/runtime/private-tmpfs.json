@@ -1,0 +1,17 @@
+{
+  "processes": [
+    10720,
+    10722,
+    10724,
+    10727,
+    10728,
+    10770,
+    10772,
+    10799,
+    10808,
+    10810,
+    10753
+  ],
+  "host_tmp_exposed": false,
+  "private_workspace": "/workspace"
+}

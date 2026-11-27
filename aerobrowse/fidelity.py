@@ -1,6 +1,5 @@
 """Chromium lifecycle with mandatory OS network isolation and host HTTP broker."""
 
-import hashlib
 import logging
 import re
 import sys
@@ -11,35 +10,15 @@ from typing import Any
 from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 
+from aerobrowse.actions import ActionContext
+from aerobrowse.cdp_broker import install as install_broker
 from aerobrowse.errors import AeroError
 from aerobrowse.isolation import IsolatedLauncher
-from aerobrowse.pruner import SemanticPruner, safe_link
+from aerobrowse.pruner import SemanticPruner
 from aerobrowse.security import NetworkPolicy, SafeTransport
+from aerobrowse.tokens import measure_output
 
 log = logging.getLogger(__name__)
-READ_EPOCH = "state => state.epoch()"
-
-# One extraction rule set; host retains actual ElementHandles, never ordinal selectors.
-EXTRACT = r"""() => Array.from(document.querySelectorAll(
- 'a[href],button,input:not([type="hidden"]),textarea,select,summary,[role="button"],[role="link"],[role="textbox"],[role="checkbox"],[role="combobox"],[role="radio"],[role="switch"],[role="menuitem"],[contenteditable="true"]'
-)).filter(el => {
- const s=getComputedStyle(el);
- return el.isConnected && el.getClientRects().length && s.display!=='none' && s.visibility!=='hidden'
-   && !el.closest('[hidden],[inert],[aria-hidden="true"]');
-})"""
-METADATA = r"""el => {
- const labelIds=(el.getAttribute('aria-labelledby')||'').split(/\s+/).filter(Boolean);
- const referenced=labelIds.map(id=>document.getElementById(id)?.textContent||'').join(' ');
- const labels=Array.from(el.labels||[]).map(l=>{const copy=l.cloneNode(true); copy.querySelectorAll('input,textarea,select,button').forEach(n=>n.remove()); return copy.textContent;}).join(' ');
- const tag=el.tagName.toLowerCase(), type=el.getAttribute('type')||'';
- const label=(el.getAttribute('aria-label')||referenced||labels||el.textContent||el.getAttribute('alt')||el.getAttribute('title')||el.getAttribute('placeholder')||'').trim();
- const role=el.getAttribute('role')||({a:'link',button:'button',textarea:'textbox',select:'combobox',summary:'button'}[tag])||(tag==='input'?(type==='checkbox'?'checkbox':type==='radio'?'radio':'textbox'):'');
- return {tag,element_type:tag,label,accessible_name:label,role,input_type:type,
- disabled:el.matches(':disabled')||el.getAttribute('aria-disabled')==='true',visible:true,
- value:null,checked:typeof el.checked==='boolean'?el.checked:null,
- href:el.getAttribute('href')||'',name:el.getAttribute('name')||'',
- attributes:{required:el.hasAttribute('required'),readonly:el.hasAttribute('readonly'),multiple:el.hasAttribute('multiple')}};
-}"""
 
 
 class FidelityEngine:
@@ -60,13 +39,14 @@ class FidelityEngine:
         self.launcher = IsolatedLauncher()
         self.pruner = SemanticPruner()
         self.generation = ""
-        self._actions: dict[str, tuple[Any, dict[str, Any]]] = {}
-        self._digest = ""
-        self._url = ""
         self._network_error: AeroError | None = None
         self._redirects = 0
-        self._observer: Any = None
-        self._epoch = 0
+        self._action_context: ActionContext | None = None
+        self._tabs: dict[str, Any] = {}
+        self._brokers: dict[Any, Any] = {}
+        self._creating_page = False
+        self._pending_pages: list[Any] = []
+        self.max_tabs = 8
 
     def _ensure_page(self) -> Any:
         if self.browser and not self.browser.is_connected():
@@ -103,19 +83,192 @@ class FidelityEngine:
                     viewport={"width": 1280, "height": 800},
                 )
                 self.current_context.set_default_timeout(5000)
-                self.current_context.route("**/*", self._broker)
                 self.current_context.route_web_socket("**/*", lambda ws: ws.close())
                 self.current_context.on("page", self._new_page)
-                self.current_page = self.current_context.new_page()
+                self.current_page = self._open_page()
             except (AeroError, PlaywrightError):
                 self.close()
                 raise
+        if self.current_page is None or self.current_page.is_closed():
+            self.current_page = self._open_page()
         return self.current_page
 
     def _new_page(self, page: Any) -> None:
-        # Popups are denied; a single active tab is the implemented contract.
-        if self.current_page is not None and page != self.current_page:
+        # Only explicit API-created blank tabs are admitted. Page-created popups
+        # remain denied even when the context already owns multiple tabs.
+        if not self._creating_page or page.opener() is not None:
             page.close()
+        else:
+            self._pending_pages.append(page)
+
+    def _open_page(self) -> Any:
+        if len(self._tabs) >= self.max_tabs:
+            raise AeroError("TAB_LIMIT", "Maximum browser tabs reached")
+        self._creating_page = True
+        try:
+            page = self.current_context.new_page()
+            self._brokers[page] = install_broker(
+                page, self._broker, self._broker_failed
+            )
+        except PlaywrightError:
+            pending, self._pending_pages = self._pending_pages, []
+            for candidate in pending:
+                if not candidate.is_closed():
+                    candidate.close()
+            raise
+        finally:
+            self._creating_page = False
+        # A concurrent noopener popup can also have no opener. Only the exact
+        # page returned by the explicit context call is admitted into the map.
+        pending, self._pending_pages = self._pending_pages, []
+        for candidate in pending:
+            if candidate != page and not candidate.is_closed():
+                candidate.close()
+        if page.is_closed():
+            raise AeroError("TAB_FAILED", "Browser rejected the new tab")
+        tab_id = uuid.uuid4().hex
+        self._tabs[tab_id] = page
+        page.on("close", lambda closed_page: self._tab_closed(tab_id, closed_page))
+        return page
+
+    def _tab_closed(self, tab_id: str, page: Any) -> None:
+        self._brokers.pop(page, None)
+        self._tabs.pop(tab_id, None)
+        if page == self.current_page:
+            self._invalidate()
+            self.current_page = None
+
+    def _tab(self, tab_id: str) -> Any:
+        if not isinstance(tab_id, str) or not re.fullmatch(r"[0-9a-f]{32}", tab_id):
+            raise AeroError("INVALID_TAB_ID", "Use an opaque tab ID from browser_tabs")
+        page = self._tabs.get(tab_id)
+        if page is None or page.is_closed():
+            raise AeroError("TAB_NOT_FOUND", "Tab does not exist in this session")
+        return page
+
+    def _active_tab_id(self) -> str | None:
+        return next(
+            (key for key, page in self._tabs.items() if page == self.current_page), None
+        )
+
+    def tabs(self) -> dict[str, Any]:
+        return {
+            "success": True,
+            "engine": "fidelity",
+            "active_tab_id": self._active_tab_id(),
+            "tabs": [
+                {"tab_id": key, "url": page.url, "active": page == self.current_page}
+                for key, page in self._tabs.items()
+                if not page.is_closed()
+            ],
+            "max_tabs": self.max_tabs,
+        }
+
+    def new_tab(self, url: str) -> dict[str, Any]:
+        try:
+            # Reject disallowed destinations before allocating any browser resources.
+            self.policy.validate(url)
+            if not self.browser:
+                self._ensure_page()
+            else:
+                page = self._open_page()
+                self._invalidate()
+                self.current_page = page
+            return self.navigate(url)
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return AeroError("TAB_FAILED", "Could not create browser tab").result()
+
+    def switch_tab(self, tab_id: str) -> dict[str, Any]:
+        try:
+            page = self._tab(tab_id)
+            self._invalidate()
+            self.current_page = page
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+
+    def close_tab(self, tab_id: str) -> dict[str, Any]:
+        try:
+            page = self._tab(tab_id)
+            self._invalidate()
+            page.close()
+            if self.current_page is None and self._tabs:
+                self.current_page = next(iter(self._tabs.values()))
+            if self.current_page is not None:
+                result = self.snapshot()
+                result["closed_tab_id"] = tab_id
+                return result
+            return {**self.tabs(), "closed_tab_id": tab_id, "tab_id": None, "url": None}
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return AeroError("TAB_FAILED", "Could not close browser tab").result()
+
+    def _history(self, direction: str) -> dict[str, Any]:
+        try:
+            if not self.current_page or self.current_page.is_closed():
+                raise AeroError("NO_ACTIVE_PAGE", "Navigate before using history")
+            page = self._ensure_page()
+            self._invalidate()
+            self._network_error = None
+            self._redirects = 0
+            # CDP distinguishes same-document history from an absent entry;
+            # Playwright returns None for both cases.
+            client = self.current_context.new_cdp_session(page)
+            try:
+                history = client.send("Page.getNavigationHistory")
+            finally:
+                client.detach()
+            target = history["currentIndex"] + (-1 if direction == "back" else 1)
+            if not 0 <= target < len(history["entries"]):
+                raise AeroError(
+                    "HISTORY_UNAVAILABLE", "No history entry in this direction"
+                )
+            self.policy.validate(history["entries"][target]["url"])
+            if direction == "back":
+                page.go_back(wait_until="domcontentloaded", timeout=20000)
+            else:
+                page.go_forward(wait_until="domcontentloaded", timeout=20000)
+            if self._network_error:
+                raise self._network_error
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            return (
+                self._network_error
+                or AeroError("NAVIGATION_FAILED", "History navigation failed")
+            ).result()
+
+    def back(self) -> dict[str, Any]:
+        return self._history("back")
+
+    def forward(self) -> dict[str, Any]:
+        return self._history("forward")
+
+    def reload(self) -> dict[str, Any]:
+        try:
+            if not self.current_page or self.current_page.is_closed():
+                raise AeroError("NO_ACTIVE_PAGE", "Navigate before reloading")
+            self._invalidate()
+            self._network_error = None
+            self._redirects = 0
+            self.current_page.reload(wait_until="domcontentloaded", timeout=20000)
+            if self._network_error:
+                raise self._network_error
+            return self.snapshot()
+        except AeroError as exc:
+            return exc.result()
+        except PlaywrightError:
+            self._invalidate()
+            return AeroError(
+                "NAVIGATION_FAILED", "Reload failed; request a fresh snapshot"
+            ).result()
+
+    def _broker_failed(self, error: AeroError) -> None:
+        self._network_error = error
 
     def _broker(self, route: Any) -> None:
         try:
@@ -129,12 +282,13 @@ class FidelityEngine:
             if self.block_heavy and request.resource_type in {"image", "media", "font"}:
                 route.abort("blockedbyclient")
                 return
-            response = self.transport.request(
+            response = self.transport._browser_request(
                 request.url,
                 method=request.method,
-                headers=request.headers,
+                # The abbreviated headers property omits security-sensitive cookies.
+                # Chromium computes credentials per destination, including redirects.
+                headers=request.all_headers(),
                 body=request.post_data_buffer or b"",
-                follow_redirects=False,
             )
             headers = {
                 k: v
@@ -148,6 +302,11 @@ class FidelityEngine:
                     "set-cookie",
                 }
             }
+            if response.set_cookies:
+                # Playwright's HAR router uses this representation for repeated
+                # Set-Cookie fields. Chromium, rather than a host-side jar, applies
+                # HttpOnly, domain/path, Secure, SameSite and expiry restrictions.
+                headers["set-cookie"] = "\n".join(response.set_cookies)
             route.fulfill(status=response.status, headers=headers, body=response.body)
         except AeroError as exc:
             self._network_error = exc
@@ -188,21 +347,13 @@ class FidelityEngine:
             return {**error.result(), "engine": "fidelity"}
 
     def _invalidate(self) -> None:
-        if self._observer is not None:
-            try:
-                self._observer.evaluate("state => state.dispose()")
-                self._observer.dispose()
-            except PlaywrightError:
-                log.debug("observer_disposal_after_navigation")
-            self._observer = None
-        for handle, _ in self._actions.values():
-            try:
-                handle.dispose()
-            except PlaywrightError:
-                log.debug("action_disposal_after_navigation")
-        self._actions.clear()
         self.generation = ""
-        self._digest = ""
+        if self._action_context is not None:
+            try:
+                self._action_context.close()
+            except PlaywrightError:
+                log.debug("action_context_close_after_navigation")
+            self._action_context = None
 
     def snapshot(self, elapsed_ms: float = 0.0) -> dict[str, Any]:
         try:
@@ -212,56 +363,36 @@ class FidelityEngine:
                 )
             page = self._ensure_page()
             self._invalidate()
-            self._observer = page.evaluate_handle("""() => {
-                let epoch=0;
-                const observer=new MutationObserver(records=>{epoch+=records.length});
-                observer.observe(document,{subtree:true,childList:true,attributes:true,characterData:true});
-                return {epoch:()=>{epoch+=observer.takeRecords().length;return epoch},dispose:()=>observer.disconnect()};
-            }""")
-            epoch = self._observer.evaluate(READ_EPOCH)
-            html = page.content()
-            if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
-                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
-            parsed = self.pruner.prune(html, base_url=page.url)
+            self._action_context = ActionContext(page)
             self.generation = uuid.uuid4().hex
-            array = page.evaluate_handle(EXTRACT)
-            properties = array.get_properties()
-            actions: list[dict[str, Any]] = []
-            try:
-                for key, handle in properties.items():
-                    element = handle.as_element()
-                    if not key.isdigit() or element is None:
-                        handle.dispose()
-                        continue
-                    metadata = element.evaluate(METADATA)
-                    metadata["href"] = safe_link(metadata["href"], page.url)
-                    aid = f"{self.generation}:{len(actions) + 1}"
-                    metadata.update(
-                        id=aid,
-                        generation=self.generation,
-                        executable=not metadata["disabled"],
-                    )
-                    self._actions[aid] = (element, metadata)
-                    actions.append(metadata)
-            finally:
-                array.dispose()
-            self._url = page.url
-            if self._observer.evaluate(READ_EPOCH) != epoch:
+            live = self._action_context.snapshot(
+                self.generation, self.policy.limits.response_bytes
+            )
+            if live.get("error"):
                 self._invalidate()
+                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
+            if not live["url"].startswith(("http://", "https://")):
                 raise AeroError(
-                    "STALE_ACTION_ID",
-                    "DOM changed during extraction; request a new snapshot",
+                    "NAVIGATION_FAILED", "Browser has no supported live HTTP document"
                 )
-            self._epoch = epoch
-            self._digest = hashlib.sha256(html.encode()).hexdigest()
+            if self._network_error:
+                raise self._network_error
+            html = live["html"]
+            if len(html.encode("utf-8")) > self.policy.limits.response_bytes:
+                self._invalidate()
+                raise AeroError("HTML_TOO_LARGE", "Rendered document exceeds limit")
+            parsed = self.pruner.prune(html, base_url=live["url"])
             parsed.update(
                 success=True,
-                url=page.url,
+                url=live["url"],
                 engine="fidelity",
-                actions=actions,
+                actions=live["actions"],
                 generation=self.generation,
                 elapsed_ms=round(elapsed_ms, 2),
+                input_mode="synthetic_dom",
+                tab_id=self._active_tab_id(),
             )
+            parsed.update(measure_output(parsed))
             return parsed
         except AeroError as exc:
             return {**exc.result(), "engine": "fidelity"}
@@ -269,7 +400,7 @@ class FidelityEngine:
             self._invalidate()
             return AeroError("SNAPSHOT_FAILED", "Browser snapshot failed").result()
 
-    def _element(self, action_id: str, generation: str | None) -> Any:
+    def _validate_action(self, action_id: str, generation: str | None) -> None:
         if not isinstance(action_id, str) or not re.fullmatch(
             r"[0-9a-f]{32}:[1-9][0-9]{0,5}", action_id
         ):
@@ -280,35 +411,8 @@ class FidelityEngine:
             raise AeroError(
                 "STALE_ACTION_ID", "Snapshot generation is no longer active"
             )
-        if action_id not in self._actions or not action_id.startswith(
-            self.generation + ":"
-        ):
+        if not action_id.startswith(self.generation + ":"):
             raise AeroError("STALE_ACTION_ID", "Action ID is no longer active")
-        page = self._ensure_page()
-        handle, metadata = self._actions[action_id]
-        changed = (
-            self._observer is None
-            or self._observer.evaluate(READ_EPOCH) != self._epoch
-            or page.url != self._url
-            or hashlib.sha256(page.content().encode()).hexdigest() != self._digest
-        )
-        current_metadata = handle.evaluate(METADATA)
-        current_metadata["href"] = safe_link(current_metadata["href"], page.url)
-        metadata_changed = any(
-            current_metadata.get(k) != v
-            for k, v in metadata.items()
-            if k not in {"id", "generation", "executable"}
-        )
-        if (
-            changed
-            or metadata_changed
-            or not handle.evaluate("el => el.isConnected")
-            or not handle.is_visible()
-        ):
-            raise AeroError("STALE_ACTION_ID", "DOM changed; request a new snapshot")
-        if handle.is_disabled() or metadata["disabled"]:
-            raise AeroError("DISABLED_ACTION", "Element is disabled")
-        return handle
 
     def perform(
         self,
@@ -318,45 +422,32 @@ class FidelityEngine:
         generation: str | None = None,
     ) -> dict[str, Any]:
         try:
-            element = self._element(action_id, generation)
+            self._validate_action(action_id, generation)
+            self._ensure_page()
             if (
                 isinstance(value, str)
                 and len(value.encode()) > self.policy.limits.body_bytes
             ):
                 raise AeroError("REQUEST_TOO_LARGE", "Action value exceeds limit")
-            self._execute_element(element, operation, value)
+            if operation in {"fill", "select", "press"} and not isinstance(value, str):
+                raise AeroError("INVALID_ARGUMENT", "Action requires a string")
+            if operation == "check" and not isinstance(value, bool):
+                raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
+            if self._action_context is None:
+                raise AeroError("STALE_ACTION_ID", "Request a current snapshot")
+            result = self._action_context.perform(
+                action_id, generation or self.generation, operation, value
+            )
+            if not result.get("success"):
+                return result
             return self.snapshot()
         except AeroError as exc:
             return exc.result()
         except PlaywrightError:
+            self._invalidate()
             return AeroError(
-                "ACTION_FAILED", "Browser action failed; inspect a new snapshot"
+                "PAGE_NAVIGATED", "Browser document changed or terminated during action"
             ).result()
-
-    @staticmethod
-    def _execute_element(element: Any, operation: str, value: Any) -> None:
-        if operation == "click":
-            element.click(timeout=5000)
-        elif operation == "fill":
-            if not isinstance(value, str):
-                raise AeroError("INVALID_ARGUMENT", "Fill requires a string")
-            element.fill(value, timeout=5000)
-        elif operation == "select":
-            element.select_option(value=value, timeout=5000)
-        elif operation == "check":
-            if not isinstance(value, bool):
-                raise AeroError("INVALID_ARGUMENT", "Check requires a boolean")
-            element.set_checked(value, timeout=5000)
-        elif operation == "press":
-            if (
-                not isinstance(value, str)
-                or len(value) > 64
-                or not re.fullmatch(r"[A-Za-z0-9+_-]+", value)
-            ):
-                raise AeroError("INVALID_ARGUMENT", "Invalid keyboard key")
-            element.press(value, timeout=5000)
-        else:
-            raise AeroError("UNSUPPORTED_OPERATION", "Operation is not implemented")
 
     def click(self, action_id: str, generation: str | None = None) -> dict[str, Any]:
         return self.perform("click", action_id, generation=generation)
@@ -388,20 +479,125 @@ class FidelityEngine:
         except PlaywrightError:
             return AeroError("ACTION_FAILED", "Scroll failed").result()
 
-    def wait(
-        self, action_id: str, generation: str | None = None, timeout_ms: int = 5000
-    ) -> dict[str, Any]:
-        try:
-            if not 1 <= timeout_ms <= 30000:
-                raise AeroError("INVALID_ARGUMENT", "Wait timeout exceeds limit")
-            self._element(action_id, generation).wait_for_element_state(
-                "visible", timeout=timeout_ms
+    @staticmethod
+    def _validate_wait(
+        action_id: str | None,
+        generation: str | None,
+        timeout_ms: int,
+        name: str | None,
+        role: str | None,
+    ) -> None:
+        if type(timeout_ms) is not int or not 1 <= timeout_ms <= 30000:
+            raise AeroError("INVALID_ARGUMENT", "Invalid wait timeout")
+        if name is None:
+            if action_id is None or role is not None:
+                raise AeroError(
+                    "INVALID_ARGUMENT", "Provide an action ID or exact accessible name"
+                )
+        elif (
+            not isinstance(name, str)
+            or not name.strip()
+            or len(name) > 512
+            or action_id is not None
+            or generation is not None
+        ):
+            raise AeroError(
+                "INVALID_ARGUMENT",
+                "Provide an action ID or bounded exact accessible name",
             )
-            return self.snapshot()
+        if role is not None and (
+            not isinstance(role, str)
+            or role
+            not in {
+                "button",
+                "link",
+                "textbox",
+                "checkbox",
+                "radio",
+                "combobox",
+                "switch",
+                "menuitem",
+            }
+        ):
+            raise AeroError("INVALID_ARGUMENT", "Unsupported discovery role")
+
+    @staticmethod
+    def _document_identity(session: Any) -> tuple[str, str | None]:
+        frame = session.send("Page.getFrameTree")["frameTree"]["frame"]
+        return frame["id"], frame.get("loaderId")
+
+    def _check_document_identity(
+        self, session: Any, identity: tuple[str, str | None]
+    ) -> None:
+        if self._document_identity(session) != identity:
+            self._invalidate()
+            raise AeroError(
+                "PAGE_NAVIGATED",
+                "Document changed during wait; request a fresh snapshot",
+            )
+
+    def _discover_control(
+        self, page: Any, session: Any, name: str, role: str | None, timeout_ms: int
+    ) -> dict[str, Any]:
+        identity = self._document_identity(session)
+        deadline = time.monotonic() + timeout_ms / 1000
+        while True:
+            self._check_document_identity(session, identity)
+            snapshot = self.snapshot()
+            if not snapshot.get("success"):
+                return snapshot
+            self._check_document_identity(session, identity)
+            matches = [
+                a["id"]
+                for a in snapshot["actions"]
+                if a["accessible_name"] == name
+                and a["executable"]
+                and (role is None or a["role"] == role)
+            ]
+            if matches:
+                snapshot["wait"] = {"matched_action_ids": matches}
+                snapshot.update(measure_output(snapshot))
+                return snapshot
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise AeroError(
+                    "WAIT_TIMEOUT",
+                    "No matching enabled control appeared before the deadline",
+                )
+            page.wait_for_timeout(min(50, remaining * 1000))
+
+    def wait(
+        self,
+        action_id: str | None = None,
+        generation: str | None = None,
+        timeout_ms: int = 5000,
+        *,
+        name: str | None = None,
+        role: str | None = None,
+    ) -> dict[str, Any]:
+        """Validate an existing ID, or discover an enabled control by exact name."""
+        try:
+            self._validate_wait(action_id, generation, timeout_ms, name, role)
+            if name is None:
+                return self.perform("wait", str(action_id), generation=generation)
+            if not self.current_page or self.current_page.is_closed():
+                raise AeroError("NO_ACTIVE_PAGE", "Navigate before waiting")
+            page = self._ensure_page()
+            session = page.context.new_cdp_session(page)
+            try:
+                return self._discover_control(page, session, name, role, timeout_ms)
+            finally:
+                try:
+                    session.detach()
+                except PlaywrightError:
+                    log.debug("wait_context_closed")
         except AeroError as exc:
             return exc.result()
         except PlaywrightError:
-            return AeroError("TIMEOUT", "Element wait timed out").result()
+            self._invalidate()
+            return AeroError(
+                "PAGE_NAVIGATED", "Document changed or browser terminated during wait"
+            ).result()
 
     def screenshot(self) -> bytes:
         if not self.current_page:
@@ -426,4 +622,7 @@ class FidelityEngine:
                         "browser_cleanup_failed", extra={"error_code": "CLEANUP_FAILED"}
                     )
         self.current_page = None
+        self._tabs.clear()
+        self._brokers.clear()
+        self._pending_pages.clear()
         self.launcher.close()

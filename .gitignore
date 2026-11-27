@@ -23,3 +23,7 @@ debug.log
 .toolchain/
 
 .pytest-*/
+
+tests/compatibility/node_modules/
+tests/compatibility/*/dist/
+tests/compatibility/nextjs/.next/
