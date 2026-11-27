@@ -39,12 +39,13 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AEROBROWSE_EVAL_MODEL: ${{ vars.AEROBROWSE_EVAL_MODEL }}
+          AEROBROWSE_MAX_CALLS: ${{ inputs.max_calls }}
         run: |
           if [ -z "$OPENAI_API_KEY" ] || [ -z "$AEROBROWSE_EVAL_MODEL" ]; then
             echo "Configure the OPENAI_API_KEY secret and AEROBROWSE_EVAL_MODEL variable before dispatch."
             exit 2
           fi
-          bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.run --max-calls "${{ inputs.max_calls }}" --output evidence/agent/model-evaluation.json
+          bash scripts/ci-in-quota.sh "$PWD/.venv/bin/python" -m benchmarks.agent.run --max-calls "$AEROBROWSE_MAX_CALLS" --output evidence/agent/model-evaluation.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
