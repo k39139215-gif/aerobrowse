@@ -100,6 +100,11 @@ remains a dependency maintenance risk.
 The native-specific Linux job ran 10 tests with zero skips. Actual-model evaluation is NOT_RUN because
 explicit credentials/model are unavailable; scripted success is not a model result.
 
+Windows/macOS native Fidelity currently remains unsupported and fails closed.
+The Rust CI matrix builds/tests both targets and contains a platform-gated
+regression asserting launch returns NETWORK_ISOLATION_UNAVAILABLE without starting
+a browser; this proves the refusal contract, not native browser support.
+
 ## Confirmed failures and remediation evidence
 
 - A repeated two-browser workload failed under the default aggregate task quota.

@@ -979,6 +979,14 @@ pub async fn run_session() -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(not(target_os = "linux"))]
+    #[tokio::test]
+    async fn unsupported_platforms_fail_closed_before_browser_launch() {
+        let result = FidelitySession::launch().await;
+        assert!(matches!(result, Err(code) if code == "NETWORK_ISOLATION_UNAVAILABLE"));
+    }
+
     #[test]
     fn shared_actions_require_exact_nodes_and_generation() {
         assert!(ACTION_RUNTIME.contains("state.nodes.get(args.id)"));

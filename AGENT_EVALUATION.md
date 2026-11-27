@@ -2,6 +2,12 @@
 
 Actual LLM-driven evaluation: **NOT_RUN**. Missing OPENAI_API_KEY and
 AEROBROWSE_EVAL_MODEL in this environment. No agent task success rate is claimed.
+An opt-in GitHub Actions workflow at `.github/workflows/agent-evaluation.yml`
+can run the same harness on a disposable isolated Linux runner. Configure the
+repository secret `OPENAI_API_KEY` and repository variable
+`AEROBROWSE_EVAL_MODEL`, then dispatch the workflow manually. Missing values
+produce an explicit NOT_RUN receipt; the workflow does not print or artifact the
+credential. This setup does not itself constitute a completed model evaluation.
 The runnable harness is `python -m benchmarks.agent.run`; it invokes OpenAI
 chat/completions with explicit model, temperature 0 and bounded tool calls against
 the actual AeroBrowse newline-stdio MCP server. No separate SDK is needed for
