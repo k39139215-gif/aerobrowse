@@ -18,6 +18,17 @@ from aerobrowse.mcp_transport import FrameError, TransportLimits, decode_frame
         json.dumps({"a": "x" * 65537}).encode(),
         json.dumps({"a": list(range(2049))}).encode(),
     ],
+    ids=[
+        "truncated-json",
+        "invalid-utf8",
+        "non-object",
+        "non-finite-number",
+        "duplicate-key",
+        "lone-surrogate",
+        "excessive-nesting",
+        "oversized-string",
+        "oversized-array",
+    ],
 )
 def test_shape_limits_precede_sdk(payload):
     with pytest.raises(FrameError):
