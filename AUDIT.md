@@ -197,7 +197,8 @@ acceptance gaps remain as listed in ENGINEERING_REPORT.md; no merge authorized.
 - P2 confirmed: ordered lists, nested tables, wrapped labels and empty documents
   lost structure or names; targeted extraction regressions cover repaired cases.
 
-No new external security certification or native Rust browser parity is claimed.
+No external security certification is claimed. Native Rust browser parity is
+implemented for the tested Linux configuration; Windows/macOS remain unsupported.
 
 
 ## Confirmed developer continuation findings
@@ -207,12 +208,9 @@ No new external security certification or native Rust browser parity is claimed.
 | DEV-01 | P1 | sessions.py admitted full per-session budgets without aggregate reservation | Competing256-task browsers could fail under a256-task pool; reserve declared task/memory budgets and return SESSION_RESOURCE_LIMIT | Failed shared load e0e4a1d; admission/kernel regressions; ci-8db91bf |
 | DEV-02 | P1 | runtime.py checked only session PID counters | Aggregate exhaustion surfaced as generic navigation failure; inspect both session/pool PID/OOM counters and retire | Actual kernel aggregate denial test;40 passing runtime tests |
 | DEV-03 | P1 | tokens.py used tiktoken default network-backed cache in fresh worker temp | Blocked navigation could wait on tokenizer download; bundle verified licensed vocabularies,fail explicitly on corruption | Offline socket-denial subprocess tests for3 encodings; built-wheel check |
-| DEV-04 | P1 | Rust pruner.rs accepted hidden-ancestor actions and used raw unnamed href label | Hidden text/URL credentials could reach snapshots; ancestor/descendant filtering,safe names,sanitized relative URL resolution | Original2 native regressions failed;8 native units now pass |
+| DEV-04 | P1 | Rust pruner.rs accepted hidden-ancestor actions and used raw unnamed href label | Hidden text/URL credentials could reach snapshots; ancestor/descendant filtering,safe names,sanitized relative URL resolution | Original2 native regressions failed;9 native unit tests and10 real Chromium/security tests now pass |
 | DEV-05 | P2 | agent benchmark CLIs accepted arbitrary output path | Operator/agent could overwrite unrelated files; use confined exclusive evidence writer |4 entrypoint path regressions; shared writer traversal/no-overwrite tests |
 | DEV-06 | P2 | pruner.py omitted rowgroup association and telemetry fallback denominator used only navigation | Missing table relationships and rates above1; scoped associations,bounded metadata and combined navigation/action opportunities | Table/metric regressions and44 explicit corpus checks |
+| DEV-07 | P2 | rust_core dependency graph includes unmaintained fxhash | cargo audit reports RUSTSEC-2025-0057 with no fixed upgrade available; assess use and replace when compatible remediation exists | cargo audit warning in run46006851015 |
 
-Current exact-source receipts are under evidence/developer/ci-8db91bf. Full broad
-CI/soak remains pending. The live analyzer report contains46 open findings; it is
-incorrect to describe the quality gate as only two findings. Its2 private-tmpfs
-path findings remain open and unsuppressed. Independent review and original native
-browser parity remain release blockers. See ENGINEERING_REPORT.md.
+Current native receipts are under evidence/native/0450352; run46006841440 passes10 native Chromium tests with zero skips. Full engineering run46006851015 on head0450352 passed all11 jobs, including the Python 3.11-3.14 Linux/Windows matrix, dependency and Rust checks, and the30-minute browser-worker soak. SonarCloud passes; the older46-finding inventory is historical. The soak receipt is bound to merge tree6669d2ff, counts1,168 cycles over1,801.479 seconds with zero orphan processes or occupied slots, and is not a native-Rust soak. Native Windows/macOS browser support, trusted physical input, file transfer, WebSockets, service workers and Authorization remain unsupported. Independent review remains outstanding. See ENGINEERING_REPORT.md.

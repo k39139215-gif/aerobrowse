@@ -1,25 +1,24 @@
 # Engine capability contract
 
 Decision: **Option B**. Python is the authoritative interactive browser runtime.
-Rust supplies an independent, bounded read-only HTTP CLI and an MCP integration
-command that starts the installed Python runtime. This is not native browser parity.
+Rust supplies bounded HTTP retrieval and an independent native Linux CDP browser session. The MCP integration command remains Python-authoritative for protocol/session parity.
 No unsupported Rust operation launches unrestricted Chromium or silently changes
 security models. Deploying Rust MCP requires a compatible Python installation.
 
 | Capability | Authoritative Python behavior | Native Rust behavior | Shared path / evidence |
 |---|---|---|---|
 | Turbo navigation | DNS-pinned HTTP with per-hop validation and limits | Independent reqwest transport with DNS pinning and limits | Separate implementations; security tests, Rust security unit tests |
-| Fidelity navigation | Linux isolated Chromium; other platforms fail closed | NETWORK_ISOLATION_UNAVAILABLE | Rust MCP delegates to Python; Rust fidelity test |
-| Snapshot generation | Static candidates or live generation-scoped DOM actions | Static extraction only | Tests extraction/actions; no native live actions |
-| Click | Live Python action contract | UNSUPPORTED_OPERATION | Rust MCP uses Python tool |
-| Fill | Bounded value, live identity/state validation | UNSUPPORTED_OPERATION | Rust MCP uses Python tool |
-| Select | Live select by value | Not exposed natively | Rust MCP uses Python tool |
-| Check/uncheck | Live checkbox boolean | Not exposed natively | Rust MCP uses Python tool |
-| Scroll | Bounded distance | Not exposed natively | Rust MCP uses Python tool |
-| Wait | Existing live action identity, bounded timeout | Not exposed natively | Rust MCP uses Python tool |
-| Screenshot | Bounded PNG; sensitive output | Not exposed natively | Rust MCP uses Python tool |
-| Session lifecycle | Owned isolated sessions with concurrency/admission policy | Native read-only fetch has no interactive session | Rust MCP uses same Python SessionManager |
-| Isolation | Required Linux browser boundary, explicit unavailable errors | No native browser process is created | Python isolation tests and Rust refusal test |
+| Fidelity navigation | Linux isolated Chromium; other platforms fail closed | Linux isolated Chromium over CDP pipe; other platforms fail closed | Native Linux CDP integration and namespace suite |
+| Snapshot generation | Static candidates or live generation-scoped DOM actions | Live generation-scoped DOM actions over the shared runtime | Shared-runtime identity regression and native Linux browser suite |
+| Click | Live Python action contract | Live native action contract | Native Linux CDP integration |
+| Fill | Bounded value, live identity/state validation | Bounded native value, live identity/state validation | Native Linux CDP integration |
+| Select | Live select by value | Live native select by value | Native Linux CDP integration |
+| Check/uncheck | Live checkbox boolean | Live native checkbox boolean | Native Linux CDP integration |
+| Scroll | Bounded distance | Bounded native distance | Native Linux CDP integration |
+| Wait | Existing live action identity, bounded timeout | Exact accessible-name/role wait with fresh IDs | Native Linux CDP integration |
+| Screenshot | Bounded PNG; sensitive output | Bounded PNG | Native Linux CDP integration |
+| Session lifecycle | Owned isolated sessions with concurrency/admission policy | Owned native CDP session with cgroup guardian | Rust MCP uses same Python SessionManager |
+| Isolation | Required Linux browser boundary, explicit unavailable errors | Bubblewrap network/mount/PID boundary and cgroup guardian | Python isolation tests and Rust refusal test |
 | Network policy | Public destinations default; explicit internal CIDR opt-in | Public destinations default; native internal allowlists not exposed | Equivalence limited to shared rejection vectors |
 | Error behavior | Structured codes, no raw internal exception strings | JSON envelope; native CLI payload shape differs | tests/mcp/test_engine_contract.py (requires built native binary) |
 | Timeouts | Bounded network/action/session/transport deadlines | Bounded native HTTP; MCP Python deadlines | No claim native timeouts identical |
@@ -49,6 +48,10 @@ duplicate IDs close the transport, avoiding overwritten SDK responders or ambigu
 replies. IDs may be reused after the corresponding response is written. An oversized
 unterminated frame closes the transport after a fixed error. Limits do not apply to
 in-process FastMCP Client connections; those are trusted embedding APIs, not stdio.
+The Rust `native-session` command has a separate bounded JSON-line operation set;
+it does not expose the MCP protocol. Native history, tabs and reload remain inside
+one owned browser context. Explicit `close` terminates Chromium; EOF cleans the
+session through a guardian that kills the delegated cgroup and removes its directory.
 
 The official pinned MCP/FastMCP SDK still implements initialization, method schemas,
 request cancellation and response correlation. The adapter uses its low-level
@@ -58,8 +61,7 @@ client identity is local-process trust, not remote authentication.
 
 ## Release limitations
 
-Authenticated browser sessions, tabs/history, WebSockets, service workers and
-native live Rust extraction are outside the implemented native scope. This decision
+Authenticated browser sessions, WebSockets, service workers and trusted physical input remain outside the implemented scope. Native tabs/history, waits, screenshots and DOM actions are implemented on Linux. This decision
 does not waive any unapproved production-scope exclusion. Browser action semantics,
 OS controls and their evidence are described separately in the Phase 2 report.
 
@@ -83,7 +85,5 @@ alongside OS/browser tests; none is proof of Chromium network isolation.
 Developer continuation: Python waits discover exact accessible names/optional
 roles with fresh IDs; keyboard editing uses synthetic DOM input/caret events.
 Static native extraction now filters hidden ancestors/descendants,uses explicit
-accessible labels and sanitized relative links. Rust MCP still delegates to Python;
-this is not native live-browser/action parity. Native8-unit coverage and18 shared
-negative URL contracts do not prove equivalent native browser functionality.
+accessible labels and sanitized relative links. Rust MCP remains Python-authoritative for protocol/session parity; native Linux live-browser/action parity is covered independently. Native Linux browser suite `46006841440` passed 10 cases with zero skips; its scope does not establish Windows/macOS native support or external assessment.
 Python tokenizers are bundled/checksummed/offline; Rust uses its linked tokenizer.

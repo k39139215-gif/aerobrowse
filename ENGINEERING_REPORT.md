@@ -1,8 +1,7 @@
 # AeroBrowse engineering report
 
 Release recommendation: **NOT_PRODUCTION_READY**. This report describes
-implementation `8db91bf2bbdd84966cb6032cdd9a86b96e2bc06d`. Later documentation and
-evidence commits do not change the implementation. Original baseline:
+implementation `0450352ae6d1a6504e8827595f6fb854e71583c6`. Original baseline:
 `44f3e73409d3f0c4e6e376f0c98198abd00ccc0f`.
 
 ## Verified implementation
@@ -37,10 +36,13 @@ Token counts use versioned real tokenizers and distinguish Markdown, complete
 canonical JSON, and character reduction. Three licensed vocabularies ship with
 upstream checksum verification; worker initialization needs no network or cache.
 
-Rust native retrieval remains read-only with input/network restrictions. Static
-extraction now filters hidden ancestors and descendant labels and sanitizes
-credential-bearing unnamed URL labels. Rust MCP delegates to Python. Native Rust
-live-browser/action parity is **not implemented** and is not an approved exclusion.
+Rust Turbo retains bounded pinned HTTP. Native Linux Fidelity now provides a
+persistent isolated Chromium CDP session with pinned request brokering, the shared
+Python/Rust action runtime, generation-validated click/fill/select/check/press,
+screenshot, exact-name waits, navigation history, tabs and reload. Rust MCP stays
+Python-authoritative for protocol/session parity. Windows/macOS native Fidelity
+fail closed; trusted physical events, uploads, WebSockets, service workers and
+Authorization remain unsupported.
 
 Local operator JSON/Prometheus APIs provide bounded operation/error/rate/latency
 and sampled-memory metrics. Request logs contain request/session IDs, engine,
@@ -49,10 +51,15 @@ a public metrics endpoint, external aggregation service or exact peak-memory gau
 
 ## Verification and measurements
 
-Final full engineering CI run: **SUCCESS — 45880822782**. All eight Python jobs,
-Rust, dependency auditing and the mandatory 30-minute browser-worker cleanup soak
-passed. Source bindings cover all92 indexed implementation blobs. The separate
-SonarCloud gate and unsupported original requirements still prevent production acceptance.
+Full engineering run [46006851015](https://github.com/k39139215-gif/aerobrowse/actions/runs/46006851015)
+on head `0450352` succeeded across all 11 jobs: eight Python matrix jobs, Rust,
+dependency audit and the mandatory browser job. The browser job's 1,801.479-second
+soak measured 1,168 cycles, zero orphan processes, zero occupied slots, and an
+87,973,888-byte sampled parent RSS maximum. Its receipt identifies the tested
+merge tree as `6669d2ff`; it is a sequential owned-fixture lifecycle soak, not a
+native-Rust browser soak or an indefinite leak guarantee. Native Linux run
+`46006841440` is SUCCESS: 10 tests, 0 failures, 0 skips. Production acceptance
+still depends on external security review and unresolved original scope requirements.
 
 Focused Linux run [45880812905](https://github.com/k39139215-gif/aerobrowse/actions/runs/45880812905)
 is SUCCESS. All 92 tracked implementation/test/configuration Git blobs match
@@ -62,17 +69,17 @@ no independent evidence custody or external assessment is claimed.
 
 | Metric | Before | After / current observation | Evidence |
 |---|---|---|---|
-| Security findings | Original confirmed network/action/session failures in AUDIT.md | Declared fixes have regression coverage; 46 analyzer findings remain open, including 2 private-tmpfs path findings; no independent assessment | AUDIT.md; sonar-8db91bf.json; failed and passing regressions |
-| Python tests | Original 5 passed; previous full checkpoint 206 | Each of 8 Linux/Windows Python 3.11–3.14 jobs: 236 passed / 21 explained skips; local same counts | full-8db91bf/python/; python-8db91bf.xml |
-| Browser/runtime tests | Previous full checkpoint: 68 browser; 38 runtime passes | Focused latest source: 33 workflow passes, 40 runtime passes / 2 Windows-only skips; full browser76 passes/0 skips | ci-8db91bf/agent/quick-workflows.xml; phase2/runtime-boundary.xml |
-| Rust tests | 5 native units at prior checkpoint | 8 native units; formatting, strict Clippy, release build and dependency audit pass; 18 compiled native/Python negative contracts pass | Full Rust CI; local rust-*8db91bf.txt; native-contract-8db91bf.xml |
+| Security findings | Original confirmed network/action/session failures in AUDIT.md | Declared fixes have regression coverage; SonarCloud gate SUCCESS; earlier `8db91bf` analyzer inventory is historical; no independent assessment | run46006851015; analyzer receipts |
+| Python tests | Original 5 passed; previous full checkpoint 206 | Each of 8 Linux/Windows Python 3.11–3.14 jobs: 206 passed / 21 explained skips (227 total) | run46006851015; matrix XML under `evidence/native/full-0450352/browser-evidence/agent/ci-0530488/full/` |
+| Browser/runtime tests | Earlier checkpoint: 68 browser; 38 runtime passes | Python browser job: 83 tests, 0 failures, 7 expected skips; Python-only collection: 71 tests / 4 skips because native cases run in the separate Rust job; native Chromium/security: 10 passed / 0 skips; Linux runtime job: 42 tests / 2 Windows-only skips | `ci-browser.xml`, `python-tests.xml`, `ci-runtime-kernel.xml`; native run46006841440 |
+| Rust tests | 5 native units at prior checkpoint | 9 unit tests; formatting, strict Clippy, release build; native Linux CDP integration 10/10 pass; cargo audit reports an unmaintained dependency | run46006851015 and native run46006841440 |
 | Warm Turbo latency | No comparable baseline | p50 3.521 ms; p95 3.870 ms; n=100 | Focused phase2/benchmark-linux.json |
 | Warm Fidelity latency | No comparable baseline | p50 29.042 ms; p95 33.832 ms; n=99 | Same raw operation receipt |
 | Peak RAM | No comparable baseline | Operation-run sampled tree maximum 1,476,448,256 bytes; shared-pool sample maximum 2,465,923,072 bytes; neither is exact peak | Separate operation/shared-load receipts |
 | Token reduction | Character estimates; worker cache misses caused downloads | Long article: 1,713 HTML / 1,304 Markdown / 1,635 complete JSON tokens; 4.55% complete reduction; small fixtures expand | extraction-quality-8db91bf.json; offline wheel check |
 | Concurrent sessions | Repeated default 256-task/two-browser workload failed | Explicit 512-task pool: 12 measured snapshots in 2.618 s; 6 per session; 2 queue refusals; all workers reaped | ci-8db91bf/developer/shared-browser-load.json |
 | Complete task load | No comparable baseline | 6 complete tasks / 2 independent workers / 8.593 s; all reaped | ci-8db91bf/agent/concurrency.json |
-| Cleanup soak | Prior checkpoint: 739 successful cycles | 1,044 successful cycles/1,800.891 seconds; zero observed orphans/occupied slots | Full CI run 45880822782 |
+| Cleanup soak | Prior checkpoint: 739 successful cycles | Python browser-worker soak: 1,168 cycles / 1,801.479 seconds; zero observed orphans or occupied slots; sampled parent RSS max 87,973,888 bytes | `evidence/native/full-0450352/browser-evidence/phase2/soak-linux.json`; run46006851015; receipt source tree `6669d2ff` |
 
 The latency and RAM rows above are the **focused run**, not the later full run.
 Snapshot/click/fill p50 values are 8.501/9.036/9.841 ms, n=100 each. One actual
@@ -86,9 +93,11 @@ before/after speedups. Memory receipts use different scopes and must not be adde
 or treated as physical cgroup peaks. Benchmark dirty=true reflects generated
 evidence files; compare tracked source Git blobs, not that flag alone.
 
-The 21 non-browser skips comprise 18 compiled native contracts run separately and
-3 platform-specific scenarios covered by required platform/browser jobs. Linux
-runtime skips 2 Windows-only cases. Actual-model evaluation is NOT_RUN because
+The Python matrix's 21 non-browser skips and Linux runtime suite's 2 Windows-only
+skips are reported by the test suite. Cargo audit reports `fxhash` as unmaintained
+(RUSTSEC-2025-0057, no fixed upgrade available); the command succeeds, but this
+remains a dependency maintenance risk.
+The native-specific Linux job ran 10 tests with zero skips. Actual-model evaluation is NOT_RUN because
 explicit credentials/model are unavailable; scripted success is not a model result.
 
 ## Confirmed failures and remediation evidence
@@ -99,7 +108,7 @@ explicit credentials/model are unavailable; scripted success is not a model resu
   no benchmark silently relaxes production defaults.
 - Original Rust regressions exposed hidden-ancestor/descendant labels and unnamed
   credential URLs. The original failures and subsequent native passing tests are
-  retained; broader native browser parity remains absent.
+  retained; the native browser now has a 10/10 Linux receipt on source `0450352`.
 - Raw MCP requests exceeded response deadlines because fresh worker temp directories
   forced tiktoken downloads. Socket-denial tests for all three encodings and an
   isolated built-wheel test verify offline initialization. Corrupt vocabulary
@@ -126,29 +135,27 @@ has first-party verification; external security and production validation remain
 production load fairness, complete telemetry aggregation and auxiliary-target
 browser compatibility. Unbrokered worker/OOPIF requests fail closed.
 
-**Not implemented:** native Rust live-browser parity, trusted physical events,
-file transfer, WebSockets, service workers and HTTP Authorization.
+**Not implemented:** trusted physical input, file upload/download, WebSockets,
+service workers and HTTP Authorization. Native Rust Fidelity is Linux-only.
 
 **Not independently verified:** external security assessment, production load,
-Chromium/kernel exploit resistance and independent evidence custody. The analyzer
-quality gate remains open; no security findings were suppressed or waived.
+Chromium/kernel exploit resistance and independent evidence custody. Latest
+SonarCloud quality gate is green; historical analyzer snapshots are not current
+findings and no security findings were suppressed or waived.
 
 Original draft [PR #1](https://github.com/k39139215-gif/aerobrowse/pull/1) targets
 main. Stacked draft [PR #2](https://github.com/k39139215-gif/aerobrowse/pull/2)
 contains this continuation. Neither is merged. No package release, production
 approval or scope exclusion is authorized. `ACCEPTANCE.md` maps original scope.
 
-Analyzer gate detail:44 CODE_SMELL and2 VULNERABILITY items; new_security_rating
-actual4 versus required1. The2 private-tmpfs path items remain open and unsuppressed;
-see evidence/developer/ANALYZER_TRIAGE.md. Passing tests do not close this gate.
+The latest SonarCloud gate passed at source `0450352`. The earlier `8db91bf`
+analyzer finding inventory is historical and must not be presented as current.
 
 
 ## Final full-run observations
 
-The separate final full-run receipt is under
-`evidence/developer/full-8db91bf/browser/`. It tests merge13cf4e086bf0fe11a8febae0e4e247d6e6f97a9d,
-whose92 indexed source/test/workflow blobs match implementation8db91bf. Later
-commits add documentation/evidence only.
+The separate final full-run receipt under `evidence/developer/full-8db91bf/browser/`
+tests the earlier Python implementation `8db91bf`, not the later native Rust browser.
 
 Full-run warm Turbo p50/p95=3.155/3.583 ms,n100;warm Fidelity=27.427/29.851 ms,n99.
 Snapshot/click/fill p50=7.422/8.304/8.966 ms,n100. Operation-run sampled tree maximum
@@ -157,11 +164,22 @@ single observation. All1,133 raw rows reproduce16 summaries. Shared512-task pool
 completed12 measured snapshots in2.367 seconds; six per session,all workers reaped.
 Six complete tasks/two independent workers took8.355 seconds,all reaped.
 
-Soak raw1,044 rows all report success,zero active sessions and zero descendants
-after cleanup over1,800.891 seconds. Controller completion RSS first88,027,136,
-last/max88,944,640 bytes; not peak browser RAM or indefinite leak proof. Full XML
-reports76 browser passes/0 skips and40 runtime passes/2 Windows-only skips. Rust
-CI log reports8 unit passes and18 actual compiled native/Python contract passes;
-strict Clippy,formatting,release and audit succeed. Dependency audit:112 packages,
-zero known vulnerabilities. These checks do not close SonarCloud's2 open
-security-classified path findings or establish independent assessment.
+The historical `8db91bf` soak reported1,044 cycles over1,800.891 seconds. The
+current full-run receipt instead records1,168 cycles over1,801.479 seconds on
+merge tree `6669d2ff`, with zero orphans/occupied slots and a sampled parent RSS
+maximum of87,973,888 bytes. Neither value is peak browser RAM or indefinite leak
+proof. The current browser XML reports83 tests/0 failures/7 skips; native browser
+XML reports10/0/0. All11 full CI jobs and SonarCloud pass. No independent
+assessment is implied.
+
+
+## Native Linux parity receipt
+
+Run [46006841440](https://github.com/k39139215-gif/aerobrowse/actions/runs/46006841440) on source `0450352` passed Rust formatting, strict Clippy, Rust unit tests, release build and **10 native/browser tests with 0 failures and 0 skips**. The tests cover live navigation, click/fill/select/check, screenshot, stale generations, injection-safe values, blocked/private destinations, redirects, history back/forward, tabs, reload, exact discovery waits, namespace mounts, controller death and cgroup cleanup. This is a first-party Linux receipt; it does not establish Windows/macOS Fidelity parity or independent security certification.
+
+
+The previously reported `8db91bf` timings and source receipts are historical
+Python/source measurements. They do not characterize native Rust browser latency
+or memory. The later 30-minute soak is the Python browser-worker lifecycle test on
+merge tree `6669d2ff`; native Rust lifecycle coverage is the dedicated controller
+death/cgroup cleanup test in run46006841440, not a 30-minute native soak.

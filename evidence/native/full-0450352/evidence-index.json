@@ -1,0 +1,18 @@
+{
+  "run_id": 46006851015,
+  "head_sha": "0450352ae6d1a6504e8827595f6fb854e71583c6",
+  "conclusion": "success",
+  "ci_jobs": 11,
+  "native_run_id": 46006841440,
+  "native_test_report": "../0450352/native/browser.xml",
+  "soak_tested_revision": "6669d2ff61d3b8b46ac205241fa1d7d325dc3bf7",
+  "soak_report": "browser-evidence/phase2/soak-linux.json",
+  "sonarcloud": "success",
+  "python_matrix_tests_per_job": "206 passed, 21 skipped, 227 total; each XML binds to the CI job artifact",
+  "python_browser_tests": "83 total, 0 failed, 7 skipped",
+  "linux_runtime_tests": "42 total, 0 failed, 2 Windows-only skips",
+  "native_browser_tests": "10 total, 0 failed, 0 skipped",
+  "rust_unit_tests": "9 passed",
+  "cargo_audit_note": "fxhash is reported unmaintained under RUSTSEC-2025-0057; no fixed upgrade was available at run time",
+  "source_binding_note": "Engineering CI and native integration runs check out head 0450352; the soak receipt itself records merge-tree revision 6669d2ff. Benchmark and metric rows in ENGINEERING_REPORT.md retain their own historical source references."
+}

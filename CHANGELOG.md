@@ -8,8 +8,9 @@
   startup; corrupted package data fails explicitly with TOKENIZER_ERROR.
 - Add synthetic text editing/caret/select-all/textarea newline with cancellable
   input events and exact-node revalidation; trusted physical input stays unsupported.
-- Fix native hidden-action/descendant text and credential URL label disclosure;
-  native live browser parity remains unavailable.
+- Add a native Linux isolated Chromium/CDP session, shared generation-scoped action
+  runtime, network pinning, cgroup guardian, tabs, history, waits, screenshots and reload.
+- Fix native hidden-action/descendant text and credential URL label disclosure.
 - Confine agent benchmark CLI receipts to exclusive files under evidence/.
 
 - Add bounded discovery waits by exact accessible name/role, fresh generations,
@@ -21,6 +22,14 @@
 - Add shared aggregate-pool session/queue/ownership/progress/cleanup workload.
 - Existing action-ID waits remain immediate identity checks. Browser security
   policy, quota requirements and fail-closed platform behavior stay mandatory.
+
+# Unreleased native parity follow-up
+
+- Implemented a native Linux Chromium CDP session with Bubblewrap network/mount/PID namespaces, delegated cgroup limits, guardian cleanup, pinned request brokering, generation-validated actions, screenshots, waits, history, tabs, reload and structured stdio errors.
+- Added a no-skip Linux integration workflow; latest receipt reports 10 tests passed, 0 failed, 0 skipped.
+- Shared the exact action runtime between Python packaging and the Rust crate.
+- Full CI run46006851015 passed all11 jobs. Native workflow46006841440 passed
+ 10 integration/security cases with zero skips; SonarCloud passed on the tested head.
 
 # Unreleased phase-two remediation
 
@@ -59,7 +68,7 @@ keyboard input is not advertised. See SECURITY.md and docs/ENGINE_PARITY.md.
 ## Breaking security restrictions
 
 - Python Fidelity now requires Linux namespaces; unrestricted Windows/macOS launch
-  is unavailable. Native Rust Fidelity/click/fill are unavailable pending parity.
+  is unavailable. Native Rust Fidelity is available on Linux through `native-session`; other hosts fail closed. The stateless click/fill CLI commands return STALE_ACTION_ID; use a live native-session generation.
 - Native Rust MCP requires the Python SDK instead of the previous native server.
 - Executable action IDs are generation-scoped strings; numeric IDs and arbitrary
   CSS selectors are rejected. Turbo candidates require live synchronization.
