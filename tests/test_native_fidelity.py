@@ -259,6 +259,8 @@ def test_native_tabs_history_and_discovery_wait(native, native_site):
     closed = native.call("close_tab", tab_id=tab["tab_id"])
     assert closed["success"]
     assert len(native.call("tabs")["tabs"]) == 1
+    refreshed = native.call("reload")
+    assert refreshed["success"] and refreshed["url"].endswith("/other"), refreshed
     assert (
         native.call("switch_tab", tab_id="foreign")["error"]["code"] == "TAB_NOT_FOUND"
     )

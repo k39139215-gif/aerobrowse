@@ -502,6 +502,9 @@ impl FidelitySession {
                 }
             }
             Some("Page.domContentEventFired") => self.loaded = true,
+            Some("Page.frameNavigated") if event["params"]["frame"].get("parentId").is_none() => {
+                self.loaded = true
+            }
             Some("Inspector.targetCrashed" | "Target.targetCrashed" | "Inspector.detached") => {
                 return Err("BROWSER_CRASHED".into())
             }
@@ -597,16 +600,7 @@ impl FidelitySession {
                 .clone()
                 .unwrap_or_else(|| "NAVIGATION_FAILED".into()));
         }
-        while !self.loaded {
-            let event = self.read().await?;
-            if let Some(id) = event["id"].as_u64() {
-                if !self.pending_background.remove(&id) || event.get("error").is_some() {
-                    return Err("CDP_BROKER_FAILED".into());
-                }
-            } else {
-                self.event(event).await?;
-            }
-        }
+        self.wait_loaded().await?;
         self.live_snapshot().await
     }
     async fn bounded(&mut self, operation: &Value) -> Result<Value, String> {
@@ -657,6 +651,16 @@ impl FidelitySession {
             "snapshot" => self.live_snapshot().await,
             "back" => self.history(-1).await,
             "forward" => self.history(1).await,
+            "reload" => {
+                self.context = None;
+                self.generation.clear();
+                self.loaded = false;
+                self.network_error = None;
+                self.redirect_count = 0;
+                self.call("Page.reload", json!({}), true).await?;
+                self.wait_loaded().await?;
+                self.live_snapshot().await
+            }
             "tabs" | "new_tab" | "switch_tab" | "close_tab" => self.tab_operation(request).await,
             "wait" if request.get("name").is_some() => self.discovery_wait(request).await,
             "click" | "fill" | "select" | "check" | "press" | "wait" => {
@@ -861,6 +865,7 @@ impl FidelitySession {
                 .iter()
                 .filter(|action| {
                     action["accessible_name"].as_str() == Some(name)
+                        && action["disabled"].as_bool() != Some(true)
                         && role.is_none_or(|role| action["role"].as_str() == Some(role))
                 })
                 .map(|action| action["id"].clone())
