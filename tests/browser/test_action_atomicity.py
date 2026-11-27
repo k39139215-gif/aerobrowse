@@ -145,6 +145,19 @@ def test_keyboard_editing_preserves_identity_and_literal_values(live):
     assert press("Editor", "Alt+F4")["error"]["code"] == "UNSUPPORTED_CAPABILITY"
 
 
+def test_keyboard_edit_rejects_non_text_target(live):
+    browser, page = live
+    page.evaluate(
+        "document.body.innerHTML='<button>Run</button>';window.keyEvents=[];document.querySelector('button').addEventListener('keydown',e=>window.keyEvents.push(e.key))"
+    )
+    snapshot = browser.snapshot()
+    result = browser.perform(
+        "press", target(snapshot, "Run"), "x", snapshot["generation"]
+    )
+    assert result["error"]["code"] == "ACTION_TYPE_MISMATCH"
+    assert page.evaluate("window.keyEvents") == []
+
+
 def test_keyboard_beforeinput_reentrancy_cannot_write_replacement(live):
     browser, page = live
     page.evaluate(

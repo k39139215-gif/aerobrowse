@@ -66,13 +66,14 @@ state.perform = args => {
   const named=['Enter','Escape','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End','Control+A','Meta+A'];
   const literal=typeof value==='string'&&Array.from(value).length===1&&!/[\u0000-\u001f\u007f]/u.test(value);
   if((!named.includes(value)&&!literal)||value==='Tab')return fail('UNSUPPORTED_CAPABILITY');
+  const editable=['INPUT','TEXTAREA'].includes(el.tagName)&&!el.readOnly&&
+    (el.tagName==='TEXTAREA'||['text','search','url','tel','password','email'].includes(el.type));
+  if(!editable)return fail('ACTION_TYPE_MISMATCH');
   nativeFocus.call(el);const after=check(entry,args.generation);if(after)return fail(after);
   const selectAll=value==='Control+A'||value==='Meta+A',key=selectAll?'a':value;
   const eventData={key,bubbles:true,cancelable:true,ctrlKey:value==='Control+A',metaKey:value==='Meta+A'};
   const accepted=dispatch.call(el,new KeyboardEvent('keydown',eventData));
   if(!el.isConnected||state.document!==document||epoch()!==state.captured)return fail('STALE_ACTION_ID');
-  const editable=['INPUT','TEXTAREA'].includes(el.tagName)&&!el.readOnly&&
-    (el.tagName==='TEXTAREA'||['text','search','url','tel','password','email'].includes(el.type));
   if(accepted&&editable){
    const text=el.value,start=el.selectionStart,end=el.selectionEnd;
    if(start===null||end===null){if(literal||['Backspace','Delete','Home','End','ArrowLeft','ArrowRight'].includes(value)||selectAll)return fail('UNSUPPORTED_CAPABILITY')}

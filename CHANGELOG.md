@@ -25,6 +25,7 @@
 
 # Unreleased native parity follow-up
 
+- Reject synthetic keyboard editing on non-editable and read-only elements before dispatching key events; Python and native Rust share the same contract, with isolated browser regressions.
 - Implemented a native Linux Chromium CDP session with Bubblewrap network/mount/PID namespaces, delegated cgroup limits, guardian cleanup, pinned request brokering, generation-validated actions, screenshots, waits, history, tabs, reload and structured stdio errors.
 - Added a no-skip Linux integration workflow; latest receipt reports 10 tests passed, 0 failed, 0 skipped.
 - Shared the exact action runtime between Python packaging and the Rust crate.

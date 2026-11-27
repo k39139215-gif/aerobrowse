@@ -202,6 +202,20 @@ def test_native_values_are_data_and_dynamic_nodes_invalidate(native, native_site
     )
 
 
+def test_native_keyboard_edit_rejects_non_text_target(native, native_site):
+    page = native.call("navigate", url=native_site + "/form")
+    assert page["success"], page
+    page = native.action(page, "Name", "fill", value="unchanged")
+    target = next(action for action in page["actions"] if action["label"] == "Update")
+    result = native.call(
+        "press",
+        action_id=target["id"],
+        generation=page["generation"],
+        value="x",
+    )
+    assert result["error"]["code"] == "ACTION_TYPE_MISMATCH", result
+
+
 def test_native_valid_redirect_and_loop_limit(native, native_site):
     page = native.call("navigate", url=native_site + "/redirect")
     assert page["success"] and page["url"].endswith("/form"), page

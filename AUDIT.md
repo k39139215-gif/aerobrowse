@@ -42,7 +42,7 @@ division and are not tokenizer evidence.
 | EXT-01 | P2 | Both pruners | Iframes discarded, tables flattened, recursive depth unbounded, hidden controls exposed | Bounded semantic walk, table/header metadata, explicit embedded-content limitations |
 | MET-01 | P2 | CLI, benchmark scripts, README, metadata | Characters labelled tokens; fixed RAM/speed/compatibility claims without reproducible evidence | Actual versioned tokenizers, measured harness, withdraw unsupported claims |
 | CI-01 | P2 | .github/workflows/ci.yml, manifests | No Rust lint, Python types/lint/security checks; live-site tests; unbounded dependencies/no locks; workflow-wide write permission | Deterministic fixtures, least privilege, locks, checks and artifacts |
-| API-01 | P2 | examples/quickstart_python.py | Imports nonexistent AeroEngine | Correct SDK example and verify import path |
+| API-01 | P2 | examples/quickstart_python.py | Baseline audit identified an import of a nonexistent AeroEngine; current tracked quickstart imports the public AeroBrowser SDK | Resolved in current source; retain a smoke check so the documented entrypoint stays valid |
 
 ## Risks, not confirmed vulnerabilities
 
