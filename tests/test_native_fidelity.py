@@ -237,3 +237,28 @@ def test_native_controller_death_reaps_browser(native, site):
         while path.exists() and time.monotonic() < deadline:
             time.sleep(0.05)
         assert not path.exists(), "native cgroup leaked after controller death"
+
+
+def test_native_tabs_history_and_discovery_wait(native, native_site):
+    first = native.call("navigate", url=native_site + "/form")
+    assert first["success"], first
+    waited = native.call("wait", name="Late", role="button", timeout_ms=2000)
+    assert waited["success"] and waited["wait"]["matched_action_ids"], waited
+    second = native.call("navigate", url=native_site + "/other")
+    assert second["success"], second
+    back = native.call("back")
+    assert back["success"] and back["url"].endswith("/form"), back
+    forward = native.call("forward")
+    assert forward["success"] and forward["url"].endswith("/other"), forward
+    tab = native.call("new_tab", url=native_site + "/form")
+    assert tab["success"] and tab["tab_id"] != first["tab_id"], tab
+    listing = native.call("tabs")
+    assert listing["success"] and len(listing["tabs"]) == 2
+    switched = native.call("switch_tab", tab_id=first["tab_id"])
+    assert switched["success"] and switched["url"].endswith("/other"), switched
+    closed = native.call("close_tab", tab_id=tab["tab_id"])
+    assert closed["success"]
+    assert len(native.call("tabs")["tabs"]) == 1
+    assert (
+        native.call("switch_tab", tab_id="foreign")["error"]["code"] == "TAB_NOT_FOUND"
+    )

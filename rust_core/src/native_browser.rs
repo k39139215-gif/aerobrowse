@@ -4,7 +4,7 @@ use crate::pruner::SemanticPruner;
 use crate::security::MAX_BYTES;
 use base64::{engine::general_purpose::STANDARD, Engine};
 use serde_json::{json, Value};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 #[cfg(target_os = "linux")]
 use std::process::Stdio;
 use std::time::Duration;
@@ -15,7 +15,7 @@ use tokio::process::{Child, ChildStdin, ChildStdout};
 
 const FRAME_LIMIT: usize = 12 * 1024 * 1024;
 const OPERATION_TIMEOUT: Duration = Duration::from_secs(30);
-const ACTION_RUNTIME: &str = include_str!("../../aerobrowse/action_runtime.js");
+const ACTION_RUNTIME: &str = include_str!("action_runtime.js");
 
 pub struct FidelitySession {
     child: Child,
@@ -27,6 +27,9 @@ pub struct FidelitySession {
     next_id: u64,
     pending_background: HashSet<u64>,
     session: String,
+    browser_context: String,
+    active_target: String,
+    tabs: HashMap<String, String>,
     context: Option<u64>,
     generation: String,
     serial: u64,
@@ -242,8 +245,6 @@ impl FidelitySession {
             "/run",
             "--chdir",
             "/workspace",
-            "--preserve-fds",
-            "2",
         ]);
         for directory in [
             "/lib",
@@ -306,6 +307,9 @@ impl FidelitySession {
             next_id: 0,
             pending_background: HashSet::new(),
             session: String::new(),
+            browser_context: String::new(),
+            active_target: String::new(),
+            tabs: HashMap::new(),
             context: None,
             generation: String::new(),
             serial: 0,
@@ -337,6 +341,10 @@ impl FidelitySession {
                 false,
             )
             .await?;
+        self.browser_context = context["browserContextId"]
+            .as_str()
+            .ok_or("CDP_PROTOCOL_ERROR")?
+            .into();
         let target = self
             .call(
                 "Target.createTarget",
@@ -355,6 +363,15 @@ impl FidelitySession {
             .as_str()
             .ok_or("CDP_PROTOCOL_ERROR")?
             .into();
+        self.active_target = target["targetId"]
+            .as_str()
+            .ok_or("CDP_PROTOCOL_ERROR")?
+            .into();
+        self.tabs
+            .insert(self.active_target.clone(), self.session.clone());
+        self.configure_page().await
+    }
+    async fn configure_page(&mut self) -> Result<(), String> {
         self.call("Page.enable", json!({}), true).await?;
         self.call("Runtime.enable", json!({}), true).await?;
         self.call("Network.enable", json!({}), true).await?;
@@ -366,7 +383,7 @@ impl FidelitySession {
         .await?;
         self.call(
             "Browser.setDownloadBehavior",
-            json!({"behavior":"deny","browserContextId":context["browserContextId"]}),
+            json!({"behavior":"deny","browserContextId":self.browser_context}),
             false,
         )
         .await?;
@@ -453,6 +470,12 @@ impl FidelitySession {
         }
     }
     async fn event(&mut self, event: Value) -> Result<(), String> {
+        if event
+            .get("sessionId")
+            .is_some_and(|id| id.as_str() != Some(self.session.as_str()))
+        {
+            return Ok(());
+        }
         match event["method"].as_str() {
             Some("Fetch.requestPaused") => {
                 let params = &event["params"];
@@ -556,6 +579,7 @@ impl FidelitySession {
         result["engine"] = json!("fidelity");
         result["actions"] = live["actions"].clone();
         result["generation"] = json!(self.generation);
+        result["tab_id"] = json!(self.active_target);
         result["input_mode"] = json!("synthetic_dom");
         Ok(result)
     }
@@ -631,6 +655,10 @@ impl FidelitySession {
                     .await
             }
             "snapshot" => self.live_snapshot().await,
+            "back" => self.history(-1).await,
+            "forward" => self.history(1).await,
+            "tabs" | "new_tab" | "switch_tab" | "close_tab" => self.tab_operation(request).await,
+            "wait" if request.get("name").is_some() => self.discovery_wait(request).await,
             "click" | "fill" | "select" | "check" | "press" | "wait" => {
                 let operation = request["operation"].as_str().ok_or("INVALID_REQUEST")?;
                 let id = request["action_id"].as_str().ok_or("INVALID_ACTION_ID")?;
@@ -685,6 +713,166 @@ impl FidelitySession {
                 Ok(json!({"success":true,"mime_type":"image/png","data":encoded}))
             }
             _ => Err("UNSUPPORTED_OPERATION".into()),
+        }
+    }
+    async fn tab_operation(&mut self, request: &Value) -> Result<Value, String> {
+        match request["operation"].as_str().ok_or("INVALID_ARGUMENT")? {
+            "tabs" => Ok(
+                json!({"success":true,"active_tab_id":self.active_target,"tabs":self.tabs.keys().map(|id| json!({"tab_id":id,"active":id==&self.active_target})).collect::<Vec<_>>()}),
+            ),
+            "new_tab" => {
+                let url = request["url"].as_str().ok_or("INVALID_URL")?;
+                self.policy.parse(url)?;
+                if self.tabs.len() >= 8 {
+                    return Err("TAB_LIMIT".into());
+                }
+                let target = self
+                    .call(
+                        "Target.createTarget",
+                        json!({"url":"about:blank","browserContextId":self.browser_context}),
+                        false,
+                    )
+                    .await?;
+                let target = target["targetId"]
+                    .as_str()
+                    .ok_or("CDP_PROTOCOL_ERROR")?
+                    .to_owned();
+                let attached = self
+                    .call(
+                        "Target.attachToTarget",
+                        json!({"targetId":target,"flatten":true}),
+                        false,
+                    )
+                    .await?;
+                let session = attached["sessionId"]
+                    .as_str()
+                    .ok_or("CDP_PROTOCOL_ERROR")?
+                    .to_owned();
+                self.tabs.insert(target.clone(), session.clone());
+                self.session = session;
+                self.active_target = target;
+                self.context = None;
+                self.generation.clear();
+                self.configure_page().await?;
+                self.navigate_inner(url).await
+            }
+            "switch_tab" | "close_tab" => {
+                let id = request["tab_id"].as_str().ok_or("INVALID_TAB_ID")?;
+                let session = self.tabs.get(id).ok_or("TAB_NOT_FOUND")?.clone();
+                if request["operation"] == "close_tab" {
+                    self.call("Target.closeTarget", json!({"targetId":id}), false)
+                        .await?;
+                    self.tabs.remove(id);
+                    if id != self.active_target {
+                        return Ok(json!({"success":true,"active_tab_id":self.active_target}));
+                    }
+                    if let Some((target, session)) = self.tabs.iter().next() {
+                        self.active_target = target.clone();
+                        self.session = session.clone();
+                    } else {
+                        self.active_target.clear();
+                        self.session.clear();
+                        self.context = None;
+                        self.generation.clear();
+                        return Ok(json!({"success":true,"tabs":[]}));
+                    }
+                } else {
+                    self.active_target = id.to_string();
+                    self.session = session;
+                }
+                self.context = None;
+                self.generation.clear();
+                self.loaded = false;
+                self.network_error = None;
+                self.live_snapshot().await
+            }
+            _ => Err("UNSUPPORTED_OPERATION".into()),
+        }
+    }
+    async fn history(&mut self, delta: i64) -> Result<Value, String> {
+        let history = self
+            .call("Page.getNavigationHistory", json!({}), true)
+            .await?;
+        let index = history["currentIndex"]
+            .as_i64()
+            .ok_or("CDP_PROTOCOL_ERROR")?
+            + delta;
+        let entries = history["entries"].as_array().ok_or("CDP_PROTOCOL_ERROR")?;
+        let entry = entries
+            .get(usize::try_from(index).map_err(|_| "HISTORY_BOUNDARY")?)
+            .ok_or("HISTORY_BOUNDARY")?;
+        self.policy
+            .parse(entry["url"].as_str().ok_or("INVALID_URL")?)?;
+        let entry_id = entry["id"].clone();
+        self.context = None;
+        self.generation.clear();
+        self.loaded = false;
+        self.network_error = None;
+        self.redirect_count = 0;
+        self.call(
+            "Page.navigateToHistoryEntry",
+            json!({"entryId":entry_id}),
+            true,
+        )
+        .await?;
+        self.wait_loaded().await?;
+        self.live_snapshot().await
+    }
+    async fn wait_loaded(&mut self) -> Result<(), String> {
+        while !self.loaded {
+            let event = self.read().await?;
+            if let Some(id) = event["id"].as_u64() {
+                if !self.pending_background.remove(&id) || event.get("error").is_some() {
+                    return Err("CDP_BROKER_FAILED".into());
+                }
+            } else {
+                self.event(event).await?;
+            }
+        }
+        Ok(())
+    }
+    async fn discovery_wait(&mut self, request: &Value) -> Result<Value, String> {
+        let name = request["name"].as_str().ok_or("INVALID_ARGUMENT")?;
+        let timeout = request["timeout_ms"].as_u64().unwrap_or(5000);
+        if name.is_empty()
+            || name.len() > 512
+            || !(1..=20000).contains(&timeout)
+            || request.get("action_id").is_some()
+            || request.get("generation").is_some()
+        {
+            return Err("INVALID_ARGUMENT".into());
+        }
+        let role = request
+            .get("role")
+            .map(|role| role.as_str().ok_or("INVALID_ARGUMENT"))
+            .transpose()?;
+        let deadline = tokio::time::Instant::now() + Duration::from_millis(timeout);
+        let mut current_url: Option<String> = None;
+        loop {
+            let mut page = self.live_snapshot().await?;
+            let url = page["url"].as_str().ok_or("NAVIGATION_FAILED")?.to_string();
+            if current_url.as_ref().is_some_and(|old| old != &url) {
+                return Err("PAGE_NAVIGATED".into());
+            }
+            current_url = Some(url);
+            let matches = page["actions"]
+                .as_array()
+                .ok_or("CDP_PROTOCOL_ERROR")?
+                .iter()
+                .filter(|action| {
+                    action["accessible_name"].as_str() == Some(name)
+                        && role.is_none_or(|role| action["role"].as_str() == Some(role))
+                })
+                .map(|action| action["id"].clone())
+                .collect::<Vec<_>>();
+            if !matches.is_empty() {
+                page["wait"] = json!({"matched_action_ids":matches});
+                return Ok(page);
+            }
+            if tokio::time::Instant::now() >= deadline {
+                return Err("WAIT_TIMEOUT".into());
+            }
+            tokio::time::sleep(Duration::from_millis(50)).await;
         }
     }
     async fn close(mut self) -> Result<(), String> {
